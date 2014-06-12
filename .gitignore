@@ -1,0 +1,36 @@
+## Remove all the weird extensions (compilation of classes, latex...)
+*~
+*#*#
+*.iml
+*.ipr
+*.iws
+*.pyc
+*.tm.epoch
+*.vim
+*-shim.sbt
+*.class
+*.log
+*.aux
+*.nav
+*.out
+*.snm
+*.toc
+
+
+## Hidden directory
+.cache
+.classpath
+.project
+.settings
+.ensime
+.ensime_lucene/
+.idea/
+
+## Directory to avoid
+project/boot/
+project/target/
+project/project/
+target/
+/logs
+tmp/
+auto/
