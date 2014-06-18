@@ -33,7 +33,6 @@ object Test extends App{
         }
         else{
           // rec=rec+x(couche)
-
           n1=n1+1
           n2=n2-x(couche)+1
 
@@ -46,3 +45,4 @@ object Test extends App{
   }
   bouya
 }
+
