@@ -10,9 +10,10 @@ version               := "0.5.0"
 
 scalaVersion          := "2.11.1"
 
-jarName in assembly   := "n2s3.jar"
+jarName in assembly   := "bouya_test.jar"
 
-mainClass in assembly := Some("fr.lifl.emeraude.n2s3.Main")
+///choisir son bouya_main ^^
+//mainClass in assembly := Some("")
 
 scalacOptions         := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
 
@@ -25,8 +26,8 @@ libraryDependencies ++= {
   val scalatestV = "2.2.0"
   Seq(
     "com.typesafe.akka" %% "akka-actor"      % akkaV,
-    "com.typesafe.akka" %% "akka-testkit"    % akkaV,
-    "org.scalatest"     %% "scalatest"       % scalatestV % "test"
+    "com.typesafe.akka" %% "akka-testkit"    % akkaV
+   // "org.scalatest"     %% "scalatest"       % scalatestV % "test"
   )
 }
 
