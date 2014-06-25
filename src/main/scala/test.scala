@@ -1,3 +1,10 @@
+import scala.concurrent.Await
+import akka.pattern.ask
+import akka.util.Timeout
+import scala.concurrent.duration._
+import scala.concurrent.Future
+
+
 object Test extends App{
 
   val x = Seq(1,3,2)
@@ -43,6 +50,12 @@ object Test extends App{
       }
     }
   }
-  bouya
+//  bouya
+
+//def wtb:String={val S="Banana"}
+
+implicit val timeout = Timeout(5 seconds)
+val future : Future[String] = bouya
+val result = Await.result(future, timeout.duration).asInstanceOf[String]
 }
 
