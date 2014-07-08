@@ -50,12 +50,9 @@ object Test extends App{
       }
     }
   }
-//  bouya
+  //  bouya
 
-//def wtb:String={val S="Banana"}
+  //def wtb:String={val S="Banana"}
 
-implicit val timeout = Timeout(5 seconds)
-val future : Future[String] = bouya
-val result = Await.result(future, timeout.duration).asInstanceOf[String]
+  implicit val timeout = Timeout(5 seconds)
 }
-
