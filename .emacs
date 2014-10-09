@@ -140,9 +140,9 @@
 (global-set-key (kbd "C-S-f") 'buf-move-right)
 
 ;; 80-100 column rule
-(setq whitespace-style '(face empty tabs lines-tail trailing)
-      whitespace-line-column 82 )
-(global-whitespace-mode t)
+;; (setq whitespace-style '(face empty tabs lines-tail trailing)
+;;       whitespace-line-column 82 )
+;; (global-whitespace-mode t)
 
 ;; Pretty symbol (e.g. lambda)
 (add-hook 'after-init-hook 'global-pretty-mode t)

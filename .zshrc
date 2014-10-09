@@ -22,7 +22,7 @@ autoload -U colors # add some color
 setopt autopushd pushdminus pushdsilent pushdtohome
 setopt autocd
 setopt cdablevars
-# setopt ignoreeof              # don't ignore ^D EOF
+#setopt ignoreeof              # don't ignore ^D EOF
 setopt interactivecomments
 setopt nobanghist
 setopt noclobber
@@ -50,8 +50,7 @@ export PATH=$PATH:~/.opam/4.00.1/bin:~/.opam/bin/
 
 #ohmyzsh !
 export ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="fino-time"
-#ZSH_THEME="robbyrussel"
+ZSH_THEME="robbyrussell"
 plugins=(git symfony2)
 
 source $ZSH/oh-my-zsh.sh
@@ -156,7 +155,6 @@ alias ch='google-chrome-stable'
 alias py='python3'
 alias ipy='ipython3'
 alias pl='perl -d -e 1'
-alias sca='scala'
 alias pdflatex='mkdir -p tmp/; pdflatex --output-directory=tmp/'
 alias jar='java -jar'
 alias -s pdf='evince'
@@ -194,6 +192,8 @@ alias status='git status'
 alias commit='git commit -am'
 alias forget='git update-index --assume-unchanged'
 alias track='git update-index --no-assume-unchanged'
+alias checkout='git checkout'
+alias gclean='git clean -idx'
 
 function reset() {
     # # saving work before reset
