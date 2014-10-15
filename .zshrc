@@ -50,7 +50,7 @@ export PATH=$PATH:~/.opam/4.00.1/bin:~/.opam/bin/
 
 #ohmyzsh !
 export ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="fino-time"
+ZSH_THEME="robbyrussell"
 plugins=(git symfony2)
 
 source $ZSH/oh-my-zsh.sh
@@ -110,6 +110,7 @@ alias -s java=$EDITOR
 alias -s py=$EDITOR
 alias -s txt=$EDITOR
 alias -s PKGBUILD=$EDITOR
+alias -s jar=java -jar
 
 # Utilities aliases
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -168,6 +169,8 @@ alias -g S='&> /dev/null &'
 alias tre='tree -C --dirsfirst'
 alias rmcache='sudo rm -rf ~/.cache/'
 alias i3='sudo init 3'
+alias opvpnp='cd ~/.config/Vpn/ && sudo openvpn --config client.conf --writepid /var/run/vpnc/openvpn.pid'
+alias opvpn='cd ~/.config/Vpn/exo/ && sudo openvpn --config client.conf --writepid /var/run/vpnc/openvpn.pid'
 
 # Archives goodies...
 alias tarxz='tar xJvf'
