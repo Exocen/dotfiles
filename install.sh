@@ -16,7 +16,7 @@ function home_ln {
 }
 
 function home_cp {
-    cp -r `pwd`/$1 ~/$1 > /dev/null 2>&1
+    yes | cp -fr `pwd`/$1 ~/$1 > /dev/null 2>&1
     if [ $? -eq 0 ]
     then
         makeItColorful "Copie de $1 sur ~ réussie" $GREEN
