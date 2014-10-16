@@ -45,7 +45,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq package-list '(auctex-latexmk auctex auctex-lua auto-complete-c-headers autopair company el-autoyas ensime auto-complete dash log4e makefile-runner php-mode popup pretty-mode s scala-mode2 smex web-beautify web-mode yaml-mode yasnippet-bundle yaxception))
+(setq package-list '(auctex-latexmk auctex auctex-lua auto-complete-c-headers autopair company el-autoyas ensime auto-complete dash log4e makefile-runner php-mode popup pretty-mode s scala-mode2 smex web-beautify web-mode))
 
 
 
