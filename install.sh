@@ -11,7 +11,7 @@ function home_ln {
     then
         makeItColorful "Lien $1 sur ~ créé" $GREEN
     else
-        makeItColorful "Echec de la création de $1 sur ~" $RED
+        makeItColorful "Échec de la création de $1 sur ~" $RED
     fi
 }
 
@@ -21,7 +21,7 @@ function home_cp {
     then
         makeItColorful "Copie de $1 sur ~ réussie" $GREEN
     else
-        makeItColorful "Echec de la copie de $1 sur ~" $RED
+        makeItColorful "Échec de la copie de $1 sur ~" $RED
     fi
 
 }
