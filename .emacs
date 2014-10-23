@@ -1,5 +1,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Global Variables ;;;;
+
+(package-initialize)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -10,22 +12,29 @@
  '(TeX-source-correlate-mode t)
  '(TeX-source-correlate-start-server t)
  '(column-number-mode t)
- '(current-language-environment "French")
+ '(current-language-environment "french")
  '(custom-enabled-themes (quote (wombat)))
- '(custom-safe-themes (quote ("2b5aa66b7d5be41b18cc67f3286ae664134b95ccc4a86c9339c886dfd736132d" default)))
  '(display-battery-mode t)
  '(display-time-24hr-format t)
  '(display-time-mode t)
  '(doc-view-continuous t)
  '(inhibit-startup-screen t)
  '(markdown-command "markdown2")
- '(save-place t nil (saveplace))
- '(scroll-bar-mode nil)
- '(send-mail-function (quote smtpmail-send-it))
- '(show-paren-mode t)
- '(size-indication-mode t)
- '(tool-bar-mode nil)
- '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
+ '(uniquify-buffer-name-style (quote forward) nil (uniquify))
+ '(anzu-mode-line ((t (:foreground "black" :weight bold))) t)
+ '(hl-line ((t (:underline t))))
+ '(mode-line ((t (:background "#bd6626" :foreground "#f6f3e8"))))
+ '(mode-line-highlight ((t (:foreground unspecified :background unspecified :weight bold))))
+ '(mode-line-inactive ((t (:background "#454545" :foreground "#666666"))))
+ '(mu4e-header-highlight-face ((t (:underline t))) t)
+ '(org-agenda-done ((t (:foreground "LightSalmon" :strike-through t))))
+ '(org-done ((t (:foreground "LightSalmon" :strike-through t :weight bold))))
+ '(org-headline-done ((t (:foreground "LightSalmon" :strike-through t))))
+ '(powerline-active1 ((t (:inherit mode-line :background "#666666" :foreground "#f6f3e8"))))
+ '(powerline-active2 ((t (:inherit mode-line :background "#252525" :foreground "#f6f3e8"))))
+ '(powerline-inactive2 ((t (:inherit mode-line :background "#666666" :foreground "#aaaaaa"))))
+ '(visible-mark-face1 ((t (:background "red" :foreground "black"))))
+ '(visible-mark-face2 ((t (:background "salmon" :foreground "black")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -218,6 +227,7 @@
 ;;powerline
 (require 'powerline)
 (powerline-default-theme)
+
 
 ;; Smex
 (global-set-key [(meta x)] (lambda ()
