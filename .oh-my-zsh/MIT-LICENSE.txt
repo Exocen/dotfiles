@@ -1,4 +1,4 @@
-The MIT License
+
 
 Copyright (c) 2009-2014 Robby Russell and contributors (see https://github.com/robbyrussell/oh-my-zsh/contributors)
 
