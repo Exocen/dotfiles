@@ -45,7 +45,27 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq package-list '(auctex-latexmk auctex auctex-lua auto-complete-c-headers autopair company el-autoyas ensime auto-complete dash log4e makefile-runner php-mode popup pretty-mode s scala-mode2 smex web-beautify web-mode))
+(setq package-list '(
+                     ace-jump-mode
+                     auctex-latexmk
+                     auctex
+                     auctex-lua
+                     auto-complete
+                     autopair
+                     browse-kill-ring
+                     company
+                     drag-stuff
+                     ensime
+                     expand-region
+                     magit
+                     multiple-cursors
+                     php-mode
+                     powerline
+                     scala-mode2
+                     smex
+                     web-mode
+                     zoom-frm
+                     ))
 
 ;; Backup folder
 (defvar --backup-directory (concat user-emacs-directory "backups"))
@@ -100,7 +120,24 @@
 (kill-buffer "*scratch*")
 
 ;; Ansi term
-(global-set-key "\C-x\ a" '(lambda ()(interactive)(ansi-term "/bin/zsh")))
+;;(global-set-key (kbd "C-$a;") '(lambda ()(interactive)(ansi-term "/bin/zsh")))
+
+;; Drag Stuff
+(require 'drag-stuff)
+(drag-stuff-global-mode)
+
+;; Expand region
+(require 'expand-region)
+(global-set-key (kbd "M-=") 'er/expand-region)
+
+(defun er/add-text-mode-expansions ()
+  (make-variable-buffer-local 'er/try-expand-list)
+  (setq er/try-expand-list (append
+                            er/try-expand-list
+                            '(mark-paragraph
+                              mark-page))))
+
+(add-hook 'text-mode-hook 'er/add-text-mode-expansions)
 
 ;; Don't prompt for exiting existing buffers
 (defun my-kill-emacs ()
@@ -161,15 +198,11 @@
 ;; (global-whitespace-mode t)
 
 ;; Pretty symbol (e.g. lambda)
-(add-hook 'after-init-hook 'global-pretty-mode t)
+;;(add-hook 'after-init-hook 'global-pretty-mode t)
 (add-hook 'scala-mode2 'turn-on-pretty-mode)
 (add-hook 'elisp 'turn-on-pretty-mode)
 (add-hook 'tuareg-mode 'turn-on-pretty-mode)
 (add-hook 'haskell-mode 'turn-on-pretty-mode)
-
-
-
-;;;;;fiplr + ido vertical
 
 ;; Outline mode
 (defun turn-on-outline-minor-mode ()
@@ -177,12 +210,26 @@
 (add-hook 'LaTeX-mode-hook 'turn-on-outline-minor-mode)
 (add-hook 'latex-mode-hook 'turn-on-outline-minor-mode)
 
-;; Ocaml tuareg mode
-(setq load-path (cons "~/.emacs.d/" load-path))
-(add-to-list 'auto-mode-alist '("\\.ml[iylp]?" . tuareg-mode))
-(autoload 'tuareg-mode "tuareg" "Major mode for editing OCaml code" t)
-(autoload 'tuareg-run-ocaml "tuareg" "Run an inferior OCaml process." t)
-(autoload 'ocamldebug "ocamldebug" "Run the OCaml debugger" t)
+;; ace-jump-mode
+(add-to-list 'load-path "which-folder-ace-jump-mode-file-in/")
+(require 'ace-jump-mode)
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
-;; undo !
-(global-set-key (kbd "C-u") 'undo)
+;;powerline
+(require 'powerline)
+(powerline-default-theme)
+
+;; Smex
+(global-set-key [(meta x)] (lambda ()
+                             (interactive)
+                             (or (boundp 'smex-cache)
+                                 (smex-initialize))
+                             (global-set-key [(meta x)] 'smex)
+                             (smex)))
+
+(global-set-key [(shift meta x)] (lambda ()
+                                   (interactive)
+                                   (or (boundp 'smex-cache)
+                                       (smex-initialize))
+                                   (global-set-key [(shift meta x)] 'smex-major-mode-commands)
+                                   (smex-major-mode-commands)))

@@ -50,7 +50,7 @@ export PATH=$PATH:~/.opam/4.00.1/bin:~/.opam/bin/
 
 #ohmyzsh !
 export ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="fino"
+ZSH_THEME="fino-time"
 plugins=(git symfony2)
 
 source $ZSH/oh-my-zsh.sh
@@ -169,8 +169,8 @@ alias -g S='&> /dev/null &'
 alias tre='tree -C --dirsfirst'
 alias rmcache='sudo rm -rf ~/.cache/'
 alias i3='sudo init 3'
-alias opvpnp='cd ~/.config/Vpn/ && sudo openvpn --config client.conf --writepid /var/run/vpnc/openvpn.pid'
-alias opvpn='cd ~/.config/Vpn/exo/ && sudo openvpn --config client.conf --writepid /var/run/vpnc/openvpn.pid'
+alias opvpnp='cd ~/.config/vpn/exo_vps_proxy/ && sudo openvpn --config client.conf --writepid /var/run/vpnc/openvpn.pid'
+alias opvpn='cd ~/.config/vpn/exo_vps/ && sudo openvpn --config client.conf --writepid /var/run/vpnc/openvpn.pid'
 
 # Archives goodies...
 alias tarxz='tar xJvf'
