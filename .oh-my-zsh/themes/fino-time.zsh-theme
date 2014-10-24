@@ -9,7 +9,7 @@ function virtualenv_info {
     [ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`') '
 }
 
-local color_status="%(?:%{$FG[034]%}:%{$fg[red]%}%s)"
+local color_status="%(?:%{$FG[040]%}:%{$fg[red]%}%s)"
 
 function prompt_char {
     echo '${color_status} %{$reset_color%}'
