@@ -5,35 +5,28 @@
 
 # You can set your computer name in the ~/.box-name file if you want.
 
-# Borrowing shamelessly from these oh-my-zsh themes:
-#   bira
-#   robbyrussell
-#
-# Also borrowing from http://stevelosh.com/blog/2010/02/my-extravagant-zsh-prompt/
-
 function virtualenv_info {
     [ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`') '
 }
 
+local color_status="%(?:%{$FG[034]%}:%{$fg[red]%}%s)"
+
 function prompt_char {
-    git branch >/dev/null 2>/dev/null && echo '⠠⠵' && return
-    echo '○'
+    echo '${color_status} %{$reset_color%}'
 }
 
 function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
 }
 
-
 #local rvm_ruby='‹$(rvm-prompt i v g)›%{$reset_color%}'
 local current_dir='${PWD/#$HOME/~}'
 local git_info='$(git_prompt_info)'
 
+PROMPT="${color_status}╭─%n %{$reset_color%}@ %{$FG[033]%}$(box_name)%{$reset_color%} in %{$terminfo[bold]$FG[226]%}${current_dir}%{$reset_color%}${git_info} %D - %*
+${color_status}╰─○%{$reset_color%}$(virtualenv_info)$(prompt_char)"
 
-PROMPT="╭─%{$FG[040]%}%n%{$reset_color%} %{$FG[239]%}@%{$reset_color%} %{$FG[033]%}$(box_name)%{$reset_color%} %{$FG[239]%}in%{$reset_color%} %{$terminfo[bold]$FG[226]%}${current_dir}%{$reset_color%}${git_info} %D - %*
-╰─$(virtualenv_info)$(prompt_char) "
-
-ZSH_THEME_GIT_PROMPT_PREFIX=" %{$FG[239]%}on%{$reset_color%} %{$fg[255]%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$FG[202]%} ✘"
+ZSH_THEME_GIT_PROMPT_PREFIX=" %{$FG[240]%}[%{$FG[014]%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$FG[240]%}]%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$FG[001]%} ✘"
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$FG[040]%} ✔"
