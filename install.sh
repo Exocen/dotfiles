@@ -31,6 +31,7 @@ function home_cp {
 home_ln .emacs
 home_ln .zshrc
 home_cp .oh-my-zsh/
+home_cp .oh-my-zsh/.*
 
 exit 0
 
