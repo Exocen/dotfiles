@@ -172,6 +172,8 @@ alias i3='sudo init 3'
 alias opvpnp='cd ~/.config/vpn/exo_vps_proxy/ && sudo openvpn --config client.conf --writepid /var/run/vpnc/openvpn.pid'
 alias opvpn='cd ~/.config/vpn/exo_vps/ && sudo openvpn --config client.conf --writepid /var/run/vpnc/openvpn.pid'
 alias fuspaces='for f in *\ *; do mv "$f" "${f// /_}"; done '
+alias del='mv -f /tmp/'
+
 
 # Archives goodies...
 alias tarxz='tar xJvf'
