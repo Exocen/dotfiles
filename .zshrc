@@ -125,6 +125,7 @@ alias ltex='ll | grep .tex'
 alias cl='clear'
 alias cp='cp -vi'
 alias s='cd ..'
+alias rm='rm -iv'
 alias rmi='rm -iv --preserve-root'
 alias trash='mkdir -pv ~/.Trash && mv -fv --target-directory=$HOME/.Trash'
 alias af='ll ~/.Trash'
@@ -172,8 +173,6 @@ alias i3='sudo init 3'
 alias opvpnp='cd ~/.config/vpn/exo_vps_proxy/ && sudo openvpn --config client.conf --writepid /var/run/vpnc/openvpn.pid'
 alias opvpn='cd ~/.config/vpn/exo_vps/ && sudo openvpn --config client.conf --writepid /var/run/vpnc/openvpn.pid'
 alias fuspaces='for f in *\ *; do mv "$f" "${f// /_}"; done '
-alias del='mv -f /tmp/'
-
 
 # Archives goodies...
 alias tarxz='tar xJvf'
@@ -265,6 +264,9 @@ function lk() {
     grep -rHsni "$1" .
 }
 
+function del(){
+    mv -f $@ /tmp/
+}
 
 function c() {
     # builtin cd "$*"
@@ -312,6 +314,10 @@ function untar() {
             echo "Archive not supported by this awesome function !"
             # exit;;
     esac
+}
+
+function repl(){
+    for file in $@; do mv "$file" `echo $file | tr ' ' '_'` ; done
 }
 
 function eproxy() {
