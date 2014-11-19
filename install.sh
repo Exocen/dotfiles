@@ -28,10 +28,18 @@ function home_cp {
 
 }
 
+function yi {
+    sudo yum install $1 -y
+}
+
 home_ln .emacs
 home_ln .zshrc
 home_cp .oh-my-zsh/
 home_cp .oh-my-zsh/.*
+yi emacs
+yi vlc
+yi git
+
 
 exit 0
 
