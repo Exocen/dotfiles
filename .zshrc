@@ -200,6 +200,7 @@ alias track='git update-index --no-assume-unchanged'
 alias checkout='git checkout'
 alias gclean='git clean -idx'
 
+
 function reset() {
     # # saving work before reset
     # git commit -a -m "Saving my work, just in case"
@@ -229,16 +230,16 @@ alias dreload='sudo systemctl reload'
 alias drestart='sudo systemctl restart'
 
 # apt-get...
-alias apu='sudo apt-get update'
-alias appg='sudo apt-get upgrade'
-alias apd='sudo apt-get dist-upgrade'
-alias apugd='sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove'
-alias api='sudo apt-get install'
-alias apie='sudo apt-get install -t experimental'
-alias apr='sudo apt-get remove'
-alias app='sudo apt-get purge'
-alias apar='sudo apt-get autoremove'
-alias apcc='sudo apt-get clean && sudo apt-get autoclean'
+alias apu='sudo aptitude update'
+alias appg='sudo aptitude upgrade'
+alias apd='sudo aptitude dist-upgrade'
+alias apugd='sudo aptitude -y update && sudo aptitude -y upgrade && sudo aptitude -y dist-upgrade && sudo aptitude -y autoremove'
+alias api='sudo aptitude install'
+alias apie='sudo aptitude install -t experimental'
+alias apr='sudo aptitude remove'
+alias app='sudo aptitude purge'
+alias apar='sudo aptitude autoremove'
+alias apcc='sudo aptitude clean && sudo aptitude autoclean'
 alias apsearch='apt-cache search'
 alias aps='apt-cache search'
 alias apse='apt-cache search -t experimental'
