@@ -39,7 +39,7 @@ home_cp .oh-my-zsh/.*
 yi emacs
 yi vlc
 yi git
-
+yi htop
 
 exit 0
 
