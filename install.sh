@@ -45,22 +45,35 @@ function home_cp {
 
 }
 
-function ins {
+function is_working {
 
-    echo $WOS
+    if [ "$?" = "0" ];then
+        makeItColorful "Réussite de : $1" $GREEN
+    else
+        makeItColorful "Echec de : $1" $RED
+    fi
 
-    # sudo yum install $1 -y
 }
+
+# Faire un detectOS avant
+function ins {
+    if [ "$WOS" = "Ubuntu" ] || [ "$WOS" = "Debian" ] ;then
+        sudo aptitude update -y && sudo aptitude install $@ -y
+        is_working "Installation"
+    elif [ "$WOS" = "Fedora" ] ;then
+        sudo yum install $@ -y
+        is_working "Installation"
+    else
+        makeItColorful "OS Inconnu" $RED
+    fi
+}
+
 detectOS
 home_ln .emacs
 home_ln .zshrc
 home_cp .oh-my-zsh/
 home_cp .oh-my-zsh/.*
-ins emacs
-ins vlc
-ins git
-ins htop
-ins mosh
+ins emacs vlc git htop mosh
 
 exit 0
 
