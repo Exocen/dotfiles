@@ -28,18 +28,35 @@ function home_cp {
 
 }
 
-function yi {
-    sudo yum install $1 -y
+function ins {
+
+    if [ -f /etc/lsb-release ]; then
+        OS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//')
+        VERSION=$(cat /etc/lsb-release | grep DISTRIB_RELEASE | sed 's/^.*=//')
+        if [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian" ] ;then
+            echo "apt-get"
+        fi
+    elif [ -f /etc/redhat-release ]; then
+        echo "yum"
+
+    else
+        echo "your system is not compatible with this script"
+        exit
+    fi
+
+
+    # sudo yum install $1 -y
 }
 
 home_ln .emacs
 home_ln .zshrc
 home_cp .oh-my-zsh/
 home_cp .oh-my-zsh/.*
-yi emacs
-yi vlc
-yi git
-yi htop
+ins emacs
+ins vlc
+ins git
+ins htop
+ins mosh
 
 exit 0
 
