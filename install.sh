@@ -2,6 +2,18 @@ RED="31"
 GREEN="32"
 WOS=""
 
+function makeItColorful {
+    echo -e "\e[$2m$1\e[0m"
+}
+
+function is_working {
+    if [ $? -eq 0 ];then
+        makeItColorful "Réussite : $1" $GREEN
+    else
+        makeItColorful "Echec : $1" $RED
+    fi
+}
+
 function detectOS {
     if [ -f /etc/lsb-release ]; then
         OS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//')
@@ -16,53 +28,30 @@ function detectOS {
     else
         WOS="WTF ?"
     fi
-
-}
-function makeItColorful {
-    echo -e "\e[$2m$1\e[0m"
 }
 
 function home_ln {
     ln -s `pwd`/$1 ~/$1 > /dev/null 2>&1
-    if [ $? -eq 0 ]
-    then
-        makeItColorful "Lien $1 sur ~ créé" $GREEN
-    else
-        makeItColorful "Échec de la création de $1 sur ~" $RED
-    fi
+    is_working "Création de $1 sur ~"
 }
 
 function home_cp {
     unalias cp > /dev/null 2>&1
     cp -rf `pwd`/$1 ~/$1 > /dev/null 2>&1
+    is_working "Copie de $1 sur ~"
     alias cp="cp -iv" > /dev/null 2>&1
-    if [ $? -eq 0 ]
-    then
-        makeItColorful "Copie de $1 sur ~ réussie" $GREEN
-    else
-        makeItColorful "Échec de la copie de $1 sur ~" $RED
-    fi
-
-}
-
-function is_working {
-
-    if [ "$?" = "0" ];then
-        makeItColorful "Réussite de : $1" $GREEN
-    else
-        makeItColorful "Echec de : $1" $RED
-    fi
-
 }
 
 # Faire un detectOS avant
 function ins {
+    all="$@" # pour fonction is_working
     if [ "$WOS" = "Ubuntu" ] || [ "$WOS" = "Debian" ] ;then
-        sudo aptitude update -y && sudo aptitude install $@ -y
-        is_working "Installation"
+        sudo aptitude update -y  > /dev/null 2>&1
+        sudo aptitude install $@ -y > /dev/null 2>&1
+        is_working "Installation de $all"
     elif [ "$WOS" = "Fedora" ] ;then
-        sudo yum install $@ -y
-        is_working "Installation"
+        sudo yum install $@ -y > /dev/null 2>&1
+        is_working "Installation de $all"
     else
         makeItColorful "OS Inconnu" $RED
     fi
