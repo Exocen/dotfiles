@@ -59,23 +59,23 @@ virtual_maps = hash:/etc/postfix/virtual, regexp:/etc/postfix/virtual-regexp
 
 
 
-Add the folowing line to the end of your main.cf file
+# Add the folowing line to the end of your main.cf file
 
-vi /etc/postfix/main.cf 
+# vi /etc/postfix/main.cf 
 
-virtual_maps = hash:/etc/postfix/virtual, regexp:/etc/postfix/virtual-regexp
-Create a file which lists the mail address you want all mails to be sent to
+# virtual_maps = hash:/etc/postfix/virtual, regexp:/etc/postfix/virtual-regexp
+# Create a file which lists the mail address you want all mails to be sent to
 
-vi /etc/postfix/virtual-regexp
-Add the following:
+# vi /etc/postfix/virtual-regexp
+# Add the following:
 
-/.+@.+/ forwardingmailaddress@gmail.com
-add it to postmap
+# /.+@.+/ forwardingmailaddress@gmail.com
+# add it to postmap
 
-postmap /etc/postfix/virtual-regexp
-you will need to add a virtual file.
+# postmap /etc/postfix/virtual-regexp
+# you will need to add a virtual file.
 
-touch /etc/postfix/virtual
-now add it to postmap
+# touch /etc/postfix/virtual
+# now add it to postmap
 
-postmap /etc/postfix/virtual
+# postmap /etc/postfix/virtual
