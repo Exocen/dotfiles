@@ -32,10 +32,10 @@ myhostname = exocen.com
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 myorigin = /etc/mailname
-mydestination = vps101929.ovh.net, localhost.ovh.net, , localhost , exocen.com
+mydestination = vps101929.ovh.net, localhost.ovh.net, , localhost , exocen.com , qbailleul.net
 relayhost =
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
-mailbox_command =
+mailbox_command = 
 mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all
@@ -54,28 +54,16 @@ smtpd_tls_received_header = yes
 smtpd_tls_session_cache_timeout = 3600s
 tls_random_source = dev:/dev/urandom
 home_mailbox = Mails/
-virtual_maps = hash:/etc/postfix/virtual, regexp:/etc/postfix/virtual-regexp
+virtual_maps = hash:/etc/postfix/virtual
 
 
+# fichier virtual +
+# sudo postmap /etc/postfix/virtual
 
 
-# Add the folowing line to the end of your main.cf file
+# exocen.com              DOMAIN
+# @exocen.com             exo
+# qb@exocen.com           qbailleul@gmail.com
 
-# vi /etc/postfix/main.cf 
-
-# virtual_maps = hash:/etc/postfix/virtual, regexp:/etc/postfix/virtual-regexp
-# Create a file which lists the mail address you want all mails to be sent to
-
-# vi /etc/postfix/virtual-regexp
-# Add the following:
-
-# /.+@.+/ forwardingmailaddress@gmail.com
-# add it to postmap
-
-# postmap /etc/postfix/virtual-regexp
-# you will need to add a virtual file.
-
-# touch /etc/postfix/virtual
-# now add it to postmap
-
-# postmap /etc/postfix/virtual
+# qbailleul.net           DOMAIN
+# @qbailleul.net          qbailleul@gmail.com
