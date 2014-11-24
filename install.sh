@@ -45,6 +45,7 @@ function home_cp {
 # Faire un detectOS avant
 function ins {
     all="$@" # pour fonction is_working
+    echo "Installation: $all ...."
     if [ "$WOS" = "Ubuntu" ] || [ "$WOS" = "Debian" ] ;then
         sudo aptitude update -y  > /dev/null 2>&1
         sudo aptitude install $@ -y > /dev/null 2>&1
