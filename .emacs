@@ -74,6 +74,7 @@
                      smex
                      web-mode
                      zoom-frm
+		     w3
                      ))
 
 ;; Backup folder
