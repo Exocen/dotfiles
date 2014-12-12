@@ -200,6 +200,18 @@ alias track='git update-index --no-assume-unchanged'
 alias checkout='git checkout'
 alias gclean='git clean -idx'
 
+#dnf
+alias dnf='sudo dnf'
+alias distclean='sudo dnf clean all'
+alias distsync='sudo dnf distro-sync'
+alias fek='fedora-easy-karma --fas-username=rorgoroth'
+alias install='sudo dnf install'
+alias pkgclean='sudo dnf remove $(package-cleanup --leaves)'
+alias remove='sudo dnf erase'
+alias search='sudo dnf search'
+alias show='sudo dnf info'
+alias update='sudo dnf check-update'
+alias upgrade='sudo dnf upgrade'
 
 function reset() {
     # # saving work before reset
@@ -257,7 +269,6 @@ alias t='java -jar ~/Scripts/sbt-launch.jar'
 alias sbt='java -jar ~/Scripts/sbt-launch.jar'
 
 # scala
-alias scala='cd /tmp/ && java -jar ~/Scripts/sbt-launch.jar console'
 alias sc='cd /tmp/ && java -jar ~/Scripts/sbt-launch.jar console'
 
 # My functions

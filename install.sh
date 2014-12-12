@@ -51,20 +51,33 @@ function ins {
         sudo aptitude install $@ -y > /dev/null 2>&1
         is_working "Installation de $all"
     elif [ "$WOS" = "Fedora" ] ;then
-        sudo yum install $@ -y > /dev/null 2>&1
+        sudo dnf install $@ -y > /dev/null 2>&1
         is_working "Installation de $all"
     else
         makeItColorful "OS Inconnu" $RED
     fi
 }
 
-detectOS
-home_ln .emacs
-home_ln .zshrc
-home_cp .oh-my-zsh/
-home_cp .oh-my-zsh/.*
-ins emacs vlc git htop mosh tree
+function make {
+    detectOS
+    home_ln .emacs
+    home_ln .zshrc
+    home_cp .oh-my-zsh/
+    home_cp .oh-my-zsh/.*
+    ins emacs vlc git htop mosh tree zsh
+    if  [ "$1" = "f" ]
+    then
+        {
+            ins comix clementine texlive texlive-latex java-1.8.0-openjdk-devel ruby-devel
+        }
+    else
+        {
+            echo "Argument 'f' pour installation complète"
+        }
+    fi
 
+}
+make $1
 exit 0
 
 # Local Variables:

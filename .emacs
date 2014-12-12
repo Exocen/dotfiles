@@ -12,29 +12,27 @@
  '(TeX-source-correlate-mode t)
  '(TeX-source-correlate-start-server t)
  '(column-number-mode t)
- '(current-language-environment "french")
  '(custom-enabled-themes (quote (wombat)))
  '(display-battery-mode t)
  '(display-time-24hr-format t)
  '(display-time-mode t)
  '(doc-view-continuous t)
+ '(hl-line ((t (:underline t))))
  '(inhibit-startup-screen t)
  '(markdown-command "markdown2")
- '(uniquify-buffer-name-style (quote forward) nil (uniquify))
- '(anzu-mode-line ((t (:foreground "black" :weight bold))) t)
- '(hl-line ((t (:underline t))))
- '(mode-line ((t (:background "#bd6626" :foreground "#f6f3e8"))))
- '(mode-line-highlight ((t (:foreground unspecified :background unspecified :weight bold))))
- '(mode-line-inactive ((t (:background "#454545" :foreground "#666666"))))
- '(mu4e-header-highlight-face ((t (:underline t))) t)
- '(org-agenda-done ((t (:foreground "LightSalmon" :strike-through t))))
- '(org-done ((t (:foreground "LightSalmon" :strike-through t :weight bold))))
- '(org-headline-done ((t (:foreground "LightSalmon" :strike-through t))))
- '(powerline-active1 ((t (:inherit mode-line :background "#666666" :foreground "#f6f3e8"))))
- '(powerline-active2 ((t (:inherit mode-line :background "#252525" :foreground "#f6f3e8"))))
- '(powerline-inactive2 ((t (:inherit mode-line :background "#666666" :foreground "#aaaaaa"))))
- '(visible-mark-face1 ((t (:background "red" :foreground "black"))))
- '(visible-mark-face2 ((t (:background "salmon" :foreground "black")))))
+ '(show-paren-mode t)
+ '(uniquify-buffer-name-satyle (quote forward) nil (uniquify)))
+ ;; '(mode-line ((t (:background "#bd6626" :foreground "#f6f3e8"))))
+ ;; '(mode-line-highlight ((t (:foreground unspecified :background unspecified :weight bold))))
+ ;; '(mode-line-inactive ((t (:background "#454545" :foreground "#666666"))))
+ ;; '(org-agenda-done ((t (:foreground "LightSalmon" :strike-through t))))
+ ;; '(org-done ((t (:foreground "LightSalmon" :strike-through t :weight bold))))
+ ;; '(org-headline-done ((t (:foreground "LightSalmon" :strike-through t))))
+ ;; ;; '(powerline-active1 ((t (:inherit mode-line :background "#666666" :foreground "#f6f3e8"))))
+ ;; ;; '(powerline-active2 ((t (:inherit mode-line :background "#252525" :foreground "#f6f3e8"))))
+ ;; ;; '(powerline-inactive2 ((t (:inherit mode-line :background "#666666" :foreground "#aaaaaa"))))
+ ;; '(visible-mark-face1 ((t (:background "red" :foreground "black"))))
+ ;; '(visible-mark-face2 ((t (:background "salmon" :foreground "black")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -184,7 +182,7 @@
     (untabify (point-min) (point-max))))
 
 ;; Auto pair mode
-(add-hook 'after-init-hook 'autopair-global-mode) ;; to enable in all buffers
+;;(add-hook 'after-init-hook 'autopair-global-mode) ;; to enable in all buffers
 
 ;; Auto correct for spelling mistakes
 (setq-default ispell-program-name "aspell")
@@ -226,8 +224,8 @@
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
 ;;powerline
-(require 'powerline)
-(powerline-default-theme)
+;; (require 'powerline)
+;; (powerline-default-theme)
 
 
 ;; Smex
