@@ -69,7 +69,7 @@ function make {
     then
         {
 	    home_ln .i3
-            ins comix clementine texlive texlive-latex java-1.8.0-openjdk-devel ruby-devel i3 nitrogen numlockx i3lock
+            ins comix clementine texlive texlive-latex java-1.8.0-openjdk-devel ruby-devel i3 nitrogen numlockx i3lock i3status xbacklight fontawesome-fonts-web
         }
     else
         {
