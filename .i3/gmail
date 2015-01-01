@@ -1,0 +1,55 @@
+#!/usr/bin/env python3
+
+# This is a script that checkes the gmail unread count.
+
+from urllib.request import urlopen, URLError, FancyURLopener
+
+
+
+try:
+    urlopen("http://www.google.com")
+except URLError as e:
+    try:
+        fh = open("/home/exo/.i3/unread", "r")
+        contenu=fh.read()
+        print(contenu)
+        print(contenu)
+    except IOError:
+        print(" N")
+        print(" N")
+    else:
+        fh.close()
+    print("#FF0000")
+else:
+    username = 'qbailleul'
+    password = 'anno1404'
+
+    url = 'https://%s:%s@mail.google.com/mail/feed/atom' % (username, password)
+
+    opener = FancyURLopener()
+    page = opener.open(url)
+
+    contents = page.read().decode('utf-8')
+
+
+    ifrom = contents.index('<fullcount>') + 11
+    ito   = contents.index('</fullcount>')
+
+    unread = contents[ifrom:ito]
+
+    try:
+        fh = open("/home/exo/.i3/unread", "w")
+        fh.write(unread)
+    except IOError:
+        print("Error")
+    else:
+        fh.close()
+
+    if unread != "0":
+        print(" "+unread)
+        print(" "+unread)
+        print("#0066cc")
+    else:
+        print(" 0")
+        print(" 0")
+        print("#0FF00")

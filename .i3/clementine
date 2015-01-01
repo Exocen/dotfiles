@@ -1,0 +1,15 @@
+#!/bin/bash
+clem_id=$(pidof clementine)
+
+# check if openvpn active
+if [[ -n $clem_id ]]; then
+
+    TRACK=`qdbus org.mpris.clementine /TrackList \
+org.freedesktop.MediaPlayer.GetCurrentTrack`
+
+    qdbus org.mpris.clementine /TrackList \
+          org.freedesktop.MediaPlayer.GetMetadata $TRACK \
+        | sort -r | egrep "^(title:|artist:)" | sed -e "s/^.*: //g" \
+        | sed -e ':a;N;$!ba;s/\n/ - /g' | head -c 50 \
+        | iconv -f utf-8 -t ascii//TRANSLIT
+fi

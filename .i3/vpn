@@ -1,0 +1,21 @@
+#!/bin/bash
+
+vpn_id=$(pidof openvpn)
+
+#check if on ovh vpn
+function test_ip {
+
+    ext_ip=$(dig +short myip.opendns.com @resolver1.opendns.com)
+    myvpn="5.196.16.89"
+
+    if [[ $ext_ip != $myvpn ]]; then
+        echo "#FF0000"
+    fi
+}
+
+# check if openvpn active
+if [[ -n $vpn_id ]]; then
+    echo ""
+    echo ""
+    test_ip
+fi
