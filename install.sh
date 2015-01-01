@@ -68,7 +68,8 @@ function make {
     if  [ "$1" = "f" ]
     then
         {
-            ins comix clementine texlive texlive-latex java-1.8.0-openjdk-devel ruby-devel
+	    home_ln .i3
+            ins comix clementine texlive texlive-latex java-1.8.0-openjdk-devel ruby-devel i3 nitrogen numlockx i3lock
         }
     else
         {
