@@ -1,9 +1,10 @@
 #!/usr/bin/bash
 
+
 # test connectivity
 function internet {
-     ping google.com -c 1 > /dev/null || echo "#FF0000"
-    }
+    ping google.com -c 1 > /dev/null || echo "#FF0000"
+}
 
 function b {
 
@@ -64,24 +65,29 @@ function bandwidth {
 
 }
 
+pid=$(pidof nm-applet)
 iw=$(iwgetid -r)
 
-if [[ ! -n $iw ]];
+if [[ ! -n $pid ]];
 then
     {
-        echo "WifiDown"
-        echo "WifiDown"
-        echo "#FF0000"
-    }
+        if [[ ! -n $iw ]];
+        then
+            {
+                echo "WifiDown"
+                echo "WifiDown"
+                echo "#FF0000"
+            }
 
-else
-    {
-        # bandwidth "$iw"
-        echo "$iw"
-        echo "$iw"
-	internet
-	
+        else
+            {
+                # bandwidth "$iw"
+                echo "$iw"
+                echo "$iw"
+                internet
+
+            }
+        fi
     }
 fi
-
 exit 0

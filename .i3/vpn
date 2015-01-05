@@ -1,6 +1,7 @@
 #!/bin/bash
 
 vpn_id=$(pidof openvpn)
+nm_id=$(pidof nm-applet)
 
 #check if on ovh vpn
 function test_ip {
@@ -13,9 +14,11 @@ function test_ip {
     fi
 }
 
-# check if openvpn active
-if [[ -n $vpn_id ]]; then
-    echo ""
-    echo ""
-    test_ip
+# check if openvpn & !nm-applet active
+if [[ ! -n $nm_id ]]; then
+    if [[ -n $vpn_id ]]; then
+        echo ""
+        echo ""
+        test_ip
+    fi
 fi

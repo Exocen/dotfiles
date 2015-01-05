@@ -324,9 +324,10 @@ function untar() {
     esac
 }
 
-function repl(){
-    for file in $@; do mv "$file" `echo $file | tr ' ' '_'` ; done
-}
+# remplaced by fuspaces
+# function repl(){
+#     for file in $@; do mv "$file" `echo $file | tr ' ' '_'` ; done
+# }
 
 function eproxy() {
     export https_proxy="https://cacheserv2.univ-lille1.fr:3128"
