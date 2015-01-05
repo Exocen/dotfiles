@@ -10,7 +10,7 @@ try:
     urlopen("http://www.google.com")
 except URLError as e:
     try:
-        fh = open("/home/exo/.i3/unread", "r")
+        fh = open("/home/exo/.i3/unread.log", "r")
         contenu=fh.read()
         print(contenu)
         print(contenu)
@@ -38,7 +38,7 @@ else:
     unread = contents[ifrom:ito]
 
     try:
-        fh = open("/home/exo/.i3/unread", "w")
+        fh = open("/home/exo/.i3/unread.log", "w")
         fh.write(unread)
     except IOError:
         print("Error")
