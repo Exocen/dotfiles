@@ -21,7 +21,7 @@ except URLError as e:
         print("#FF0000")
 else:
     try:
-        lines = open('/home/exo/.i3/gmail2.log').read().split('\n')
+        lines = open('/home/exo/.i3/gmail.log').read().split('\n')
     except IOError:
         print(" N")
         print(" N")
