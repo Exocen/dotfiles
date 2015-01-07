@@ -5,27 +5,29 @@
 from urllib.request import urlopen, URLError, FancyURLopener
 
 
+
 try:
     urlopen("http://www.google.com")
 except URLError as e:
     try:
         fh = open("/home/exo/.i3/unread.log", "r")
-        contenu=fh.read()
         print(contenu)
         print(contenu)
+        fh.close()
     except IOError:
         print(" N")
         print(" N")
     else:
-        fh.close()
-    print("#FF0000")
+        print("#FF0000")
 else:
-
-    line=[line.rstrip('\n') for line in open('gmail2.log')]
-    username = line[0]
-    password = line[1]
-
-    
+    try:
+        lines = open('/home/exo/.i3/gmail2.log').read().split('\n')
+    except IOError:
+        print(" N")
+        print(" N")
+        
+    username = lines[0]
+    password = lines[1]
     url = 'https://%s:%s@mail.google.com/mail/feed/atom' % (username, password)
 
     opener = FancyURLopener()
@@ -46,12 +48,12 @@ else:
         print("Error")
     else:
         fh.close()
-
-    if unread != "0":
-        print(" "+unread)
-        print(" "+unread)
-        print("#0066cc")
-    else:
-        print(" 0")
-        print(" 0")
-        print("#0FF00")
+        
+        if unread != "0":
+            print(" "+unread)
+            print(" "+unread)
+            print("#0066cc")
+        else:
+            print(" 0")
+            print(" 0")
+            print("#0FF00")
