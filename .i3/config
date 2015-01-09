@@ -36,7 +36,7 @@ font pango:DejaVu Sans Mono, 8
 # font, it doesn't scale on retina/hidpi displays.
 
 # Lock
-bindsym $mod+l exec i3lock -i ~/Images/Cowboy_Bebop_7.png
+bindsym $mod+l exec i3lock -i ~/Images/Cowboy_Bebop_5.jpg
 
 # Nautilus
 bindsym $mod+n exec nautilus --no-desktop
