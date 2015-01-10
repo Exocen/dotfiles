@@ -10,20 +10,20 @@ try:
     urlopen("http://www.google.com")
 except URLError as e:
     try:
-        fh = open("/home/exo/.i3/unread.log", "r")
-        print(contenu)
-        print(contenu)
-        fh.close()
+        lines = open("/home/exo/.i3/unread.log").read().split('\n')
+        print(lines[0])
+        print(lines[0])
     except IOError:
+        print(" Miss Unread")
         print(" N")
-        print(" N")
+        print("#FF0000")
     else:
         print("#FF0000")
 else:
     try:
         lines = open('/home/exo/.i3/gmail.log').read().split('\n')
     except IOError:
-        print(" N")
+        print(" Miss id")
         print(" N")
         
     username = lines[0]
