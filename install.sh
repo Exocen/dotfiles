@@ -31,13 +31,13 @@ function detectOS {
 }
 
 function home_ln {
-    ln -s `pwd`/$1 ~/$1 > /dev/null 2>&1
+    ln -sf `pwd`/$1 -t ~/ > /dev/null 2>&1
     is_working "Création de $1 sur ~"
 }
 
 function home_cp {
     unalias cp > /dev/null 2>&1
-    cp -rf `pwd`/$1 ~/$1 > /dev/null 2>&1
+    cp -fr `pwd`/$1 ~/$1 > /dev/null 2>&1
     is_working "Copie de $1 sur ~"
     alias cp="cp -iv" > /dev/null 2>&1
 }
