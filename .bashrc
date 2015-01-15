@@ -1,33 +1,41 @@
+
+export JAVA_HOME="/usr/lib/jvm/java-1.7.0-openjdk-i386"
+export ANDROID_SDK_HOME="/gfs/bailleulq"
+export HTTP_PROXY="http://proxy.univ-lille1.fr:3128"
+export HTTPS_PROXY="https://proxy.univ-lille1.fr:3128"
+alias play="/gfs/bailleulq/activator-1.2.10-minimal/activator"
+
+
 # Vars used later on by zsh
 export EDITOR="emacs -nw"
 export SVN_EDITOR="emacs -nw"
-export BROWSER=google-chrome-stable
-export TERM=xterm-256color
+export BROWSER="google-chrome-stable"
+export TERM="xterm-256color"
 export PATH=$PATH:~/.opam/4.00.1/bin:~/.opam/bin/
 
-# Set up auto extension stuff
-alias -s html=$BROWSER
-alias -s org=$BROWSER
-alias -s php=$BROWSER
-alias -s com=$BROWSER
-alias -s net=$BROWSER
-alias -s png=comix
-alias -s jpg=comix
-alias -s gif=comix
-alias -s mkv=vlc
-alias -s mp4=vlc
-alias -s avi=vlc
-alias -s mp3=vlc
-alias -s sxw=soffice
-alias -s doc=soffice
-alias -s gz=tar xzf
-alias -s bz2=tar xjf
-alias -s zip=unzip
-alias -s java=$EDITOR
-alias -s py=$EDITOR
-alias -s txt=$EDITOR
-alias -s PKGBUILD=$EDITOR
-alias -s jar=java -jar
+# # Set up auto extension stuff
+# alias -s html=$BROWSER
+# alias -s org=$BROWSER
+# alias -s php=$BROWSER
+# alias -s com=$BROWSER
+# alias -s net=$BROWSER
+# alias -s png=comix
+# alias -s jpg=comix
+# alias -s gif=comix
+# alias -s mkv=vlc
+# alias -s mp4=vlc
+# alias -s avi=vlc
+# alias -s mp3=vlc
+# alias -s sxw=soffice
+# alias -s doc=soffice
+# alias -s gz=tar xzf
+# alias -s bz2=tar xjf
+# alias -s zip=unzip
+# alias -s java=$EDITOR
+# alias -s py=$EDITOR
+# alias -s txt=$EDITOR
+# alias -s PKGBUILD=$EDITOR
+# alias -s jar=java -jar
 
 # Utilities aliases
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -35,6 +43,9 @@ alias ll='ls -lFh --group-directories-first --color=auto'
 alias la='ls -Ah  --group-directories-first'
 alias lla='ls -AlFh --group-directories-first'
 alias l='ls -CFh  --group-directories-first'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
 alias ltex='ll | grep .tex'
 alias cl='clear'
 alias cp='cp -vi'
@@ -73,14 +84,14 @@ alias ipy='ipython3'
 alias pl='perl -d -e 1'
 alias pdflatex='mkdir -p tmp/; pdflatex --output-directory=tmp/'
 alias jar='java -jar'
-alias -s pdf='evince'
+#alias -s pdf='evince'
 alias am='alsamixer'
 alias em='emacs -nw'
 alias xem='sudo emacs -nw'
 alias iftop='sudo iftop'
 alias ifconfig='sudo ifconfig'
 alias powertop='sudo powertop'
-alias -g S='&> /dev/null &'
+#alias -g S='&> /dev/null &'
 alias tre='tree -C --dirsfirst'
 alias rmcache='sudo rm -rf ~/.cache/'
 alias i3='sudo init 3'
