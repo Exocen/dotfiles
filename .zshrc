@@ -209,6 +209,7 @@ alias search='sudo dnf search'
 alias show='sudo dnf info'
 alias update='sudo dnf check-update'
 alias upgrade='sudo dnf upgrade'
+alias openvpnconf='sudo openvpn --config'
 
 function reset() {
     # # saving work before reset

@@ -4,27 +4,27 @@ use strict;
 use warnings;
 use utf8;
 
-my $pid='';
-open('nm', "(pidof nm-applet) |");
-if (<nm> ne ""){
-    $pid='a';
-}
-close('nm');
+# my $pid='';
+# open('nm', "(pidof nm-applet) |");
+# if (<nm> ne ""){
+#     $pid='a';
+# }
+# close('nm');
 
-if ($pid eq ''){
-    open (iw2, "(iwgetid -r) |") or die;
-    # $iw='(iwgetid -r)'
-    my $iw=<iw2>;
-    close(iw2);
-    if ($iw eq ""){
-        print "WifiDown\n";
-        print "WifiDown\n";
-        print "#FF0000\n";
-    }
-    else
-    {
-        print $iw;
-        print $iw;
-    }
+# if ($pid eq ''){
+open (iw2, "(iwgetid -r) |") or die;
+# $iw='(iwgetid -r)'
+my $iw=<iw2>;
+close(iw2);
+if ($iw eq ""){
+    print "WifiDown\n";
+    print "WifiDown\n";
+    print "#FF0000\n";
 }
+else
+{
+    print $iw;
+    print $iw;
+}
+# }
 exit 0;

@@ -65,7 +65,8 @@ function bandwidth {
 
 }
 
-pid=$(pidof nm-applet)
+# decocher pour nm-applet add
+# pid=$(pidof nm-applet)
 iw=$(iwgetid -r)
 
 if [[ ! -n $pid ]];
