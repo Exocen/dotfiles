@@ -47,11 +47,11 @@ function ins {
     all="$@" # pour fonction is_working
     echo "Installation: $all ...."
     if [ "$WOS" = "Ubuntu" ] || [ "$WOS" = "Debian" ] ;then
-        sudo aptitude update -y  > /dev/null 2>&1
-        sudo aptitude install $@ -y > /dev/null 2>&1
+        sudo aptitude update -y # > /dev/null 2>&1
+        sudo aptitude install $@ -y # > /dev/null 2>&1
         is_working "Installation de $all"
     elif [ "$WOS" = "Fedora" ] ;then
-        sudo dnf install $@ -y > /dev/null 2>&1
+        sudo dnf install $@ -y #> /dev/null 2>&1
         is_working "Installation de $all"
     else
         makeItColorful "OS Inconnu" $RED

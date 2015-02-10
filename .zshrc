@@ -97,6 +97,7 @@ alias -s net=$BROWSER
 alias -s png=comix
 alias -s jpg=comix
 alias -s gif=comix
+alias -s svg=comix
 alias -s mkv=vlc
 alias -s mp4=vlc
 alias -s avi=vlc
