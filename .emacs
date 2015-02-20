@@ -54,15 +54,14 @@
 
 (setq package-list '(
                      ace-jump-mode
-                     auctex-latexmk
-                     auctex
-                     auctex-lua
+                     ;; auctex-latexmk
+                     ;; auctex
+                     ;; auctex-lua
                      auto-complete
                      autopair
                      browse-kill-ring
                      company
                      drag-stuff
-                     ensime
                      expand-region
                      magit
                      multiple-cursors
