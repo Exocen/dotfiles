@@ -171,6 +171,7 @@ alias rmcache='sudo rm -rf ~/.cache/'
 alias opvpnp='cd ~/.config/vpn/exo_vps_proxy/ && sudo openvpn --config client.conf --writepid /var/run/vpnc/openvpn.pid'
 alias opvpn='cd ~/.config/vpn/exo_vps/ && sudo openvpn --config client.conf --writepid /var/run/vpnc/openvpn.pid'
 alias fuspaces='for f in *\ *; do mv "$f" "${f// /_}"; done '
+alias rvminstall='curl -L get.rvm.io | bash -s stable'
 
 # Archives goodies...
 alias tarxz='tar xJvf'

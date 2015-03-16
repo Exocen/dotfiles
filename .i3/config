@@ -8,9 +8,9 @@
 # i3 config file (v4)
 #
 # Please see http://i3wm.org/doc0s/userguide.html for a complete reference!
-assign [class="(?i)clementine"] 9
-exec --no-startup-id clementine
-exec --no-startup-id i3-msg 'rename workspace 9 to "Music"'
+# assign [class="(?i)clementine"] 9
+# exec --no-startup-id clementine
+# exec --no-startup-id i3-msg 'rename workspace 9 to "Music"'
 exec --no-startup-id nm-applet
 
 # background
