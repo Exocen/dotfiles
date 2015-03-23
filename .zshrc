@@ -172,6 +172,7 @@ alias opvpnp='cd ~/.config/vpn/exo_vps_proxy/ && sudo openvpn --config client.co
 alias opvpn='cd ~/.config/vpn/exo_vps/ && sudo openvpn --config client.conf --writepid /var/run/vpnc/openvpn.pid'
 alias fuspaces='for f in *\ *; do mv "$f" "${f// /_}"; done '
 alias rvminstall='curl -L get.rvm.io | bash -s stable'
+alias grubconf='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
 
 # Archives goodies...
 alias tarxz='tar xJvf'
@@ -212,6 +213,7 @@ alias show='sudo dnf info'
 alias update='sudo dnf check-update'
 alias upgrade='sudo dnf upgrade'
 alias openvpnconf='sudo openvpn --config'
+
 
 function reset() {
     # # saving work before reset
