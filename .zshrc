@@ -1,6 +1,6 @@
 #ZSH_THEME="CUSTOM_afowler" # Optionally, set this to "random"
 CASE_SENSITIVE="false"
-DISABLE_AUTO_UPDATE="false"
+DISABLE_AUTO_UPDATE="TRUE"
 DISABLE_LS_COLORS="false"
 DISABLE_AUTO_TITLE="false"
 COMPLETION_WAITING_DOTS="true"

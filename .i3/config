@@ -11,7 +11,7 @@
 # assign [class="(?i)clementine"] 9
 # exec --no-startup-id clementine
 # exec --no-startup-id i3-msg 'rename workspace 9 to "Music"'
-exec --no-startup-id nm-applet
+#exec --no-startup-id nm-applet
 
 # background
 exec --no-startup-id nitrogen --restore
