@@ -213,7 +213,7 @@ alias show='sudo dnf info'
 alias update='sudo dnf check-update'
 alias upgrade='sudo dnf upgrade'
 alias openvpnconf='sudo openvpn --config'
-
+alias railsinstall='curl -L get.rvm.io | bash -s stable'
 
 function reset() {
     # # saving work before reset
