@@ -173,6 +173,8 @@ alias opvpn='cd ~/.config/vpn/exo_vps/ && sudo openvpn --config client.conf --wr
 alias fuspaces='for f in *\ *; do mv "$f" "${f// /_}"; done '
 alias rvminstall='curl -L get.rvm.io | bash -s stable'
 alias grubconf='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
+alias openvpnconf='sudo openvpn --config'
+alias railsinstall='curl -L get.rvm.io | bash -s stable --rails'
 
 # Archives goodies...
 alias tarxz='tar xJvf'
@@ -212,8 +214,6 @@ alias search='sudo dnf search'
 alias show='sudo dnf info'
 alias update='sudo dnf check-update'
 alias upgrade='sudo dnf upgrade'
-alias openvpnconf='sudo openvpn --config'
-alias railsinstall='curl -L get.rvm.io | bash -s stable --rails'
 
 function reset() {
     # # saving work before reset
