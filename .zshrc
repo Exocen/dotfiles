@@ -174,7 +174,10 @@ alias fuspaces='for f in *\ *; do mv "$f" "${f// /_}"; done '
 alias rvminstall='curl -L get.rvm.io | bash -s stable'
 alias grubconf='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
 alias openvpnconf='sudo openvpn --config'
+
+#ruby
 alias railsinstall='curl -L get.rvm.io | bash -s stable --rails'
+alias railsprecompile='RAILS_ENV=production bundle exec rake assets:precompile'
 
 # Archives goodies...
 alias tarxz='tar xJvf'
