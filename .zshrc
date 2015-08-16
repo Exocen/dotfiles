@@ -175,7 +175,7 @@ alias rvminstall='curl -L get.rvm.io | bash -s stable'
 alias grubconf='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
 alias openvpnconf='sudo openvpn --config'
 
-#ruby
+#ruby/rails
 alias railsinstall='curl -L get.rvm.io | bash -s stable --rails'
 alias railsprecompile='RAILS_ENV=production bundle exec rake assets:precompile'
 
