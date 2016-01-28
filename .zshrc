@@ -339,11 +339,11 @@ function untar() {
 # }
 
 function eproxy() {
-    export https_proxy="https://cacheserv2.univ-lille1.fr:3128"
+    export https_proxy="https://http://55.1.35.228:8080"
     export http_proxy="http://cacheserv2.univ-lille1.fr:3128"
-    export ftp_proxy="http://cacheserv2.univ-lille1.fr:3128"
-    export sftp_proxy="http://cacheserv2.univ-lille1.fr:3128"
-    export npm_config_proxy="http://cacheserv2.univ-lille1.fr:3128"
+    export ftp_proxy="https://cacheserv2.univ-lille1.fr:3128"
+    export sftp_proxy="https://cacheserv2.univ-lille1.fr:3128"
+    export npm_config_proxy="https://cacheserv2.univ-lille1.fr:3128"
     export npm_config_https_proxy="https://cacheserv2.univ-lille1.fr:3128"
     export ALL_PROXY=$http_proxy
 
