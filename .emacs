@@ -68,7 +68,7 @@
                      ;;php-mode
                      powerline
                      ;;scala-mode2
-                     ;;smex
+                     smex
                      ;;web-mode
                      ;;zoom-frm
 		     ;;w3

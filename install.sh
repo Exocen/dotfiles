@@ -26,6 +26,8 @@ function detectOS {
         WOS="Fedora"
     elif [ -f /etc/centos-release ]; then
         WOS="CentOS"
+    elif [ -f /etc/debian_version ]; then
+        WOS="Debian"
     else
         WOS="WTF ?"
     fi
@@ -141,12 +143,17 @@ function make {
             then
                 {
                     home_ln .i3
-                    ins comix clementine texlive texlive-latex java-1.8.0-openjdk-devel ruby-devel i3 nitrogen numlockx i3lock i3status xbacklight fontawesome-fonts-web sysstat network-manager-applet acpi
+                    ins comix clementine java-1.8.0-openjdk-devel ruby-devel i3 nitrogen numlockx i3lock i3status xbacklight fontawesome-fonts-web sysstat network-manager-applet acpi
                 }
             else
                 {
                     echo "Argument 'f' pour installation complète"
                 }
+            fi
+            if [ "$1" = "l" ]
+            then {
+                ins texlive texlive-latex
+            }
             fi
 
             echo "Argument 'p' pour installation postfix"

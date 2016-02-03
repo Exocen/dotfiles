@@ -46,7 +46,6 @@ export EDITOR="emacs -nw"
 export SVN_EDITOR="emacs -nw"
 export BROWSER=google-chrome-stable
 export TERM=xterm-256color
-export PATH=$PATH:~/.opam/4.00.1/bin:~/.opam/bin/
 
 #ohmyzsh !
 export ZSH=$HOME/.oh-my-zsh
@@ -56,9 +55,6 @@ plugins=(git symfony2)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration omz
-
-#export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 
 compinit -C
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
@@ -296,17 +292,6 @@ function dkill() {
     kill -9 $mykill 2> /dev/null
 }
 
-function tarl() {
-    case $1 in
-        *tar.gz)
-            tar -tvf $1
-            ;;
-        *)
-            echo "Todo"
-            ;;
-    esac
-}
-
 function untar() {
     case $1 in
         *tar.xz|*.txz|*.xz)
@@ -339,22 +324,13 @@ function untar() {
 # }
 
 function eproxy() {
-    export https_proxy="https://http://55.1.35.228:8080"
-    export http_proxy="http://cacheserv2.univ-lille1.fr:3128"
-    export ftp_proxy="https://cacheserv2.univ-lille1.fr:3128"
-    export sftp_proxy="https://cacheserv2.univ-lille1.fr:3128"
-    export npm_config_proxy="https://cacheserv2.univ-lille1.fr:3128"
-    export npm_config_https_proxy="https://cacheserv2.univ-lille1.fr:3128"
+    export https_proxy="http://55.1.35.228:8080"
+    export http_proxy="http://55.1.35.228:8080"
+    export ftp_proxy="http://55.1.35.228:8080"
+    export sftp_proxy="http://55.1.35.228:8080"
+    export npm_config_proxy="http://55.1.35.228:8080"
+    export npm_config_https_proxy="http://55.1.35.228:8080"
     export ALL_PROXY=$http_proxy
-
-    # export https_proxy="https://proxy.univ-lille1.fr:3128"
-    # export http_proxy="http://proxy.univ-lille1.fr:3128"
-    # export ftp_proxy="http://proxy.univ-lille1.fr:3128"
-
-    # export https_proxy="https://cacheserv3.univ-lille1.fr:3128"
-    # export http_proxy="http://cache-etu.univ-lille1.fr:3128"
-    # export ftp_proxy="http://cache-etu.univ-lille1.fr:3128"
-
 }
 
 function unproxy() {
@@ -367,5 +343,7 @@ function unproxy() {
     unset ALL_PROXY
 }
 
+
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+source $HOME/.rvm/scripts/rvm 2> /dev/null
 # rpm local with dependencies use yum
