@@ -65,13 +65,13 @@
                      expand-region
                      magit
                      multiple-cursors
-                     php-mode
+                     ;;php-mode
                      powerline
-                     scala-mode2
-                     smex
-                     web-mode
-                     zoom-frm
-		     w3
+                     ;;scala-mode2
+                     ;;smex
+                     ;;web-mode
+                     ;;zoom-frm
+		     ;;w3
                      ))
 
 ;; Backup folder
