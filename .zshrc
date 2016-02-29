@@ -5,8 +5,6 @@ DISABLE_LS_COLORS="false"
 DISABLE_AUTO_TITLE="false"
 COMPLETION_WAITING_DOTS="true"
 
-# Example format: plugins=(rails git textmate ruby lighthouse)
-
 zstyle ':completion:*' menu select
 compctl -/ cd # type a directory's name to cd to it.
 eval `dircolors -b`
@@ -15,14 +13,11 @@ autoload -U compinit
 compinit
 autoload -U promptinit
 promptinit
-# autoload predict-on
-# predict-on
 autoload -U colors # add some color
 
 setopt autopushd pushdminus pushdsilent pushdtohome
 setopt autocd
 setopt cdablevars
-#setopt ignoreeof              # don't ignore ^D EOF
 setopt interactivecomments
 setopt nobanghist
 setopt noclobber
@@ -51,7 +46,7 @@ export PATH=$PATH:~/.opam/4.00.1/bin:~/.opam/bin/
 #ohmyzsh !
 export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="fino-time"
-plugins=(git symfony2)
+plugins=(git docker rails colorize sudo)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -168,8 +163,6 @@ alias powertop='sudo powertop'
 alias -g S='&> /dev/null &'
 alias tre='tree -C --dirsfirst'
 alias rmcache='sudo rm -rf ~/.cache/'
-alias opvpnp='cd ~/.config/vpn/exo_vps_proxy/ && sudo openvpn --config client.conf --writepid /var/run/vpnc/openvpn.pid'
-alias opvpn='cd ~/.config/vpn/exo_vps/ && sudo openvpn --config client.conf --writepid /var/run/vpnc/openvpn.pid'
 alias fuspaces='for f in *\ *; do mv "$f" "${f// /_}"; done '
 alias rvminstall='curl -L get.rvm.io | bash -s stable'
 alias grubconf='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
