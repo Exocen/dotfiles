@@ -33,6 +33,17 @@ function detectOS {
     fi
 }
 
+function cloneOhmyZsh {
+    if [ -d ".oh-my-zsh" ]; then
+	cd .oh-my-zsh
+	git pull https://github.com/exocen/oh-my-zsh master
+	cd ..
+    else
+        git clone https://github.com/exocen/oh-my-zsh .oh-my-zsh/
+    fi
+    is_working "Clonage de oh-my-zsh"
+}
+
 function home_ln {
     ln -sf `pwd`/$1 -t ~/ > /dev/null 2>&1
     is_working "Création de $1 sur ~"
@@ -135,10 +146,12 @@ function make {
     else
         {
             home_ln .emacs
+            cloneOhmyZsh
             home_ln .zshrc
             home_cp .oh-my-zsh/
             home_cp .oh-my-zsh/.*
             ins emacs vlc git htop mosh tree zsh
+	    chsh -s /usr/bin/zsh
             if  [ "$1" = "f" ]
             then
                 {
