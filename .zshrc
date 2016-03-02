@@ -217,7 +217,7 @@ function reset() {
 }
 function git_config() {
     git config credential.helper store
-    git config --global user.mail kureijy@gmail.com
+    git config --global user.email kureijy@gmail.com
     git config --global user.name "Exocen"
     git config --global push.default simple
     
