@@ -165,7 +165,7 @@ alias grubconf='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
 alias openvpnconf='sudo openvpn --config'
 
 #ruby/rails
-alias railsinstall='gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3 && \curl -sSL https://get.rvm.io | bash -s stable --ruby && echo "gem: --no-rdoc --no-ri" > ~/.gemrc && gem install rails'
+alias railsinstall='gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3 && \curl -sSL https://get.rvm.io | bash -s stable --ruby && echo "gem: --no-rdoc --no-ri" > ~/.gemrc'
 alias railsremove='rvm implode && gem uninstall rvm'
 alias railsprecompile='RAILS_ENV=production bundle exec rake assets:precompile'
 
