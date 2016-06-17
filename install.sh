@@ -75,78 +75,9 @@ function ins {
 }
 
 
-function postfix_install {
-
-    ins libdb5.1 db4.8-util postfix procmail sasl2-bin libsasl2-modules libsasl2-modules-sql libgsasl7 libauthen-sasl-cyrus-perl sasl2-bin libpam-mysql
-    sudo adduser postfix sasl
-    sudo dpkg-reconfigure postfix
-    sudo postconf -e 'smtpd_sasl_local_domain ='
-    sudo  postconf -e 'smtpd_sasl_auth_enable = yes'
-    sudo  postconf -e 'smtpd_sasl_security_options = noanonymous'
-    sudo  postconf -e 'broken_sasl_auth_clients = yes'
-    sudo   postconf -e 'smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination'
-    sudo  postconf -e 'inet_interfaces = all'
-    sudo  touch /etc/postfix/sasl/smtpd.conf
-    sudo su
-    echo 'pwcheck_method: saslauthd' >> /etc/postfix/sasl/smtpd.conf
-    echo 'mech_list: plain login' >> /etc/postfix/sasl/smtpd.conf
-    exit
-    sudo mkdir /etc/postfix/ssl
-    cd /etc/postfix/ssl/
-    sudo openssl genrsa -des3 -rand /etc/hosts -out smtpd.key 1024
-    sudo openssl req -new -key smtpd.key -out smtpd.csr
-    sudo  openssl x509 -req -days 3650 -in smtpd.csr -signkey smtpd.key -out smtpd.crt
-    sudo openssl rsa -in smtpd.key -out smtpd.key.unencrypted
-    sudo mv -f smtpd.key.unencrypted smtpd.key
-    sudo chmod 600 smtpd.key
-    sudo openssl req -new -x509 -extensions v3_ca -keyout cakey.pem -out cacert.pem -days 3650
-
-    sudo postconf -e 'smtpd_tls_auth_only = no'
-    sudo postconf -e 'smtp_use_tls = yes'
-    sudo postconf -e 'smtpd_use_tls = yes'
-    sudo postconf -e 'smtp_tls_note_starttls_offer = yes'
-    sudo postconf -e 'smtpd_tls_key_file = /etc/postfix/ssl/smtpd.key'
-    sudo postconf -e 'smtpd_tls_cert_file = /etc/postfix/ssl/smtpd.crt'
-    sudo postconf -e 'smtpd_tls_CAfile = /etc/postfix/ssl/cacert.pem'
-    sudo postconf -e 'smtpd_tls_loglevel = 1'
-    sudo postconf -e 'smtpd_tls_received_header = yes'
-    sudo postconf -e 'smtpd_tls_session_cache_timeout = 3600s'
-    sudo postconf -e 'tls_random_source = dev:/dev/urandom'
-    sudo postconf -e 'myhostname = exocen.com'
-
-
-
-    sudo cp -f postfix_main.cf /etc/postfix/main.cf
-    #make virtual stuff
-
-    sudo mkdir -p /var/spool/postfix/var/run/saslauthd
-    sudo rm -fr /var/run/saslauthd
-    sudo ln -s /var/spool/postfix/var/run/saslauthd /var/run/saslauthd
-    sudo chown -R root:sasl /var/spool/postfix/var/
-    sudo chmod 710 /var/spool/postfix/var/run/saslauthd
-    sudo adduser postfix sasl
-
-    #Pour ce faire décommentez la ligne
-    #START=yes
-    #et modifiez la derniere lignz
-    #OPTIONS="-c -m /var/run/saslauthd"
-    #comme cela:
-    #
-    #OPTIONS="-m /var/spool/postfix/var/run/saslauthd"
-
-    sudo service postfix restart
-
-}
-
 function make {
     detectOS
-    if  [ "$1" = "p" ]
-    then
-        {
-            postfix_install
-        }
-    else
-        {
+   
             home_ln .emacs
             cloneOhmyZsh
             home_ln .zshrc
@@ -172,8 +103,7 @@ function make {
             fi
 
             echo "Argument 'p' pour installation postfix"
-        }
-    fi
+       
 
 
 
