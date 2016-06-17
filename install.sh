@@ -36,9 +36,9 @@ function detectOS {
 
 function cloneOhmyZsh {
     if [ -d ".oh-my-zsh" ]; then
-	cd .oh-my-zsh
-	git pull https://github.com/exocen/oh-my-zsh master
-	cd ..
+        cd .oh-my-zsh
+        git pull https://github.com/exocen/oh-my-zsh master
+        cd ..
     else
         git clone https://github.com/exocen/oh-my-zsh .oh-my-zsh/
     fi
@@ -62,11 +62,11 @@ function ins {
     all="$@" # pour fonction is_working
     echo "Installation: $all ...."
     if [ "$WOS" = "Ubuntu" ] || [ "$WOS" = "Debian" ] ;then
-        sudo aptitude update -y # > /dev/null 2>&1
+        sudo aptitude update -y > /dev/null 2>&1
         sudo aptitude install $@ -y # > /dev/null 2>&1
         is_working "Installation de $all"
     elif [ "$WOS" = "Fedora" ] ;then
-    	sudo dnf update -y
+        sudo dnf update -y > /dev/null 2>&1
         sudo dnf install $@ -y #> /dev/null 2>&1
         is_working "Installation de $all"
     else
@@ -77,36 +77,33 @@ function ins {
 
 function make {
     detectOS
-   
-            home_ln .emacs
-            cloneOhmyZsh
-            home_ln .zshrc
-            home_cp .oh-my-zsh/
-            home_cp .oh-my-zsh/.*
-            ins emacs vlc git htop mosh tree zsh make
-	    chsh -s /usr/bin/zsh
-            if  [ "$1" = "f" ]
-            then
-                {
-                    home_ln .i3
-                    ins comix clementine java-1.8.0-openjdk-devel ruby-devel i3 nitrogen numlockx i3lock i3status xbacklight fontawesome-fonts-web sysstat network-manager-applet acpi
-                }
-            else
-                {
-                    echo "Argument 'f' pour installation complète"
-                }
-            fi
-            if [ "$1" = "l" ]
-            then {
-                ins texlive texlive-latex
-            }
-            fi
-
-            echo "Argument 'p' pour installation postfix"
-       
-
-
-
+    home_ln .emacs
+    cloneOhmyZsh
+    home_ln .zshrc
+    home_cp .oh-my-zsh/
+    home_cp .oh-my-zsh/.*
+    ins emacs vlc git htop mosh tree zsh make
+    chsh -s /usr/bin/zsh
+    if  [ "$1" = "f" ]
+    then
+        {
+            home_ln .i3
+            ins comix clementine java-1.8.0-openjdk-devel ruby-devel i3 nitrogen numlockx i3lock i3status xbacklight fontawesome-fonts-web sysstat network-manager-applet acpi
+        }
+    else
+        {
+            echo "Argument 'f' pour installation complète"
+        }
+    fi
+    if [ "$1" = "l" ]
+    then {
+        ins texlive texlive-latex
+    }
+    else
+        {
+            echo "Argument 'l' pour installation latex"
+        }
+    fi
 
 }
 make $1
