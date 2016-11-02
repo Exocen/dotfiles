@@ -67,7 +67,7 @@ function ins {
         sudo aptitude install $@ -y # > /dev/null 2>&1
         is_working "Installation de $all"
     elif [ "$WOS" = "Fedora" ] ;then
-        sudo dnf update -y > /dev/null 2>&1
+        sudo dnf update -y #> /dev/null 2>&1
         sudo dnf install $@ -y #> /dev/null 2>&1
         is_working "Installation de $all"
     else
