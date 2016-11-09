@@ -88,13 +88,13 @@ function make {
     if [ "$1" = "c" ]
     then
     {
-    wget https://dl-ssl.google.com/linux/linux_signing_key.pub
-
-    sudo rpm --import linux_signing_key.pub
-
     sudo sh -c 'echo "[google-chrome]
-    name=Google Chrome 32-bit
-    baseurl=http://dl.google.com/linux/chrome/rpm/stable/i386" >> /etc/yum.repos.d/google-chrome.repo'
+    name=google-chrome - \$basearch
+    baseurl=http://dl.google.com/linux/chrome/rpm/stable/\$basearch
+    enabled=1
+    gpgcheck=1
+    gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub" >> /etc/yum.repos.d/google-chrome.repo'
+    
     ins google-chrome-stable
     }
     else
