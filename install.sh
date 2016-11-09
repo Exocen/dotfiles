@@ -85,23 +85,6 @@ function make {
     home_cp .oh-my-zsh/.*
     ins emacs vlc git htop mosh tree zsh make
     chsh -s /usr/bin/zsh
-    if [ "$1" = "c" ]
-    then
-    {
-    sudo sh -c 'echo "[google-chrome]
-    name=google-chrome - \$basearch
-    baseurl=http://dl.google.com/linux/chrome/rpm/stable/\$basearch
-    enabled=1
-    gpgcheck=1
-    gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub" >> /etc/yum.repos.d/google-chrome.repo'
-    
-    ins google-chrome-stable
-    }
-    else
-        {
-            echo "Argument 'c' pour installation chrome"
-        }
-    fi
     if  [ "$1" = "f" ]
     then
         {
