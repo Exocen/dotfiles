@@ -95,6 +95,7 @@ function make {
     sudo sh -c 'echo "[google-chrome]
     name=Google Chrome 32-bit
     baseurl=http://dl.google.com/linux/chrome/rpm/stable/i386" >> /etc/yum.repos.d/google-chrome.repo'
+    ins google-chrome-stable
     }
     else
         {
