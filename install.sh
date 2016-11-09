@@ -85,7 +85,7 @@ function make {
     home_cp .oh-my-zsh/.*
     ins emacs vlc git htop mosh tree zsh make
     chsh -s /usr/bin/zsh
-    if [ "$1" = "c"]
+    if [ "$1" = "c" ]
     then
     {
     wget https://dl-ssl.google.com/linux/linux_signing_key.pub
