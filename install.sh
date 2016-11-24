@@ -95,16 +95,6 @@ function make {
             echo "Argument 'f' pour installation complète"
         }
     fi
-    if [ "$1" = "l" ]
-    then {
-        ins texlive texlive-latex
-    }
-    else
-        {
-            echo "Argument 'l' pour installation latex"
-        }
-    fi
-
 }
 make $1
 exit 0
