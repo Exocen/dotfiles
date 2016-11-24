@@ -5,7 +5,7 @@ Un repo utilisé pour faire une intallation automatique sur un nouveau poste
 
 Installera de base les packets:
 
-*emacs vlc git htop mosh tree zsh*
+*vim vlc git htop iftop tree zsh*
 
 ###Configuration Emacs + Zsh###
  
@@ -22,3 +22,4 @@ La configuration se trouve dans les fichiers .zshrc et .emacs
 
 Fonctionne sur
 * Fedora
+* Ubuntu
