@@ -82,7 +82,7 @@ function make {
     home_ln .zshrc
     home_cp .oh-my-zsh/
     home_cp .oh-my-zsh/.*
-    ins vim vlc git htop iftop mosh tree zsh make util-linux-user
+    ins vim vlc git htop iftop tree zsh make util-linux-user
     chsh -s /usr/bin/zsh
     if  [ "$1" = "f" ]
     then
