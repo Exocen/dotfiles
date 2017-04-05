@@ -26,3 +26,4 @@ Fonctionne sur
 
 TODO
 TODO i3 block
++thx anachron
