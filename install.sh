@@ -88,13 +88,15 @@ function make {
     then
         {
             home_ln .i3
-            ins comix clementine java-1.8.0-openjdk-devel ruby-devel i3 nitrogen numlockx i3lock i3status xbacklight fontawesome-fonts-web sysstat network-manager-applet acpi
+            ins comix clementine i3 nitrogen numlockx i3lock i3status xbacklight fontawesome-fonts-web sysstat acpi gcc
+            sudo dnf install -y "kernel-devel-uname-r == $(uname -r)"
         }
     else
         {
             echo "Argument 'f' pour installation complète"
         }
     fi
+    
 }
 make $1
 exit 0
