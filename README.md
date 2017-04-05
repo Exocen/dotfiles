@@ -8,7 +8,7 @@ Installera de base les packets:
 *vim vlc git htop iftop tree zsh*
 
 ###Configuration Emacs + Zsh###
- 
+
 Fonctionne sur
 * Ubuntu (>15 pour emacs plugins)
 * Fedora
@@ -23,3 +23,6 @@ La configuration se trouve dans les fichiers .zshrc et .emacs
 Fonctionne sur
 * Fedora
 * Ubuntu
+
+TODO
+TODO i3 block

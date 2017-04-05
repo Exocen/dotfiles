@@ -12,7 +12,7 @@ assign [class="(?i)clementine"] 9
 exec --no-startup-id clementine
 exec --no-startup-id i3-msg 'rename workspace 9 to "Music"'
 #exec --no-startup-id nm-applet
-
+exec xrandr --output HDMI-0 --mode 1024x768 --output DVI-I-0 --mode 2048x1152 --rate 59.91 --left-of HDMI-0
 # background
 exec --no-startup-id nitrogen --restore
 
@@ -50,7 +50,7 @@ bindsym $mod+n exec nautilus --no-desktop
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec terminator #i3-sensible-terminal
+bindsym $mod+Return exec gnome-terminal #i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+Shift+A kill
