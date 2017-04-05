@@ -10,3 +10,4 @@ custom
 !custom/example.zshcache
 cache/
 .oh-my-zsh/
+.gmx-private
