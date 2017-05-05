@@ -39,7 +39,7 @@ HISTFILE=~/.zsh_history
 # Vars used later on by zsh
 export EDITOR="emacs -nw"
 export SVN_EDITOR="emacs -nw"
-export BROWSER=google-chrome-stable
+export BROWSER=chromium
 export TERM=xterm-256color
 
 #ohmyzsh !
