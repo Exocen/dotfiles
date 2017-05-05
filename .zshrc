@@ -258,8 +258,8 @@ alias apse='apt-cache search -t experimental'
 alias apshow='apt-cache showpkg'
 
 #yaourt
-alias yai='yaourt -Sy '
-alias yar='yaourt -R '
+alias yai='yaourt -Sy'
+alias yar='yaourt -R'
 
 # yum
 alias yu='sudo yum update --color=always'
@@ -344,6 +344,12 @@ function unproxy() {
     unset ftp_proxy
     unset sftp_proxy
     unset ALL_PROXY
+}
+
+function clean_orphan_packages(){
+  echo "CLEAN ORPHAN PACKAGES"
+  sudo pacman -Rsc --noconfirm $(pacman -Qqdt)
+  sudo pacman-optimize
 }
 
 

@@ -73,10 +73,10 @@ function ins {
         sudo dnf install $@ -y #> /dev/null 2>&1
         is_working "Installation de $all"
     elif [ "$WOS" = "Arch" ] ;then
-	yaourt -Sau
-	yaourt -Sy $@ -noconfirm #> /dev/null 2>&1
+        yaourt -Sau
+        yaourt -Sy $@ --noconfirm #> /dev/null 2>&1
         is_working "Installation de $all"
-       else
+    else
         makeItColorful "OS Inconnu" $RED
     fi
 }
@@ -86,16 +86,17 @@ function make {
     detectOS
     cloneOhmyZsh
     home_ln .zshrc
+    home_ln .xinitrc
+    home_ln .emacs
     home_cp .oh-my-zsh/
     home_cp .oh-my-zsh/.*
-    ins vim vlc git htop iftop tree zsh make util-linux-user
+    ins vim vlc git htop iftop tree zsh make #util-linux-user #for fed only
     chsh -s /usr/bin/zsh
     if  [ "$1" = "f" ]
     then
         {
             home_ln .i3
-            ins comix clementine i3 nitrogen numlockx i3lock i3status xbacklight fontawesome-fonts-web sysstat acpi gcc
-            sudo dnf install -y "kernel-devel-uname-r == $(uname -r)"
+            ins clementine nitrogen numlockx
         }
     else
         {
