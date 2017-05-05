@@ -257,6 +257,10 @@ alias aps='apt-cache search'
 alias apse='apt-cache search -t experimental'
 alias apshow='apt-cache showpkg'
 
+#yaourt
+alias yai='yaourt -Sy '
+alias yar='yaourt -R '
+
 # yum
 alias yu='sudo yum update --color=always'
 alias ys='yum search --color=always'

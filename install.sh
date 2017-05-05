@@ -24,12 +24,14 @@ function detectOS {
         fi
     elif [ -f /etc/redhat-release ]; then
         WOS="Fedora"
-      sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm 
+        sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
         sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-     elif [ -f /etc/centos-release ]; then
+    elif [ -f /etc/centos-release ]; then
         WOS="CentOS"
     elif [ -f /etc/debian_version ]; then
         WOS="Debian"
+    elif [ -f /etc/arch-release ]; then
+        WOS="Arch"
     else
         WOS="WTF ?"
     fi
@@ -70,7 +72,11 @@ function ins {
         sudo dnf update -y #> /dev/null 2>&1
         sudo dnf install $@ -y #> /dev/null 2>&1
         is_working "Installation de $all"
-    else
+    elif [ "$WOS" = "Arch" ] ;then
+	yaourt -Sau
+	yaourt -Sy $@ -noconfirm #> /dev/null 2>&1
+        is_working "Installation de $all"
+       else
         makeItColorful "OS Inconnu" $RED
     fi
 }
@@ -96,7 +102,7 @@ function make {
             echo "Argument 'f' pour installation complète"
         }
     fi
-    
+
 }
 make $1
 exit 0
