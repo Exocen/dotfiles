@@ -96,7 +96,7 @@ function make {
     then
         {
             home_ln .i3
-            ins clementine nitrogen numlockx
+            ins clementine nitrogen numlockx pulseaudio-module-bluetooth
         }
     else
         {
