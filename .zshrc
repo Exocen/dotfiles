@@ -208,6 +208,10 @@ alias show='sudo dnf info'
 alias update='sudo dnf check-update'
 alias upgrade='sudo dnf upgrade'
 
+#mount
+alias mountntfs='sudo mount -t ntfs -o umask=0022,gid=33,uid=33 '
+alias mountfat='sudo mount -o umask=0022,gid=33,uid=33 '
+
 function reset() {
     # # saving work before reset
     # git commit -a -m "Saving my work, just in case"
@@ -221,7 +225,7 @@ function git_config() {
     git config --global user.email Exocen@users.noreply.github.com
     git config --global user.name "Exocen"
     git config --global push.default simple
-    
+
     # git config --unset credential.helper # resume password check
 }
 
