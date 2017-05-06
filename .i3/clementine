@@ -3,11 +3,11 @@ clem_id=$(pidof clementine)
 
 # check if openvpn active
 if [[ -n $clem_id ]]; then
-
-    TRACK=`qdbus org.mpris.clementine /TrackList \
+#qdbus or qdbus-qt4
+    TRACK=`qdbus-qt4 org.mpris.clementine /TrackList \
 org.freedesktop.MediaPlayer.GetCurrentTrack`
 
-    qdbus org.mpris.clementine /TrackList \
+    qdbus-qt4 org.mpris.clementine /TrackList \
           org.freedesktop.MediaPlayer.GetMetadata $TRACK \
         | sort -r | egrep "^(title:|artist:)" | sed -e "s/^.*: //g" \
         | sed -e ':a;N;$!ba;s/\n/ - /g' | head -c 100 \
