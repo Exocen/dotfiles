@@ -7,10 +7,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(TeX-PDF-mode t)
- '(TeX-source-correlate-method (quote synctex))
- '(TeX-source-correlate-mode t)
- '(TeX-source-correlate-start-server t)
  '(column-number-mode t)
  '(custom-enabled-themes (quote (wombat)))
  '(display-battery-mode t)
@@ -25,17 +21,6 @@
     (smex powerline multiple-cursors magit expand-region drag-stuff company browse-kill-ring autopair auto-complete ace-jump-mode)))
  '(show-paren-mode t)
  '(uniquify-buffer-name-satyle (quote forward) nil (uniquify)))
- ;; '(mode-line ((t (:background "#bd6626" :foreground "#f6f3e8"))))
- ;; '(mode-line-highlight ((t (:foreground unspecified :background unspecified :weight bold))))
- ;; '(mode-line-inactive ((t (:background "#454545" :foreground "#666666"))))
- ;; '(org-agenda-done ((t (:foreground "LightSalmon" :strike-through t))))
- ;; '(org-done ((t (:foreground "LightSalmon" :strike-through t :weight bold))))
- ;; '(org-headline-done ((t (:foreground "LightSalmon" :strike-through t))))
- ;; ;; '(powerline-active1 ((t (:inherit mode-line :background "#666666" :foreground "#f6f3e8"))))
- ;; ;; '(powerline-active2 ((t (:inherit mode-line :background "#252525" :foreground "#f6f3e8"))))
- ;; ;; '(powerline-inactive2 ((t (:inherit mode-line :background "#666666" :foreground "#aaaaaa"))))
- ;; '(visible-mark-face1 ((t (:background "red" :foreground "black"))))
- ;; '(visible-mark-face2 ((t (:background "salmon" :foreground "black")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -57,9 +42,6 @@
 
 (setq package-list '(
                      ace-jump-mode
-                     ;; auctex-latexmk
-                     ;; auctex
-                     ;; auctex-lua
                      auto-complete
                      autopair
                      browse-kill-ring
@@ -68,13 +50,7 @@
                      expand-region
                      magit
                      multiple-cursors
-                     ;;php-mode
                      powerline
-                     ;;scala-mode2
-                     smex
-                     ;;web-mode
-                     ;;zoom-frm
-		     ;;w3
                      ))
 
 ;; Backup folder
@@ -201,46 +177,3 @@
 (global-set-key (kbd "C-S-n") 'buf-move-down)
 (global-set-key (kbd "C-S-b") 'buf-move-left)
 (global-set-key (kbd "C-S-f") 'buf-move-right)
-
-;; 80-100 column rule
-;; (setq whitespace-style '(face empty tabs lines-tail trailing)
-;;       whitespace-line-column 82 )
-;; (global-whitespace-mode t)
-
-;; Pretty symbol (e.g. lambda)
-;;(add-hook 'after-init-hook 'global-pretty-mode t)
-(add-hook 'scala-mode2 'turn-on-pretty-mode)
-(add-hook 'elisp 'turn-on-pretty-mode)
-(add-hook 'tuareg-mode 'turn-on-pretty-mode)
-(add-hook 'haskell-mode 'turn-on-pretty-mode)
-
-;; Outline mode
-(defun turn-on-outline-minor-mode ()
-  (outline-minor-mode 1))
-(add-hook 'LaTeX-mode-hook 'turn-on-outline-minor-mode)
-(add-hook 'latex-mode-hook 'turn-on-outline-minor-mode)
-
-;; ace-jump-mode
-(add-to-list 'load-path "which-folder-ace-jump-mode-file-in/")
-(require 'ace-jump-mode)
-(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
-
-;;powerline
-;; (require 'powerline)
-;; (powerline-default-theme)
-
-
-;; Smex
-(global-set-key [(meta x)] (lambda ()
-                             (interactive)
-                             (or (boundp 'smex-cache)
-                                 (smex-initialize))
-                             (global-set-key [(meta x)] 'smex)
-                             (smex)))
-
-(global-set-key [(shift meta x)] (lambda ()
-                                   (interactive)
-                                   (or (boundp 'smex-cache)
-                                       (smex-initialize))
-                                   (global-set-key [(shift meta x)] 'smex-major-mode-commands)
-                                   (smex-major-mode-commands)))

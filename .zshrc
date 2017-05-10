@@ -1,6 +1,6 @@
 #ZSH_THEME="CUSTOM_afowler" # Optionally, set this to "random"
 CASE_SENSITIVE="false"
-DISABLE_AUTO_UPDATE="TRUE"
+#DISABLE_AUTO_UPDATE="TRUE"
 DISABLE_LS_COLORS="false"
 DISABLE_AUTO_TITLE="false"
 COMPLETION_WAITING_DOTS="true"
@@ -352,8 +352,3 @@ function clean_orphan_packages(){
   sudo pacman -Rsc --noconfirm $(pacman -Qqdt)
   sudo pacman-optimize
 }
-
-
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-source $HOME/.rvm/scripts/rvm 2> /dev/null
-# rpm local with dependencies use yum
