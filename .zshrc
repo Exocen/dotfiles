@@ -260,6 +260,7 @@ alias apshow='apt-cache showpkg'
 #yaourt
 alias yai='yaourt -Sy'
 alias yar='yaourt -R'
+alias yau='yaourt -Syu'
 
 # yum
 alias yu='sudo yum update --color=always'
