@@ -20,6 +20,9 @@
  '(hl-line ((t (:underline t))))
  '(inhibit-startup-screen t)
  '(markdown-command "markdown2")
+ '(package-selected-packages
+   (quote
+    (smex powerline multiple-cursors magit expand-region drag-stuff company browse-kill-ring autopair auto-complete ace-jump-mode)))
  '(show-paren-mode t)
  '(uniquify-buffer-name-satyle (quote forward) nil (uniquify)))
  ;; '(mode-line ((t (:background "#bd6626" :foreground "#f6f3e8"))))
