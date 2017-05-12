@@ -2,9 +2,12 @@
 # Source: http://askubuntu.com/a/450136
 
 URGENT_VALUE=90
-
+MEDIUM_VALUE=50
 PREV_TOTAL=0
 PREV_IDLE=0
+URGENT_VALUE_COLOR="#ff0000"
+MEDIUM_VALUE_COLOR="#ffe600"
+NO_VALUE_COLOR=""
 
 cpuFile="/tmp/.cpu"
 
@@ -30,9 +33,19 @@ if [[ "${PREV_TOTAL}" != "" ]] && [[ "${PREV_IDLE}" != "" ]]; then
   let "DIFF_IDLE=$IDLE-$PREV_IDLE"
   let "DIFF_TOTAL=$TOTAL-$PREV_TOTAL"
   let "DIFF_USAGE=(1000*($DIFF_TOTAL-$DIFF_IDLE)/$DIFF_TOTAL+5)/10"
-  echo "${DIFF_USAGE}%"
-  echo "${DIFF_USAGE}%"
-  echo ""
+  if [[ "${DIFF_USAGE}" -gt 0 ]] && [[ "${DIFF_USAGE}" -ge "${URGENT_VALUE}" ]]; then
+    echo "${DIFF_USAGE}%"
+    echo "${DIFF_USAGE}%"
+    echo "${URGENT_VALUE_COLOR}"
+  elif [[ "${DIFF_USAGE}" -gt 0 ]] && [[ "${DIFF_USAGE}" -ge "${MEDIUM_VALUE}" ]]; then
+    echo "${DIFF_USAGE}%"
+    echo "${DIFF_USAGE}%"
+    echo "${MEDIUM_VALUE_COLOR}"
+  else
+    echo "${DIFF_USAGE}%"
+    echo "${DIFF_USAGE}%"
+    echo "${NO_VALUE_COLOR}"
+  fi
 else
   echo "?"
   echo "?"
@@ -42,7 +55,3 @@ fi
 # Remember the total and idle CPU times for the next check.
 echo "${TOTAL}" > "${cpuFile}"
 echo "${IDLE}" >> "${cpuFile}"
-
-if [[ "${DIFF_USAGE}" -gt 0 ]] && [[ "${DIFF_USAGE}" -gt "${URGENT_VALUE}" ]]; then
-  exit 33
-fi

@@ -2,6 +2,7 @@
 # Source: http://www.onlamp.com/pub/a/linux/2000/11/16/LinuxAdmin.html
 
 INSTANCE="${BLOCK_INSTANCE}"
+RED_COLOR="#ff0000"
 # If you don't like you can use any other IP
 INTERFACE="$(ip route get 8.8.8.8 | grep -Po '(?<=(dev )).*(?= src)')"
 
@@ -66,22 +67,38 @@ if [[ "${PREV_IN}" != "" ]] && [[ "${PREV_OUT}" != "" ]]; then
   USAGE_IN=$(FormatNumber "${DIFF_IN}")
   USAGE_OUT=$(FormatNumber "${DIFF_OUT}")
 
+  MESSAGE_COLOR=""
+
   if [[ "${DISPLAY}" = "both" ]]; then
     echo "${USAGE_IN} : ${USAGE_OUT}"
     echo "${USAGE_IN} : ${USAGE_OUT}"
     echo ""
     DIFF_TOTAL=$((DIFF_TOTAL+DIFF_IN))
     DIFF_TOTAL=$((DIFF_TOTAL+DIFF_OUT))
+
   elif [[ "${DISPLAY}" = "in" ]]; then
-    echo "${USAGE_IN}"
-    echo "${USAGE_IN}"
-    echo ""
+
     DIFF_TOTAL=$((DIFF_TOTAL+DIFF_IN))
+    if [[ "${DIFF_TOTAL}" -gt 0 ]] && [[ "${DIFF_TOTAL}" -ge "${URGENT_VALUE}" ]]; then
+      MESSAGE_COLOR=RED_COLOR
+    else
+      MESSAGE_COLOR=""
+    fi
+    echo "${USAGE_IN}"
+    echo "${USAGE_IN}"
+    echo "${MESSAGE_COLOR}"
+
   elif [[ "${DISPLAY}" = "out" ]]; then
-    echo "${USAGE_OUT}"
-    echo "${USAGE_OUT}"
-    echo ""
+
     DIFF_TOTAL=$((DIFF_TOTAL+DIFF_OUT))
+    if [[ "${DIFF_TOTAL}" -gt 0 ]] && [[ "${DIFF_TOTAL}" -ge "${URGENT_VALUE}" ]]; then
+      MESSAGE_COLOR=RED_COLOR
+    else
+      MESSAGE_COLOR=""
+    fi
+    echo "${USAGE_OUT}"
+    echo "${USAGE_OUT}"
+    echo "${MESSAGE_COLOR}"
   fi
 else
   echo "?"
@@ -92,7 +109,3 @@ fi
 # Remember the total and idle CPU times for the next check.
 echo "${BYTES_IN}" > "${PREV_FILE}"
 echo "${BYTES_OUT}" >> "${PREV_FILE}"
-
-if [[ "${DIFF_TOTAL}" -ge "${URGENT_VALUE}" ]]; then
-  exit 33
-fi

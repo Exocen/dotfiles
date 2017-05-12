@@ -53,7 +53,7 @@ fi
 if [[ "${UNREAD_COUNT}" = "0" ]]; then
   echo "${UNREAD_COUNT}"
   echo "${UNREAD_COUNT}"
-  echo "#0FF00"
+  echo ""
   exit
 fi
 
