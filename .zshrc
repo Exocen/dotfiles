@@ -261,6 +261,8 @@ alias apshow='apt-cache showpkg'
 alias yai='yaourt -Sy'
 alias yar='yaourt -R'
 alias yau='yaourt -Syu'
+alias yas='yaourt -Ss'
+alias yac='clean_orphan_packages'
 
 # yum
 alias yu='sudo yum update --color=always'
