@@ -1,5 +1,4 @@
 ## Automatic installation
-------------
 
 Un repo utilisé pour faire une intallation automatique sur un nouveau poste
 
