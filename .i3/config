@@ -46,7 +46,7 @@ bindsym $mod+l exec i3lock -i ~/Images/monogatari_3.png
 bindsym $mod+Shift+s exec ~/.i3/suspend
 
 # Nautilus
-bindsym $mod+n exec nautilus --no-desktop
+bindsym $mod+n exec thunar 
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
