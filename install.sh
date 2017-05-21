@@ -97,7 +97,7 @@ function make {
   then
     {
       home_ln .i3
-      ins clementine tig nethogs nitrogen numlockx mcomix blueman pulseaudio-bluetooth #bluetooth
+      ins clementine tig nethogs nitrogen numlockx mcomix ttf-font-awesome blueman pulseaudio-bluetooth #bluetooth 
     }
   else
     {
