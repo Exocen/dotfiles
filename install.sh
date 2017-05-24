@@ -91,7 +91,7 @@ function make {
   home_ln .zprofile #if no GDM
   home_cp .oh-my-zsh/
   home_cp .oh-my-zsh/.*
-  ins vim vlc git htop iftop iotop tree zsh make #util-linux-user #for fed only
+  ins vim vlc git htop iftop iotop tree zsh make wget #util-linux-user #for fed only
   chsh -s /usr/bin/zsh
   if  [ "$1" = "f" ]
   then
