@@ -1,8 +1,18 @@
 #!/bin/bash
 
-FORMAT="${BLOCK_INSTANCE:-%H:%M}"
-DATETIME=$(date "+${FORMAT}")
+FORMAT="%H:%M"
+INSTANCE="${BLOCK_INSTANCE}"
 
+
+if [ -z ${INSTANCE} ]
+then
+    DATETIME=$(date "+${FORMAT}")
+else
+    DATETIME=$(TZ="${INSTANCE}" date "+${FORMAT}" )
+fi
+
+
+   
 echo "${DATETIME}"
 echo "${DATETIME}"
 echo ""
