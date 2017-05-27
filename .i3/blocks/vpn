@@ -1,9 +1,26 @@
 #!/bin/bash
 
-VPNC_FILE='/var/run/vpnc.pid'
+INSTANCE="${BLOCK_INSTANCE}"
+#INSTANCE="164.132.49.60"
 
-if [[ -e "${VPNC_FILE}" ]]; then
-  echo "on"
-  echo "on"
-  echo ""
+vpn_id=$(pidof openvpn)
+# nm_id=$(pidof nm-applet)
+
+#check if on ovh vpn
+function test_ip {
+
+    ext_ip=$(curl -s ipinfo.io/ip)
+
+    if [[ $ext_ip != $INSTANCE ]]; then
+        echo "#FF0000"
+    fi
+}
+
+# check if openvpn & !nm-applet active
+if [[ ! -n $nm_id ]]; then
+    if [[ -n $vpn_id ]]; then
+        echo ""
+        echo ""
+        test_ip
+    fi
 fi

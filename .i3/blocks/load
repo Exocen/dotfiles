@@ -2,18 +2,22 @@
 
 INSTANCE="${BLOCK_INSTANCE:-1}"
 
-URGENT_VALUE=90
+load=$(cat /proc/loadavg | awk -F ' ' '{print $'"${INSTANCE}"'}')
 
-LOAD=$(cat /proc/loadavg | awk -F ' ' '{print $'"${INSTANCE}"'}')
-if [[ "${LOAD}" != "" ]]; then
-  LOAD_PERC=$(echo "scale=0; ${LOAD} * 100" | bc -l)
-  LOAD_PERC=${LOAD_PERC%.*}
+cpus="$(nproc)"
 
-  echo "${LOAD}"
-  echo "${LOAD}"
-  echo ""
+# full text
+echo "$load"
 
-  if [[ "${LOAD_PERC}" -ge "${URGENT_VALUE}" ]]; then
-    exit 33
-  fi
-fi
+# short text
+echo "$load"
+
+# color if load is too high
+awk -v cpus=$cpus -v cpuload=$load '
+    BEGIN {
+        if (cpus <= cpuload) {
+            print "#FF0000";
+            # exit 33;
+        }
+    }
+'
