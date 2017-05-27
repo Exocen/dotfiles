@@ -8,12 +8,11 @@
 # i3 config file (v4)
 #
 # Please see http://i3wm.org/doc0s/userguide.html for a complete reference!
-assign [class="(?i)clementine"] 9
-assign [class="(?i)pidgin"] 8
-assign [class="(?i)steam"] 10
+assign [class="(?i)clementine"] 9 Music
+assign [class="(?i)pidgin"] 8 Chat
+assign [class="(?i)steam"] 10 Steam
 exec --no-startup-id setxkbmap fr latin9
 exec --no-startup-id clementine
-exec --no-startup-id i3-msg 'rename workspace 9 to "Music"'
 exec --no-startup-id pidgin 
 exec xrandr --output HDMI-0 --mode 1024x768 --output DVI-I-0 --mode 2048x1152 --rate 59.91 --left-of HDMI-0
 # background
@@ -133,9 +132,9 @@ bindsym $mod+apostrophe workspace 4
 bindsym $mod+parenleft workspace 5
 bindsym $mod+minus workspace 6
 bindsym $mod+egrave workspace 7
-bindsym $mod+underscore workspace 8
-bindsym $mod+ccedilla workspace 9
-bindsym $mod+agrave workspace 10
+bindsym $mod+underscore workspace 8 Chat
+bindsym $mod+ccedilla workspace 9 Music
+bindsym $mod+agrave workspace 10 Steam
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1
@@ -145,9 +144,9 @@ bindsym $mod+Shift+4 move container to workspace 4
 bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+egrave move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+ccedilla move container to workspace 9
-bindsym $mod+Shift+agrave move container to workspace 10
+bindsym $mod+Shift+8 move container to workspace 8 Chat
+bindsym $mod+Shift+ccedilla move container to workspace 9 Music
+bindsym $mod+Shift+agrave move container to workspace 10 Steam
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
