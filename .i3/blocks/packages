@@ -1,13 +1,16 @@
 #!/usr/bin/bash
 
-URGENT_VALUE=25
+URGENT_VALUE=10
 PACKAGE_COUNT=$(pacman -Qu | wc -l)
 
 if [[ "${PACKAGE_COUNT}" -gt 0 ]]; then
-  echo "${PACKAGE_COUNT}" # full-text
-  echo "${PACKAGE_COUNT}" # short-text
-  echo ""
-  if [[ "${PACKAGE_COUNT}" -gt "${URGENT_VALUE}" ]]; then
-    echo "#ff0000"
-  fi
+    echo "${PACKAGE_COUNT}" # full-text
+    echo "${PACKAGE_COUNT}" # short-text
+
+    if [[ "${PACKAGE_COUNT}" -gt "${URGENT_VALUE}" ]]; then
+        echo "#ff0000"
+    else
+        echo "#0066cc"
+    fi
+
 fi
