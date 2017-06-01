@@ -10,6 +10,7 @@
 # Please see http://i3wm.org/doc0s/userguide.html for a complete reference!
 assign [class="(?i)clementine"] 9 Music
 assign [class="(?i)pidgin"] 8 Chat
+assign [class="(?i)discord"] 8 Chat
 assign [class="(?i)steam"] 10 Steam
 exec --no-startup-id setxkbmap fr latin9
 exec --no-startup-id clementine

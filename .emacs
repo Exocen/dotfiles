@@ -18,7 +18,7 @@
  '(markdown-command "markdown2")
  '(package-selected-packages
    (quote
-    (smex powerline multiple-cursors magit expand-region drag-stuff company browse-kill-ring autopair auto-complete ace-jump-mode)))
+    (move-text smex powerline multiple-cursors magit expand-region drag-stuff company browse-kill-ring autopair auto-complete ace-jump-mode)))
  '(show-paren-mode t)
  '(uniquify-buffer-name-satyle (quote forward) nil (uniquify)))
 (custom-set-faces
@@ -51,7 +51,8 @@
                      magit
                      multiple-cursors
                      powerline
-                     ))
+		     move-text
+		     ))
 
 ;; Backup folder
 (defvar --backup-directory (concat user-emacs-directory "backups"))
@@ -104,6 +105,9 @@
 
 ;; Kill the scratch buffer
 (kill-buffer "*scratch*")
+
+;;move text default binding
+(move-text-default-bindings)
 
 ;; Ansi term
 ;;(global-set-key (kbd "C-$a;") '(lambda ()(interactive)(ansi-term "/bin/zsh")))

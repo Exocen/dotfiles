@@ -212,6 +212,13 @@ alias upgrade='sudo dnf upgrade'
 alias mountntfs='sudo mount -t ntfs -o umask=0022,gid=33,uid=33 '
 alias mountfat='sudo mount -o umask=0022,gid=33,uid=33 '
 
+#docker
+alias docker_stop_c="docker stop $(docker ps -q)"
+alias docker_rm_c="docker rm $(docker ps -aq)"
+alias docker_rm_i="docker rmi $(docker images -q)"
+alias docker_rm_v="docker volume rm $(docker volume ls -q)"
+alias docker_rm_a="docker_stop_c && docker_rm_c && docker_rm_i && docker_rm_v"
+
 function reset() {
     # # saving work before reset
     # git commit -a -m "Saving my work, just in case"
