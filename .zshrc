@@ -217,7 +217,6 @@ alias docker_stop_c="docker stop $(docker ps -q)"
 alias docker_rm_c="docker rm $(docker ps -aq)"
 alias docker_rm_i="docker rmi $(docker images -q)"
 alias docker_rm_v="docker volume rm $(docker volume ls -q)"
-alias docker_rm_a="docker_stop_c && docker_rm_c && docker_rm_i && docker_rm_v"
 
 function reset() {
     # # saving work before reset
@@ -356,8 +355,16 @@ function unproxy() {
     unset ALL_PROXY
 }
 
+function docker_clean_everything(){
+    EXIT_STATUS=0
+    docker stop $(docker ps -q) || EXIT_STATUS=$?
+    docker rm $(docker ps -aq) || EXIT_STATUS=$?
+    docker rmi $(docker images -q) || EXIT_STATUS=$?
+    docker volume rm $(docker volume ls -q) || EXIT_STATUS=$?
+}
+
 function clean_orphan_packages(){
-  echo "CLEAN ORPHAN PACKAGES"
-  sudo pacman -Rsc --noconfirm $(pacman -Qqdt)
-  sudo pacman-optimize
+    echo "CLEAN ORPHAN PACKAGES"
+    sudo pacman -Rsc --noconfirm $(pacman -Qqdt)
+    sudo pacman-optimize
 }
