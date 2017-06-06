@@ -212,11 +212,11 @@ alias upgrade='sudo dnf upgrade'
 alias mountntfs='sudo mount -t ntfs -o umask=0022,gid=33,uid=33 '
 alias mountfat='sudo mount -o umask=0022,gid=33,uid=33 '
 
-#docker
-alias docker_stop_c="docker stop $(docker ps -q)"
-alias docker_rm_c="docker rm $(docker ps -aq)"
-alias docker_rm_i="docker rmi $(docker images -q)"
-alias docker_rm_v="docker volume rm $(docker volume ls -q)"
+#docker TODO in function
+#alias docker_stop_c="docker stop $(docker ps -q)"
+#alias docker_rm_c="docker rm $(docker ps -aq)"
+#alias docker_rm_i="docker rmi $(docker images -q)"
+#alias docker_rm_v="docker volume rm $(docker volume ls -q)"
 
 function reset() {
     # # saving work before reset
