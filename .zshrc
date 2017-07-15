@@ -357,10 +357,26 @@ function unproxy() {
 
 function docker_clean_everything(){
     EXIT_STATUS=0
-    docker stop $(docker ps -q) || EXIT_STATUS=$?
-    docker rm $(docker ps -aq) || EXIT_STATUS=$?
-    docker rmi $(docker images -q) || EXIT_STATUS=$?
-    docker volume rm $(docker volume ls -q) || EXIT_STATUS=$?
+    docker_stop_container || EXIT_STATUS=$?
+    docker_clean_container || EXIT_STATUS=$?
+    docker_clean_images || EXIT_STATUS=$?
+    docker_clean_volumes || EXIT_STATUS=$?
+}
+
+function docker_clean_container(){
+    docker rm $(docker ps -aq)
+}
+
+function docker_stop_container(){
+    docker stop $(docker ps -q)
+}
+
+function docker_clean_images(){
+    docker rmi $(docker images -q)
+}
+
+function docker_clean_volumes(){
+    docker volume rm $(docker volume ls -q)
 }
 
 function clean_orphan_packages(){
