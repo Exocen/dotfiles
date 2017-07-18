@@ -267,7 +267,7 @@ alias apshow='apt-cache showpkg'
 alias yai='yaourt -Sy'
 alias yar='yaourt -R'
 alias yau='yaourt -Syua'
-alias yas='yaourt -a'
+alias yas='yaourt -Ss'
 alias yac='clean_orphan_packages'
 
 # yum
