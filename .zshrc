@@ -267,7 +267,7 @@ alias apshow='apt-cache showpkg'
 alias yai='yaourt -Sy'
 alias yar='yaourt -R'
 alias yau='yaourt -Syua'
-alias yas='yaourt -Ss'
+alias yas='yaourt -a'
 alias yac='clean_orphan_packages'
 
 # yum
@@ -381,6 +381,6 @@ function docker_clean_volumes(){
 
 function clean_orphan_packages(){
     echo "CLEAN ORPHAN PACKAGES"
-    sudo pacman -Rsc --noconfirm $(pacman -Qqdt)
+    yaourt -Qdt
     sudo pacman-optimize
 }
