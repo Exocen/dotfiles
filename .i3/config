@@ -89,6 +89,10 @@ bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
+# move next or previous
+bindsym $mod+ctrl+Left workspace prev
+bindsym $mod+ctrl+Right workspace next
+
 # move focused window
 bindsym $mod+Shift+j move left
 bindsym $mod+Shift+k move down
