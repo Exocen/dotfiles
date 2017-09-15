@@ -52,6 +52,15 @@
       [
         "https://media.giphy.com/media/egjCAYphmLmrm/giphy.gif"
       ]
+    ],
+    [
+      [
+        "regex:cry([a-zA-Z0-9-_]+)",
+        "regex:pleur([a-zA-Z0-9-_]+)"
+      ],
+      [
+        "http://www.reactiongifs.com/r/bc.gif"
+      ]
     ]
   ],
   "autoreplies_enabled": true,
