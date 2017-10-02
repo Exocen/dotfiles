@@ -1,13 +1,13 @@
 # redirection http vers https
 server {
     listen 80;
-    listen [::]:80; 
+    listen [::]:80;
     server_name exocen.com;
     location ~ /\.well-known/acme-challenge {
         allow all;
     }
     location / {
-        return 301 https://exocen.com$request_uri; 
+        return 301 https://exocen.com$request_uri;
     }
 }
 
@@ -25,14 +25,14 @@ server {
 
 
 
-   # server_nameble HSTS(HTTP Strict Transport Security)
-    add_header Strict-Transport-Security "max-age=63072000; includeSubdomains;"; 
+    # server_nameble HSTS(HTTP Strict Transport Security)
+    add_header Strict-Transport-Security "max-age=63072000; includeSubdomains;";
     server_name exocen.com;
     root /var/www/html;
     index index.html index.htm;
     error_log /var/log/nginx/exocen.com.log notice;
     access_log off;
-    
+
     ####    Locations
     # On cache les fichiers statiques
     location ~* \.(html|css|js|png|jpg|jpeg|gif|ico|svg|eot|woff|ttf)$ { expires max; }
