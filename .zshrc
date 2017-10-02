@@ -305,36 +305,27 @@ function dkill() {
     kill -9 $mykill 2> /dev/null
 }
 
-function untar() {
-    case $1 in
-        *tar.xz|*.txz|*.xz)
-            tar xJvf $1
-            ;;
-        *.tar.gz|*.tgz|*.gz|*.tar)
-            tar xvf $1
-            ;;
-        *.tar.bz2|*.tbz2*.bz2)
-            tar xjvf $1
-            ;;
-        *.zip)
-            unzip $1
-            ;;
-        *.rar)
-            unrar e $1
-            ;;
-        *.ace)
-            unace e $1
-            ;;
-        *)
-            echo "Archive not supported by this awesome function !"
-            # exit;;
-    esac
+function extract() {
+    if [ -f $1 ] ; then
+        case $1 in
+            *.tar.bz2)   tar xvjf $1     ;;
+            *.tar.gz)    tar xvzf $1     ;;
+            *.bz2)       bunzip2 $1      ;;
+            *.rar)       unrar x $1      ;;
+            *.gz)        gunzip $1       ;;
+            *.tar)       tar xvf $1      ;;
+            *.tbz2)      tar xvjf $1     ;;
+            *.tgz)       tar xvzf $1     ;;
+            *.zip)       unzip $1        ;;
+            *.Z)         uncompress $1   ;;
+            *.7z)        7z x $1         ;;
+            *)           echo "'$1' cannot be extracted via >extract<" ;;
+        esac
+    else
+        echo "'$1' is not a valid file!"
+    fi
 }
 
-# remplaced by fuspaces
-# function repl(){
-#     for file in $@; do mv "$file" `echo $file | tr ' ' '_'` ; done
-# }
 
 function eproxy() {
     export https_proxy="http://55.1.35.228:8080"
