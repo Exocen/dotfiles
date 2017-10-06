@@ -172,7 +172,7 @@ alias railsprecompile='RAILS_ENV=production bundle exec rake assets:precompile'
 # Archives goodies...
 alias tarxz='tar xJvf'
 #alias targz='tar xvf'
-alias targz='tar czvf'
+#alias targz='tar czvf' +> maketar
 alias tarbz='tar xjvf'
 #alias ungz='tar xvf'
 alias ungz='tar xzvf'
@@ -217,6 +217,15 @@ alias mountfat='sudo mount -o umask=0022,gid=33,uid=33 '
 #alias docker_rm_c="docker rm $(docker ps -aq)"
 #alias docker_rm_i="docker rmi $(docker images -q)"
 #alias docker_rm_v="docker volume rm $(docker volume ls -q)"
+
+# Creates an archive (*.tar.gz) from given directory.
+function maketar() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
+
+# Create a ZIP archive of a file or folder.
+function makezip() { zip -r "${1%%/}.zip" "$1" ; }
+
+# Make your directories and files access rights sane.
+function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}
 
 function reset() {
     # # saving work before reset
@@ -291,7 +300,7 @@ function lk() {
 }
 
 function del(){
-    mv -f $@ /tmp/
+    mv  --backup=t $@ /tmp/
 }
 
 function c() {
@@ -305,7 +314,9 @@ function dkill() {
     kill -9 $mykill 2> /dev/null
 }
 
-function extract() {
+
+function extract()      # Handy Extract Program
+{
     if [ -f $1 ] ; then
         case $1 in
             *.tar.bz2)   tar xvjf $1     ;;
@@ -325,7 +336,6 @@ function extract() {
         echo "'$1' is not a valid file!"
     fi
 }
-
 
 function eproxy() {
     export https_proxy="http://55.1.35.228:8080"
