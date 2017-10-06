@@ -300,7 +300,7 @@ function lk() {
 }
 
 function del(){
-    mv -f $@ /tmp/
+    mv  --backup=t $@ /tmp/
 }
 
 function c() {
