@@ -172,7 +172,7 @@ alias railsprecompile='RAILS_ENV=production bundle exec rake assets:precompile'
 # Archives goodies...
 alias tarxz='tar xJvf'
 #alias targz='tar xvf'
-alias targz='tar czvf'
+#alias targz='tar czvf' +> maketar
 alias tarbz='tar xjvf'
 #alias ungz='tar xvf'
 alias ungz='tar xzvf'
@@ -218,6 +218,15 @@ alias mountfat='sudo mount -o umask=0022,gid=33,uid=33 '
 #alias docker_rm_i="docker rmi $(docker images -q)"
 #alias docker_rm_v="docker volume rm $(docker volume ls -q)"
 
+# Creates an archive (*.tar.gz) from given directory.
+function maketar() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
+
+# Create a ZIP archive of a file or folder.
+function makezip() { zip -r "${1%%/}.zip" "$1" ; }
+
+# Make your directories and files access rights sane.
+function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}
+
 function reset() {
     # # saving work before reset
     # git commit -a -m "Saving my work, just in case"
@@ -251,11 +260,12 @@ alias drestart='sudo systemctl restart'
 alias apu='sudo apt update'
 alias appg='sudo apt upgrade'
 alias apd='sudo apt dist-upgrade'
-alias apugd='sudo apt -y full-upgrade'
+alias apugd='sudo apt -y full-upgrade && sudo apt autoremove -y && sudo apt purge $(dpkg -l | grep "^rc" | awk "{print $2}") -y'
 alias api='sudo apt install'
 alias apie='sudo apt install -t experimental'
 alias apr='sudo apt remove'
 alias app='sudo apt purge'
+alias appa='sudo apt purge $(dpkg -l | grep "^rc" | awk "{print $2}") -y'
 alias apar='sudo apt autoremove'
 alias apcc='sudo apt clean && sudo apt autoclean'
 alias apsearch='apt-cache search'
@@ -290,7 +300,7 @@ function lk() {
 }
 
 function del(){
-    mv -f $@ /tmp/
+    mv  --backup=t $@ /tmp/
 }
 
 function c() {
@@ -304,36 +314,27 @@ function dkill() {
     kill -9 $mykill 2> /dev/null
 }
 
-function untar() {
-    case $1 in
-        *tar.xz|*.txz|*.xz)
-            tar xJvf $1
-            ;;
-        *.tar.gz|*.tgz|*.gz|*.tar)
-            tar xvf $1
-            ;;
-        *.tar.bz2|*.tbz2*.bz2)
-            tar xjvf $1
-            ;;
-        *.zip)
-            unzip $1
-            ;;
-        *.rar)
-            unrar e $1
-            ;;
-        *.ace)
-            unace e $1
-            ;;
-        *)
-            echo "Archive not supported by this awesome function !"
-            # exit;;
-    esac
+function extract()      # Handy Extract Program
+{
+    if [ -f $1 ] ; then
+        case $1 in
+            *.tar.bz2)   tar xvjf $1     ;;
+            *.tar.gz)    tar xvzf $1     ;;
+            *.bz2)       bunzip2 $1      ;;
+            *.rar)       unrar x $1      ;;
+            *.gz)        gunzip $1       ;;
+            *.tar)       tar xvf $1      ;;
+            *.tbz2)      tar xvjf $1     ;;
+            *.tgz)       tar xvzf $1     ;;
+            *.zip)       unzip $1        ;;
+            *.Z)         uncompress $1   ;;
+            *.7z)        7z x $1         ;;
+            *)           echo "'$1' cannot be extracted via >extract<" ;;
+        esac
+    else
+        echo "'$1' is not a valid file!"
+    fi
 }
-
-# remplaced by fuspaces
-# function repl(){
-#     for file in $@; do mv "$file" `echo $file | tr ' ' '_'` ; done
-# }
 
 function eproxy() {
     export https_proxy="http://55.1.35.228:8080"
