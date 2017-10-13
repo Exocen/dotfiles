@@ -260,11 +260,10 @@ alias drestart='sudo systemctl restart'
 alias apu='sudo apt update'
 alias appg='sudo apt upgrade'
 alias apd='sudo apt dist-upgrade'
-alias apugd="sudo apt -y full-upgrade && sudo apt autoremove -y && sudo apt purge $(dpkg -l | grep '^rc' | awk '{print $2}') -y"
+alias apugd="sudo apt -y full-upgrade && sudo apt autoremove -y && aptpurge"
 alias api='sudo apt install'
 alias apie='sudo apt install -t experimental'
 alias apr='sudo apt remove'
-alias app='sudo apt purge'
 alias appa="sudo apt purge $(dpkg -l | grep '^rc' | awk '{print $2}') -y"
 alias apar='sudo apt autoremove'
 alias apcc='sudo apt clean && sudo apt autoclean'
@@ -297,6 +296,10 @@ alias sc='cd /tmp/ && java -jar ~/Scripts/sbt-launch.jar console'
 # My functions
 function lk() {
     grep -rHsni "$1" .
+}
+
+function aptpurge() {
+    sudo apt purge $(dpkg -l | grep '^rc' | awk '{print $2}') -y
 }
 
 function del(){
