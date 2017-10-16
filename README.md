@@ -34,4 +34,5 @@ echo 'options uvcvideo quirks=0x100' | sudo tee -a /etc/modprobe.d/uvcvideo.conf
 
 TODO
 TODO i3 block
+TODO cv => gpg -do cv.tar.gz cv.tar.gz.gpg && extract cv.tar.gz
 +thx anachron
