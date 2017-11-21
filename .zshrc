@@ -177,6 +177,7 @@ alias tarbz='tar xjvf'
 #alias ungz='tar xvf'
 alias ungz='tar xzvf'
 alias unbz='tar xjvf'
+alias viewtar='tar -tf'
 
 # dpkg...
 alias dbi='sudo dpkg -i'
