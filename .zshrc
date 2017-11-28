@@ -265,7 +265,6 @@ alias apugd="sudo apt -y full-upgrade && sudo apt autoremove -y && aptpurge"
 alias api='sudo apt install'
 alias apie='sudo apt install -t experimental'
 alias apr='sudo apt remove'
-alias appa="sudo apt purge $(dpkg -l | grep '^rc' | awk '{print $2}') -y"
 alias apar='sudo apt autoremove'
 alias apcc='sudo apt clean && sudo apt autoclean'
 alias apsearch='apt-cache search'
