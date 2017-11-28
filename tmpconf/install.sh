@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git clone https://github.com/exocen/hangoutsbot /usr/local/hangoutsbot
+git clone https://github.com/exocen/hangoutsbot ~
 
 # Append the appropriate stanza to /etc/apt/sources.list.
 
