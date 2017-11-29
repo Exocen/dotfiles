@@ -37,4 +37,7 @@ TODO i3 block
 TODO cv => gpg -do cv.tar.gz cv.tar.gz.gpg && extract cv.tar.gz
 +thx anachron
 mail review
+
 ln -s /etc/ca-certificates/extracted/ca-bundle.trust.crt /etc/ssl/certs/ca-certificates.crt
+
+add yaourt
