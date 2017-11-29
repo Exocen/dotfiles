@@ -36,6 +36,5 @@ TODO
 TODO i3 block
 TODO cv => gpg -do cv.tar.gz cv.tar.gz.gpg && extract cv.tar.gz
 +thx anachron
-nginx tls 1.3
 mail review
-certbot --nginx -d example.com -d www.example.com --email mail.example.com
+ln -s /etc/ca-certificates/extracted/ca-bundle.trust.crt /etc/ssl/certs/ca-certificates.crt
