@@ -12,6 +12,8 @@ yaourt -Sy python-postfix-policyd-spf
 # only user mode :(
 cp /etc/opendkim/opendkim.conf
 opendkim-genkey -r -s myselector --directory=/etc/opendkim/ -d exocen.com   
+# cp /etc/postfix/virtual
+# postmap /etc/postfix/virtual
 # cat /etc/opendkim/myselector.txt
 systemctl enable opendkim
 systemctl start opendkim
