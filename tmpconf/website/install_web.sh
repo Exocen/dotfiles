@@ -1,6 +1,6 @@
 yai nginx-mainline certbot-nginx
-extract html.tar.gz
-/bin/cp -f index.html robot.txt poro-sad.png /usr/share/nginx/html
+extract html2.tar.gz
+/bin/cp -f html2 /usr/share/nginx/html2
 mkdir -p /etc/nginx/sites-enabled/
 /bin/cp -f nginx.conf /etc/nginx/
 /bin/cp -f default /etc/nginx/sites-enabled/
