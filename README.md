@@ -31,6 +31,13 @@ Works on
 echo 'options uvcvideo quirks=0x100' | sudo tee -a /etc/modprobe.d/uvcvideo.conf
 ```
 
+crontab
+````
+MAILTO=
+
+@monthly certbot --nginx renew
+@daily yaourt -Sya  > /dev/null 2>&1 && yaourt -Qu 2>/dev/null
+````
 
 TODO
 TODO i3 block
@@ -41,3 +48,4 @@ mail review
 ln -s /etc/ca-certificates/extracted/ca-bundle.trust.crt /etc/ssl/certs/ca-certificates.crt
 
 add yaourt
+
