@@ -73,7 +73,8 @@ function ins {
         sudo dnf install $@ -y #> /dev/null 2>&1
         is_working "Installation de $all"
     elif [ "$WOS" = "Arch" ] ;then
-        yaourt -Sau
+        yaourt-install
+        yaourt -Sau --noconfirm
         yaourt -Sy $@ --noconfirm #> /dev/null 2>&1
         is_working "Installation de $all"
     else
@@ -81,6 +82,15 @@ function ins {
     fi
 }
 
+function yaourt-install {
+    grep -v "archlinux" /etc/pacman.conf | grep -v "SigLevel = Never" > /tmp/pacman.conf
+    echo '[archlinuxfr]
+SigLevel = Never
+Server = http://repo.archlinux.fr/$arch' >> /tmp/pacman.conf
+    mv /tmp/pacman.conf /etc/pacman.conf
+    pacman -Sy yaourt --noconfirm
+    is_working "Installation du yaourt"
+}
 
 function make {
     detectOS
@@ -90,7 +100,7 @@ function make {
     home_ln .emacs
     home_cp .oh-my-zsh/
     home_cp .oh-my-zsh/.*
-    ins vim vlc git htop iftop iotop tree zsh make wget #util-linux-user #for fed only
+    ins vim vlc git htop iftop iotop tree zsh make wget
     chsh -s /usr/bin/zsh
     if  [ "$1" = "f" ]
     then
