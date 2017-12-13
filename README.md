@@ -12,6 +12,7 @@ Fonctionne sur
 * Ubuntu (>15 for emacs plugins)
 * Fedora
 * Debian
+* Arch
 
 Use oh-my-zsh repos [oh-my-zsh](https://github.com/exocen/oh-my-zsh.git)
 
@@ -24,6 +25,9 @@ Works on
 * Ubuntu
 * Arch Linux (on arch_linux branch)
 
+Arch first install :
+useradd -m -g users -G wheel -s /bin/bash ${username}
+passwd ${username}
 
 
 ###### Arch linux hercules dual pix webcam :
@@ -38,9 +42,8 @@ MAILTO=
 @monthly certbot --nginx renew
 @daily yaourt -Sya  > /dev/null 2>&1 && yaourt -Qu 2>/dev/null
 ````
-
+ 
 TODO
-TODO i3 block
 TODO cv => gpg -do cv.tar.gz cv.tar.gz.gpg && extract cv.tar.gz
 +thx anachron
 
