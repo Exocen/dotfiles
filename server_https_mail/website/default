@@ -2,7 +2,7 @@
 server {
     listen 80;
     listen [::]:80;
-    server_name exocen.com www.exocen.com;
+    server_name HOSTNAME www.HOSTNAME;
     root /usr/share/nginx/html/;
     location ~ /\.well-known/acme-challenge {
         allow all;
