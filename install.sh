@@ -87,8 +87,8 @@ function yaourt-install {
     echo '[archlinuxfr]
 SigLevel = Never
 Server = http://repo.archlinux.fr/$arch' >> /tmp/pacman.conf
-    mv /tmp/pacman.conf /etc/pacman.conf
-    pacman -Sy yaourt --noconfirm
+    sudo mv /tmp/pacman.conf /etc/pacman.conf
+    sudo pacman -Sy yaourt --noconfirm
     is_working "Installation du yaourt"
 }
 
