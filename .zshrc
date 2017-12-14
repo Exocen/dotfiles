@@ -65,6 +65,7 @@ zstyle ':completion:*:kill:*' force-list always
 
 # cd not select parent dir.
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
+zstyle ':completion:*:c:*'  file-patterns "*(-/)" ignore-parents parent pwd
 
 # Key bindings
 typeset -g -A key
