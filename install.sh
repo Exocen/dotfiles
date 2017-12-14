@@ -9,9 +9,9 @@ function makeItColorful {
 
 function is_working {
     if [ $? -eq 0 ];then
-        makeItColorful "Réussite : $1" $GREEN
+        makeItColorful "Success : $1" $GREEN
     else
-        makeItColorful "Echec : $1" $RED
+        makeItColorful "Fail : $1" $RED
     fi
 }
 
@@ -56,7 +56,7 @@ function home_ln {
 function home_cp {
     unalias cp > /dev/null 2>&1
     cp -fr `pwd`/$1 ~/$1 > /dev/null 2>&1
-    is_working "Copie de $1 sur ~"
+    is_working "Copy $1 to ~"
     alias cp="cp -iv" > /dev/null 2>&1
 }
 
@@ -67,18 +67,18 @@ function ins {
     if [ "$WOS" = "Ubuntu" ] || [ "$WOS" = "Debian" ] ;then
         sudo apt update -y > /dev/null 2>&1
         sudo apt install $@ -y # > /dev/null 2>&1
-        is_working "Installation de $all"
+        is_working "$all installed"
     elif [ "$WOS" = "Fedora" ] ;then
         sudo dnf update -y #> /dev/null 2>&1
         sudo dnf install $@ -y #> /dev/null 2>&1
-        is_working "Installation de $all"
+        is_working "$all installed"
     elif [ "$WOS" = "Arch" ] ;then
         yaourt-install
         yaourt -Sau --noconfirm
         yaourt -Sy $@ --noconfirm #> /dev/null 2>&1
-        is_working "Installation de $all"
+        is_working "$all installed"
     else
-        makeItColorful "OS Inconnu" $RED
+        makeItColorful "Unknow OS" $RED
     fi
 }
 
@@ -89,7 +89,7 @@ SigLevel = Never
 Server = http://repo.archlinux.fr/$arch' >> /tmp/pacman.conf
     sudo mv /tmp/pacman.conf /etc/pacman.conf
     sudo pacman -Sy yaourt --noconfirm
-    is_working "Installation du yaourt"
+    is_working "Yaourt installation"
 }
 
 function make {
@@ -111,7 +111,7 @@ function make {
         }
     else
         {
-            echo "Argument 'f' pour installation complète"
+            echo "'f' Argument full installation"
         }
     fi
 
