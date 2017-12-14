@@ -18,7 +18,7 @@
  '(markdown-command "markdown2")
  '(package-selected-packages
    (quote
-    (nginx-mode move-text smex powerline multiple-cursors magit expand-region drag-stuff company browse-kill-ring autopair auto-complete ace-jump-mode)))
+    (markdown-mode nginx-mode move-text smex powerline multiple-cursors magit expand-region drag-stuff company browse-kill-ring autopair auto-complete ace-jump-mode)))
  '(show-paren-mode t)
  '(uniquify-buffer-name-satyle (quote forward) nil (uniquify)))
 (custom-set-faces
@@ -52,6 +52,7 @@
                      multiple-cursors
                      powerline
 		     move-text
+		     markdown-mode
 		     nginx-mode
 		     ))
 

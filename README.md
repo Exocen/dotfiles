@@ -25,15 +25,12 @@ Works on
 * Ubuntu
 * Arch Linux (on arch_linux branch)
 
-Arch first install :
-useradd -m -g users -G wheel -s /bin/bash ${username}
-passwd ${username}
-
-
 ###### Arch linux hercules dual pix webcam :
 ```shell
 echo 'options uvcvideo quirks=0x100' | sudo tee -a /etc/modprobe.d/uvcvideo.conf
 ```
+
+TODO
 
 crontab
 ````
@@ -42,13 +39,6 @@ MAILTO=
 @monthly certbot --nginx renew
 @daily yaourt -Sya  > /dev/null 2>&1 && yaourt -Qu 2>/dev/null
 ````
- 
-TODO
-TODO cv => gpg -do cv.tar.gz cv.tar.gz.gpg && extract cv.tar.gz
-+thx anachron
-
-mail review
+cv => gpg -do cv.tgz cv.tgz.gpg && extract cv.tgz
 
 ln -s /etc/ca-certificates/extracted/ca-bundle.trust.crt /etc/ssl/certs/ca-certificates.crt
-
-add yaourt
