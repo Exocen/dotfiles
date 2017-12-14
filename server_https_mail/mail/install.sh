@@ -2,8 +2,8 @@
 
 sudo hostnamectl set-hostname HOSTNAME
 yaourt -Sy postfix --noconfirm
-sudo /bin/cp /etc/postfix/main.conf -f
-sudo /bin/cp /etc/postfix/master.cf -f
+sudo /bin/cp main.cf /etc/postfix/main.cf -f
+sudo /bin/cp master.cf /etc/postfix/master.cf -f
 # openssl dhparam -out /etc/postfix/dhparam.pem 2048 # si aucun ssl
 sudo postalias /etc/postfix/aliases
 
