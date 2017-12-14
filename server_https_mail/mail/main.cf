@@ -91,7 +91,7 @@ mail_owner = postfix
 # from gethostname(). $myhostname is used as a default value for many
 # other configuration parameters.
 #
-myhostname = mail.HOSTNAME
+myhostname = HOSTNAME
 #myhostname = virtual.domain.tld
 
 # The mydomain parameter specifies the local internet domain name.
@@ -696,4 +696,4 @@ smtpd_tls_security_level = may
 smtp_tls_note_starttls_offer = yes
 smtpd_tls_loglevel = 1
 smtpd_tls_received_header = yes
-virtual_alias_maps = hash:/etc/postfix/virtual 
+# virtual_alias_maps = hash:/etc/postfix/virtual 
