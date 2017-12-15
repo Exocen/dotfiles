@@ -304,7 +304,7 @@ function aptpurge() {
 }
 
 function del(){
-    mv  --backup=t $@ /tmp/
+    for file in "$@"; do mv --backup=t "$file" /tmp/ ;done
 }
 
 function c() {
