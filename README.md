@@ -40,7 +40,7 @@ echo 'options uvcvideo quirks=0x100' | sudo tee -a /etc/modprobe.d/uvcvideo.conf
 
 * crontab auto
 ````
-EDITOR=vim crontab -e
+sudo EDITOR=vim crontab -e
 ````
 ````
 MAILTO=
