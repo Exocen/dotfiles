@@ -13,11 +13,12 @@ sudo opendkim-genkey -r -s myselector --directory=/etc/opendkim/ -d HOSTNAME
 sudo systemctl enable postfix opendkim
 sudo systemctl start postfix opendkim
 
-# DKIM selector value : 
+# DKIM selector value :
 # cat /etc/opendkim/myselector.txt
 
 # Mail redirection :
 # add "name@HOSTNAME mail-to-go" to end of /etc/postfix/virtual
 # Ex bob@bob.com bob@gmail.com
+# Ex @HOSTNAME bob@gmail.com # for all received mails
 # then
 # postmap /etc/postfix/virtual
