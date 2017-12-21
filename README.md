@@ -43,7 +43,7 @@ echo 'options uvcvideo quirks=0x100' | sudo tee -a /etc/modprobe.d/uvcvideo.conf
 MAILTO=
 
 @monthly certbot --nginx renew
-@daily yaourt -Sya  > /dev/null 2>&1 && yaourt -Qu 2>/dev/null
+@weekly yaourt -Sya  > /dev/null 2>&1 && yaourt -Qu 2>/dev/null
 ````
 * cv => gpg -do cv.tgz cv.tgz.gpg && extract cv.tgz
 
