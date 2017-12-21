@@ -34,6 +34,10 @@ echo 'options uvcvideo quirks=0x100' | sudo tee -a /etc/modprobe.d/uvcvideo.conf
 
 ### TODO
 
+* dovecot
+
+* spamassassin
+
 * crontab auto
 ````
 MAILTO=
