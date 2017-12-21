@@ -43,7 +43,7 @@ echo 'options uvcvideo quirks=0x100' | sudo tee -a /etc/modprobe.d/uvcvideo.conf
 sudo EDITOR=vim crontab -e
 ````
 ````
-MAILTO=
+MAILTO=""
 
 @monthly certbot --nginx renew
 @weekly yaourt -Sya  > /dev/null 2>&1 && yaourt -Qu 2>/dev/null
