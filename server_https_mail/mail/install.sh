@@ -14,9 +14,9 @@ sudo systemctl enable postfix opendkim
 sudo systemctl start postfix opendkim
 
 # DKIM selector value :
-# cat /etc/opendkim/myselector.txt
+echo "cat /etc/opendkim/myselector.txt"
 
-echo "Do you want to redirect all your emails ?"
+echo "Do you want to redirect all your emails ?(y/N)"
 read answer
 if [ "$answer" == "Y" ] || [ "$answer" == "y" ] || [ "$answer" == "YES" ] || [ "$answer" == "yes" ];then
     sh ./redirect_install.sh 
