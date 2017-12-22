@@ -10,5 +10,5 @@ sudo systemctl start nginx
 sudo certbot --nginx -n --agree-tos --rsa-key-size 4096 --register-unsafely-without-email -d HOSTNAME -d www.HOSTNAME
 # auto certbot
 sudo /bin/cp -f default_https /etc/nginx/sites-enabled/default
-sudo openssl dhparam -out /etc/nginx/dhparam.pem 4096 
+sudo openssl dhparam -out /etc/nginx/dhparam.pem 2048 
 sudo systemctl restart nginx
