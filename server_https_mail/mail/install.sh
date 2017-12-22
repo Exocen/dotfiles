@@ -16,9 +16,10 @@ sudo systemctl start postfix opendkim
 # DKIM selector value :
 # cat /etc/opendkim/myselector.txt
 
-# Mail redirection :
-# add "name@HOSTNAME mail-to-go" to end of /etc/postfix/virtual
-# Ex bob@bob.com bob@gmail.com
-# Ex @HOSTNAME bob@gmail.com # for all received mails
-# then
-# postmap /etc/postfix/virtual
+echo "Do you want to redirect all your emails ?"
+read answer
+if [ "$answer" == "Y" ] || [ "$answer" == "y" ] || [ "$answer" == "YES" ] || [ "$answer" == "yes" ];then
+    sh ./redirect_install.sh 
+else
+    echo 'Cancel'
+fi
