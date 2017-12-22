@@ -696,4 +696,3 @@ smtpd_tls_security_level = may
 smtp_tls_note_starttls_offer = yes
 smtpd_tls_loglevel = 1
 smtpd_tls_received_header = yes
-# virtual_alias_maps = hash:/etc/postfix/virtual 
