@@ -3,7 +3,7 @@
 
 echo "Hostname ? :"
 read hostname
-echo $hostname" ? (Y/N)"
+echo $hostname" ? (y/N)"
 read answer
 if [ "$answer" == "Y" ] || [ "$answer" == "y" ] || [ "$answer" == "YES" ] || [ "$answer" == "yes" ];then
     echo 'Pre-install.....'
@@ -13,7 +13,7 @@ else
     echo 'Cancel'
 fi
 
-echo "Download HangoutBot ? (Y/N)"
+echo "Download HangoutBot ? (y/N)"
 read answer
 if [ "$answer" == "Y" ] || [ "$answer" == "y" ] || [ "$answer" == "YES" ] || [ "$answer" == "yes" ];then
     git clone https://github.com/exocen/hangoutsbot
