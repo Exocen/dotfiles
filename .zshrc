@@ -157,71 +157,36 @@ alias xem='sudo emacs -nw'
 alias iftop='sudo iftop'
 alias ifconfig='sudo ifconfig'
 alias powertop='sudo powertop'
-alias -g S='&> /dev/null &'
 alias tre='tree -C --dirsfirst'
 alias rmcache='sudo rm -rf ~/.cache/'
 alias fuspaces='for f in *\ *; do mv "$f" "${f// /_}"; done '
-alias rvminstall='curl -L get.rvm.io | bash -s stable'
 alias grubconf='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
 alias openvpnconf='sudo openvpn --config'
-
-#ruby/rails
-alias railsinstall='gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3 && \curl -sSL https://get.rvm.io | bash -s stable --ruby && echo "gem: --no-rdoc --no-ri" > ~/.gemrc'
-alias railsremove='rvm implode && gem uninstall rvm'
-alias railsprecompile='RAILS_ENV=production bundle exec rake assets:precompile'
-
-# Archives goodies...
-alias tarxz='tar xJvf'
-#alias targz='tar xvf'
-#alias targz='tar czvf' +> maketar
-alias tarbz='tar xjvf'
-#alias ungz='tar xvf'
-alias ungz='tar xzvf'
-alias unbz='tar xjvf'
 alias viewtar='tar -tf'
+
 
 # dpkg...
 alias dbi='sudo dpkg -i'
 alias dbr='sudo dpkg -r'
 
-# git...
-alias clone='git clone'
-alias pull='git pull'
-alias add='git add --all'
-alias remote='git remote add origin'
-alias push='git push'
-alias status='git status'
-alias commit='git commit -am'
-alias forget='git update-index --assume-unchanged'
-alias track='git update-index --no-assume-unchanged'
-alias checkout='git checkout'
-alias gclean='git clean -idx'
-
 #dnf
 alias dnf='sudo dnf'
-alias distclean='sudo dnf clean all'
-alias distsync='sudo dnf distro-sync'
-alias fek='fedora-easy-karma --fas-username=rorgoroth'
-alias install='sudo dnf install'
-alias pkgclean='sudo dnf remove $(package-cleanup --leaves)'
-alias remove='sudo dnf erase'
-alias search='sudo dnf search'
-alias show='sudo dnf info'
-alias update='sudo dnf check-update'
-alias upgrade='sudo dnf upgrade'
+alias dnfdistclean='sudo dnf clean all'
+alias dnfdistsync='sudo dnf distro-sync'
+alias dnfi='sudo dnf install'
+alias dnfpkgclean='sudo dnf remove $(package-cleanup --leaves)'
+alias dnfr='sudo dnf erase'
+alias dnfs='sudo dnf search'
+alias dnfshow='sudo dnf info'
+alias dnfupd='sudo dnf check-update'
+alias dnfupg='sudo dnf upgrade'
 
 #mount
 alias mountntfs='sudo mount -t ntfs -o umask=0022,gid=33,uid=33 '
 alias mountfat='sudo mount -o umask=0022,gid=33,uid=33 '
 
-#docker TODO in function
-#alias docker_stop_c="docker stop $(docker ps -q)"
-#alias docker_rm_c="docker rm $(docker ps -aq)"
-#alias docker_rm_i="docker rmi $(docker images -q)"
-#alias docker_rm_v="docker volume rm $(docker volume ls -q)"
-
 # Creates an archive (*.tar.gz) from given directory.
-function maketar() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
+function maketar() { tar cvzf "${1%%/}.tgz"  "${1%%/}/"; }
 
 # Create a ZIP archive of a file or folder.
 function makezip() { zip -r "${1%%/}.zip" "$1" ; }
@@ -242,7 +207,6 @@ function git_config() {
     git config --global user.email Exocen@users.noreply.github.com
     git config --global user.name "Exocen"
     git config --global push.default simple
-
     # git config --unset credential.helper # resume password check
 }
 
@@ -287,13 +251,6 @@ alias yi='sudo yum install --color=always'
 alias yr='sudo yum autoremove --color=always'
 alias yc='sudo yum clean all --color=always'
 
-# sbt
-alias t='java -jar ~/Scripts/sbt-launch.jar'
-alias sbt='java -jar ~/Scripts/sbt-launch.jar'
-
-# scala
-alias sc='cd /tmp/ && java -jar ~/Scripts/sbt-launch.jar console'
-
 # My functions
 function lk() {
     grep -rHsni "$1" .
@@ -333,6 +290,8 @@ function extract()      # Handy Extract Program
             *.tgz)       tar xvzf $1     ;;
             *.zip)       unzip $1        ;;
             *.Z)         uncompress $1   ;;
+	    *.xz)        tar xvf $1      ;;
+	    *.bz)        tar xjvf $1     ;;
             *.7z)        7z x $1         ;;
             *)           echo "'$1' cannot be extracted via >extract<" ;;
         esac
@@ -342,12 +301,12 @@ function extract()      # Handy Extract Program
 }
 
 function eproxy() {
-    export https_proxy="http://55.1.35.228:8080"
-    export http_proxy="http://55.1.35.228:8080"
-    export ftp_proxy="http://55.1.35.228:8080"
-    export sftp_proxy="http://55.1.35.228:8080"
-    export npm_config_proxy="http://55.1.35.228:8080"
-    export npm_config_https_proxy="http://55.1.35.228:8080"
+    export https_proxy=$1
+    export http_proxy=$1
+    export ftp_proxy=$1
+    export sftp_proxy=$1
+    export npm_config_proxy=$1
+    export npm_config_https_proxy=$1
     export ALL_PROXY=$http_proxy
 }
 
