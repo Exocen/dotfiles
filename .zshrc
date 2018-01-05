@@ -1,6 +1,5 @@
-#ZSH_THEME="CUSTOM_afowler" # Optionally, set this to "random"
 CASE_SENSITIVE="false"
-#DISABLE_AUTO_UPDATE="TRUE"
+DISABLE_AUTO_UPDATE="true"
 DISABLE_LS_COLORS="false"
 DISABLE_AUTO_TITLE="false"
 COMPLETION_WAITING_DOTS="true"
@@ -39,18 +38,19 @@ HISTFILE=~/.zsh_history
 # Vars used later on by zsh
 export EDITOR="emacs -nw"
 export SVN_EDITOR="emacs -nw"
-export BROWSER=chromium
+export BROWSER=firefox
 export TERM=xterm-256color
 
 #ohmyzsh !
 export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="gallois"
-plugins=(git docker rails sudo gradle mvn)
+plugins=(git docker sudo systemd)
+# systemd plug -> sc-cmd
+# sudo plug -> ESC * 2
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration omz
-
 compinit -C
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
@@ -104,6 +104,7 @@ alias -s py=$EDITOR
 alias -s txt=$EDITOR
 alias -s PKGBUILD=$EDITOR
 alias -s jar=java -jar
+alias -s pdf='evince'
 
 # Utilities aliases
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -116,7 +117,6 @@ alias cl='clear'
 alias cp='cp -vi'
 alias s='cd ..'
 alias dudu='du -hd1 | sort -h'
-#alias rm='rm -i'
 alias rmi='rm -iv --preserve-root'
 alias trash='mkdir -pv ~/.Trash && mv -fv --target-directory=$HOME/.Trash'
 alias af='ll ~/.Trash'
@@ -150,7 +150,6 @@ alias ipy='ipython3'
 alias pl='perl -d -e 1'
 alias pdflatex='mkdir -p tmp/; pdflatex --output-directory=tmp/'
 alias jar='java -jar'
-alias -s pdf='evince'
 alias am='alsamixer'
 alias em='emacs -nw'
 alias xem='sudo emacs -nw'
@@ -164,65 +163,17 @@ alias grubconf='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
 alias openvpnconf='sudo openvpn --config'
 alias viewtar='tar -tf'
 
-
-# dpkg...
-alias dbi='sudo dpkg -i'
-alias dbr='sudo dpkg -r'
-
-#dnf
-alias dnf='sudo dnf'
-alias dnfdistclean='sudo dnf clean all'
-alias dnfdistsync='sudo dnf distro-sync'
-alias dnfi='sudo dnf install'
-alias dnfpkgclean='sudo dnf remove $(package-cleanup --leaves)'
-alias dnfr='sudo dnf erase'
-alias dnfs='sudo dnf search'
-alias dnfshow='sudo dnf info'
-alias dnfupd='sudo dnf check-update'
-alias dnfupg='sudo dnf upgrade'
-
-#mount
+# mount
 alias mountntfs='sudo mount -t ntfs -o umask=0022,gid=33,uid=33 '
 alias mountfat='sudo mount -o umask=0022,gid=33,uid=33 '
 
-# Creates an archive (*.tar.gz) from given directory.
-function maketar() { tar cvzf "${1%%/}.tgz"  "${1%%/}/"; }
+### Packages managers
 
-# Create a ZIP archive of a file or folder.
-function makezip() { zip -r "${1%%/}.zip" "$1" ; }
+# dpkg
+alias dbi='sudo dpkg -i'
+alias dbr='sudo dpkg -r'
 
-# Make your directories and files access rights sane.
-function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}
-
-function reset() {
-    # # saving work before reset
-    # git commit -a -m "Saving my work, just in case"
-    # git branch my-saved-work
-
-    git fetch origin
-    git reset --hard origin/master
-}
-function git_config() {
-    git config credential.helper store
-    git config --global user.email Exocen@users.noreply.github.com
-    git config --global user.name "Exocen"
-    git config --global push.default simple
-    # git config --unset credential.helper # resume password check
-}
-
-# systemd...
-alias dlist='systemctl -a'
-alias dunits='systemctl list-units'
-alias dsockets='systemctl list-sockets'
-alias dstatus='systemctl status'
-alias dstart='sudo systemctl start'
-alias dstop='sudo systemctl stop'
-alias denable='sudo systemctl enable'
-alias ddisable='sudo systemctl disable'
-alias dreload='sudo systemctl reload'
-alias drestart='sudo systemctl restart'
-
-# apt...
+# apt
 alias apu='sudo apt update'
 alias appg='sudo apt upgrade'
 alias apd='sudo apt dist-upgrade'
@@ -237,7 +188,7 @@ alias aps='apt search'
 alias apse='apt-cache search -t experimental'
 alias apshow='apt-cache showpkg'
 
-#yaourt
+# yaourt
 alias yai='yaourt -Sy'
 alias yar='yaourt -R'
 alias yau='yaourt -Syua'
@@ -251,15 +202,54 @@ alias yi='sudo yum install --color=always'
 alias yr='sudo yum autoremove --color=always'
 alias yc='sudo yum clean all --color=always'
 
-# My functions
-function lk() {
-    grep -rHsni "$1" .
+# dnf
+alias dnf='sudo dnf'
+alias dnfdistclean='sudo dnf clean all'
+alias dnfdistsync='sudo dnf distro-sync'
+alias dnfi='sudo dnf install'
+alias dnfpkgclean='sudo dnf remove $(package-cleanup --leaves)'
+alias dnfr='sudo dnf erase'
+alias dnfs='sudo dnf search'
+alias dnfshow='sudo dnf info'
+alias dnfupd='sudo dnf check-update'
+alias dnfupg='sudo dnf upgrade'
+
+### Functions
+
+## Archive functions
+# Handy Extract function
+function extract()
+{
+    if [ -f $1 ] ; then
+        case $1 in
+            *.tar.bz2)   tar xvjf $1     ;;
+            *.tar.gz)    tar xvzf $1     ;;
+            *.bz2)       bunzip2 $1      ;;
+            *.rar)       unrar x $1      ;;
+            *.gz)        gunzip $1       ;;
+            *.tar)       tar xvf $1      ;;
+            *.tbz2)      tar xvjf $1     ;;
+            *.tgz)       tar xvzf $1     ;;
+            *.zip)       unzip $1        ;;
+            *.Z)         uncompress $1   ;;
+            *.xz)        tar xvf $1      ;;
+            *.bz)        tar xjvf $1     ;;
+            *.7z)        7z x $1         ;;
+            *)           echo "'$1' cannot be extracted via >extract<" ;;
+        esac
+    else
+        echo "'$1' is not a valid file!"
+    fi
 }
 
-function aptpurge() {
-    sudo apt purge $(dpkg -l | grep '^rc' | awk '{print $2}') -y
-}
+# Creates an archive (*.tar.gz) from given directory.
+function maketar() { tar cvzf "${1%%/}.tgz"  "${1%%/}/"; }
 
+# Create a ZIP archive of a file or folder.
+function makezip() { zip -r "${1%%/}.zip" "$1" ; }
+
+## Utilities functions
+# move file(s) to tmp (with copy conservation in tmp)
 function del(){
     for file in "$@"; do mv --backup=t "$file" /tmp/ ;done
 }
@@ -275,31 +265,35 @@ function dkill() {
     kill -9 $mykill 2> /dev/null
 }
 
+# Make your directories and files access rights sane.
+function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}
 
-function extract()      # Handy Extract Program
-{
-    if [ -f $1 ] ; then
-        case $1 in
-            *.tar.bz2)   tar xvjf $1     ;;
-            *.tar.gz)    tar xvzf $1     ;;
-            *.bz2)       bunzip2 $1      ;;
-            *.rar)       unrar x $1      ;;
-            *.gz)        gunzip $1       ;;
-            *.tar)       tar xvf $1      ;;
-            *.tbz2)      tar xvjf $1     ;;
-            *.tgz)       tar xvzf $1     ;;
-            *.zip)       unzip $1        ;;
-            *.Z)         uncompress $1   ;;
-	    *.xz)        tar xvf $1      ;;
-	    *.bz)        tar xjvf $1     ;;
-            *.7z)        7z x $1         ;;
-            *)           echo "'$1' cannot be extracted via >extract<" ;;
-        esac
-    else
-        echo "'$1' is not a valid file!"
-    fi
+## Git functions
+# git reset
+function greset() {
+    git fetch origin
+    git reset --hard origin/master
+}
+function git_config() {
+    git config credential.helper store
+    git config --global user.email Exocen@users.noreply.github.com
+    git config --global user.name "Exocen"
+    git config --global push.default simple
+    # git config --unset credential.helper # resume password check
 }
 
+## Packages functions
+function clean_orphan_packages(){
+    echo "CLEAN ORPHAN PACKAGES"
+    yaourt -Qdt
+    sudo pacman-optimize
+}
+
+function aptpurge() {
+    sudo apt purge $(dpkg -l | grep '^rc' | awk '{print $2}') -y
+}
+
+## Proxy functions
 function eproxy() {
     export https_proxy=$1
     export http_proxy=$1
@@ -320,6 +314,7 @@ function unproxy() {
     unset ALL_PROXY
 }
 
+## Docker functions
 function docker_clean_everything(){
     EXIT_STATUS=0
     docker_stop_container || EXIT_STATUS=$?
@@ -342,10 +337,4 @@ function docker_clean_images(){
 
 function docker_clean_volumes(){
     docker volume rm $(docker volume ls -q)
-}
-
-function clean_orphan_packages(){
-    echo "CLEAN ORPHAN PACKAGES"
-    yaourt -Qdt
-    sudo pacman-optimize
 }
