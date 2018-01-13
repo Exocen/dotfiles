@@ -12,12 +12,10 @@ echo "$load"
 # short text
 echo "$load"
 
+load=${load%.*}
 # color if load is too high
-awk -v cpus=$cpus -v cpuload=$load '
-    BEGIN {
-        if (cpus <= cpuload) {
-            print "#FF0000";
-            # exit 33;
-        }
-    }
-'
+if [[ "${load}" -ge "${cpus}" ]]; then
+    echo "#FF0000"
+else
+    echo ''
+fi
