@@ -41,11 +41,13 @@ font pango:DejaVu Sans Mono, 8
 # font, it doesn't scale on retina/hidpi displays.
 
 # Lock
-bindsym $mod+l exec i3lock -i ~/Images/monogatari_3.png
+bindsym $mod+l exec ~/.i3/i3lock-color/lock.sh
+
+# Switch
+bindsym $mod+Shift+S exec python3 -B ~/.i3/switch.py
 
 # Suspend
-
-bindsym $mod+Shift+s exec ~/.i3/suspend
+# bindsym $mod+Shift+s exec ~/.i3/suspend
 
 # Nautilus
 bindsym $mod+n exec thunar
