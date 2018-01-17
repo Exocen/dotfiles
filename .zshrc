@@ -242,13 +242,22 @@ function extract()
     fi
 }
 
-# Creates an archive (*.tar.gz) from given directory.
+# Creates an archive (*.tgz) from given directory.
 function maketar() { tar cvzf "${1%%/}.tgz"  "${1%%/}/"; }
 
 # Create a ZIP archive of a file or folder.
 function makezip() { zip -r "${1%%/}.zip" "$1" ; }
 
 ## Utilities functions
+# Crypt function with gpg
+function crypt(){ gpg -co "${1}.gpg"  "$1";}
+
+function decrypt(){
+    SUFFIX=".gpg"
+    NEW_FILE=${1%$SUFFIX}
+    gpg -do ${NEW_FILE} $1
+}
+
 # move file(s) to tmp (with copy conservation in tmp)
 function del(){
     for file in "$@"; do mv --backup=t "$file" /tmp/ ;done
