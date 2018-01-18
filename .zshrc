@@ -264,7 +264,7 @@ function del(){
 
 function c() {
     # builtin cd "$*"
-    cd $1
+    cd "$@"
     ls -CFh  --group-directories-first
 }
 
