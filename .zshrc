@@ -36,8 +36,7 @@ SAVEHIST=1000
 HISTFILE=~/.zsh_history
 
 # Vars used later on by zsh
-export EDITOR="emacs -nw"
-export SVN_EDITOR="emacs -nw"
+export EDITOR="vim"
 export BROWSER=firefox
 export TERM=xterm-256color
 
