@@ -1,0 +1,5 @@
+mkdir -p /var/lib/jail
+# mount -o bind /mnt/data/share /var/lib/jail ##fstab stuff
+useradd -g sshusers -d /var/lib/jail music
+passwd music
+#sshd config stuff

@@ -1,0 +1,5 @@
+/dev/mmcblk0p1  /boot    vfat     defaults,noatime,noauto,x-systemd.automount    0   1
+# rootfs is not mounted in fstab as we do it via initramfs. Uncomment for remount (slower boot)
+#/dev/mmcblk0p2  /    ext4      defaults,noatime    0   0
+/dev/sda1	/media/QB1T	ntfs-3g	umask=0022,uid=1000	0	1
+/media/QB1T/Musique	/var/lib/jail/Music	none	bind,umask=0022	0	2
