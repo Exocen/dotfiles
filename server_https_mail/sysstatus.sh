@@ -26,6 +26,8 @@ systemctl_get_status 'opendkim'
 systemctl_get_status 'postfix'
 systemctl_get_status 'nginx'
 systemctl_get_status 'hangupsbot'
+systemctl_get_status 'openvpn-server@openvpn.service'
+
 html_file=$html_top$status$html_bot
 
 echo $html_file > $html_location
