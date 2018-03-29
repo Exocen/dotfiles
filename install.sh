@@ -33,7 +33,7 @@ function detectOS {
     elif [ -f /etc/arch-release ]; then
         WOS="Arch"
     else
-        WOS="WTF ?"
+        WOS="WTH?"
     fi
 }
 
@@ -45,12 +45,12 @@ function cloneOhmyZsh {
     else
         git clone https://github.com/exocen/oh-my-zsh .oh-my-zsh/
     fi
-    is_working "Clonage de oh-my-zsh"
+    is_working "pulling oh-my-zsh config"
 }
 
 function home_ln {
     ln -sf `pwd`/$1 -t ~/ > /dev/null 2>&1
-    is_working "Création de $1 sur ~"
+    is_working "ln $1 on ~"
 }
 
 function home_cp {
