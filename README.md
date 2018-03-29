@@ -38,7 +38,7 @@ sudo EDITOR=vim crontab -e
 MAILTO=""
 
 @monthly certbot --nginx renew
-@weekly yaourt -Sya  > /dev/null 2>&1 && yaourt -Qu 2>/dev/null
+#@weekly yaourt -Sya  > /dev/null 2>&1 && yaourt -Qu 2>/dev/null #NOT SECURE
 ````
 
 * DNS Sample
