@@ -1,29 +1,25 @@
 ## Automatic installation
 
-Un repo utilisé pour faire une intallation automatique sur un nouveau poste
+Dotfiles + auto install for servers
+([Openvpn](https://github.com/Exocen/OpenVPN-install) + Https + Postfix + [Hangoutbot](https://github.com/exocen/hangoutsbot))
 
-Installera de base les packets:
+### Emacs + Zsh config
 
-*vim vlc git htop iftop tree zsh*
-
-### Configuration Emacs + Zsh
-
-Fonctionne sur
-* Ubuntu (>15 for emacs plugins)
+Tested on
+* Ubuntu (14+)
 * Fedora
 * Debian
 * Arch
+* Raspbian
 
 Use oh-my-zsh repos [oh-my-zsh](https://github.com/exocen/oh-my-zsh.git)
 
-La configuration se trouve dans les fichiers .zshrc et .emacs
+### I3 config
 
-### I3
-
-Works on
+Tested on
 * Fedora
-* Ubuntu
-* Arch Linux (on arch_linux branch)
+* Ubuntu (14+)
+* Arch Linux
 
 ###### Arch linux hercules dual pix webcam :
 ```shell
@@ -34,10 +30,6 @@ echo 'options uvcvideo quirks=0x100' | sudo tee -a /etc/modprobe.d/uvcvideo.conf
 
 ### TODO
 
-* dovecot
-
-* spamassassin
-
 * crontab auto
 ````
 sudo EDITOR=vim crontab -e
@@ -46,7 +38,7 @@ sudo EDITOR=vim crontab -e
 MAILTO=""
 
 @monthly certbot --nginx renew
-@weekly yaourt -Sya  > /dev/null 2>&1 && yaourt -Qu 2>/dev/null
+#@weekly yaourt -Sya  > /dev/null 2>&1 && yaourt -Qu 2>/dev/null #NOT SECURE
 ````
 
 * DNS Sample

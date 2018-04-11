@@ -96,7 +96,7 @@ UseDNS no
 
 #Subsystem sftp internal-sftp
 
-Match group users
+Match group sshusers
  ChrootDirectory %h
  X11Forwarding no
  AllowTcpForwarding no

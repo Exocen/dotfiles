@@ -1,5 +1,5 @@
 #!/bin/bash
-# cron : * * * * * sysstatus.sh 
+# cron : * * * * * sysstatus.sh opendkim postfix nginx hangupsbot openvpn-server@openvpn.service
 html_top="<!DOCTYPE html>
 <html>
 <head>
@@ -22,10 +22,11 @@ function systemctl_get_status {
     status=$status'<tr><th>'$1' : '$(systemctl is-active $1)'</th></tr>'
 }
 
-systemctl_get_status 'opendkim'
-systemctl_get_status 'postfix'
-systemctl_get_status 'nginx'
-systemctl_get_status 'hangupsbot'
+for service in "$@"
+do
+    systemctl_get_status "$service"
+done
+
 html_file=$html_top$status$html_bot
 
 echo $html_file > $html_location
