@@ -20,6 +20,14 @@ if [ "$answer" == "Y" ] || [ "$answer" == "y" ] || [ "$answer" == "YES" ] || [ "
 else
     echo 'Cancel'
 fi
+
+echo "Download Openvpn ? (y/N)"
+read answer
+if [ "$answer" == "Y" ] || [ "$answer" == "y" ] || [ "$answer" == "YES" ] || [ "$answer" == "yes" ];then
+    git clone https://github.com/Exocen/OpenVPN-install
+else
+    echo 'Cancel'
+fi
 # Local Variables:
 # mode: Shell-script
 # coding: mule-utf-8
