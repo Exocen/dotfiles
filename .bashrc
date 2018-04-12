@@ -1,11 +1,3 @@
-
-export JAVA_HOME="/usr/lib/jvm/java-1.7.0-openjdk-i386"
-export ANDROID_SDK_HOME="/gfs/bailleulq"
-export HTTP_PROXY="http://proxy.univ-lille1.fr:3128"
-export HTTPS_PROXY="https://proxy.univ-lille1.fr:3128"
-alias play="/gfs/bailleulq/activator-1.2.10-minimal/activator"
-
-
 # Vars used later on by zsh
 export EDITOR="emacs -nw"
 export SVN_EDITOR="emacs -nw"
