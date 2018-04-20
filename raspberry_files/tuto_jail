@@ -1,0 +1,8 @@
+su
+mkdir -p /var/lib/jail
+# mount -o bind /mnt/data/share /var/lib/jail ##fstab stuff
+groupadd sshusers
+useradd -g sshusers -d /var/lib/jail music
+passwd music
+# sshd config stuff
+# debug sshfs :  -o sshfs_debug,loglevel=debug -d
