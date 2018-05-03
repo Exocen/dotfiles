@@ -9,7 +9,6 @@ custom
 *.swp
 !custom/example.zshcache
 cache/
-.oh-my-zsh/
 .gmx-private
 hangoutsbot
 OpenVPN-install
