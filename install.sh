@@ -37,17 +37,6 @@ function detectOS {
     fi
 }
 
-function cloneOhmyZsh {
-    if [ -d ".oh-my-zsh" ]; then
-        cd .oh-my-zsh
-        git pull https://github.com/exocen/oh-my-zsh master
-        cd ..
-    else
-        git clone https://github.com/exocen/oh-my-zsh .oh-my-zsh/
-    fi
-    is_working "pulling oh-my-zsh config"
-}
-
 function home_ln {
     ln -sf `pwd`/$1 -t ~/ > /dev/null 2>&1
     is_working "ln $1 on ~"
@@ -94,7 +83,6 @@ Server = http://repo.archlinux.fr/$arch' >> /tmp/pacman.conf
 
 function make {
     detectOS
-    cloneOhmyZsh
     home_ln .zshrc
     home_ln .xinitrc
     home_ln .emacs
