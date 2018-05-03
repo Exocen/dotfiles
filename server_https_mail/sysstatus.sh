@@ -1,5 +1,5 @@
 #!/bin/bash
-# cron : * * * * * sysstatus.sh opendkim postfix nginx hangupsbot openvpn-server@openvpn.service
+# cron : * * * * * sysstatus.sh opendkim postfix nginx hangupsbot openvpn-server@openvpn.service 2>/dev/null
 html_top="<!DOCTYPE html>
 <html>
 <head>
