@@ -1,7 +1,7 @@
 ## Automatic installation
 
 Dotfiles + auto install for servers
-([Openvpn](https://github.com/Exocen/OpenVPN-install) + Https + Postfix + [Hangoutbot](https://github.com/exocen/hangoutsbot))
+([Openvpn](https://github.com/Exocen/OpenVPN-install) + [Https](https://github.com/exocen/Web-Mail-Server/) + [Postfix](https://github.com/exocen/Web-Mail-Server) + [Hangoutbot](https://github.com/exocen/hangoutsbot))
 
 ### Emacs + Zsh config
 
