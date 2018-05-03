@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 echo "Hostname ? :"
 read hostname
 echo $hostname" ? (y/N)"
@@ -13,21 +12,6 @@ else
     echo 'Cancel'
 fi
 
-echo "Download HangoutBot ? (y/N)"
-read answer
-if [ "$answer" == "Y" ] || [ "$answer" == "y" ] || [ "$answer" == "YES" ] || [ "$answer" == "yes" ];then
-    git clone https://github.com/exocen/hangoutsbot
-else
-    echo 'Cancel'
-fi
-
-echo "Download Openvpn ? (y/N)"
-read answer
-if [ "$answer" == "Y" ] || [ "$answer" == "y" ] || [ "$answer" == "YES" ] || [ "$answer" == "yes" ];then
-    git clone https://github.com/Exocen/OpenVPN-install
-else
-    echo 'Cancel'
-fi
 # Local Variables:
 # mode: Shell-script
 # coding: mule-utf-8
