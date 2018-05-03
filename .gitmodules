@@ -7,3 +7,4 @@
 [submodule "Web-Mail-Server"]
 	path = Web-Mail-Server
 	url = https://github.com/exocen/Web-Mail-Server
+	branch = master
