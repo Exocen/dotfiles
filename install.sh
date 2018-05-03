@@ -86,12 +86,14 @@ function make {
     home_ln .zshrc
     home_ln .xinitrc
     home_ln .emacs
+    git submodule update .oh-my-zsh 
     home_ln .oh-my-zsh
     ins vim git htop iftop iotop tree zsh make wget sudo
     chsh -s /usr/bin/zsh
     if  [ "$1" = "f" ]
     then
         {
+	    git submodule update .i3
             home_ln .i3
             home_ln .zprofile #if no GDM
             ins clementine tig nethogs nitrogen numlockx mcomix thunar ttf-font-awesome blueman pulseaudio-bluetooth #bluetooth
