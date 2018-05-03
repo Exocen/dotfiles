@@ -4,3 +4,9 @@
 [submodule ".oh-my-zsh"]
 	path = .oh-my-zsh
 	url = https://github.com/exocen/oh-my-zsh
+[submodule "server_https_mail/OpenVPN-install"]
+	path = server_https_mail/OpenVPN-install
+	url = https://github.com/exocen/OpenVPN-install
+[submodule "server_https_mail/hangoutsbot"]
+	path = server_https_mail/hangoutsbot
+	url = https://github.com/exocen/hangoutsbot
