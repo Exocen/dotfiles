@@ -40,15 +40,14 @@ export EDITOR="vim"
 export BROWSER=firefox
 export TERM=xterm-256color
 
-#ohmyzsh !
+# ohmyzsh !
 export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="gallois2"
-plugins=(git docker sudo systemd)
+plugins=(git docker sudo systemd git-prompt)
 # systemd plug -> sc-cmd
 # sudo plug -> ESC * 2
 
 source $ZSH/oh-my-zsh.sh
-
 # User configuration omz
 compinit -C
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
