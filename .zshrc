@@ -43,7 +43,7 @@ export TERM=xterm-256color
 # ohmyzsh !
 export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="gallois2"
-plugins=(git docker sudo systemd git-prompt)
+plugins=(git docker sudo systemd git-prompt-custo)
 # systemd plug -> sc-cmd
 # sudo plug -> ESC * 2
 
