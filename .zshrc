@@ -187,12 +187,12 @@ alias aps='apt search'
 alias apse='apt-cache search -t experimental'
 alias apshow='apt-cache showpkg'
 
-# yaourt
-alias yai='yaourt -Sy'
-alias yar='yaourt -R'
-alias yau='yaourt -Syua'
-alias yas='yaourt -Ss'
-alias yac='clean_orphan_packages'
+# pikaur
+alias piki='pikaur -Sy'
+alias pikr='pikaur -R'
+alias piku='pikaur -Syua'
+alias piks='pikaur -Ss'
+alias pikc='clean_orphan_packages'
 
 # yum
 alias yu='sudo yum update --color=always'
@@ -293,7 +293,7 @@ function git_config() {
 ## Packages functions
 function clean_orphan_packages(){
     echo "CLEAN ORPHAN PACKAGES"
-    yaourt -Qdt
+    pikaur -Qdt
     sudo pacman-optimize
 }
 

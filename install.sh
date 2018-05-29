@@ -49,9 +49,9 @@ function home_cp {
     alias cp="cp -iv" > /dev/null 2>&1
 }
 
-# Faire un detectOS avant
+# run detectOS before
 function ins {
-    all="$@" # pour fonction is_working
+    all="$@" #for is_working function
     echo "Installation: $all ...."
     if [ "$WOS" = "Ubuntu" ] || [ "$WOS" = "Debian" ] ;then
         sudo apt update -y > /dev/null 2>&1
@@ -62,23 +62,22 @@ function ins {
         sudo dnf install $@ -y #> /dev/null 2>&1
         is_working "$all installed"
     elif [ "$WOS" = "Arch" ] ;then
-        yaourt-install
-        yaourt -Sau --noconfirm
-        yaourt -Sy $@ --noconfirm #> /dev/null 2>&1
+        pikaur-install
+        pikaur -Sau --noconfirm
+        pikaur -Sy $@ --noconfirm #> /dev/null 2>&1
         is_working "$all installed"
     else
         makeItColorful "Unknow OS" $RED
     fi
 }
 
-function yaourt-install {
-    grep -v "archlinux" /etc/pacman.conf | grep -v "SigLevel = Never" > /tmp/pacman.conf
-    echo '[archlinuxfr]
-SigLevel = Never
-Server = http://repo.archlinux.fr/$arch' >> /tmp/pacman.conf
-    sudo mv /tmp/pacman.conf /etc/pacman.conf
-    sudo pacman -Sy yaourt --noconfirm
-    is_working "Yaourt installation"
+function pikaur-install {
+    sudo pacman -S --needed base-devel git --noconfirm
+    git clone https://aur.archlinux.org/pikaur.git
+    cd pikaur
+    makepkg -fsri --noconfirm
+    cd ..
+    rm -rf pikaur
 }
 
 function make {
@@ -86,14 +85,14 @@ function make {
     home_ln .zshrc
     home_ln .xinitrc
     home_ln .emacs
-    git submodule update --init .oh-my-zsh 
+    git submodule update --init .oh-my-zsh
     home_ln .oh-my-zsh
     ins vim git htop iftop iotop tree zsh make wget sudo
     chsh -s /usr/bin/zsh
     if  [ "$1" = "f" ]
     then
         {
-	    git submodule update --init .i3
+            git submodule update --init .i3
             home_ln .i3
             home_ln .zprofile #if no GDM
             ins clementine tig nethogs nitrogen numlockx mcomix thunar ttf-font-awesome blueman pulseaudio-bluetooth #bluetooth
