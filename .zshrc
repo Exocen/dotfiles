@@ -192,7 +192,7 @@ alias piki='pikaur -Sy'
 alias pikr='pikaur -R'
 alias piku='pikaur -Syua'
 alias piks='pikaur -Ss'
-alias pikc='clean_orphan_packages'
+alias pikc='pikaur -Qdt'
 
 # yum
 alias yu='sudo yum update --color=always'
@@ -288,13 +288,6 @@ function git_config() {
     git config --global user.email Exocen@users.noreply.github.com
     git config --global user.name "Exocen"
     git config --global push.default simple
-}
-
-## Packages functions
-function clean_orphan_packages(){
-    echo "CLEAN ORPHAN PACKAGES"
-    pikaur -Qdt
-    sudo pacman-optimize
 }
 
 function aptpurge() {
