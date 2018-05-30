@@ -64,7 +64,7 @@ function ins {
     elif [ "$WOS" = "Arch" ] ;then
 	# aurman
         arch_package_install https://aur.archlinux.org/aurman.git 
-        pikaur -Syu $@ --noedit --noconfirm #> /dev/null 2>&1
+        aurman -Syu $@ --noedit --noconfirm #> /dev/null 2>&1
         is_working "$all installed"
     else
         makeItColorful "Unknow OS" $RED
