@@ -62,22 +62,22 @@ function ins {
         sudo dnf install $@ -y #> /dev/null 2>&1
         is_working "$all installed"
     elif [ "$WOS" = "Arch" ] ;then
-        pikaur-install
-        pikaur -Sau --noconfirm
-        pikaur -Sy $@ --noconfirm #> /dev/null 2>&1
+	# aurman
+        arch_package_install https://aur.archlinux.org/aurman.git 
+        pikaur -Syu $@ --noedit --noconfirm #> /dev/null 2>&1
         is_working "$all installed"
     else
         makeItColorful "Unknow OS" $RED
     fi
 }
 
-function pikaur-install {
+function arch_package_install {
     sudo pacman -S --needed base-devel git --noconfirm
-    git clone https://aur.archlinux.org/pikaur.git
-    cd pikaur
+    git clone $1 install_folder
+    cd install_folder
     makepkg -fsri --noconfirm
     cd ..
-    rm -rf pikaur
+    rm -rf install_folder
 }
 
 function make {
