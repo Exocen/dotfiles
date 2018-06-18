@@ -339,3 +339,5 @@ function docker_clean_images(){
 function docker_clean_volumes(){
     docker volume rm $(docker volume ls -q)
 }
+
+function regex { gawk 'match($0,/'$1'/, ary) {print ary['${2:-'0'}']}'; }
