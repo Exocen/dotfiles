@@ -75,7 +75,7 @@ function arch_package_install {
     sudo pacman -S --needed base-devel git --noconfirm
     git clone $1 install_folder
     cd install_folder
-    makepkg -fsri --noconfirm
+    makepkg -fsri --skipinteg --noconfirm
     cd ..
     rm -rf install_folder
 }
