@@ -110,19 +110,13 @@ alias ll='ls -lFh --group-directories-first --color=auto'
 alias la='ls -Ah  --group-directories-first'
 alias lla='ls -AlFh --group-directories-first'
 alias l='ls -CFh  --group-directories-first'
-alias ltex='ll | grep .tex'
 alias cl='clear'
 alias cp='cp -vi'
 alias s='cd ..'
 alias dudu='du -hd1 | sort -h'
-alias rmi='rm -iv --preserve-root'
-alias trash='mkdir -pv ~/.Trash && mv -fv --target-directory=$HOME/.Trash'
-alias af='ll ~/.Trash'
-alias cmt='rm -rIv ~/.Trash/* ~/.Trash/.*~'
 alias rmt='find . -name "*~" -exec rm {} \; -print -or -name ".*~" -exec rm {} \; -print -or -name "\#*\#*" -exec rm {} \; -print'
 alias rmte='find . -empty -type d'
 alias rmted='find . -empty -type d -delete -print'
-alias rst='mkdir -pv po && mv -iv ~/.Trash/* ~/po'
 alias x='exit'
 alias sx='startx'
 alias finame="find * -iname "
@@ -146,7 +140,6 @@ alias ch='google-chrome-stable'
 alias py='python3'
 alias ipy='ipython3'
 alias pl='perl -d -e 1'
-alias pdflatex='mkdir -p tmp/; pdflatex --output-directory=tmp/'
 alias jar='java -jar'
 alias am='alsamixer'
 alias em='emacs -nw'
@@ -187,12 +180,12 @@ alias aps='apt search'
 alias apse='apt-cache search -t experimental'
 alias apshow='apt-cache showpkg'
 
-# yaourt
-alias yai='yaourt -Sy'
-alias yar='yaourt -R'
-alias yau='yaourt -Syua'
-alias yas='yaourt -Ss'
-alias yac='clean_orphan_packages'
+# aurman
+alias auri='aurman -Syu --noedit'
+alias aurr='aurman -R'
+alias auru='aurman -Syu'
+alias aurs='aurman -Ss'
+alias aurc='aurman -Qdt && aurman -Sc --noconfirm && sudo pacman -Rns $(pacman -Qtdq) 2>/dev/null'
 
 # yum
 alias yu='sudo yum update --color=always'
@@ -290,13 +283,6 @@ function git_config() {
     git config --global push.default simple
 }
 
-## Packages functions
-function clean_orphan_packages(){
-    echo "CLEAN ORPHAN PACKAGES"
-    yaourt -Qdt
-    sudo pacman-optimize
-}
-
 function aptpurge() {
     sudo apt purge $(dpkg -l | grep '^rc' | awk '{print $2}') -y
 }
@@ -346,3 +332,5 @@ function docker_clean_images(){
 function docker_clean_volumes(){
     docker volume rm $(docker volume ls -q)
 }
+
+function regex { gawk 'match($0,/'$1'/, ary) {print ary['${2:-'0'}']}'; }
