@@ -95,7 +95,7 @@ function make {
             git submodule update --init .i3
             home_ln .i3
             home_ln .zprofile #if no GDM
-            ins clementine tig nethogs nitrogen numlockx mcomix thunar ttf-font-awesome blueman pulseaudio-bluetooth #bluetooth
+            ins clementine tig nethogs nitrogen numlockx mcomix thunar ttf-font-icons i3 dmenu xorg-xinit blueman pulseaudio-bluetooth #bluetooth
         }
     else
         {
