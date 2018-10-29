@@ -38,8 +38,8 @@ function detectOS {
 }
 
 function home_ln {
-    ln -sf `pwd`/$1 -t ~/ > /dev/null 2>&1
-    is_working "ln $1 on ~"
+    ln -sfn `pwd`/$1 $2 > /dev/null 2>&1
+    is_working "ln $1 on $2"
 }
 
 function home_cp {
@@ -82,20 +82,21 @@ function arch_package_install {
 
 function make {
     detectOS
-    home_ln .zshrc
-    home_ln .xinitrc
-    home_ln .emacs
+    home_ln .zshrc ~/
+    home_ln .xinitrc ~/
+    home_ln .emacs ~/
     git submodule update --init .oh-my-zsh
-    home_ln .oh-my-zsh
+    home_ln .oh-my-zsh ~/
     ins vim git htop iftop iotop tree zsh make wget sudo
     chsh -s /usr/bin/zsh
     if  [ "$1" = "f" ]
     then
         {
-            git submodule update --init .i3
-            home_ln .i3
-            home_ln .zprofile #if no GDM
-            ins clementine tig nethogs nitrogen numlockx mcomix thunar ttf-font-icons i3 dmenu xorg-xinit alsa-utils blueman pulseaudio-bluetooth #bluetooth
+            git submodule update --init i3-conf
+            home_ln i3-conf ~/.i3
+	    home_ln polybar-conf ~/.config/polybar
+            home_ln .zprofile ~/ #if no GDM
+            ins clementine tig nethogs nitrogen numlockx mcomix thunar ttf-font-icons i3 dmenu xorg-xinit alsa-utils polybar blueman pulseaudio-bluetooth #bluetooth
         }
     else
         {

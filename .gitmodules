@@ -10,3 +10,9 @@
 	path = Web-Mail-Server
 	url = https://github.com/exocen/Web-Mail-Server
 	branch = master
+[submodule "polybar-conf"]
+	path = polybar-conf
+	url = https://github.com/exocen/polybar-conf
+[submodule "i3-conf"]
+	path = i3-conf
+	url = https://github.com/exocen/i3-conf
