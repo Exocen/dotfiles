@@ -62,8 +62,8 @@ function ins {
         sudo dnf install $@ -y #> /dev/null 2>&1
         is_working "$all installed"
     elif [ "$WOS" = "Arch" ] ;then
-	# aurman
-        arch_package_install https://aur.archlinux.org/aurman.git 
+        # aurman
+        arch_package_install https://aur.archlinux.org/aurman.git
         aurman -Syu $@ --noedit --noconfirm #> /dev/null 2>&1
         is_working "$all installed"
     else
@@ -85,24 +85,26 @@ function make {
     home_ln .zshrc ~/
     home_ln .xinitrc ~/
     home_ln .emacs ~/
+    home_ln vim-conf ~/.vim_runtime
     git submodule update --init .oh-my-zsh
     home_ln .oh-my-zsh ~/
     ins vim git htop iftop iotop tree zsh make wget sudo
+    sh ~/.vim_runtime/install_awesome_vimrc.sh
     chsh -s /usr/bin/zsh
     if  [ "$1" = "f" ]
     then
         {
             git submodule update --init i3-conf
             home_ln i3-conf ~/.i3
-	    home_ln polybar-conf ~/.config/polybar
+            home_ln polybar-conf ~/.config/polybar
             home_ln .zprofile ~/ #if no GDM
             ins clementine tig nethogs nitrogen numlockx mcomix thunar ttf-font-icons i3 dmenu xorg-xinit alsa-utils polybar blueman pulseaudio-bluetooth #bluetooth
         }
-    else
-        {
-            echo "'f' Argument full installation"
-        }
-    fi
+else
+    {
+        echo "'f' Argument full installation"
+    }
+fi
 
 }
 make $1
