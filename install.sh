@@ -87,6 +87,7 @@ function make {
     home_ln .emacs ~/
     home_ln vim-conf ~/.vim_runtime
     git submodule update --init .oh-my-zsh
+    git submodule update --init vim-conf
     home_ln .oh-my-zsh ~/
     ins vim git htop iftop iotop tree zsh make wget sudo
     sh ~/.vim_runtime/install_awesome_vimrc.sh
