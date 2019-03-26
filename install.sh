@@ -102,6 +102,7 @@ function make {
             home_ln .zprofile ~/ #if no GDM
             ins clementine tig nethogs nitrogen numlockx mcomix thunar ttf-font-icons i3 dmenu xbacklight xorg-xinit alsa-utils polybar blueman pulseaudio-bluetooth #bluetooth
             # if intel auri xf86-video-intel
+            # clementine ++ gst-plugins-good gst-plugins-base gst-plugins-bad gst-plugins-ugly qt5-tools
         }
 else
     {
