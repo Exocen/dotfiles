@@ -97,9 +97,11 @@ function make {
         {
             git submodule update --init i3-conf
             home_ln i3-conf ~/.i3
+            git submodule update --init polybar-conf
             home_ln polybar-conf ~/.config/polybar
             home_ln .zprofile ~/ #if no GDM
-            ins clementine tig nethogs nitrogen numlockx mcomix thunar ttf-font-icons i3 dmenu xorg-xinit alsa-utils polybar blueman pulseaudio-bluetooth #bluetooth
+            ins clementine tig nethogs nitrogen numlockx mcomix thunar ttf-font-icons i3 dmenu xbacklight xorg-xinit alsa-utils polybar blueman pulseaudio-bluetooth #bluetooth
+            # if intel auri xf86-video-intel
         }
 else
     {
