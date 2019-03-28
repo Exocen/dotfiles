@@ -100,7 +100,7 @@ function make {
             git submodule update --init polybar-conf
             home_ln polybar-conf ~/.config/polybar
             home_ln .zprofile ~/ #if no GDM
-            ins clementine tig nethogs nitrogen numlockx mcomix thunar ttf-font-icons i3 dmenu xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils polybar blueman pulseaudio-bluetooth #bluetooth
+            ins clementine tig nethogs nitrogen numlockx mcomix thunar ttf-font-icons i3-gaps dmenu xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils polybar blueman pulseaudio-bluetooth bluez-utils
             # if intel auri xf86-video-intel
             # clementine ++ gst-plugins-good gst-plugins-base gst-plugins-bad gst-plugins-ugly qt5-tools
         }
