@@ -32,6 +32,8 @@ function detectOS {
         WOS="Debian"
     elif [ -f /etc/arch-release ]; then
         WOS="Arch"
+        # Aurman install
+        arch_package_install https://aur.archlinux.org/aurman.git
     else
         WOS="WTH?"
     fi
@@ -62,8 +64,6 @@ function ins {
         sudo dnf install $@ -y #> /dev/null 2>&1
         is_working "$all installed"
     elif [ "$WOS" = "Arch" ] ;then
-        # aurman
-        arch_package_install https://aur.archlinux.org/aurman.git
         aurman -Syu $@ --noedit --needed --noconfirm #> /dev/null 2>&1
         is_working "$all installed"
     else
@@ -95,14 +95,22 @@ function make {
     if  [ "$1" = "f" ]
     then
         {
+            # Arch only
             git submodule update --init i3-conf
             home_ln i3-conf ~/.i3
             git submodule update --init polybar-conf
             home_ln polybar-conf ~/.config/polybar
             home_ln .zprofile ~/ #if no GDM
-            ins clementine tig nethogs nitrogen numlockx mcomix thunar ttf-font-icons i3-gaps dmenu xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp polybar terminator firefox vlc blueman pulseaudio-bluetooth bluez-utils
-            # if intel auri xf86-video-intel
-            # clementine ++ gst-plugins-good gst-plugins-base gst-plugins-bad gst-plugins-ugly qt5-tools
+            # Video Driver ( intel graphics )
+            ins auri xf86-video-intel
+            # WM + Polybar
+            ins i3-gaps dmenu xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp polybar
+            # Utils
+            ins tig nethogs nitrogen numlockx mcomix thunar ttf-font-icons terminator firefox vlc
+            # Bluetooth
+            ins blueman pulseaudio-bluetooth bluez-utils
+            # Music player
+            ins clementine gst-plugins-good gst-plugins-base gst-plugins-bad gst-plugins-ugly qt5-tools
         }
 else
     {
