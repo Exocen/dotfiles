@@ -102,7 +102,7 @@ function make {
             home_ln polybar-conf ~/.config/polybar
             home_ln .zprofile ~/ #if no GDM
             # Video Driver ( intel graphics )
-            ins auri xf86-video-intel
+            ins xf86-video-intel
             # WM + Polybar
             ins i3-gaps dmenu xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp polybar
             # Utils
