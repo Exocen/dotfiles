@@ -103,14 +103,16 @@ function make {
             home_ln .zprofile ~/ #if no GDM
             # Video Driver ( intel graphics )
             ins xf86-video-intel
-            # WM + Polybar
-            ins i3-gaps dmenu xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp polybar
+            # WM
+            ins i3-gaps dmenu xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp
             # Utils
             ins tig nethogs nitrogen numlockx mcomix thunar ttf-font-icons terminator firefox vlc
             # Bluetooth
             ins blueman pulseaudio-bluetooth bluez-utils
             # Music player
             ins clementine gst-plugins-good gst-plugins-base gst-plugins-bad gst-plugins-ugly qt5-tools
+            # Polybar
+            ins polybar
         }
 else
     {
