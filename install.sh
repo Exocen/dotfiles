@@ -92,10 +92,9 @@ function make {
     ins vim git htop iftop iotop tree zsh make wget sudo
     sh ~/.vim_runtime/install_awesome_vimrc.sh
     chsh -s /usr/bin/zsh
-    if  [ "$1" = "f" ]
+    if  [ "$1" = "-f" ] && [ "$WOS" = "Arch" ]
     then
         {
-            # Arch only
             git submodule update --init i3-conf
             home_ln i3-conf ~/.i3
             git submodule update --init polybar-conf
@@ -114,11 +113,11 @@ function make {
             # Polybar
             ins polybar
         }
-else
-    {
-        echo "'f' Argument full installation"
-    }
-fi
+    else
+        {
+            echo "'-f' Argument full installation (Arch Linux only)"
+        }
+    fi
 
 }
 make $1
