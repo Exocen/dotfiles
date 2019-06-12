@@ -1,14 +1,14 @@
 ## Automatic installation
 
 Dotfiles + auto install for servers
-([Openvpn](https://github.com/Exocen/OpenVPN-install) + [Https](https://github.com/exocen/Web-Mail-Server) + [Postfix](https://github.com/exocen/Web-Mail-Server) + [Hangoutbot](https://github.com/exocen/hangoutsbot))
+([Openvpn](https://github.com/Exocen/OpenVPN-install) + [Https](https://github.com/exocen/Web-Mail-Server) + [Postfix](https://github.com/exocen/Web-Mail-Server))
 
 ### Emacs + Zsh config
 
 Tested on
-* Ubuntu (14+)
-* Fedora
-* Debian
+* Ubuntu 14+
+* Fedora 29+
+* Debian 8+
 * Arch
 * Raspbian
 
@@ -17,8 +17,8 @@ Use oh-my-zsh repos [oh-my-zsh](https://github.com/exocen/oh-my-zsh.git)
 ### I3 config
 
 Tested on
-* Fedora
-* Ubuntu (14+)
+* Fedora 29+
+* Ubuntu 14+
 * Arch Linux
 
 ###### Arch linux hercules dual pix webcam :
