@@ -19,6 +19,7 @@ setopt autocd
 setopt cdablevars
 setopt interactivecomments
 setopt nobanghist
+# Allows ‘>’ redirection to truncate existing files. Otherwise ‘>!’ or ‘>|’ must be used to truncate a file.
 setopt noclobber
 setopt SH_WORD_SPLIT
 setopt nohup
