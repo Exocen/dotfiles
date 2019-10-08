@@ -1,0 +1,11 @@
+[Unit]
+Description=Powertop autotune
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/powertop --auto-tune
+
+[Install]
+WantedBy=default.target
+
+# sudo mv file /etc/systemd/system/
