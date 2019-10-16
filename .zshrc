@@ -155,6 +155,7 @@ alias grubconf='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
 alias openvpnconf='sudo openvpn --config'
 alias viewtar='tar -tf'
 alias myip='curl ipinfo.io/ip'
+alias visudo='sudo EDITOR=vim visudo'
 
 # mount
 alias mountntfs='sudo mount -t ntfs -o umask=0022,gid=33,uid=33 '
