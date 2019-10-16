@@ -19,8 +19,10 @@ function detectOS {
     if [ -f /etc/lsb-release ]; then
         OS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//')
         VERSION=$(cat /etc/lsb-release | grep DISTRIB_RELEASE | sed 's/^.*=//')
-        if [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian" ] ;then
+        if [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian" ] || [ "$OS" = "Arch" ];then
             WOS="$OS"
+        else
+            WOS="WTH?"
         fi
     elif [ -f /etc/redhat-release ]; then
         WOS="Fedora"
@@ -99,6 +101,7 @@ function make {
             home_ln i3-conf ~/.i3
             git submodule update --init polybar-conf
             home_ln polybar-conf ~/.config/polybar
+            home_ln termite-conf ~/config/termite
             home_ln .zprofile ~/ #if no GDM
             # Video Driver ( intel graphics )
             ins xf86-video-intel
