@@ -158,6 +158,7 @@ alias myip='curl ipinfo.io/ip'
 alias visudo='sudo EDITOR=vim visudo'
 
 # mount
+alias mnt="sudo mount -o uid=$UID,umask=22"
 alias mountntfs="sudo mount -t ntfs -o uid=$UID,umask=22"
 alias mountfat='sudo mount -o umask=0022,gid=33,uid=33 '
 
