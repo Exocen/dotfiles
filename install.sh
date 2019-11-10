@@ -115,6 +115,8 @@ function make {
             ins clementine gst-plugins-good gst-plugins-base gst-plugins-bad gst-plugins-ugly qt5-tools
             # Polybar
             ins polybar
+            # Steam
+            ins steam lib32-libpulse lib32-alsa-plugins pulseaudio-alsa
         }
     else
         {
