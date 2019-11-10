@@ -4,6 +4,8 @@ DISABLE_LS_COLORS="false"
 DISABLE_AUTO_TITLE="false"
 COMPLETION_WAITING_DOTS="true"
 
+export PATH="/sbin:$PATH"
+
 zstyle ':completion:*' menu select
 compctl -/ cd # type a directory's name to cd to it.
 eval `dircolors -b`
@@ -158,9 +160,12 @@ alias myip='curl ipinfo.io/ip'
 alias visudo='sudo EDITOR=vim visudo'
 
 # mount
-alias mnt="sudo mount -o uid=$UID,umask=22"
+alias mnt="sudo mount -o uid=$UID,dmask=27,fmask=137"
 alias mountntfs="sudo mount -t ntfs -o uid=$UID,umask=22"
 alias mountfat='sudo mount -o umask=0022,gid=33,uid=33 '
+
+# rsync
+alias rs="rsync -avz --progress"
 
 ### Packages managers
 
