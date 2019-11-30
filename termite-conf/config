@@ -40,7 +40,7 @@ browser = firefox
 # "off", "left" or "right"
 #scrollbar = off
 
-[colors]
+# [colors]
 # If both of these are unset, cursor falls back to the foreground color,
 # and cursor_foreground falls back to the background color.
 #cursor = #dcdccc
@@ -49,7 +49,7 @@ browser = firefox
 #foreground = #dcdccc
 #foreground_bold = #ffffff
 #background = #3f3f3f
-background = #222222
+#background = #222222
 
 
 # 20% background transparency (requires a compositor)
@@ -59,22 +59,72 @@ background = #222222
 # highlight = #2f2f2f
 
 # Colors from color0 to color254 can be set
-color0 = #3f3f3f
-color1 = #705050
-color2 = #60b48a
-color3 = #dfaf8f
-color4 = #506070
-color5 = #dc8cc3
-color6 = #8cd0d3
-color7 = #dcdccc
-color8 = #709080
-color9 = #dca3a3
-color10 = #c3bf9f
-color11 = #f0dfaf
-color12 = #94bff3
-color13 = #ec93d3
-color14 = #93e0e3
+# color0 = #3f3f3f
+# color1 = #705050
+# color2 = #60b48a
+# color3 = #dfaf8f
+# color4 = #506070
+# color5 = #dc8cc3
+# color6 = #8cd0d3
+# color7 = #dcdccc
+# color8 = #709080
+# color9 = #dca3a3
+# color10 = #c3bf9f
+# color11 = #f0dfaf
+# color12 = #94bff3
+# color13 = #ec93d3
+# color14 = #93e0e3
+# color15 = #ffffff
+
+[colors]
+# Base16 Google Dark
+# Author: Seth Wright (http://sethawright.com)
+
+foreground          = #c5c8c6
+foreground_bold     = #e0e0e0
+cursor              = #e0e0e0
+cursor_foreground   = #1d1f21
+background          = rgba(29, 31, 33)
+
+# 16 color space
+
+# Black, Gray, Silver, White
+color0  = #1d1f21
+color8  = #969896
+color7  = #c5c8c6
 color15 = #ffffff
+
+# Red
+color1  = #CC342B
+color9  = #CC342B
+
+# Green
+color2  = #198844
+color10 = #198844
+
+# Yellow
+color3  = #FBA922
+color11 = #FBA922
+
+# Blue
+color4  = #3971ED
+color12 = #3971ED
+
+# Purple
+color5  = #A36AC7
+color13 = #A36AC7
+
+# Teal
+color6  = #3971ED
+color14 = #3971ED
+
+# Extra colors
+color16 = #F96A38
+color17 = #3971ED
+color18 = #282a2e
+color19 = #373b41
+color20 = #b4b7b4
+color21 = #e0e0e0
 
 [hints]
 #font = Monospace 12

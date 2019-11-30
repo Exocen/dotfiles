@@ -19,8 +19,11 @@ function detectOS {
     if [ -f /etc/lsb-release ]; then
         OS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//')
         VERSION=$(cat /etc/lsb-release | grep DISTRIB_RELEASE | sed 's/^.*=//')
-        if [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian" ] || [ "$OS" = "Arch" ];then
+        if [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian" ];then
             WOS="$OS"
+        elif [ "$OS" = "Arch" ];then
+            WOS="$OS"
+            arch_package_install https://aur.archlinux.org/pacaur.git
         else
             WOS="WTH?"
         fi
@@ -34,8 +37,8 @@ function detectOS {
         WOS="Debian"
     elif [ -f /etc/arch-release ]; then
         WOS="Arch"
-        # Aurman install
-        arch_package_install https://aur.archlinux.org/aurman.git
+        # Aur tool install
+        arch_package_install https://aur.archlinux.org/pacaur.git
     else
         WOS="WTH?"
     fi
@@ -66,7 +69,7 @@ function ins {
         sudo dnf install $@ -y #> /dev/null 2>&1
         is_working "$all installed"
     elif [ "$WOS" = "Arch" ] ;then
-        aurman -Syu $@ --noedit --needed --noconfirm #> /dev/null 2>&1
+        pacaur -Syyuu $@ --noedit --needed --noconfirm #> /dev/null 2>&1
         is_working "$all installed"
     else
         makeItColorful "Unknow OS" $RED
@@ -112,16 +115,17 @@ function make {
             # Bluetooth
             ins blueman pulseaudio-bluetooth bluez-utils
             # Music player
-            ins clementine gst-plugins-good gst-plugins-base gst-plugins-bad gst-plugins-ugly qt5-tools
+            # ins clementine gst-plugins-good gst-plugins-base gst-plugins-bad gst-plugins-ugly qt5-tools
+            ins mpd mpc ncmpc
             # Polybar
             ins polybar
             # Steam
             ins steam lib32-libpulse lib32-alsa-plugins pulseaudio-alsa
         }
-    else
-        {
-            echo "'-f' Argument full installation (Arch Linux only)"
-        }
+else
+    {
+        echo "'-f' Argument full installation (Arch Linux only)"
+    }
     fi
 
 }
