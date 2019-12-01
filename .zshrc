@@ -188,12 +188,12 @@ alias aps='apt search'
 alias apse='apt-cache search -t experimental'
 alias apshow='apt-cache showpkg'
 
-# aurman
-alias auri='aurman -Syu --noedit'
-alias aurr='aurman -R'
-alias auru='aurman -Syu'
-alias aurs='aurman -Ss'
-alias aurc='aurman -Qdt && aurman -Sc --noconfirm && sudo pacman -Rns $(pacman -Qtdq) 2>/dev/null'
+# pacaur
+alias auri='pacaur -Syu --noedit'
+alias aurr='pacaur -R'
+alias auru='pacaur -Syu'
+alias aurs='pacaur -Ss'
+alias aurc='pacaur -Qdt && pacaur -Sc --noconfirm && sudo pacman -Rns $(pacman -Qtdq) 2>/dev/null'
 
 # yum
 alias yu='sudo yum update --color=always'
