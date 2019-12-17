@@ -37,8 +37,11 @@ function detectOS {
     elif [ -f /etc/arch-release ]; then
         WOS="Arch"
         # Aur tool install
-        arch_package_install https://aur.archlinux.org/auracle-git.git 
-        arch_package_install https://aur.archlinux.org/pacaur.git
+        pacaur -v
+        if [ $? -eq 1 ];then
+            arch_package_install https://aur.archlinux.org/auracle-git.git 
+            arch_package_install https://aur.archlinux.org/pacaur.git
+        fi
     else
         WOS="WTH?"
     fi
