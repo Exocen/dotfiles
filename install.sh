@@ -123,7 +123,7 @@ function make {
             ins mpd mpc ncmpc #config cp /usr/share/doc/mpdconf.example .config/mpd/
             # Polybar
             ins polybar
-            # Steam
+            # Steam  uncomment the [multilib] section in /etc/pacman.conf
             ins steam lib32-libpulse lib32-alsa-plugins pulseaudio-alsa
         }
 else
