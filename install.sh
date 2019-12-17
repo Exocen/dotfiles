@@ -21,8 +21,6 @@ function detectOS {
         VERSION=$(cat /etc/lsb-release | grep DISTRIB_RELEASE | sed 's/^.*=//')
         if [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian" ] || [ "$OS" = "Arch" ];then
             WOS="$OS"
-        else
-            WOS="WTH?"
         fi
     elif [ -f /etc/redhat-release ]; then
         WOS="Fedora"
