@@ -283,7 +283,7 @@ function greset() {
     git fetch origin
     git reset --hard origin/master
 }
-function git_config() {
+function gitautoconfig() {
     # git config credential.helper store # ! store plaintext
     git config credential.helper 'cache --timeout=604800' # 7 days
     git config --global user.email Exocen@users.noreply.github.com

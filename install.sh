@@ -39,7 +39,7 @@ function detectOS {
         # Aur tool install
         pacaur -v $2 > /dev/null 2>&1
         if [ $? -ne 0 ];then
-            arch_package_install https://aur.archlinux.org/auracle-git.git 
+            arch_package_install https://aur.archlinux.org/auracle-git.git
             arch_package_install https://aur.archlinux.org/pacaur.git
         fi
     else
@@ -120,7 +120,7 @@ function make {
             ins blueman pulseaudio-bluetooth bluez-utils
             # Music player
             # ins clementine gst-plugins-good gst-plugins-base gst-plugins-bad gst-plugins-ugly qt5-tools
-            ins mpd mpc ncmpc #config cp /usr/share/doc/mpdconf.example .config/mpd/
+            ins mpd mpc ncmpc #config: cp /usr/share/doc/mpdconf.example .config/mpd/mpd.conf
             # Polybar
             ins polybar
             # Steam
