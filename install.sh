@@ -38,7 +38,7 @@ function detectOS {
         WOS="Arch"
         # Aur tool install
         pacaur -v
-        if [ $? -eq 1 ];then
+        if [ $? -ne 0 ];then
             arch_package_install https://aur.archlinux.org/auracle-git.git 
             arch_package_install https://aur.archlinux.org/pacaur.git
         fi
