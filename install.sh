@@ -117,7 +117,7 @@ function make {
             # Utils
             ins tig nethogs nitrogen numlockx mcomix thunar ttf-font-icons terminator firefox vlc
             # Bluetooth
-            ins blueman pulseaudio-bluetooth bluez-utils
+            ins blueman pulseaudio-bluetooth bluez-utils pulseaudio-alsa
             # Music player
             # ins clementine gst-plugins-good gst-plugins-base gst-plugins-bad gst-plugins-ugly qt5-tools
             ins mpd mpc ncmpc #config: cp /usr/share/doc/mpdconf.example .config/mpd/mpd.conf
@@ -128,7 +128,7 @@ function make {
         }
     elif  [ "$1" = "-s" ] && [ "$WOS" = "Arch" ];then
         # Steam uncomment the [multilib] section in /etc/pacman.conf
-        ins steam lib32-libpulse lib32-alsa-plugins pulseaudio-alsa
+        ins steam lib32-libpulse lib32-alsa-plugins
     else
         {
             echo "'-f' Argument full installation (Arch Linux only)"
