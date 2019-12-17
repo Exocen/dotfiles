@@ -19,9 +19,7 @@ function detectOS {
     if [ -f /etc/lsb-release ]; then
         OS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//')
         VERSION=$(cat /etc/lsb-release | grep DISTRIB_RELEASE | sed 's/^.*=//')
-        if [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian" ];then
-            WOS="$OS"
-        elif [ "$OS" = "Arch" ];then
+        if [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian" ] || [ "$OS" = "Arch" ];then
             WOS="$OS"
         else
             WOS="WTH?"
