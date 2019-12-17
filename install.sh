@@ -106,8 +106,9 @@ function make {
             git submodule update --init i3-conf
             home_ln i3-conf ~/.i3
             git submodule update --init polybar-conf
+            mkdir -p ~/.config
             home_ln polybar-conf ~/.config/polybar
-            home_ln termite-conf ~/config/termite
+            home_ln termite-conf ~/.config/termite
             home_ln .zprofile ~/ #if no GDM
             # Video Driver ( intel graphics )
             ins xf86-video-intel
