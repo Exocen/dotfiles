@@ -97,7 +97,7 @@ function make {
     home_ln .oh-my-zsh ~/
     ins vim git htop iftop iotop tree zsh make wget sudo
     sh ~/.vim_runtime/install_awesome_vimrc.sh
-    chsh -s /usr/bin/zsh
+    sudo chsh -s /usr/bin/zsh $USER
     if  [ "$1" = "-f" ] && [ "$WOS" = "Arch" ]
     then
         {
