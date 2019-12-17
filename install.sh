@@ -123,12 +123,15 @@ function make {
             ins mpd mpc ncmpc #config cp /usr/share/doc/mpdconf.example .config/mpd/
             # Polybar
             ins polybar
-            # Steam  uncomment the [multilib] section in /etc/pacman.conf
-            ins steam lib32-libpulse lib32-alsa-plugins pulseaudio-alsa
         }
+        if  [ "$1" = "-s" ] && [ "$WOS" = "Arch" ]
+                    # Steam uncomment the [multilib] section in /etc/pacman.conf
+            ins steam lib32-libpulse lib32-alsa-plugins pulseaudio-alsa
+            fi
 else
     {
         echo "'-f' Argument full installation (Arch Linux only)"
+        echo "'-s' Steam installation (Arch Linux only)"
     }
     fi
 
