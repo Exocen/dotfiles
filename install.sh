@@ -39,7 +39,7 @@ function detectOS {
         # Aur tool install
         pacaur -v $2 > /dev/null 2>&1
         if [ $? -ne 0 ];then
-            arch_package_install https://aur.archlinux.org/auracle-git.git 
+            arch_package_install https://aur.archlinux.org/auracle-git.git
             arch_package_install https://aur.archlinux.org/pacaur.git
         fi
     else
@@ -124,15 +124,14 @@ function make {
             # Polybar
             ins polybar
         }
-        if  [ "$1" = "-s" ] && [ "$WOS" = "Arch" ]
-                    # Steam uncomment the [multilib] section in /etc/pacman.conf
-            ins steam lib32-libpulse lib32-alsa-plugins pulseaudio-alsa
-            fi
-else
-    {
-        echo "'-f' Argument full installation (Arch Linux only)"
-        echo "'-s' Steam installation (Arch Linux only)"
-    }
+    elif  [ "$1" = "-s" ] && [ "$WOS" = "Arch" ];then
+        # Steam uncomment the [multilib] section in /etc/pacman.conf
+        ins steam lib32-libpulse lib32-alsa-plugins pulseaudio-alsa
+    else
+        {
+            echo "'-f' Argument full installation (Arch Linux only)"
+            echo "'-s' Steam installation (Arch Linux only)"
+        }
     fi
 
 }
