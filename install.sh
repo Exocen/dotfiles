@@ -113,7 +113,7 @@ function make {
             # WM
             ins i3-gaps dmenu xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp
             # Utils
-            ins tig nethogs nitrogen numlockx mcomix thunar ttf-font-icons terminator firefox vlc
+            ins tig nethogs nitrogen numlockx mcomix thunar ttf-font-icons termite ttf-fira-code firefox vlc
             # Bluetooth
             ins blueman pulseaudio-bluetooth bluez-utils pulseaudio-alsa
             # Music player
@@ -121,8 +121,6 @@ function make {
             ins mpd mpc ncmpc #config: cp /usr/share/doc/mpdconf.example .config/mpd/mpd.conf
             # Polybar
             ins polybar siji-git
-            # Termite
-            ins termite ttf-fira-code
         }
     elif  [ "$1" = "-s" ] && [ "$WOS" = "Arch" ];then
         # Steam uncomment the [multilib] section in /etc/pacman.conf
