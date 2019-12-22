@@ -19,12 +19,8 @@ function detectOS {
     if [ -f /etc/lsb-release ]; then
         OS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//')
         VERSION=$(cat /etc/lsb-release | grep DISTRIB_RELEASE | sed 's/^.*=//')
-        if [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian" ];then
+        if [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian" ] || [ "$OS" = "Arch" ];then
             WOS="$OS"
-        elif [ "$OS" = "Arch" ];then
-            WOS="$OS"
-        else
-            WOS="WTH?"
         fi
     elif [ -f /etc/redhat-release ]; then
         WOS="Fedora"
@@ -99,7 +95,7 @@ function make {
     home_ln .oh-my-zsh ~/
     ins vim git htop iftop iotop tree zsh make wget sudo
     sh ~/.vim_runtime/install_awesome_vimrc.sh
-    chsh -s /usr/bin/zsh
+    sudo chsh -s /usr/bin/zsh $USER
     if  [ "$1" = "-f" ] && [ "$WOS" = "Arch" ]
     then
         {
@@ -115,7 +111,7 @@ function make {
             # WM
             ins i3-gaps dmenu xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp
             # Utils
-            ins tig nethogs nitrogen numlockx mcomix thunar ttf-font-icons terminator firefox vlc
+            ins tig nethogs nitrogen numlockx mcomix thunar ttf-font-icons termite ttf-fira-code firefox vlc
             # Bluetooth
             ins blueman pulseaudio-bluetooth bluez-utils pulseaudio-alsa
             # Music player
@@ -123,8 +119,6 @@ function make {
             ins mpd mpc ncmpc #config: cp /usr/share/doc/mpdconf.example .config/mpd/mpd.conf
             # Polybar
             ins polybar siji-git
-            # Termite
-            ins termite ttf-fira-code
         }
     elif  [ "$1" = "-s" ] && [ "$WOS" = "Arch" ];then
         # Steam uncomment the [multilib] section in /etc/pacman.conf
