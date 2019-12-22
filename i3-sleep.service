@@ -13,4 +13,5 @@ ExecStartPost=/bin/sleep 1
 WantedBy=suspend.target
 
 # auri i3lock
-# sudo mv file /etc/systemd/system/
+# sudo cp file /etc/systemd/system/
+# sudo systemctl enable file
