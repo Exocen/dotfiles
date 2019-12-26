@@ -8,4 +8,5 @@ ExecStart=/usr/bin/powertop --auto-tune
 [Install]
 WantedBy=default.target
 
-# sudo mv file /etc/systemd/system/
+# sudo cp file /etc/systemd/system/
+# sudo systemctl enable file
