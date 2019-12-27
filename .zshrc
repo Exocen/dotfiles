@@ -165,7 +165,7 @@ alias mountntfs="sudo mount -t ntfs -o uid=$UID,umask=22"
 alias mountfat='sudo mount -o umask=0022,gid=33,uid=33 '
 
 # rsync
-alias rs="rsync -avz --progress"
+alias rs="rsync -avz --info=progress2"
 
 ### Packages managers
 

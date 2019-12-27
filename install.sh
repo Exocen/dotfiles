@@ -118,7 +118,7 @@ function make {
             # ins clementine gst-plugins-good gst-plugins-base gst-plugins-bad gst-plugins-ugly qt5-tools
             ins mpd mpc ncmpc #config: cp /usr/share/doc/mpdconf.example .config/mpd/mpd.conf
             # Polybar
-            ins polybar siji-git
+            ins polybar-git siji-git ttf-nerd-fonts-symbols
         }
     elif  [ "$1" = "-s" ] && [ "$WOS" = "Arch" ];then
         # Steam uncomment the [multilib] section in /etc/pacman.conf
