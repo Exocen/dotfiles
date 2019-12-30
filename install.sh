@@ -95,10 +95,10 @@ function arch_package_install {
 function make {
     detectOS
     home_folder home_conf
-    home_ln vim-conf ~/.vim_runtime
     git submodule update --init .oh-my-zsh
     git submodule update --init vim-conf
     home_ln .oh-my-zsh ~/
+    home_ln vim-conf ~/.vim_runtime
     ins vim git htop iftop iotop tree zsh make wget sudo
     sh ~/.vim_runtime/install_awesome_vimrc.sh
     sudo chsh -s /usr/bin/zsh $USER
@@ -111,7 +111,6 @@ function make {
             mkdir -p ~/.config
             home_ln polybar-conf ~/.config/polybar
             home_ln termite-conf ~/.config/termite
-            home_ln .zprofile ~/ #if no GDM
             # Video Driver ( intel graphics )
             ins xf86-video-intel
             # WM

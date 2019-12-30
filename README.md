@@ -6,13 +6,13 @@ Dotfiles + auto install for servers
 ### Emacs + Zsh config
 
 Tested on
-* Ubuntu 14+
+* Ubuntu 15+
 * Fedora 29+
 * Debian 8+
 * Arch
 * Raspbian
 
-Use oh-my-zsh repos [oh-my-zsh](https://github.com/exocen/oh-my-zsh.git)
+Zsh config [oh-my-zsh](https://github.com/exocen/oh-my-zsh.git)
 
 ### I3 config
 
@@ -20,12 +20,6 @@ Tested on
 * Fedora 29+
 * Ubuntu 14+
 * Arch Linux
-
-###### Arch linux hercules dual pix webcam :
-```shell
-echo 'options uvcvideo quirks=0x100' | sudo tee -a /etc/modprobe.d/uvcvideo.conf
-```
-
 ---
 
 ### TODO
@@ -53,7 +47,5 @@ mail                         IN A      ipHost
 myselector._domainkey        IN TXT    ( "v=DKIM1; k=rsa; s=email; p=value" )
 www                          IN CNAME  HOSTNAME.
 ````
-
-* cv => gpg -do cv.tgz cv.tgz.gpg && extract cv.tgz
 
 * ln -s /etc/ca-certificates/extracted/ca-bundle.trust.crt /etc/ssl/certs/ca-certificates.crt
