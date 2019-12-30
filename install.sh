@@ -48,6 +48,14 @@ function home_ln {
     is_working "ln $1 on $2"
 }
 
+function home_folder {
+    for f in $1/*; do
+        DEST=$(basename $f)
+        ln -sfn `pwd`/$f ~/.$DEST > /dev/null 2>&1
+        is_working "ln $f to ~/.$DEST"
+    done
+}
+
 function home_cp {
     unalias cp > /dev/null 2>&1
     cp -fr `pwd`/$1 ~/$1 > /dev/null 2>&1
@@ -86,9 +94,7 @@ function arch_package_install {
 
 function make {
     detectOS
-    home_ln .zshrc ~/
-    home_ln .xinitrc ~/
-    home_ln .emacs ~/
+    home_folder home_conf
     home_ln vim-conf ~/.vim_runtime
     git submodule update --init .oh-my-zsh
     git submodule update --init vim-conf
