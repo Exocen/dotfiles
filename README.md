@@ -9,17 +9,11 @@ Tested on
 * Ubuntu 15+
 * Fedora 29+
 * Debian 8+
-* Arch
+* Arch (+ i3 conf)
 * Raspbian
 
 Zsh config [oh-my-zsh](https://github.com/exocen/oh-my-zsh.git)
 
-### I3 config
-
-Tested on
-* Fedora 29+
-* Ubuntu 14+
-* Arch Linux
 ---
 
 ### TODO
@@ -49,3 +43,4 @@ www                          IN CNAME  HOSTNAME.
 ````
 
 * ln -s /etc/ca-certificates/extracted/ca-bundle.trust.crt /etc/ssl/certs/ca-certificates.crt
+
