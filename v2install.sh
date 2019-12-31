@@ -132,14 +132,14 @@ function make {
             # Polybar
             ins polybar-git siji-git ttf-nerd-fonts-symbols
         }
-    elif  [ "$1" = "-s" ] && [ "$WOS" = "Arch" ];then
-        # Steam uncomment the [multilib] section in /etc/pacman.conf
-        ins steam lib32-libpulse lib32-alsa-plugins
-    else
-        {
-            echo "'-f' Argument full installation (Arch Linux only)"
-            echo "'-s' Steam installation (Arch Linux only)"
-        }
+elif  [ "$1" = "-s" ] && [ "$WOS" = "Arch" ];then
+    # Steam uncomment the [multilib] section in /etc/pacman.conf
+    ins steam lib32-libpulse lib32-alsa-plugins
+else
+    {
+        echo "'-f' Argument full installation (Arch Linux only)"
+        echo "'-s' Steam installation (Arch Linux only)"
+    }
     fi
 
 }
@@ -149,8 +149,8 @@ function mainScript() {
     echo -n
     info 'Script started'
     detectOS
-    debug `sudo apt-get update`
-
+    debug "echo $USER"
+    if $printLog ; then info "Log file: $logFile"; fi
 }
 
 function trapCleanup() {
@@ -199,7 +199,7 @@ underline=$(tput sgr 0 1)
 # Set Temp Directory
 tmpDir="/tmp/${scriptName}.$RANDOM.$RANDOM.$RANDOM.$$"
 (umask 077 && mkdir "${tmpDir}") || {
-die "Could not create temporary directory! Exiting."
+    die "Could not create temporary directory! Exiting."
 
 }
 
@@ -296,10 +296,10 @@ function _alert() {
     if [ "${1}" = "error"  ]; then local color="${bold}${red}"; fi
     if [ "${1}" = "warning"  ]; then local color="${red}"; fi
     if [ "${1}" = "success"  ]; then local color="${green}"; fi
-    if [ "${1}" = "debug"  ] && $debug; then local color="${purple}"; fi
+    if [ "${1}" = "debug"  ]; then local color="${purple}"; fi
     if [ "${1}" = "header"  ]; then local color="${bold}${tan}"; fi
     if [ "${1}" = "input"  ]; then local color="${bold}"; fi
-    if [ "${1}" = "info"  ] || [ "${1}" = "notice"  ]; then local color=""; fi
+    if [ "${1}" = "info"  ] || [ "${1}" = "notice"  ]; then local color="${blue}"; fi
     # Don't use colors on pipes or non-recognized terminals
     if [[ "${TERM}" != "xterm"*  ]] || [ -t 1  ]; then color=""; reset=""; fi
 
@@ -311,17 +311,19 @@ function _alert() {
     # Print to Logfile
     if ${printLog} && [ "${1}" != "input"  ]; then
         color=""; reset="" # Don't use colors in logs
-        echo -e "$(date +"%m-%d-%Y %r") $(printf "[%7s]" "${1}") ${_message}" >> "${logFile}" 2>&1;
+            echo -e "$(date +"%F %T") $(printf "[%7s]" "${1}") ${_message}" >> "${logFile}";
+        if [ "${1}" = "debug" ]; then
+            echo -e "$(date +"%F %T") $(printf "[%7s]" "run") `eval ${_message} 2>&1`" >> "${logFile}" ;
+        fi
     fi
-
 }
 
 function die ()       { local _message="${*} Exiting."; echo -e "$(_alert error)"; safeExit; }
 function error ()     { local _message="${*}"; echo -e "$(_alert error)";  }
 function warning ()   { local _message="${*}"; echo -e "$(_alert warning)";  }
 function notice ()    { local _message="${*}"; echo -e "$(_alert notice)";  }
-function info ()      { local _message="${*}"; echo -e "$(_alert info)"2>&1 1>/dev/null;  }
-function debug ()     { local _message="${*}"; echo -e "$(_alert debug)"2>&1 1>/dev/null;  }
+function info ()      { local _message="${*}"; echo -e "$(_alert info)";  }
+function debug ()     { local _message="${*}"; echo -e "$(_alert debug)";  }
 function success ()   { local _message="${*}"; echo -e "$(_alert success)";  }
 function input()      { local _message="${*}"; echo -n "$(_alert input)";  }
 function header()     { local _message="== ${*} ==  "; echo -e "$(_alert header)";  }
