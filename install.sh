@@ -95,7 +95,8 @@ function arch_package_install {
 function make {
     detectOS
     home_folder home_conf
-    git submodule update --init .oh-my-zsh
+    git clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
+    git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
     git submodule update --init vim-conf
     home_ln .oh-my-zsh ~/
     home_ln vim-conf ~/.vim_runtime
