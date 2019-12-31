@@ -4,7 +4,6 @@ DISABLE_LS_COLORS="false"
 DISABLE_AUTO_TITLE="false"
 COMPLETION_WAITING_DOTS="true"
 
-source /usr/share/zsh-theme-powerlevel9k/powerlevel9k.zsh-theme
 export PATH="/sbin:$PATH"
 
 zstyle ':completion:*' menu select
@@ -47,6 +46,7 @@ export TERM=xterm-256color
 # ohmyzsh !
 export ZSH=$HOME/.oh-my-zsh
 plugins=(git docker sudo systemd)
+source $ZSH/oh-my-zsh.sh
 # systemd plug -> sc-cmd
 # sudo plug -> ESC * 2
 
@@ -55,6 +55,7 @@ compinit -C
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
 # Powerlevel9k (https://github.com/Powerlevel9k/powerlevel9k)
+source /usr/share/zsh-theme-powerlevel9k/powerlevel9k.zsh-theme
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir_writable dir vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(context status root_indicator background_jobs command_execution_time)
 
@@ -128,7 +129,6 @@ alias cl='clear'
 alias cp='cp -vi'
 alias s='cd ..'
 alias dudu='du -hd1 | sort -h'
-alias rmt='find . -name "*~" -exec rm {} \; -print -or -name ".*~" -exec rm {} \; -print -or -name "\#*\#*" -exec rm {} \; -print'
 alias rmte='find . -empty -type d'
 alias rmted='find . -empty -type d -delete -print'
 alias x='exit'
@@ -169,6 +169,7 @@ alias openvpnconf='sudo openvpn --config'
 alias viewtar='tar -tf'
 alias myip='curl ipinfo.io/ip'
 alias visudo='sudo EDITOR=vim visudo'
+alias rmt='find . -name "*~" -exec rm {} \; -print -or -name ".*~" -exec rm {} \; -print -or -name "\#*\#*" -exec rm {} \; -print'
 
 # mount
 alias mnt="sudo mount -o uid=$UID,dmask=27,fmask=137"
