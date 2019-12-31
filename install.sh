@@ -2,6 +2,7 @@
 RED="31"
 GREEN="32"
 WOS=""
+PWRLVL9K="https://github.com/romkatv/powerlevel10k.git"
 
 function makeItColorful {
     echo -e "\e[$2m$1\e[0m"
