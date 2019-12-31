@@ -116,7 +116,7 @@ function make {
             # WM
             ins i3-gaps dmenu xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp
             # Utils
-            ins tig nethogs nitrogen numlockx mcomix thunar ttf-font-icons termite ttf-fira-code firefox vlc
+            ins tig nethogs nitrogen numlockx mcomix thunar termite ttf-fira-code zsh-theme-powerlevel9k firefox vlc
             # Bluetooth
             ins blueman pulseaudio-bluetooth bluez-utils pulseaudio-alsa
             # Music player
