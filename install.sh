@@ -98,7 +98,6 @@ function make {
     git clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
     git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
     git submodule update --init vim-conf
-    home_ln .oh-my-zsh ~/
     home_ln vim-conf ~/.vim_runtime
     ins vim git htop iftop iotop tree zsh make wget sudo
     sh ~/.vim_runtime/install_awesome_vimrc.sh
