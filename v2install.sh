@@ -11,7 +11,7 @@ version="1.0.0"              # Sets version variable
 # ##################################################
 
 WOS=''
-
+LOCAL=`dirname "$(readlink -f "$0")"`
 
 function is_working {
     if [ $? -eq 0 ];then
@@ -30,8 +30,6 @@ function detectOS {
         fi
     elif [ -f /etc/redhat-release ]; then
         WOS="Fedora"
-        sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-        sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
     elif [ -f /etc/centos-release ]; then
         WOS="CentOS"
     elif [ -f /etc/debian_version ]; then
@@ -44,14 +42,14 @@ function detectOS {
 }
 
 function home_ln {
-    ln -sfn `pwd`/$1 $2 > /dev/null 2>&1
+    ln -sfn `pwd`/$1 $2 &>$logFile
     is_working "ln $1 on $2"
 }
 
 function home_folder {
     for f in $1/*; do
         DEST=$(basename $f)
-        ln -sfn `pwd`/$f ~/.$DEST > /dev/null 2>&1
+        ln -sfn `pwd`/$f ~/.$DEST &>$logFile
         is_working "ln $f to ~/.$DEST"
     done
 }
@@ -68,16 +66,19 @@ function ins {
     all="$@" #for is_working function
     info "Installation: $all "
     if [ "$WOS" = "Ubuntu" ] || [ "$WOS" = "Debian" ] ;then
-        sudo apt update -y > /dev/null 2>&1
-        sudo apt install $@ -y # > /dev/null 2>&1
+        sudo apt update -y &>$logFile
+        sudo apt install $@ -y &>$logFile
         is_working "$all installed"
     elif [ "$WOS" = "Fedora" ] ;then
-        debug 'sudo dnf update -y'
-        debug 'sudo dnf install $@ -y'
+        # TODO check rpm first
+        sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+        sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+        sudo dnf update -y &>$logFile
+        sudo dnf install $@ -y &>$logFile
         is_working "$all installed"
     elif [ "$WOS" = "Arch" ] ;then
         # Aur tool install
-        pacaur -v $2 > /dev/null 2>&1
+        pacaur -v &>/dev/null
         if [ $? -ne 0 ];then
             arch_package_install https://aur.archlinux.org/auracle-git.git
             arch_package_install https://aur.archlinux.org/pacaur.git
@@ -90,19 +91,19 @@ function ins {
 }
 
 function arch_package_install {
-    sudo pacman -S --needed base-devel git --noconfirm
-    git clone $1 install_folder
-    cd install_folder
-    makepkg -fsri --skipinteg --noconfirm
-    cd ..
-    rm -rf install_folder
+    sudo pacman -S --needed base-devel git --noconfirm &>$logFile
+    tmpD=`mktemp -d`
+    git clone $1 $tmpD &>$logFile
+    cd $tmpD
+    makepkg -fsri --skipinteg --noconfirm  &>$logFile
+    cd $LOCAL
 }
 
 function make {
     detectOS
     home_folder home_conf
     git clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
-    git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/themes/powerlevel10k
     git submodule update --init vim-conf
     home_ln vim-conf ~/.vim_runtime
     ins vim git htop iftop iotop tree zsh make wget sudo
@@ -150,9 +151,13 @@ function mainScript() {
 
     detectOS
     debug "echo $USER"
-    pacaur -Syyuu $@ --noedit --needed --noconfirm bobobobobobobo &>$logFile
-    is_working "$all installed"
-
+    # pacaur -Syyuu $@ --noedit --needed --noconfirm bobobobobobobo &>$logFile
+    # is_working "$all installed"
+    echo $LOCAL
+    tmpD=`mktemp -d`
+    git clone https://github.com/exocen/dotfiles $tmpD
+    cd $tmpD
+    echo `ls`
 
 }
 
