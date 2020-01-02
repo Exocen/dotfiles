@@ -180,7 +180,12 @@ alias mountntfs="sudo mount -t ntfs -o uid=$UID,umask=22"
 alias mountfat='sudo mount -o umask=0022,gid=33,uid=33 '
 
 # rsync
-alias rs="rsync -avz --info=progress2"
+function cpr() {
+  rsync --archive -hh --partial --info=stats1 --info=progress2 --modify-window=1 "$@"
+}
+function mvr() {
+  rsync --archive -hh --partial --info=stats1 --info=progress2 --modify-window=1 --remove-source-files "$@"
+}
 
 ### Packages managers
 
