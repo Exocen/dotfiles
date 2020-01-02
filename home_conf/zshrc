@@ -176,15 +176,20 @@ alias rmt='find . -name "*~" -exec rm {} \; -print -or -name ".*~" -exec rm {} \
 
 # mount
 alias mnt="sudo mount -o uid=$UID,dmask=27,fmask=137"
-alias mountntfs="sudo mount -t ntfs -o uid=$UID,umask=22"
+# alias mountntfs="sudo mount -t ntfs -o uid=$UID,umask=22"
 alias mountfat='sudo mount -o umask=0022,gid=33,uid=33 '
 
+function mountntfs {
+    mkdir -p $2
+    sudo mount -t ntfs -o uid=$UID,umask=22 $1 $2
+
+}
 # rsync
 function cpr() {
-  rsync --archive -hh --partial --info=stats1 --info=progress2 --modify-window=1 "$@"
+    rsync --archive -hh --partial --info=stats1 --info=progress2 --modify-window=1 "$@"
 }
 function mvr() {
-  rsync --archive -hh --partial --info=stats1 --info=progress2 --modify-window=1 --remove-source-files "$@"
+    rsync --archive -hh --partial --info=stats1 --info=progress2 --modify-window=1 --remove-source-files "$@"
 }
 
 ### Packages managers
