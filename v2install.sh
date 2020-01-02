@@ -10,15 +10,14 @@ version="1.0.0"              # Sets version variable
 #
 # ##################################################
 
-function makeItColorful {
-    echo -e "\e[$2m$1\e[0m"
-}
+WOS=''
+
 
 function is_working {
     if [ $? -eq 0 ];then
-        makeItColorful "Success : $1" $GREEN
+        success "$1"
     else
-        makeItColorful "Fail : $1" $RED
+        error "$1"
     fi
 }
 
@@ -39,12 +38,6 @@ function detectOS {
         WOS="Debian"
     elif [ -f /etc/arch-release ]; then
         WOS="Arch"
-        # Aur tool install
-        pacaur -v $2 > /dev/null 2>&1
-        if [ $? -ne 0 ];then
-            arch_package_install https://aur.archlinux.org/auracle-git.git
-            arch_package_install https://aur.archlinux.org/pacaur.git
-        fi
     else
         WOS="WTH?"
     fi
@@ -73,20 +66,26 @@ function home_cp {
 # run detectOS before
 function ins {
     all="$@" #for is_working function
-    echo "Installation: $all ...."
+    info "Installation: $all "
     if [ "$WOS" = "Ubuntu" ] || [ "$WOS" = "Debian" ] ;then
         sudo apt update -y > /dev/null 2>&1
         sudo apt install $@ -y # > /dev/null 2>&1
         is_working "$all installed"
     elif [ "$WOS" = "Fedora" ] ;then
-        sudo dnf update -y #> /dev/null 2>&1
-        sudo dnf install $@ -y #> /dev/null 2>&1
+        debug 'sudo dnf update -y'
+        debug 'sudo dnf install $@ -y'
         is_working "$all installed"
     elif [ "$WOS" = "Arch" ] ;then
-        pacaur -Syyuu $@ --noedit --needed --noconfirm #> /dev/null 2>&1
+        # Aur tool install
+        pacaur -v $2 > /dev/null 2>&1
+        if [ $? -ne 0 ];then
+            arch_package_install https://aur.archlinux.org/auracle-git.git
+            arch_package_install https://aur.archlinux.org/pacaur.git
+        fi
+        pacaur -Syyuu $@ --noedit --needed --noconfirm &>$logFile
         is_working "$all installed"
     else
-        makeItColorful "Unknow OS" $RED
+        error "Unknow OS"
     fi
 }
 
@@ -126,8 +125,8 @@ function make {
             ins tig nethogs nitrogen numlockx mcomix thunar termite ttf-fira-code zsh-theme-powerlevel9k firefox vlc
             # Bluetooth
             ins blueman pulseaudio-bluetooth bluez-utils pulseaudio-alsa
-            # Music player
-            # ins clementine gst-plugins-good gst-plugins-base gst-plugins-bad gst-plugins-ugly qt5-tools
+        # Music player
+        # ins clementine gst-plugins-good gst-plugins-base gst-plugins-bad gst-plugins-ugly qt5-tools
             ins mpd mpc ncmpc #config: cp /usr/share/doc/mpdconf.example .config/mpd/mpd.conf
             # Polybar
             ins polybar-git siji-git ttf-nerd-fonts-symbols
@@ -148,9 +147,13 @@ else
 function mainScript() {
     echo -n
     info 'Script started'
+
     detectOS
     debug "echo $USER"
-    if $printLog ; then info "Log file: $logFile"; fi
+    pacaur -Syyuu $@ --noedit --needed --noconfirm bobobobobobobo &>$logFile
+    is_working "$all installed"
+
+
 }
 
 function trapCleanup() {
@@ -169,6 +172,7 @@ function safeExit() {
         rm -r "${tmpDir}"
     fi
     trap - INT TERM EXIT
+    if $printLog ; then notice "Log file: $logFile"; fi
     exit
 
 }
@@ -299,21 +303,22 @@ function _alert() {
     if [ "${1}" = "debug"  ]; then local color="${purple}"; fi
     if [ "${1}" = "header"  ]; then local color="${bold}${tan}"; fi
     if [ "${1}" = "input"  ]; then local color="${bold}"; fi
+    if [ "${1}" = "notice"  ]; then local color="${blue}"; fi
     if [ "${1}" = "info"  ] || [ "${1}" = "notice"  ]; then local color="${blue}"; fi
     # Don't use colors on pipes or non-recognized terminals
     if [[ "${TERM}" != "xterm"*  ]] || [ -t 1  ]; then color=""; reset=""; fi
 
     # Print to console when script is not 'quiet'
-    if ${quiet}; then return; else
+    if ${quiet} || [ "${1}" = "debug"  ]; then true; else
         echo -e "$(date +"%r") ${color}$(printf "[%7s]" "${1}") ${_message}${reset}";
     fi
 
     # Print to Logfile
-    if ${printLog} && [ "${1}" != "input"  ]; then
+    if ${printLog} && [ "${1}" != "input"  ] && [ "${1}" != "notice" ];  then
         color=""; reset="" # Don't use colors in logs
-            echo -e "$(date +"%F %T") $(printf "[%7s]" "${1}") ${_message}" >> "${logFile}";
+        echo -e "$(date +"%F %T") $(printf "[%7s]" "${1}") ${_message}" >> "${logFile}";
         if [ "${1}" = "debug" ]; then
-            echo -e "$(date +"%F %T") $(printf "[%7s]" "run") `eval ${_message} 2>&1`" >> "${logFile}" ;
+            echo -e "$(date +"%F %T") $(printf "[%7s]" "run") `${_message} 2>&1`" >> "${logFile}" ;
         fi
     fi
 }
@@ -323,7 +328,7 @@ function error ()     { local _message="${*}"; echo -e "$(_alert error)";  }
 function warning ()   { local _message="${*}"; echo -e "$(_alert warning)";  }
 function notice ()    { local _message="${*}"; echo -e "$(_alert notice)";  }
 function info ()      { local _message="${*}"; echo -e "$(_alert info)";  }
-function debug ()     { local _message="${*}"; echo -e "$(_alert debug)";  }
+function debug ()     { local _message="${*}"; echo -n "$(_alert debug)";  }
 function success ()   { local _message="${*}"; echo -e "$(_alert success)";  }
 function input()      { local _message="${*}"; echo -n "$(_alert input)";  }
 function header()     { local _message="== ${*} ==  "; echo -e "$(_alert header)";  }
@@ -367,13 +372,13 @@ function is_not_confirmed() {
 
 
 # Trap bad exits with your cleanup function
-trap trapCleanup EXIT INT TERM
+# trap trapCleanup EXIT INT TERM
 
 # Set IFS to preferred implementation
 IFS=$' \n\t'
 
 # Exit on error. Append '||true' when you run the script if you expect an error.
-set -o errexit
+# set -o errexit ||true
 
 # Run in debug mode, if set
 if ${debug}; then set -x ; fi

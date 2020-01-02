@@ -97,7 +97,7 @@ function make {
     detectOS
     home_folder home_conf
     git clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
-    git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/themes/powerlevel10k
     git submodule update --init vim-conf
     home_ln vim-conf ~/.vim_runtime
     ins vim git htop iftop iotop tree zsh make wget sudo
