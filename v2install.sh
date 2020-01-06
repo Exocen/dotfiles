@@ -89,14 +89,19 @@ function arch_package_install {
     cd $LOCAL
 }
 
+function git_clone {
+   if [ -f "$2" ] || $force; then
+       git clone --depth=1 $1 $2
+   fi
+}
+
 function make {
     detectOS
-    home_folder home_conf
-    git clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/themes/powerlevel10k
-    git submodule update --init vim-conf
-    home_ln vim-conf ~/.vim_runtime
     ins vim git htop iftop iotop tree zsh make wget sudo
+    home_folder home_conf
+    git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
+    git_clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
+    git_clone hhttps://github.com/exocen/vim-conf ~/.vim_runtime
     sh ~/.vim_runtime/install_awesome_vimrc.sh
     sudo chsh -s /usr/bin/zsh $USER
     if  [ "$1" = "-f" ] && [ "$WOS" = "Arch" ]
