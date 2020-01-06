@@ -13,7 +13,7 @@
 # Unclutter (hidden pointer)
 # exec --no-startup-id unclutter
 # Wifi
-exec --no-startup-id sudo netctl start wlp1s0-WIFI &
+# exec --no-startup-id sudo netctl start wlp1s0-WIFI &
 
 # Polybar start
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
