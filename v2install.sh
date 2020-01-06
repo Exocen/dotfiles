@@ -1,15 +1,5 @@
 #!/usr/bin/env bash
 
-# ##################################################
-#
-version="1.0.0"              # Sets version variable
-#
-# HISTORY:
-#
-# * DATE - v1.0.0  - First Creation
-#
-# ##################################################
-
 WOS=''
 LOCAL=`dirname "$(readlink -f "$0")"`
 
@@ -124,6 +114,8 @@ function make {
             ins i3-gaps dmenu xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp
             # Utils
             ins tig nethogs nitrogen numlockx mcomix thunar termite ttf-fira-code zsh-theme-powerlevel9k firefox vlc
+            # reflector
+            # reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
             # Bluetooth
             ins blueman pulseaudio-bluetooth bluez-utils pulseaudio-alsa
         # Music player
