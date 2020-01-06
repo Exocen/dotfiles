@@ -37,11 +37,23 @@ function home_ln {
 }
 
 function home_folder {
+    info "Symbolic links to home..."
     for f in $1/*; do
         DEST=$(basename $f)
         ln -sfn `pwd`/$f ~/.$DEST &>$logFile
         is_working "ln $f to ~/.$DEST"
     done
+}
+
+function conf_folder {
+    info "Symbolic links to .config"
+    mkdir -p ~/.config
+    for f in $1/*; do
+        DEST=$(basename $f)
+        ln -sfn `pwd`/$f ~/.config/.$DEST &>$logFile
+        is_working "ln $f to ~/.config/.$DEST"
+    done
+
 }
 
 function home_cp {
@@ -81,6 +93,7 @@ function ins {
 }
 
 function arch_package_install {
+    info "Arch install: $1"
     sudo pacman -S --needed base-devel git --noconfirm &>$logFile
     tmpD=`mktemp -d`
     git clone $1 $tmpD &>$logFile
@@ -90,20 +103,35 @@ function arch_package_install {
 }
 
 function git_clone {
-   if [ -f "$2" ] || $force; then
-       git clone --depth=1 $1 $2
-   fi
+    info "Cloning $1"
+    if $force ; then
+        rm -rf $2
+        is_working "Removed: $2"
+    fi
+    if [ -f "$2" ] ; then
+        git clone --depth=1 $1 $2
+        is_working "Cloned: $1 to $2"
+    fi
+}
+
+function basic_install {
+    info "Basic installation"
+    # Basic packages
+    ins vim git htop iftop iotop tree zsh make wget sudo
+    # ln -s all conf
+    home_folder home_conf
+    conf_folder conf_conf
+    # zsh
+    git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
+    git_clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
+    sudo chsh -s /usr/bin/zsh $USER
+    # vimrc
+    git_clone https://github.com/exocen/vim-conf ~/.vim_runtime
+    sh ~/.vim_runtime/install_awesome_vimrc.sh
+
 }
 
 function make {
-    detectOS
-    ins vim git htop iftop iotop tree zsh make wget sudo
-    home_folder home_conf
-    git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
-    git_clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
-    git_clone hhttps://github.com/exocen/vim-conf ~/.vim_runtime
-    sh ~/.vim_runtime/install_awesome_vimrc.sh
-    sudo chsh -s /usr/bin/zsh $USER
     if  [ "$1" = "-f" ] && [ "$WOS" = "Arch" ]
     then
         {
@@ -123,8 +151,8 @@ function make {
             # reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
             # Bluetooth
             ins blueman pulseaudio-bluetooth bluez-utils pulseaudio-alsa
-        # Music player
-        # ins clementine gst-plugins-good gst-plugins-base gst-plugins-bad gst-plugins-ugly qt5-tools
+            # Music player
+            # ins clementine gst-plugins-good gst-plugins-base gst-plugins-bad gst-plugins-ugly qt5-tools
             ins mpd mpc ncmpc #config: cp /usr/share/doc/mpdconf.example .config/mpd/mpd.conf
             # Polybar
             ins polybar-git siji-git ttf-nerd-fonts-symbols
@@ -147,14 +175,9 @@ function mainScript() {
     info 'Script started'
 
     detectOS
-    debug "echo $USER"
-    # pacaur -Syyuu $@ --noedit --needed --noconfirm bobobobobobobo &>$logFile
-    # is_working "$all installed"
-    echo $LOCAL
-    tmpD=`mktemp -d`
-    git clone https://github.com/exocen/dotfiles $tmpD
-    cd $tmpD
-    echo `ls`
+    if $force ; then
+        echo "force!"
+    fi
 
 }
 
