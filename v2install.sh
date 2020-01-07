@@ -32,7 +32,7 @@ function detectOS {
 }
 
 function home_ln {
-    ln -sfn `pwd`/$1 $2 &>$logFile
+    ln -sfn `pwd`/$1 $2 &>>$logFile
     is_working "ln $1 on $2"
 }
 
@@ -40,7 +40,7 @@ function home_folder {
     info "Symbolic links to home..."
     for f in $1/*; do
         DEST=$(basename $f)
-        ln -sfn `pwd`/$f ~/.$DEST &>$logFile
+        ln -sfn `pwd`/$f ~/.$DEST &>>$logFile
         is_working "ln $f to ~/.$DEST"
     done
 }
@@ -50,7 +50,7 @@ function conf_folder {
     mkdir -p ~/.config
     for f in $1/*; do
         DEST=$(basename $f)
-        ln -sfn `pwd`/$f ~/.config/.$DEST &>$logFile
+        ln -sfn `pwd`/$f ~/.config/.$DEST &>>$logFile
         is_working "ln $f to ~/.config/.$DEST"
     done
 
@@ -68,15 +68,15 @@ function ins {
     all="$@" #for is_working function
     info "Installation: $all "
     if [ "$WOS" = "Ubuntu" ] || [ "$WOS" = "Debian" ] ;then
-        sudo apt update -y &>$logFile
-        sudo apt install $@ -y &>$logFile
+        sudo apt update -y &>>$logFile
+        sudo apt install $@ -y &>>$logFile
         is_working "$all installed"
     elif [ "$WOS" = "Fedora" ] ;then
         # TODO check rpm first
         sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
         sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-        sudo dnf update -y &>$logFile
-        sudo dnf install $@ -y &>$logFile
+        sudo dnf update -y &>>$logFile
+        sudo dnf install $@ -y &>>$logFile
         is_working "$all installed"
     elif [ "$WOS" = "Arch" ] ;then
         # Aur tool install
@@ -85,7 +85,7 @@ function ins {
             arch_package_install https://aur.archlinux.org/auracle-git.git
             arch_package_install https://aur.archlinux.org/pacaur.git
         fi
-        pacaur -Syyuu $@ --noedit --needed --noconfirm &>$logFile
+        pacaur -Syyuu $@ --noedit --needed --noconfirm &>>$logFile
         is_working "$all installed"
     else
         error "Unknow OS"
@@ -94,11 +94,11 @@ function ins {
 
 function arch_package_install {
     info "Arch install: $1"
-    sudo pacman -S --needed base-devel git --noconfirm &>$logFile
+    sudo pacman -S --needed base-devel git --noconfirm &>>$logFile
     tmpD=`mktemp -d`
-    git clone $1 $tmpD &>$logFile
+    git clone $1 $tmpD &>>$logFile
     cd $tmpD
-    makepkg -fsri --skipinteg --noconfirm  &>$logFile
+    makepkg -fsri --skipinteg --noconfirm  &>>$logFile
     cd $LOCAL
 }
 
@@ -108,9 +108,11 @@ function git_clone {
         rm -rf $2
         is_working "Removed: $2"
     fi
-    if [ -f "$2" ] ; then
-        git clone --depth=1 $1 $2
+    if [ ! -e "$2" ] ; then
+        git clone --depth=1 $1 $2 &>>$logFile
         is_working "Cloned: $1 to $2"
+    else
+        error "$1 already present ( --force to overwrite )"
     fi
 }
 
@@ -127,7 +129,8 @@ function basic_install {
     sudo chsh -s /usr/bin/zsh $USER
     # vimrc
     git_clone https://github.com/exocen/vim-conf ~/.vim_runtime
-    sh ~/.vim_runtime/install_awesome_vimrc.sh
+    sh ~/.vim_runtime/install_awesome_vimrc.sh &>>$logFile
+    is_working 'Vim installed'
 
 }
 
@@ -157,13 +160,13 @@ function dev_env_install {
             # Polybar
             ins polybar-git siji-git ttf-nerd-fonts-symbols
         }
-elif  [ "$1" = "-s" ] && [ "$WOS" = "Arch" ];then
-    # Steam uncomment the [multilib] section in /etc/pacman.conf
-    ins steam lib32-libpulse lib32-alsa-plugins
-else
-    {
-        error "Arch OS is needed for the devEnv installation"
-    }
+    elif  [ "$1" = "-s" ] && [ "$WOS" = "Arch" ];then
+        # Steam uncomment the [multilib] section in /etc/pacman.conf
+        ins steam lib32-libpulse lib32-alsa-plugins
+    else
+        {
+            error "Arch OS is needed for the devEnv installation"
+        }
     fi
 
 }
@@ -174,10 +177,7 @@ function mainScript() {
     info 'Script started'
 
     detectOS
-    if $force ; then
-        echo "force!"
-    fi
-
+    basic_install
 }
 
 function trapCleanup() {
@@ -196,7 +196,9 @@ function safeExit() {
         rm -r "${tmpDir}"
     fi
     trap - INT TERM EXIT
-    if $printLog ; then notice "Log file: $logFile"; fi
+    if $printLog ; then
+        echo -e "$(date +"%r") ${blue}$(printf "[%7s]" "info") "Logfile: $logFile"${reset}";
+    fi
     exit
 
 }
@@ -227,7 +229,7 @@ underline=$(tput sgr 0 1)
 # Set Temp Directory
 tmpDir="/tmp/${scriptName}.$RANDOM.$RANDOM.$RANDOM.$$"
 (umask 077 && mkdir "${tmpDir}") || {
-    die "Could not create temporary directory! Exiting."
+die "Could not create temporary directory! Exiting."
 
 }
 
@@ -358,6 +360,7 @@ function input()      { local _message="${*}"; echo -n "$(_alert input)";  }
 function header()     { local _message="== ${*} ==  "; echo -e "$(_alert header)";  }
 function verbose()    { if ${verbose}; then debug "$@"; fi  }
 
+
 # SEEKING CONFIRMATION
 # ------------------------------------------------------
 function seek_confirmation() {
@@ -393,7 +396,6 @@ function is_not_confirmed() {
     fi
 
 }
-
 
 # Trap bad exits with your cleanup function
 # trap trapCleanup EXIT INT TERM
