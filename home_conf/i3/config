@@ -32,10 +32,10 @@ bindsym $mod+g exec firefox
 bindsym $mod+p exec firefox -private-window
 
 # mpd control
-bindsym $mod+F1 exec mpc toggle
-bindsym $mod+F2 exec mpc prev
-bindsym $mod+F3 exec mpc next
-bindsym $mod+F4 exec mpc stop
+bindsym $mod+F1 exec ~/.i3/mpc toggle
+bindsym $mod+F2 exec ~/.i3/mpc prev
+bindsym $mod+F3 exec ~/.i3/mpc next
+bindsym $mod+F4 exec ~/.i3/mpc stop
 # bindsym $mod+F5 exec mpc volume -1
 # bindsym $mod+F6 exec mpc volume +1 && notify-send -t 400 -u low Volume "$(mpc | tail -n1 | awk -F ': |:| ' '{print $2}')"
 # bindsym $mod+F7 exec mpc volume -5 && notify-send -t 400 -u low Volume "$(mpc | tail -n1 | awk -F ': |:| ' '{print $2}')"

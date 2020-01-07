@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+MPD_HOST="$HOME/.mpd/socket"
+mpc $1 &>/dev/null
