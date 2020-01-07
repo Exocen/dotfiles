@@ -217,6 +217,7 @@ verbose=false
 force=false
 strict=false
 debug=false
+noconfirm=false
 args=()
 
 # Set Colors
@@ -250,10 +251,11 @@ usage() {
     This is a script template.  Edit this description to print help to users.
 
     ${bold}Options:${reset}
-    --force           Skip all user interaction.  Implied 'Yes' to all actions.
+    --force           Force re-install and removes previous installations
     -q, --quiet       Quiet (no output)
     -v, --verbose     Output more information. (Items echoed to 'verbose')
     -d, --debug       Runs script in BASH debug mode (set -x)
+    -y, --noconfirm   Skip all user interaction.  Implied 'Yes' to all actions.
     -h, --help        Display this help and exit
     "
 
@@ -298,7 +300,7 @@ unset options
 # Print help if no arguments were passed.
 # Uncomment to force arguments when invoking the script
 # -------------------------------------
-[[ $# -eq 0  ]] && set -- "--help"
+# [[ $# -eq 0  ]] && set -- "--help"
 
 # Read the options and set stuff
 while [[ $1 = -?* ]]; do
@@ -308,7 +310,8 @@ while [[ $1 = -?* ]]; do
         -l|--log) printLog=true;;
         -q|--quiet) quiet=true ;;
         -d|--debug) debug=true;;
-        --force) force=true ;;
+        -f|--force) force=true ;;
+        -y|--noconfirm) noconfirm=true;;
         --endopts) shift; break ;;
         *) die "invalid option: '$1'." ;;
     esac
@@ -365,8 +368,8 @@ function verbose()    { if ${verbose}; then debug "$@"; fi  }
 function seek_confirmation() {
     # echo ""
     input "$@"
-    if "${force}"; then
-        notice "Forcing confirmation with '--force' flag set"
+    if "${noconfirm}"; then
+        notice "Forcing confirmation with '--noconfirm' flag set"
     else
         read -p " (y/N) " -n 1
         echo ""
