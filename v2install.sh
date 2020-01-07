@@ -131,10 +131,10 @@ function basic_install {
 
 }
 
-function make {
-    if  [ "$1" = "-f" ] && [ "$WOS" = "Arch" ]
-    then
+function dev_env_install {
+    if [ "$WOS" = "Arch" ];then
         {
+            info "Arch dev inv installation"
             git submodule update --init i3-conf
             home_ln i3-conf ~/.i3
             git submodule update --init polybar-conf
@@ -162,8 +162,7 @@ elif  [ "$1" = "-s" ] && [ "$WOS" = "Arch" ];then
     ins steam lib32-libpulse lib32-alsa-plugins
 else
     {
-        echo "'-f' Argument full installation (Arch Linux only)"
-        echo "'-s' Steam installation (Arch Linux only)"
+        error "Arch OS is needed for the devEnv installation"
     }
     fi
 
