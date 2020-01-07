@@ -138,12 +138,13 @@ function dev_env_install {
             info "Arch dev inv installation"
             # .config links
             conf_folder conf_conf
-            # Video Driver ( intel graphics )
+            # TODO try mesa + lib32-mesa (multilib)
+            # Video Driver (intel graphics)
             ins xf86-video-intel
             # WM
             ins i3-gaps dmenu xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp
             # Utils
-            ins tig nethogs nitrogen numlockx mcomix thunar termite ttf-fira-code zsh-theme-powerlevel9k firefox vlc
+            ins tig nethogs nitrogen numlockx mcomix thunar termite ttf-fira-code firefox vlc
             # TODO autothis
             # reflector
             # reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
@@ -154,7 +155,7 @@ function dev_env_install {
             # TODO add mpc conf (unix socket) + ncmpc or ncmpcpp
             ins mpd mpc ncmpc #config: cp /usr/share/doc/mpdconf.example .config/mpd/mpd.conf
             # Polybar
-            #TODO only nerd symbols
+            #TODO only one font
             ins polybar-git siji-git ttf-nerd-fonts-symbols
         }
     elif  [ "$1" = "-s" ] && [ "$WOS" = "Arch" ];then
@@ -395,14 +396,8 @@ function is_not_confirmed() {
 
 }
 
-# Trap bad exits with your cleanup function
-# trap trapCleanup EXIT INT TERM
-
 # Set IFS to preferred implementation
 IFS=$' \n\t'
-
-# Exit on error. Append '||true' when you run the script if you expect an error.
-# set -o errexit ||true
 
 # Run in debug mode, if set
 if ${debug}; then set -x ; fi
