@@ -106,13 +106,12 @@ function git_clone {
     info "Cloning $1"
     if $force ; then
         rm -rf $2
-        is_working "Removed: $2"
     fi
     if [ ! -e "$2" ] ; then
         git clone --depth=1 $1 $2 &>>$logFile
         is_working "Cloned: $1 to $2"
     else
-        error "$1 already present ( --force to overwrite )"
+        error "$2 already present (--force to overwrite)"
     fi
 }
 
@@ -120,9 +119,8 @@ function basic_install {
     info "Basic installation"
     # Basic packages
     ins vim git htop iftop iotop tree zsh make wget sudo
-    # ln -s all conf
+    # ln -s home conf
     home_folder home_conf
-    conf_folder conf_conf
     # zsh
     git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
     git_clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
@@ -138,29 +136,29 @@ function dev_env_install {
     if [ "$WOS" = "Arch" ];then
         {
             info "Arch dev inv installation"
-            git submodule update --init i3-conf
-            home_ln i3-conf ~/.i3
-            git submodule update --init polybar-conf
-            mkdir -p ~/.config
-            home_ln polybar-conf ~/.config/polybar
-            home_ln termite-conf ~/.config/termite
+            # .config links
+            conf_folder conf_conf
             # Video Driver ( intel graphics )
             ins xf86-video-intel
             # WM
             ins i3-gaps dmenu xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp
             # Utils
             ins tig nethogs nitrogen numlockx mcomix thunar termite ttf-fira-code zsh-theme-powerlevel9k firefox vlc
+            # TODO autothis
             # reflector
             # reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
             # Bluetooth
             ins blueman pulseaudio-bluetooth bluez-utils pulseaudio-alsa
             # Music player
             # ins clementine gst-plugins-good gst-plugins-base gst-plugins-bad gst-plugins-ugly qt5-tools
+            # TODO add mpc conf (unix socket) + ncmpc or ncmpcpp
             ins mpd mpc ncmpc #config: cp /usr/share/doc/mpdconf.example .config/mpd/mpd.conf
             # Polybar
+            #TODO only nerd symbols
             ins polybar-git siji-git ttf-nerd-fonts-symbols
         }
     elif  [ "$1" = "-s" ] && [ "$WOS" = "Arch" ];then
+        # TODO
         # Steam uncomment the [multilib] section in /etc/pacman.conf
         ins steam lib32-libpulse lib32-alsa-plugins
     else
@@ -178,6 +176,10 @@ function mainScript() {
 
     detectOS
     basic_install
+    seek_confirmation 'Install Dev Env ?'
+    if is_confirmed; then
+        dev_env_install
+    fi
 }
 
 function trapCleanup() {
@@ -249,11 +251,9 @@ usage() {
     ${bold}Options:${reset}
     --force           Skip all user interaction.  Implied 'Yes' to all actions.
     -q, --quiet       Quiet (no output)
-    -l, --log         Print log to file
     -v, --verbose     Output more information. (Items echoed to 'verbose')
     -d, --debug       Runs script in BASH debug mode (set -x)
     -h, --help        Display this help and exit
-    --version     Output version information and exit
     "
 
 }
@@ -303,11 +303,9 @@ unset options
 while [[ $1 = -?* ]]; do
     case $1 in
         -h|--help) usage >&2; safeExit ;;
-        --version) echo "$(basename $0) ${version}"; safeExit ;;
         -v|--verbose) verbose=true ;;
         -l|--log) printLog=true;;
         -q|--quiet) quiet=true ;;
-        -s|--strict) strict=true;;
         -d|--debug) debug=true;;
         --force) force=true ;;
         --endopts) shift; break ;;
@@ -369,7 +367,7 @@ function seek_confirmation() {
     if "${force}"; then
         notice "Forcing confirmation with '--force' flag set"
     else
-        read -p " (y/n) " -n 1
+        read -p " (y/N) " -n 1
         echo ""
     fi
 
