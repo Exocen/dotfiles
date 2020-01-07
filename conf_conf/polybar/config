@@ -439,18 +439,18 @@ menu-2-1 = cancel
 menu-2-1-exec = menu-open-0
 
 [module/updates-arch-combined]
-type = custom/script
-exec = ~/.config/polybar/scripts/updates-arch/updates-arch-combined.sh
-interval = 600
+;type = custom/script
+;exec = ~/.config/polybar/scripts/updates-arch/updates-arch-combined.sh
+;interval = 600
 
 [module/player-mpris-tail]
-type = custom/script
-exec = ~/.config/polybar/scripts/player-mpris-tail/player-mpris-tail.py  --truncate-text 50
-tail = true
-label = %output%
-click-middle =  ~/.config/polybar/scripts/player-mpris-tail/player-mpris-tail.py previous
-click-right = ~/.config/polybar/scripts/player-mpris-tail/player-mpris-tail.py next
-click-left = ~/.config/polybar/scripts/player-mpris-tail/player-mpris-tail.py play-pause
+;type = custom/script
+;exec = ~/.config/polybar/scripts/player-mpris-tail/player-mpris-tail.py  --truncate-text 50
+;tail = true
+;label = %output%
+;click-middle =  ~/.config/polybar/scripts/player-mpris-tail/player-mpris-tail.py previous
+;click-right = ~/.config/polybar/scripts/player-mpris-tail/player-mpris-tail.py next
+;click-left = ~/.config/polybar/scripts/player-mpris-tail/player-mpris-tail.py play-pause
 
 [settings]
 screenchange-reload = true
