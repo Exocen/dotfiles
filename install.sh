@@ -50,8 +50,8 @@ function conf_folder {
     mkdir -p ~/.config
     for f in $1/*; do
         DEST=$(basename $f)
-        ln -sfn `pwd`/$f ~/.config/.$DEST &>>$logFile
-        is_working "ln $f to ~/.config/.$DEST"
+        ln -sfn `pwd`/$f ~/.config/$DEST &>>$logFile
+        is_working "ln $f to ~/.config/$DEST"
     done
 
 }
