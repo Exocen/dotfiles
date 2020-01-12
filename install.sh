@@ -38,9 +38,9 @@ function home_ln {
 
 function home_folder {
     info "Symbolic links to home..."
-    for f in $1/*; do
+    for f in $LOCAL/$1/*; do
         DEST=$(basename $f)
-        ln -sfn `pwd`/$f ~/.$DEST &>>$logFile
+        ln -sfn $f ~/.$DEST &>>$logFile
         is_working "ln $f to ~/.$DEST"
     done
 }
@@ -48,9 +48,9 @@ function home_folder {
 function conf_folder {
     info "Symbolic links to .config"
     mkdir -p ~/.config
-    for f in $1/*; do
+    for f in $LOCAL/$1/*; do
         DEST=$(basename $f)
-        ln -sfn `pwd`/$f ~/.config/$DEST &>>$logFile
+        ln -sfn $f ~/.config/$DEST &>>$logFile
         is_working "ln $f to ~/.config/$DEST"
     done
 
@@ -158,14 +158,14 @@ function dev_env_install {
             #TODO only one font
             ins polybar-git siji-git ttf-nerd-fonts-symbols
         }
-    elif  [ "$1" = "-s" ] && [ "$WOS" = "Arch" ];then
-        # TODO
-        # Steam uncomment the [multilib] section in /etc/pacman.conf
-        ins steam lib32-libpulse lib32-alsa-plugins
-    else
-        {
-            error "Arch OS is needed for the devEnv installation"
-        }
+elif  [ "$1" = "-s" ] && [ "$WOS" = "Arch" ];then
+    # TODO
+    # Steam uncomment the [multilib] section in /etc/pacman.conf
+    ins steam lib32-libpulse lib32-alsa-plugins
+else
+    {
+        error "Arch OS is needed for the devEnv installation"
+    }
     fi
 
 }
@@ -176,6 +176,7 @@ function mainScript() {
     info 'Script started'
 
     detectOS
+    home_folder home_conf
     basic_install
     seek_confirmation 'Install Dev Env ?'
     if is_confirmed; then
@@ -233,8 +234,7 @@ underline=$(tput sgr 0 1)
 # Set Temp Directory
 tmpDir="/tmp/${scriptName}.$RANDOM.$RANDOM.$RANDOM.$$"
 (umask 077 && mkdir "${tmpDir}") || {
-die "Could not create temporary directory! Exiting."
-
+    die "Could not create temporary directory! Exiting."
 }
 
 # Logging
@@ -381,8 +381,8 @@ function is_confirmed() {
         return 0
     else
         if [[ "${REPLY}" =~ ^[Yy]$  ]]; then
-            return 0
-        fi
+        return 0
+    fi
         return 1
     fi
 
