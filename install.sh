@@ -123,7 +123,8 @@ function basic_install {
     home_folder home_conf
     # zsh
     git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
-    git_clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
+    git_clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+    # git_clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
     sudo chsh -s /usr/bin/zsh $USER
     # vimrc
     git_clone https://github.com/exocen/vim-conf ~/.vim_runtime
