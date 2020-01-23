@@ -177,7 +177,6 @@ function mainScript() {
     info 'Script started'
 
     detectOS
-    home_folder home_conf
     basic_install
     seek_confirmation 'Install Dev Env ?'
     if is_confirmed; then
@@ -378,25 +377,17 @@ function seek_confirmation() {
 
 }
 function is_confirmed() {
-    if "${force}"; then
-        return 0
-    else
-        if [[ "${REPLY}" =~ ^[Yy]$  ]]; then
+    if [[ "${REPLY}" =~ ^[Yy]$  ]]; then
         return 0
     fi
-        return 1
-    fi
+    return 1
 
 }
 function is_not_confirmed() {
-    if "${force}"; then
-        return 1
-    else
-        if [[ "${REPLY}" =~ ^[Nn]$  ]]; then
-            return 0
-        fi
-        return 1
+    if [[ "${REPLY}" =~ ^[Nn]$  ]]; then
+        return 0
     fi
+    return 1
 
 }
 
