@@ -156,11 +156,12 @@ function dev_env_install {
             # TODO add mpc conf (unix socket) + ncmpc or ncmpcpp
             ins mpd mpc ncmpc #config: cp /usr/share/doc/mpdconf.example .config/mpd/mpd.conf
             # Polybar
-            #TODO only one font
             ins polybar-git siji-git ttf-nerd-fonts-symbols
+            # Japanese font
+            ins ttf-nasu
         }
 elif  [ "$1" = "-s" ] && [ "$WOS" = "Arch" ];then
-    # TODO
+    # TODO autothis
     # Steam uncomment the [multilib] section in /etc/pacman.conf
     ins steam lib32-libpulse lib32-alsa-plugins
 else
