@@ -141,7 +141,7 @@ function dev_env_install {
             conf_folder conf_conf
             # TODO try mesa + lib32-mesa (multilib)
             # Video Driver (intel graphics)
-            ins xf86-video-intel
+            ins mesa
             # WM
             ins i3-gaps dmenu xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp
             # Utils
