@@ -85,7 +85,7 @@ function ins {
             arch_package_install https://aur.archlinux.org/auracle-git.git
             arch_package_install https://aur.archlinux.org/pacaur.git
         fi
-        pacaur -Syyuu $@ --noedit --needed --noconfirm &>>$logFile
+        pacaur -S $@ --noedit --needed --noconfirm &>>$logFile
         is_working "$all installed"
     else
         error "Unknow OS"
@@ -378,7 +378,7 @@ function seek_confirmation() {
 
 }
 function is_confirmed() {
-    if [[ "${REPLY}" =~ ^[Yy]$  ]]; then
+    if [[ "${REPLY}" =~ ^[Yy]$  ]] || "${noconfirm}"; then
         return 0
     fi
     return 1

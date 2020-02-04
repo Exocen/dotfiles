@@ -220,7 +220,7 @@ alias apse='apt-cache search -t experimental'
 alias apshow='apt-cache showpkg'
 
 # pacaur
-alias auri='pacaur -Syu --noedit'
+alias auri='pacaur -S --noedit'
 alias aurr='pacaur -R'
 alias auru='pacaur -Syu'
 alias aurs='pacaur -Ss'
