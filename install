@@ -252,7 +252,7 @@ usage() {
     This is a script template.  Edit this description to print help to users.
 
     ${bold}Options:${reset}
-    --force           Force re-install and removes previous installations
+    -f, --force       Force re-install and removes previous installations
     -q, --quiet       Quiet (no output)
     -v, --verbose     Output more information. (Items echoed to 'verbose')
     -d, --debug       Runs script in BASH debug mode (set -x)
