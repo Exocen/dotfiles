@@ -140,6 +140,7 @@ function dev_env_install {
             # .config links
             conf_folder conf_conf
             # TODO try lib32-mesa (multilib)
+            # TODO add manual confs powertop + i3sleep
             # Video Driver (intel graphics)
             ins mesa
             # WM
