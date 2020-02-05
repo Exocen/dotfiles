@@ -183,6 +183,7 @@ label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
 [module/mpd]
 type = internal/mpd
+host = /tmp/mpd_socket
 format-online = <label-song> <icon-prev> <icon-stop> <toggle> <icon-next> <icon-repeat> <icon-random>
 ;format-online = <icon-prev> <icon-seek> <icon-stop> <toggle><icon-next>  <icon-repeat> <icon-random>  <label-time>  <label-song>
 label-song = %artist% - %title%

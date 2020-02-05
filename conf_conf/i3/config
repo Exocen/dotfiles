@@ -15,6 +15,9 @@
 # Wifi
 exec --no-startup-id sudo netctl start wlp1s0-WIFI &
 
+# Clight Brightness
+exec --no-startup-id clight &
+
 # Polybar start
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
@@ -106,8 +109,8 @@ bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 5%+ unmute && pkil
 
 
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightnes
+# bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
+# bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightnes
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
