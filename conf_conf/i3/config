@@ -11,7 +11,7 @@
 #exec xrandr --output HDMI-0 --mode 1024x768 --output DVI-I-0 --mode 2048x1152 --rate 59.91 --left-of HDMI-0
 #exec --no-startup-id setxkbmap -layout fr
 # Unclutter (hidden pointer)
-# exec --no-startup-id unclutter
+exec --no-startup-id unclutter &
 # Wifi
 exec --no-startup-id sudo netctl start wlp1s0-WIFI &
 
