@@ -10,5 +10,5 @@ custom
 !custom/example.zshcache
 cache/
 .gmx-private
-conf-conf/mpd/*
-!conf-conf/mpd/mpd.conf
+conf_conf/mpd/*
+!conf_conf/mpd/mpd.conf
