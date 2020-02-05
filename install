@@ -139,21 +139,21 @@ function dev_env_install {
             info "Arch dev inv installation"
             # .config links
             conf_folder conf_conf
-            # TODO try mesa + lib32-mesa (multilib)
+            # TODO try lib32-mesa (multilib)
             # Video Driver (intel graphics)
             ins mesa
             # WM
             ins i3-gaps dmenu xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp
             # Utils
             ins tig nethogs nitrogen numlockx mcomix thunar termite ttf-fira-code firefox vlc
-            # TODO autothis
-            # reflector
-            # reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+            # Pacman MirrorList update
+            ins reflector
+            sudo reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist &>>$logFile
+            is_working 'Pacman mirrorlist updated'
             # Bluetooth
             ins blueman pulseaudio-bluetooth bluez-utils pulseaudio-alsa
             # Music player
             # ins clementine gst-plugins-good gst-plugins-base gst-plugins-bad gst-plugins-ugly qt5-tools
-            # TODO add mpc conf (unix socket) + ncmpc or ncmpcpp
             ins mpd mpc ncmpc #config: cp /usr/share/doc/mpdconf.example .config/mpd/mpd.conf
             # Polybar
             ins polybar-git siji-git ttf-nerd-fonts-symbols
