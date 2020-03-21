@@ -184,7 +184,7 @@ label-urgent-padding = ${module/bspwm.label-urgent-padding}
 [module/mpd]
 type = internal/mpd
 host = /tmp/mpd_socket
-format-online = <label-song> <icon-prev> <icon-stop> <toggle> <icon-next> <icon-repeat> <icon-random>
+format-online = <label-song> <icon-prev> <icon-stop> <toggle> <icon-next>
 ;format-online = <icon-prev> <icon-seek> <icon-stop> <toggle><icon-next>  <icon-repeat> <icon-random>  <label-time>  <label-song>
 label-song = %artist% - %title%
 ;label-song = %title%
@@ -239,12 +239,53 @@ format-underline = #f90000
 label = %percentage:2%%
 
 [module/memory]
+
+;   <label> (default)
+;   <bar-used>
+;   <bar-free>
+;   <ramp-used>
+;   <ramp-free>
+;   <bar-swap-used>
+;   <bar-swap-free>
+;   <ramp-swap-used>
+;   <ramp-swap-free>
+; format = <label> <bar-used>
+
+; Available tokens:
+;   %percentage_used% (default)
+;   %percentage_free%
+;   %gb_used%
+;   %gb_free%
+;   %gb_total%
+;   %mb_used%
+;   %mb_free%
+;   %mb_total%
+;   %percentage_swap_used%
+;   %percentage_swap_free%
+;   %mb_swap_total%
+;   %mb_swap_free%
+;   %mb_swap_used%
+;   %gb_swap_total%
+;   %gb_swap_free%
+;   %gb_swap_used%
+
+bar-used-width = 20
+bar-used-foreground-0 = #55aa55
+bar-used-foreground-1 = #557755
+bar-used-foreground-2 = #f5a70a
+bar-used-foreground-3 = #ff5555
+bar-used-fill =|
+bar-used-indicator =
+bar-used-empty =|
+bar-used-empty-foreground = #444444
+
 type = internal/memory
 interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
-label = %percentage_used%%
+; label = %gb_used% / %gb_free%
+label =RAM %percentage_used%%
 
 [module/wlan]
 type = internal/network

@@ -40,7 +40,7 @@ browser = firefox
 # "off", "left" or "right"
 scrollbar = right
 
-# [colors]
+[colors]
 # If both of these are unset, cursor falls back to the foreground color,
 # and cursor_foreground falls back to the background color.
 #cursor = #dcdccc
@@ -53,7 +53,7 @@ scrollbar = right
 
 
 # 20% background transparency (requires a compositor)
-#background = rgba(63, 63, 63, 0.8)
+background = rgba(63, 63, 63, 0.8)
 
 # If unset, will reverse foreground and background
 # highlight = #2f2f2f
