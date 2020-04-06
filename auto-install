@@ -149,8 +149,9 @@ function dev_env_install {
             ins tig nethogs nitrogen numlockx mcomix thunar termite ttf-fira-code firefox vlc
             # Pacman MirrorList update
             ins reflector
-            sudo reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist &>>$logFile
-            is_working 'Pacman mirrorlist updated'
+            # TODO
+            # sudo reflector --country --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist &>>$logFile
+            # is_working 'Pacman mirrorlist updated'
             # Bluetooth
             ins blueman pulseaudio-bluetooth bluez-utils pulseaudio-alsa
             # Music player
