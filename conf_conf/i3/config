@@ -24,6 +24,7 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 # background
 #assign [class="(?i)slack"] 8 Chat
 #assign [class="(?i)blueman-manager"] 9 Music
+assign [class="(?i)thunderbird"] 7
 assign [class="(?i)steam"] 8
 assign [class="(?i)clementine"] 9
 exec --no-startup-id nitrogen --restore
