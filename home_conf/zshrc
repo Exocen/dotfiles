@@ -175,6 +175,7 @@ alias openvpnconf='sudo openvpn --config'
 alias viewtar='tar -tf'
 alias myip='curl ipinfo.io/ip'
 alias visudo='sudo EDITOR=vim visudo'
+alias iotop='sudo iotop -o'
 alias rmt='find . -name "*~" -exec rm {} \; -print -or -name ".*~" -exec rm {} \; -print -or -name "\#*\#*" -exec rm {} \; -print'
 
 # mount
