@@ -65,7 +65,7 @@ font-3 = NasuM:size=8
 
 modules-left = i3
 modules-center =
-modules-right = mpd pulseaudio filesystem memory cpu temperature wlan battery date xkeyboard
+modules-right = mpd pulseaudio filesystem memory cpu temperature wlan battery remaining date xkeyboard
 
 tray-position = right
 tray-padding = 1
@@ -432,6 +432,12 @@ animation-discharging-1 = 
 animation-discharging-2 = 
 animation-discharging-foreground = ${colors.foreground-alt}
 animation-discharging-framerate = 750
+
+[module/remaining]
+type = custom/script
+exec = ~/.config/polybar/battery_remaining
+interval = 30
+tail=true
 
 [module/temperature]
 type = internal/temperature
