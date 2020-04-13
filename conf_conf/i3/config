@@ -27,7 +27,7 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 assign [class="(?i)thunderbird"] 7
 assign [class="(?i)steam"] 8
 assign [class="(?i)clementine"] 9
-exec --no-startup-id nitrogen --restore
+# exec --no-startup-id nitrogen --restore
 
 # numlock
 exec --no-startup-id numlockx on
@@ -71,6 +71,7 @@ focus_follows_mouse no
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 # Before i3 v4.8, we used to recommend this one as the default:
 #font pango:monospace, FontAwesome 10
+# font pango:DejaVu Sans Mono 10
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
 # clear in small sizes. However, its unicode glyph coverage is limited, the old
