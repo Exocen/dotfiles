@@ -1,4 +1,4 @@
-# Dotfiles + Automatic installation
+## Dotfiles + Automatic installation
 
 Tested on
 * Ubuntu 15+
