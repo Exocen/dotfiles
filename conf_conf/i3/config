@@ -32,8 +32,13 @@ assign [class="(?i)steam"] 8
 
 # Bindings
 
+# Firefox
 bindsym $mod+g exec firefox
 bindsym $mod+p exec firefox -private-window
+
+# Lock
+bindsym $mod+l exec /usr/bin/i3lock -c 000000
+
 
 # mpd control
 bindsym $mod+F1 exec ~/.config/i3/mpc toggle
@@ -113,10 +118,6 @@ bindsym XF86MonBrightnessDown exec sudo light -U 10 # decrease screen brightnes
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+m focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
