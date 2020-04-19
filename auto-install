@@ -124,7 +124,6 @@ function basic_install {
     # zsh
     git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
     git_clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
-    # git_clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
     sudo chsh -s /usr/bin/zsh $USER
     # vimrc
     git_clone https://github.com/exocen/vim-conf ~/.vim_runtime
@@ -139,14 +138,13 @@ function dev_env_install {
             info "Arch dev inv installation"
             # .config links
             conf_folder conf_conf
-            # TODO try lib32-mesa (multilib)
             # TODO add manual confs powertop + i3sleep
             # Video Driver (intel graphics)
             ins mesa
             # WM
             ins i3-gaps dmenu xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp
             # Utils
-            ins tig nethogs nitrogen numlockx mcomix thunar termite ttf-fira-code firefox vlc
+            ins tig nethogs nitrogen numlockx mcomix thunar termite ttf-fira-code firefox vlc acpi ttf-nasu
             # Pacman MirrorList update
             ins reflector
             # TODO
@@ -156,24 +154,31 @@ function dev_env_install {
             ins blueman pulseaudio-bluetooth bluez-utils pulseaudio-alsa
             # Music player
             # ins clementine gst-plugins-good gst-plugins-base gst-plugins-bad gst-plugins-ugly qt5-tools
-            ins mpd mpc ncmpc #config: cp /usr/share/doc/mpdconf.example .config/mpd/mpd.conf
+            ins mpd mpc ncmpc
             # Polybar
             ins polybar-git siji-git ttf-nerd-fonts-symbols
-            # Japanese font
-            ins ttf-nasu
         }
-elif  [ "$1" = "-s" ] && [ "$WOS" = "Arch" ];then
-    # TODO autothis
-    # Steam uncomment the [multilib] section in /etc/pacman.conf
-    ins steam lib32-libpulse lib32-alsa-plugins
 else
     {
-        error "Arch OS is needed for the devEnv installation"
+        error "Arch OS is needed for this installation"
     }
     fi
 
 }
 
+function steam_install() {
+    if [ "$WOS" = "Arch" ];then
+        {
+            # uncomment the [multilib] section in /etc/pacman.conf
+            sudo sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
+            ins steam lib32-libpulse lib32-alsa-plugins
+        }
+else
+    {
+        error "Arch OS is needed for this installation"
+    }
+    fi
+}
 
 function mainScript() {
     echo -n
@@ -181,9 +186,16 @@ function mainScript() {
 
     detectOS
     basic_install
-    seek_confirmation 'Install Dev Env ?'
-    if is_confirmed; then
-        dev_env_install
+
+    if [ "$WOS" = "Arch" ];then
+        seek_confirmation 'Install Dev Env ?'
+        if is_confirmed; then
+            dev_env_install
+        fi
+        seek_confirmation 'Install Steam'
+        if is_confirmed; then
+            steam_install
+        fi
     fi
 }
 
