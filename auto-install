@@ -72,7 +72,6 @@ function ins {
         sudo apt install $@ -y &>>$logFile
         is_working "$all installed"
     elif [ "$WOS" = "Fedora" ] ;then
-        # TODO check rpm first
         sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
         sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
         sudo dnf update -y &>>$logFile
@@ -150,7 +149,6 @@ function dev_env_install {
             # Bluetooth
             ins blueman pulseaudio-bluetooth bluez-utils pulseaudio-alsa
             # Music player
-            # ins clementine gst-plugins-good gst-plugins-base gst-plugins-bad gst-plugins-ugly qt5-tools
             ins mpd mpc ncmpc
             # Polybar
             ins polybar-git siji-git ttf-nerd-fonts-symbols
