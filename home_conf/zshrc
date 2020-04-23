@@ -222,9 +222,10 @@ alias apshow='apt-cache showpkg'
 
 # pacaur
 alias auri='pacaur -S --noedit'
-alias aurr='pacaur -R'
+alias aurr='pacaur -Rs'
 alias auru='pacaur -Syu'
 alias aurs='pacaur -Ss'
+alias aurl='pacaur -Qe'
 alias aurc='pacaur -Qdt ; pacaur -Scc --noconfirm ; sudo pacman -Rns $(pacman -Qtdq) 2>/dev/null'
 
 # yum

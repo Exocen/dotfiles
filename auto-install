@@ -146,10 +146,7 @@ function dev_env_install {
             # Utils
             ins tig nethogs nitrogen numlockx mcomix thunar termite ttf-fira-code firefox vlc acpi ttf-nasu
             # Pacman MirrorList update
-            ins reflector
-            # TODO
-            # sudo reflector --country --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist &>>$logFile
-            # is_working 'Pacman mirrorlist updated'
+            pacman_mirrorlist_update
             # Bluetooth
             ins blueman pulseaudio-bluetooth bluez-utils pulseaudio-alsa
             # Music player
@@ -164,6 +161,18 @@ else
     }
     fi
 
+}
+
+function pacman_mirrorlist_update() {
+            ins reflector
+            country=`curl --silent https://whatismycountry.com/ | grep --only-matching --perl-regexp 'Your Country is \K[^<]+'`
+            if [ $? -eq 0 ];then
+                sudo cp --backup=t /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+                sudo reflector --country "$country" --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist &>>$logFile
+                is_working 'Pacman mirrorlist updated'
+            else
+                error "Pacman mirrorlist update failed"
+            fi
 }
 
 function steam_install() {
