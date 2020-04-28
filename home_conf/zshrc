@@ -3,6 +3,7 @@ DISABLE_AUTO_UPDATE="true"
 DISABLE_LS_COLORS="false"
 DISABLE_AUTO_TITLE="false"
 COMPLETION_WAITING_DOTS="true"
+ZSH_COMPDUMP="~/.cache"
 
 export PATH="/sbin:$PATH"
 
@@ -10,8 +11,6 @@ zstyle ':completion:*' menu select
 compctl -/ cd # type a directory's name to cd to it.
 eval `dircolors -b`
 
-autoload -U compinit
-compinit
 autoload -U promptinit
 promptinit
 autoload -U colors # add some color
@@ -55,7 +54,6 @@ source $ZSH/oh-my-zsh.sh
 # sudo plug -> ESC * 2
 
 # User configuration omz
-compinit -C
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
 # Powerlevel10k (https://github.com/Powerlevel9k/powerlevel9k powerlevel10k)
