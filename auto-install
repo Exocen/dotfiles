@@ -162,15 +162,15 @@ else
 }
 
 function pacman_mirrorlist_update() {
-            ins reflector
-            country=`curl --silent https://whatismycountry.com/ | grep --only-matching --perl-regexp 'Your Country is \K[^<]+'`
-            if [ $? -eq 0 ];then
-                sudo cp --backup=t /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-                sudo reflector --country "$country" --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist &>>$logFile
-                is_working 'Pacman mirrorlist updated'
-            else
-                error "Pacman mirrorlist update failed"
-            fi
+    ins reflector
+    country=`curl --silent https://whatismycountry.com/ | grep --only-matching --perl-regexp 'Your Country is \K[^<]+'`
+    if [ $? -eq 0 ];then
+        sudo cp --backup=t /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+        sudo reflector --country "$country" --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist &>>$logFile
+        is_working 'Pacman mirrorlist updated'
+    else
+        error "Pacman mirrorlist update failed"
+    fi
 }
 
 function steam_install() {
