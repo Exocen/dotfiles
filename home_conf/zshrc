@@ -226,7 +226,7 @@ alias aurr='pacaur -Rs'
 alias auru='pacaur -Syu'
 alias aurs='pacaur -Ss'
 alias aurl='pacaur -Qe'
-alias aurc='pacaur -Qdt ; pacaur -Scc --noconfirm ; sudo pacman -Rns $(pacman -Qtdq) 2>/dev/null'
+alias aurc='pacaur -Qdt ; pacaur -Sc --noconfirm ; sudo pacman -Rns $(pacman -Qtdq) 2>/dev/null'
 
 # yum
 alias yu='sudo yum update --color=always'
