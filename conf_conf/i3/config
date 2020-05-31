@@ -87,8 +87,8 @@ font pango:monospace 8
 #swap workspace (multiscreen)
 # bindsym $mod+Shift+S exec python3 -B ~/.i3/switch.py
 
-# Nautilus
-# bindsym $mod+n exec nautilus --no-desktop
+# File Browser
+bindsym $mod+n exec thunar
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
