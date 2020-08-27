@@ -141,9 +141,11 @@ function dev_env_install {
             # Video Driver (intel graphics)
             ins mesa
             # WM
-            ins i3-gaps dmenu xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp
+            ins i3-gaps pori xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp
             # Utils
             ins tig nethogs nitrogen numlockx mcomix thunar termite ttf-fira-code firefox vlc acpi ttf-nasu
+            # Logitech mouse
+            ins piper
             # Pacman MirrorList update
             pacman_mirrorlist_update
             # Bluetooth

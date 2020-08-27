@@ -442,7 +442,7 @@ tail=true
 [module/temperature]
 type = internal/temperature
 thermal-zone = 3
-warn-temperature = 60
+warn-temperature = 70
 
 format = <ramp> <label>
 format-underline = #ffa500

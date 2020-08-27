@@ -220,7 +220,7 @@ alias apshow='apt-cache showpkg'
 
 # pacaur
 alias auri='pacaur -S --noedit'
-alias aurr='pacaur -Rs'
+alias aurr='pacaur -Rsc'
 alias auru='pacaur -Syu'
 alias aurs='pacaur -Ss'
 alias aurl='pacaur -Qe'

@@ -67,6 +67,7 @@ bindsym $mod+F4 exec ~/.config/i3/mpc stop
 # bindsym $mod+F3 exec qdbus org.mpris.MediaPlayer2.clementine /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
 # bindsym $mod+F4 exec qdbus org.mpris.MediaPlayer2.clementine /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop
 
+# xmodmap -pm for mods and xev -event keyboard for keycodes
 set $mod Mod4
 
 focus_follows_mouse no
@@ -95,11 +96,15 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec termite
+bindcode control+62 exec termite
+
 # kill focused window
 bindsym $mod+Shift+A kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+# bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec --no-startup-id "rofi -show drun -show-icons -theme solarized -font \\"hack 9\\" -run-shell-command '{terminal} -e \\" {cmd}; read -n 1 -s\\"'"
+
 
 bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%- unmute && pkill -RTMIN+10 i3blocks
 bindsym XF86AudioMute        exec amixer -q set Master toggle && pkill -RTMIN+10 i3blocks
