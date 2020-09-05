@@ -363,7 +363,7 @@ function _alert() {
 
     # Print to console when script is not 'quiet'
     if ${quiet} || [ "${1}" = "debug"  ]; then true; else
-        echo -e "$(date +"%r") ${color}$(printf "[%7s]" "${1}") ${_message}${reset}";
+        echo -e "$(date +"%T") ${color}$(printf "[%7s]" "${1}") ${_message}${reset}";
     fi
 
     # Print to Logfile
