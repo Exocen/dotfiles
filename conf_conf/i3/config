@@ -21,8 +21,8 @@ exec --no-startup-id unclutter &
 exec --no-startup-id sudo netctl start wlp1s0-WIFI &
 
 # Bpytop
-exec --no-startup-id i3-msg 'workspace 9; exec /usr/bin/termite --hold -e "bpytop" --class top; fullscreen enable; workspace 1'
-for_window [class="^top$"] fullscreen enable
+# exec --no-startup-id i3-msg 'workspace 9; exec /usr/bin/termite --hold -e "bpytop" --class top; fullscreen enable; workspace 1'
+# for_window [class="^top$"] fullscreen enable
 
 
 # Clight Brightness
