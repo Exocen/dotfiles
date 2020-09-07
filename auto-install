@@ -110,7 +110,7 @@ function git_clone {
         git clone --depth=1 $1 $2 &>>$logFile
         is_working "Cloned: $1 to $2"
     else
-        error "$2 already present (--force to overwrite)"
+        warning "$2 already present (--force to overwrite)"
     fi
 }
 
@@ -252,6 +252,7 @@ reset=$(tput sgr0)
 purple=$(tput setaf 171)
 red=$(tput setaf 1)
 green=$(tput setaf 76)
+yellow=$(tput setaf 3)
 tan=$(tput setaf 3)
 blue=$(tput setaf 38)
 underline=$(tput sgr 0 1)
@@ -351,7 +352,7 @@ args+=("$@")
 # -----------------------------------------------------
 function _alert() {
     if [ "${1}" = "error"  ]; then local color="${bold}${red}"; fi
-    if [ "${1}" = "warning"  ]; then local color="${red}"; fi
+    if [ "${1}" = "warning"  ]; then local color="${yellow}"; fi
     if [ "${1}" = "success"  ]; then local color="${green}"; fi
     if [ "${1}" = "debug"  ]; then local color="${purple}"; fi
     if [ "${1}" = "header"  ]; then local color="${bold}${tan}"; fi
