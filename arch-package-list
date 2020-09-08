@@ -1,0 +1,38 @@
+# Video Driver (intel graphics)
+mesa
+# WM
+i3-gaps rofi xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp
+# Mouse pointer hide tool
+# unclutter
+# Auto Brightness tools
+# clight
+# Utils
+numlockx acpi ttf-nasu mcomix
+# Archive tools
+p7zip zip unrar unzip
+# Power management
+powertop
+# Git Browser
+tig
+# Network top
+nethogs
+# Wallpaper
+nitrogen
+# detailled slow htop
+# bpytop
+# File Browser
+thunar
+# Terminal
+termite ttf-fira-code
+# Web Browser
+firefox
+# Media tool
+vlc
+# Logitech mouse
+piper
+# Bluetooth
+blueman pulseaudio-bluetooth bluez-utils pulseaudio-alsa
+# Music player
+mpd mpc ncmpc
+# Polybar
+polybar-git siji-git ttf-nerd-fonts-symbols
