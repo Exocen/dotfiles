@@ -134,7 +134,6 @@ function basic_install {
 function dev_env_install {
     if [ "$WOS" = "Arch" ];then
         {
-            #TODO use package list -> output/file
             #TODO file presence check
             info "Arch dev inv installation"
             # .config links
