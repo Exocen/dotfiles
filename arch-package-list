@@ -36,3 +36,5 @@ blueman pulseaudio-bluetooth bluez-utils pulseaudio-alsa
 mpd mpc ncmpc
 # Polybar
 polybar-git siji-git ttf-nerd-fonts-symbols
+# Bat perf
+tlp
