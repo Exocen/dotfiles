@@ -139,23 +139,19 @@ function dev_env_install {
             info "Arch dev inv installation"
             # .config links
             conf_folder conf_conf
-            # TODO add manual confs powertop + i3sleep
-            # Video Driver (intel graphics)
-            ins mesa
-            # WM
-            ins i3-gaps rofi xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp
-            # Utils
-            ins tig nethogs nitrogen numlockx mcomix thunar termite ttf-fira-code firefox vlc acpi ttf-nasu
-            # Logitech mouse
-            ins piper
             # Pacman MirrorList update
             pacman_mirrorlist_update
-            # Bluetooth
-            ins blueman pulseaudio-bluetooth bluez-utils pulseaudio-alsa
-            # Music player
-            ins mpd mpc ncmpc
-            # Polybar
-            ins polybar-git siji-git ttf-nerd-fonts-symbols
+            # TODO add manual confs powertop + i3sleep + tlp
+            list=""
+            while IFS= read -r line
+            do
+                char=`echo $line| head -c1`
+                if [ "$char" != "#" ]; then
+                    list="$list $line"
+                fi
+            done < "$LOCAL/arch-package-list"
+
+            ins $list
         }
 else
     {
