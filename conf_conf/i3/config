@@ -21,7 +21,7 @@ exec --no-startup-id unclutter &
 exec --no-startup-id sudo netctl start wlp1s0-WIFI &
 
 # Bpytop
-# exec --no-startup-id i3-msg 'workspace 9; exec /usr/bin/termite --hold -e "bpytop" --class top; fullscreen enable; workspace 1'
+# exec --no-startup-id i3-msg 'workspace $TERMINALL --hold -e "bpytop" --class top; fullscreen enable; workspace 1'
 # for_window [class="^top$"] fullscreen enable
 
 
@@ -100,15 +100,16 @@ bindsym $mod+n exec thunar
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec termite
-bindcode control+62 exec termite
+set $TERMINAL "/usr/bin/termite"
+bindsym $mod+Return exec $TERMINAL
+bindcode control+62 exec $TERMINAL
 
 # kill focused window
 bindsym $mod+Shift+A kill
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec dmenu_run
-bindsym $mod+d exec --no-startup-id "rofi -show drun -show-icons -theme solarized -font \\"hack 9\\" -run-shell-command '{terminal} -e \\" {cmd}; read -n 1 -s\\"'"
+bindsym $mod+d exec --no-startup-id "rofi -combi-modi window,drun,run -show combi -show-icons -theme solarized -font \\"hack 9\\"
 
 
 bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%- unmute && pkill -RTMIN+10 i3blocks
