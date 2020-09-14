@@ -37,6 +37,9 @@ assign [class="(?i)steam"] 8
 
 # Bindings
 
+# xmodmap -pm for mods and xev -event keyboard for keycodes
+set $mod Mod4
+
 # Firefox
 bindsym $mod+g exec firefox
 bindsym $mod+p exec firefox -private-window
@@ -71,9 +74,6 @@ bindsym $mod+F4 exec ~/.config/i3/mpc stop
 # bindsym $mod+F2 exec qdbus org.mpris.MediaPlayer2.clementine /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
 # bindsym $mod+F3 exec qdbus org.mpris.MediaPlayer2.clementine /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
 # bindsym $mod+F4 exec qdbus org.mpris.MediaPlayer2.clementine /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop
-
-# xmodmap -pm for mods and xev -event keyboard for keycodes
-set $mod Mod4
 
 focus_follows_mouse no
 
