@@ -38,3 +38,5 @@ mpd mpc ncmpc
 polybar-git siji-git ttf-nerd-fonts-symbols
 # Bat perf
 tlp
+# Vim addons
+vim-youcompleteme-git flake8

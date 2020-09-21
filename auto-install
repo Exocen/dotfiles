@@ -141,8 +141,7 @@ function dev_env_install {
                 conf_folder conf_conf
                 # Pacman MirrorList update
                 pacman_mirrorlist_update
-                # TODO add manual confs powertop + i3sleep + tlp
-                # + add package check before install
+                # TODO add manual confs powertop + i3sleep + tlp + add package check before install
                 list=""
                 while IFS= read -r line
                 do
