@@ -7,7 +7,7 @@ i3-gaps rofi xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-uti
 # Auto Brightness tools
 # clight
 # Utils
-numlockx acpi ttf-nasu mcomix
+numlockx acpi otf-ipafont mcomix
 # Archive tools
 p7zip zip unrar unzip
 # Power management
