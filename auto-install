@@ -127,6 +127,9 @@ function basic_install {
     # vimrc
     git_clone https://github.com/exocen/vim-conf ~/.vim_runtime
     sh ~/.vim_runtime/install_awesome_vimrc.sh &>>$logFile
+    cd ~/.vim_runtime
+    sh ~/.vim_runtime/update.sh
+    cd $LOCAL
     is_working 'Vim installed'
 
 }
