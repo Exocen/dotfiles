@@ -40,3 +40,5 @@ polybar-git siji-git ttf-nerd-fonts-symbols
 tlp
 # Vim addons
 vim-youcompleteme-git flake8
+# Sound app control
+# pavucontrol
