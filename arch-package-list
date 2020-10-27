@@ -1,5 +1,7 @@
 # Video Driver (intel graphics)
-mesa
+# mesa
+# Video Driver (nvidia)
+# nvidia
 # WM
 i3-gaps rofi xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp
 # Mouse pointer hide tool
