@@ -66,7 +66,7 @@ font-3 = IPAPMincho:fixed:pixelsize=9
 
 modules-left = i3
 modules-center =
-modules-right = mpd pulseaudio filesystem memory cpu temperature wlan battery remaining date xkeyboard
+modules-right = mpd pulseaudio filesystem memory cpu temperature wlan date xkeyboard
 
 tray-position = right
 tray-padding = 1
@@ -290,7 +290,7 @@ label = %percentage_used%%
 
 [module/wlan]
 type = internal/network
-interface = wlp1s0
+interface = wlo1
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
@@ -444,6 +444,7 @@ tail=true
 type = internal/temperature
 thermal-zone = 3
 warn-temperature = 70
+hwmon-path = /sys/class/hwmon/hwmon2/temp1_input
 
 format = <ramp> <label>
 format-underline = #ffa500

@@ -197,6 +197,7 @@ function mainScript() {
     echo -n
     info 'Script started'
 
+    export EDITOR=vim
     detectOS
     basic_install
 
