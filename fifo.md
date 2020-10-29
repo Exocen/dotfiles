@@ -20,11 +20,12 @@ mkdir /mnt/boot
 mount /dev/sdXX /mnt/boot
 # swapon /dev/mapper/vg0-swap
 ## linux install
-pacstrap -i /mnt base base-devel linux linux-firmware openssh git vim lvm man-db man-pages texinfo netctl wpa_supplicant dhcpcd dialog
+pacstrap -i /mnt base base-devel linux linux-firmware openssh git vim lvm man-db man-pages texinfo netctl wpa_supplicant dhcpcd dialog sudo
 ## fstab gen
 genfstab -pU /mnt >> /mnt/etc/fstab
 #tmpfs	/tmp	tmpfs	defaults,noatime,mode=1777	0	0
 arch-chroot /mnt /bin/bash
+passwd
 ## timedatectl
 ##locales
 vim /etc/locale.gen (uncomment en_US.UTF-8 UTF-8)
