@@ -39,8 +39,10 @@ mpd mpc ncmpc
 # Polybar
 polybar-git siji-git ttf-nerd-fonts-symbols
 # Bat perf
-tlp
+# tlp
 # Vim addons
 vim-youcompleteme-git flake8
 # Sound app control
-# pavucontrol
+pavucontrol
+# Windows usb installer
+# woeusb
