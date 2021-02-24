@@ -17,9 +17,6 @@
 # Unclutter (hidden pointer)
 exec --no-startup-id unclutter &
 
-# Wifi
-exec --no-startup-id sudo netctl start WIFI &
-
 # Bpytop
 # exec --no-startup-id i3-msg 'workspace $TERMINALL --hold -e "bpytop" --class top; fullscreen enable; workspace 1'
 # for_window [class="^top$"] fullscreen enable
