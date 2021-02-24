@@ -17,11 +17,6 @@
 # Unclutter (hidden pointer)
 exec --no-startup-id unclutter &
 
-# Bpytop
-# exec --no-startup-id i3-msg 'workspace $TERMINALL --hold -e "bpytop" --class top; fullscreen enable; workspace 1'
-# for_window [class="^top$"] fullscreen enable
-
-
 # Clight Brightness
 # exec --no-startup-id clight &
 
@@ -72,11 +67,6 @@ bindsym XF86AudioPlay exec ~/.config/i3/mpc toggle
 bindsym XF86AudioPrev exec ~/.config/i3/mpc prev
 bindsym XF86AudioNext exec ~/.config/i3/mpc next
 bindsym XF86AudioStop exec ~/.config/i3/mpc stop
-
-# bindsym $mod+F5 exec mpc volume -1
-# bindsym $mod+F6 exec mpc volume +1 && notify-send -t 400 -u low Volume "$(mpc | tail -n1 | awk -F ': |:| ' '{print $2}')"
-# bindsym $mod+F7 exec mpc volume -5 && notify-send -t 400 -u low Volume "$(mpc | tail -n1 | awk -F ': |:| ' '{print $2}')"
-# bindsym $mod+F8 exec mpc volume +5 && notify-send -t 400 -u low Volume "$(mpc | tail -n1 | awk -F ': |:| ' '{print $2}')"
 
 # File Browser
 bindsym $mod+n exec thunar
