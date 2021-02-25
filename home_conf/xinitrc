@@ -50,8 +50,8 @@ fi
 
 # xautolock
 xautolock -detectsleep \
-          -notify  60 -notifier "xset dpms force off" \
-          -time 20 -locker "systemctl suspend" &
+          -notify  120 -notifier "xset dpms force off" \
+          -time 10 -locker "systemctl suspend" &
 
 # need zprofile first
 # exec i3 > ~/i3log-$(date +'%F-%k-%M-%S') 2>&1
