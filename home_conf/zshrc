@@ -195,7 +195,7 @@ function mvr() {
 }
 
 ### Packages managers
-
+# TODO auto detect
 # dpkg
 alias dbi='sudo dpkg -i'
 alias dbr='sudo dpkg -r'
