@@ -66,7 +66,7 @@ font-3 = IPAPMincho:fixed:pixelsize=9
 
 modules-left = i3
 modules-center =
-modules-right = mpd pulseaudio filesystem memory cpu temperature wlan date xkeyboard
+modules-right = mpd pulseaudio filesystem memory cpu gpu_temp temperature wlan date xkeyboard
 
 tray-position = right
 tray-padding = 1
@@ -440,10 +440,16 @@ exec = ~/.config/polybar/battery_remaining
 interval = 30
 tail=true
 
+[module/gpu_temp]
+type = custom/script
+exec = ~/.config/polybar/gpu_nvidia_temp
+interval = 30
+tail=true
+
 [module/temperature]
 type = internal/temperature
 thermal-zone = 3
-warn-temperature = 70
+warn-temperature = 80
 hwmon-path = /sys/class/hwmon/hwmon2/temp1_input
 
 format = <ramp> <label>
