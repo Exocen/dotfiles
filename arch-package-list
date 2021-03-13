@@ -1,11 +1,13 @@
 # Video Driver (intel graphics)
 # mesa
 # Video Driver (nvidia)
-# nvidia
+nvidia
+# Amd CPU
+amd-ucode
 # WM
 i3-gaps rofi xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp
 # Mouse pointer hide tool
-# unclutter
+unclutter
 # Auto Brightness tools
 # clight
 # Utils
@@ -13,15 +15,13 @@ numlockx acpi otf-ipafont mcomix
 # Archive tools
 p7zip zip unrar unzip
 # Power management
-powertop
+tlp acpi
 # Git Browser
 tig
 # Network top
 nethogs
 # Wallpaper
 # nitrogen
-# detailled slow htop
-# bpytop
 # File Browser
 thunar
 # Terminal
@@ -38,8 +38,6 @@ blueman pulseaudio-bluetooth bluez-utils pulseaudio-alsa
 mpd mpc ncmpc
 # Polybar
 polybar-git siji-git ttf-nerd-fonts-symbols
-# Bat perf
-# tlp
 # Vim addons
 vim-youcompleteme-git flake8
 # Sound app control
