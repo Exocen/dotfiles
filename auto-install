@@ -143,7 +143,7 @@ function dev_env_install {
                 # .config links
                 conf_folder conf_conf
                 # Pacman MirrorList update
-                pacman_mirrorlist_update
+                # pacman_mirrorlist_update
                 # TODO add manual confs powertop + i3sleep + tlp + add package check before install
                 list=""
                 while IFS= read -r line
@@ -168,7 +168,9 @@ else
 }
 
 function pacman_mirrorlist_update() {
+    # use aui fifo
     ins reflector
+    #incorrect link, must use default country or reflector list
     country=`curl --silent https://whatismycountry.com/ | grep --only-matching --perl-regexp 'Your Country is \K[^<]+'`
     if [ $? -eq 0 ];then
         sudo cp --backup=t /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup

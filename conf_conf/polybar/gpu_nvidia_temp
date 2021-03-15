@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash -
 
 temp=`nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader`
 max_temp=80
@@ -8,4 +8,3 @@ if [ $temp -gt $max_temp ]; then
 else
     echo %{u#00ff00}%{+u}$display
 fi
-exit 0

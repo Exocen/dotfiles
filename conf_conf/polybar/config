@@ -443,7 +443,7 @@ interval = 10
 type = custom/script
 ; TODO : all_gpu ?
 exec = ~/.config/polybar/gpu_nvidia_temp
-interval = 5
+interval = 3
 
 [module/temperature]
 type = internal/temperature
