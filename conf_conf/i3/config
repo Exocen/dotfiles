@@ -24,8 +24,8 @@ exec --no-startup-id unclutter &
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # background
-assign [class="(?i)thunderbird"] 7
-assign [class="(?i)steam"] 8
+assign [class="(?i)thunderbird"] 6
+assign [class="(?i)steam"] 5
 
 focus_follows_mouse no
 

@@ -328,7 +328,7 @@ format-disconnected =
 
 [module/date]
 type = internal/date
-interval = 5
+interval = 1
 
 ; date =
 date = " %Y-%m-%d"
