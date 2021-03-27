@@ -218,11 +218,11 @@ alias apshow='apt-cache showpkg'
 
 # pacaur
 alias auri='pacaur -S --noedit'
-alias aurr='pacaur -Rsc'
+alias aurr='pacaur -Rsu'
 alias auru='pacaur -Syu'
 alias aurs='pacaur -Ss'
 alias aurl='pacaur -Qe'
-alias aurc='pacaur -Qdt ; pacaur -Sc --noconfirm ; sudo pacman -Rns $(pacman -Qtdq) 2>/dev/null'
+alias aurc='pacaur -Qdt ; pacaur -Sc --noconfirm ; sudo pacman -Rnus $(pacman -Qtdq) 2>/dev/null'
 
 # yum
 alias yu='sudo yum update --color=always'
