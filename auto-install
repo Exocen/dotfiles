@@ -166,15 +166,19 @@ else
 function mainScript() {
     echo -n
     info 'Script started'
+    if [ -z "$EDITOR" ]
+    then
+        error "Need an EDITOR"
+    else
 
-    export EDITOR="/usr/bin/nano"
-    detectOS
-    basic_install
+        detectOS
+        basic_install
 
-    if [ "$WOS" = "Arch" ];then
-        seek_confirmation 'Install Dev Env ?'
-        if is_confirmed; then
-            dev_env_install
+        if [ "$WOS" = "Arch" ];then
+            seek_confirmation 'Install Dev Env ?'
+            if is_confirmed; then
+                dev_env_install
+            fi
         fi
     fi
 }
