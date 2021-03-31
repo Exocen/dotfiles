@@ -77,18 +77,29 @@ function ins {
         sudo dnf install $@ -y &>>$logFile
         is_working "$all installed"
     elif [ "$WOS" = "Arch" ] ;then
+        sudo pacman -S $@ --needed --noconfirm &>>$logFile
+        is_working "$all installed"
+    else
+        error "Unknow OS"
+    fi
+}
+
+function aur_ins {
+    all="$@" #for is_working function
+    info "Installation: $all "
+    if [ "$WOS" = "Arch" ] ;then
         # Aur tool install
         pacaur -v &>/dev/null
         if [ $? -ne 0 ];then
             arch_package_install https://aur.archlinux.org/auracle-git.git
             arch_package_install https://aur.archlinux.org/pacaur.git
-            pacaur -Syu
         fi
         pacaur -S $@ --noedit --needed --noconfirm &>>$logFile
         is_working "$all installed"
     else
-        error "Unknow OS"
+        error "Invalid OS"
     fi
+
 }
 
 function arch_package_install {
@@ -117,7 +128,7 @@ function git_clone {
 function basic_install {
     info "Basic installation"
     # Basic packages
-    ins vim git htop iftop iotop tree zsh make wget sudo
+    ins vim git htop iftop iotop tree zsh make wget sudo rsync
     # ln -s home conf
     home_folder home_conf
     # zsh
@@ -150,7 +161,7 @@ function dev_env_install {
                     fi
                 done < "$file"
 
-                ins $list
+                aur_ins $list
             else
                 error "Missing $file"
             fi
