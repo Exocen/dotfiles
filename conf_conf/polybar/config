@@ -114,14 +114,15 @@ indicator-icon-0 = caps lock;;*
 
 [module/filesystem]
 type = internal/fs
-interval = 25
+; Default: 30
 
 mount-0 = /
+mount-1 = /mnt/games
 
-label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
+label-mounted = %{F#ff9636}%mountpoint%%{F-} %percentage_used%%
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
-label-mounted-underline = #ffff00
+label-mounted-underline = #ffe08d
 [module/bspwm]
 type = internal/bspwm
 
@@ -178,7 +179,7 @@ label-visible-underline = ${self.label-focused-underline}
 ; urgent = Workspace with urgency hint set
 label-urgent = %index%
 label-urgent-background = ${module/bspwm.label-urgent-background}
-; label-urgent-padding = ${module/bspwm.label-urgent-padding}
+label-urgent-padding = 1
 
 ; Separator in between workspaces
 ; label-separator = |
