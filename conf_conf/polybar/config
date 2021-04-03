@@ -54,7 +54,7 @@ padding-right = 0
 module-margin-left = 1
 module-margin-right = 1
 
-font-0= DejaVuSansMono:pixelsize=10;1
+font-0= DejaVuSansMono:pixelsize=9:style=bold
 font-1 = Siji
 font-2 = "Symbols Nerd Font":size=10:antialias=false
 font-3 = IPAPMincho:fixed:pixelsize=9
@@ -288,7 +288,7 @@ interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
-; label = %gb_used% / %gb_free%
+; label = used:%gb_used% free:%gb_free% total:%gb_total%
 label = %percentage_used%%
 
 [module/wlan]
