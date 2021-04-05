@@ -6,8 +6,9 @@
 #cell_width_scale = 1.0
 #clickable_url = true
 #dynamic_title = true
-font = IPAPMincho 9
-font = fira code 9
+# font = IPAPMincho 9
+# font = fira code 9
+font = NotoSansMono 9
 #fullscreen = true
 #icon_name = terminal
 #mouse_autohide = false
