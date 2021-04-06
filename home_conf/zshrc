@@ -143,9 +143,9 @@ alias kbus='setxkbmap us'
 alias j='jobs'
 alias m='make'
 alias k='killall'
-alias pend='sudo pm-suspend'
-alias nate='sudo pm-hibernate'
-alias brid='sudo pm-hybrid'
+alias pend='sudo systemctl suspend'
+alias nate='sudo systemctl hibernate'
+alias brid='sudo systemctl hybrid'
 alias down='sudo poweroff'
 alias boot='sudo reboot'
 alias lsblk='lsblk -o name,mountpoint,fstype,label,size,fsavail,fsused,fsuse%,rota,owner,mode,group'
@@ -172,7 +172,6 @@ alias viewtar='tar -tf'
 alias myip='curl ipinfo.io/ip'
 alias visudo='sudo EDITOR=vim visudo'
 alias iotop='sudo iotop -o'
-alias rmt='find . -name "*~" -exec rm {} \; -print -or -name ".*~" -exec rm {} \; -print -or -name "\#*\#*" -exec rm {} \; -print'
 
 # mount
 function mnt {
@@ -313,8 +312,6 @@ function greset() {
     git reset --hard origin/master
 }
 function gitautoconfig() {
-    # git config credential.helper store # ! store plaintext
-    # git config credential.helper 'cache --timeout=604800' # 7 days
     git config pull.rebase false
     git config --global user.email Exocen@users.noreply.github.com
     git config --global user.name "Exocen"
