@@ -65,7 +65,7 @@ font-2 = IPAPMincho:fixed:pixelsize=9
 
 modules-left = i3
 modules-center =
-modules-right = mpd pulseaudio filesystem memory cpu gpu_temp temperature wlan date xkeyboard
+modules-right = mpd pulseaudio filesystem memory cpu gpu_temp temperature wlan date
 
 tray-position = right
 tray-padding = 1
