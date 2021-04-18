@@ -270,8 +270,8 @@ function extract()
     fi
 }
 
-# Creates an archive (*.tgz) from given directory.
-function maketar() { tar cvzf "${1%%/}.tgz"  "${1%%/}/"; }
+# Creates an archive (*.tgz) from given list.
+function maketar() { tar cvzf $1.tgz  $*; }
 
 # Create a ZIP archive of a file or folder.
 function makezip() { zip -r "${1%%/}.zip" "$1" ; }
