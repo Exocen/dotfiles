@@ -121,9 +121,10 @@ mount-1 = /mnt/games
 spacing = 1
 
 label-mounted = %{F#ff9636}%mountpoint%%{F-} %percentage_used%%
-label-unmounted = %mountpoint% not mounted
-label-unmounted-foreground = ${colors.foreground-alt}
+label-unmounted = %{F#ff9636}%mountpoint%%{F-}∅
+; label-unmounted-foreground = ${colors.foreground-alt}
 label-mounted-underline = #ffe08d
+label-unmounted-underline = #ffe08d
 
 [module/bspwm]
 type = internal/bspwm
