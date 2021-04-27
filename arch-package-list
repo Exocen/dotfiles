@@ -37,7 +37,7 @@ blueman pulseaudio-bluetooth bluez-utils pulseaudio-alsa
 # Music player
 mpd mpc ncmpc
 # Polybar
-polybar-git siji-git noto-fonts
+polybar-git siji-git noto-fonts noto-fonts-emoji
 # Vim addons
 vim-youcompleteme-git flake8
 # Sound app control
