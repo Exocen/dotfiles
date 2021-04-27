@@ -2,8 +2,8 @@
 
 temp=`nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader`
 max_temp=80
-display="%{u#00ff00}%{+u}%{F#5a5a5a} %{F-}"$temp"°C"
-alert_display="%{u#00ff00}%{+u}%{F#5a5a5a} %{F-}%{F#f00}"$temp"°C%{F-}"
+display="%{u#00ff00}%{+u}%{F#5a5a5a} %{F-}"$temp"°C"
+alert_display="%{u#00ff00}%{+u}%{F#5a5a5a} %{F-}%{F#f00}"$temp"°C%{F-}"
 if [ $temp -gt $max_temp ]; then
     echo $alert_display
 else
