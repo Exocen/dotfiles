@@ -16,7 +16,9 @@
 ;
 ;==========================================================
 
+# TODO: add updated blank config
 [colors]
+#TODO : use
 background = #222
 background-alt = #444
 foreground = #dfdfdf
