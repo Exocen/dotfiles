@@ -372,12 +372,12 @@ label = %date% %time%
 type = internal/pulseaudio
 
 format-volume = <label-volume> <bar-volume>
-label-volume =  %percentage%%
+label-volume = 墳 %percentage%%
 label-volume-foreground = ${root.foreground}
 
 label-muted-underline = #808080
 ;format-muted-prefix = " "
-label-muted = " Muted"
+label-muted = "ﱝ Muted"
 label-muted-foreground = #666
 
 bar-volume-width = 10
