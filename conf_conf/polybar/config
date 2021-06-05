@@ -111,7 +111,7 @@ type = internal/fs
 ; Default: 30
 
 mount-0 = /
-mount-1 = /mnt/games
+; mount-1 = /mnt/music
 
 spacing = 1
 
@@ -182,7 +182,7 @@ label-urgent-padding = 2
 
 [module/mpd]
 type = internal/mpd
-host = /tmp/mpd_socket
+host = ${env:MPD_HOST}
 format-online = <label-song> <icon-prev> <icon-stop> <toggle> <icon-next>
 ;format-online = <icon-prev> <icon-seek> <icon-stop> <toggle><icon-next>  <icon-repeat> <icon-random>  <label-time>  <label-song>
 label-song = %artist% - %title%
