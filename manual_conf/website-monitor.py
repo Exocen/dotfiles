@@ -90,4 +90,5 @@ if new_hash == ori_hash:
 else:
     print('ERRRROROROROROOR')
 
-driver.close()
+# driver.close()
+driver.quit()
