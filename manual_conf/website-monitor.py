@@ -7,6 +7,7 @@ from selenium import webdriver
 import time
 import os.path
 
+
 def full_screenshot(driver):
     img_li = []  # to store image fragment
     offset = 0  # where to start
@@ -41,32 +42,39 @@ def full_screenshot(driver):
     # return hashlib.sha256(img_frame.tobytes()).hexdigest()
     return img_frame
 
+
 def init():
     options = FirefoxOptions()
     options.add_argument("--headless")
     options.add_argument("--disable-gpu")
     return webdriver.Firefox(options=options)
 
+
 def check_reserv(driver):
     address = 'https://reservation.pc.gc.ca/Jasper/BackcountryCampsites/SkylineTrail?List'
     driver.get(address)
     driver.get(address)
 
-    #bullshit popup
+    # bullshit popup
     buttonList = driver.find_elements_by_tag_name('button')
     for but in buttonList:
         if but.text == "OK":
             but.click()
 
-    #Select
-    Select(driver.find_element_by_id('selResType')).select_by_visible_text('Backcountry Camping')
-    Select(driver.find_element_by_id('selArrMth')).select_by_visible_text('Aug')
+    # Select
+    Select(driver.find_element_by_id('selResType')
+           ).select_by_visible_text('Backcountry Camping')
+    Select(driver.find_element_by_id('selArrMth')
+           ).select_by_visible_text('Aug')
     driver.find_element_by_id('MainContentPlaceHolder_ListLink').click()
-    Select(driver.find_element_by_id('selArrDay')).select_by_visible_text("9th")
-    Select(driver.find_element_by_id('selPartySize')).select_by_visible_text("1")
-    Select(driver.find_element_by_id('selTentPads')).select_by_visible_text("1")
+    Select(driver.find_element_by_id('selArrDay')
+           ).select_by_visible_text("9th")
+    Select(driver.find_element_by_id('selPartySize')
+           ).select_by_visible_text("1")
+    Select(driver.find_element_by_id('selTentPads')
+           ).select_by_visible_text("1")
 
-    #TODO selenium wait
+    # TODO selenium wait
     print('Sleep')
     time.sleep(2)
 
@@ -75,13 +83,14 @@ def check_reserv(driver):
 
     with Image.open('screenshot.png') as img:
         new_img = full_screenshot(driver)
-        new_hash =  hashlib.sha256(new_img.tobytes()).hexdigest()
+        new_hash = hashlib.sha256(new_img.tobytes()).hexdigest()
         ori_hash = hashlib.sha256(img.tobytes()).hexdigest()
 
         if new_hash == ori_hash:
             print('equals :)')
         else:
             print('ERRRROROROROROOR')
+
 
 driver = init()
 check_reserv(driver)
