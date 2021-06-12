@@ -108,6 +108,12 @@ def check_reserv(driver):
 
 
 def check_smbc(driver):
+
+    def contentToFile(content, file):
+        file = open(img_path, "wb")
+        file.write(response.content)
+        file.close()
+        
     img_path = "smbc_screenshot.png"
     address = "https://www.smbc-comics.com/"
     driver.get(address)
@@ -139,10 +145,6 @@ def check_smbc(driver):
                            check=True, executable="/bin/bash")
             contentToFile(response.content, img_path)
 
-    def contentToFile(content, file):
-        file = open(img_path, "wb")
-        file.write(response.content)
-        file.close()
 
 
 try:
