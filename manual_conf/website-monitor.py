@@ -7,6 +7,7 @@ from selenium.webdriver.support.select import Select
 from selenium import webdriver
 import time
 import os.path
+import requests
 
 
 def full_screenshot(driver):
@@ -70,21 +71,23 @@ def check_reserv(driver):
     Select(driver.find_element_by_id("selResType")).select_by_visible_text(
         "Backcountry Camping"
     )
-    Select(driver.find_element_by_id("selArrMth")).select_by_visible_text("Aug")
+    Select(driver.find_element_by_id("selArrMth")
+           ).select_by_visible_text("Aug")
     driver.find_element_by_id("MainContentPlaceHolder_ListLink").click()
-    #TODO wait
+    # TODO wait
     time.sleep(1)
-    Select(driver.find_element_by_id("selArrDay")).select_by_visible_text("9th")
-    Select(driver.find_element_by_id("selPartySize")).select_by_visible_text("1")
-    Select(driver.find_element_by_id("selTentPads")).select_by_visible_text("1")
+    Select(driver.find_element_by_id("selArrDay")
+           ).select_by_visible_text("9th")
+    Select(driver.find_element_by_id("selPartySize")
+           ).select_by_visible_text("1")
+    Select(driver.find_element_by_id("selTentPads")
+           ).select_by_visible_text("1")
 
     # TODO selenium wait
     time.sleep(1)
 
     if not os.path.isfile(img_path):
         full_screenshot(driver).save(img_path)
-
-    
 
     with Image.open(img_path) as img:
         new_img = full_screenshot(driver)
@@ -93,11 +96,14 @@ def check_reserv(driver):
 
         if new_hash != ori_hash:
             bash_scp = "scp "+img_path+" exocen.com:/tmp/"
-            subprocess.run(bash_scp, shell=True, check=True, executable="/bin/bash")  
+            subprocess.run(bash_scp, shell=True, check=True,
+                           executable="/bin/bash")
             message = "Website update"
-            bash2 ="sendemail -m '"+message+ "' -t exo@exocen.com -u 'TRAIL CAMP UPDATE' -f check@exocen.com -a /tmp/"+img_path+""  
+            bash2 = "sendemail -m '"+message + \
+                "' -t exo@exocen.com -u 'TRAIL CAMP UPDATE' -f check@exocen.com -a /tmp/"+img_path+""
             bashCommand = 'ssh exocen.com "' + bash2 + '"'
-            subprocess.run(bashCommand, shell=True, check=True, executable="/bin/bash")
+            subprocess.run(bashCommand, shell=True,
+                           check=True, executable="/bin/bash")
             new_img.save(img_path)
 
 
@@ -106,25 +112,37 @@ def check_smbc(driver):
     address = "https://www.smbc-comics.com/"
     driver.get(address)
 
+    img_url = driver.find_element_by_id("cc-comic").get_attribute('src')
+
+    response = requests.get(img_url)
+
     # TODO selenium wait
     time.sleep(1)
 
     if not os.path.isfile(img_path):
-        full_screenshot(driver).save(img_path)    
+        contentToFile(response.content, img_path)
 
     with Image.open(img_path) as img:
-        new_img = full_screenshot(driver)
+        new_img = Image.open(io.BytesIO(response.content))
         new_hash = hashlib.sha256(new_img.tobytes()).hexdigest()
         ori_hash = hashlib.sha256(img.tobytes()).hexdigest()
 
         if new_hash != ori_hash:
             bash_scp = "scp "+img_path+" exocen.com:/tmp/"
-            subprocess.run(bash_scp, shell=True, check=True, executable="/bin/bash")  
+            subprocess.run(bash_scp, shell=True, check=True,
+                           executable="/bin/bash")
             message = "Website update"
-            bash2 ="sendemail -m '"+message+ "' -t wesh@exocen.com -u 'smbc UPDATE' -f exo@exocen.com -a /tmp/"+img_path+""  
+            bash2 = "sendemail -m '"+message + \
+                "' -t exo@exocen.com -u 'smbc UPDATE' -f exo2@exocen.com -a /tmp/"+img_path+""
             bashCommand = 'ssh exocen.com "' + bash2 + '"'
-            subprocess.run(bashCommand, shell=True, check=True, executable="/bin/bash")
-            new_img.save(img_path)
+            subprocess.run(bashCommand, shell=True,
+                           check=True, executable="/bin/bash")
+            contentToFile(response.content, img_path)
+
+    def contentToFile(content, file):
+        file = open(img_path, "wb")
+        file.write(response.content)
+        file.close()
 
 
 try:
