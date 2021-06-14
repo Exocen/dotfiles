@@ -1,0 +1,11 @@
+[Unit]
+Description=website-monitor
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/python3 /usr/bin/website-monitor.py
+
+[Install]
+WantedBy=multi-user.target
