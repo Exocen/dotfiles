@@ -103,7 +103,7 @@ def check_reserv(driver):
                            executable="/bin/bash")
             message = "Website update"
             bash2 = "sendemail -m '"+message + \
-                "' -t exo@exocen.com -u 'TRAIL CAMP UPDATE' -f check@exocen.com -a /tmp/"+img_filename+""
+                "' -t chaton@exocen.com -u 'TRAIL CAMP UPDATE' -f exo@exocen.com -a /tmp/"+img_filename+""
             bashCommand = 'ssh exocen.com "' + bash2 + '"'
             subprocess.run(bashCommand, shell=True,
                            check=True, executable="/bin/bash")
@@ -142,7 +142,7 @@ def check_smbc(driver):
                            executable="/bin/bash")
             message = "Website update"
             bash2 = "sendemail -m '"+message + \
-                "' -t exo@exocen.com -u 'smbc UPDATE' -f exo2@exocen.com -a /tmp/"+img_filename+""
+                "' -t wesh@exocen.com -bcc exo@exocen.com -u 'smbc UPDATE' -f exo2@exocen.com -a /tmp/"+img_filename+""
             bashCommand = 'ssh exocen.com "' + bash2 + '"'
             subprocess.run(bashCommand, shell=True,
                            check=True, executable="/bin/bash")
