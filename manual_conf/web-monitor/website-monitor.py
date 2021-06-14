@@ -11,12 +11,16 @@ from selenium import webdriver
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.support.select import Select
 
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 file_path = os.path.dirname(os.path.realpath(__file__))
 # TODO add timestamp + logs
 
 
 def full_screenshot(driver):
-    time.sleep(1)
+    driver.implicitly_wait(2)
     img_li = []  # to store image fragment
     offset = 0  # where to start
     # js to get height
@@ -58,16 +62,18 @@ def init():
     options = FirefoxOptions()
     options.add_argument("--headless")
     options.add_argument("--disable-gpu")
-    driver = webdriver.Firefox(options=options)
-    driver.implicitly_wait(10)
-    return driver
+    return webdriver.Firefox(options=options)
+
+
+def set_select_with_elemend_id(wait, id, text):
+    el = wait.until(EC.presence_of_element_located((By.ID, id)))
+    Select(el).select_by_visible_text(text)
 
 
 def check_reserv(driver):
     img_filename = "screenshot.png"
     img_path = os.path.join(file_path, img_filename)
     address = "https://reservation.pc.gc.ca/Jasper/BackcountryCampsites/SkylineTrail?List"
-    driver.get(address)
     driver.get(address)
 
     # bullshit popup
@@ -76,20 +82,16 @@ def check_reserv(driver):
         if but.text == "OK":
             but.click()
 
-    # Select
-    Select(driver.find_element_by_id("selResType")).select_by_visible_text(
-        "Backcountry Camping"
-    )
-    Select(driver.find_element_by_id("selArrMth")
-           ).select_by_visible_text("Aug")
-    driver.find_element_by_id("MainContentPlaceHolder_ListLink").click()
+    wait = WebDriverWait(driver, 10)
 
-    Select(driver.find_element_by_id("selArrDay")
-           ).select_by_visible_text("9th")
-    Select(driver.find_element_by_id("selPartySize")
-           ).select_by_visible_text("1")
-    Select(driver.find_element_by_id("selTentPads")
-           ).select_by_visible_text("1")
+    set_select_with_elemend_id(wait, 'selResType', 'Backcountry Camping')
+    set_select_with_elemend_id(wait, 'selArrMth', 'Aug')
+    set_select_with_elemend_id(wait, 'selArrDay', '9th')
+
+    driver.get(address)
+
+    set_select_with_elemend_id(wait, 'selPartySize', '1')
+    set_select_with_elemend_id(wait, 'selTentPads', '1')
 
     if not os.path.isfile(img_path):
         full_screenshot(driver).save(img_path)
