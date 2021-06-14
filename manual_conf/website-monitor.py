@@ -1,16 +1,18 @@
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
 import hashlib
-from PIL import Image
 import io
-import subprocess
-from selenium.webdriver.support.select import Select
-from selenium import webdriver
-import time
-import os.path
-import requests
 import os
+import os.path
+import subprocess
+import time
+
+import requests
+from PIL import Image
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.support.select import Select
 
 file_path = os.path.dirname(os.path.realpath(__file__))
+# TODO add timestamp + logs
 
 
 def full_screenshot(driver):
