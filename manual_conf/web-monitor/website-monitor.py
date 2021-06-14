@@ -106,7 +106,7 @@ def check_reserv(driver):
             message = "Website update"
             bash2 = "sendemail -m '"+message + \
                 "' -t chaton@exocen.com -u 'TRAIL CAMP UPDATE' -f exo@exocen.com -a /tmp/"+img_filename+""
-            bashCommand = 'ssh exocen.com "' + bash2 + '"'
+            bashCommand = 'ssh exo@exocen.com "' + bash2 + '"'
             subprocess.run(bashCommand, shell=True,
                            check=True, executable="/bin/bash")
             new_img.save(img_path)
@@ -145,7 +145,7 @@ def check_smbc(driver):
             message = "Website update"
             bash2 = "sendemail -m '"+message + \
                 "' -t wesh@exocen.com -bcc exo@exocen.com -u 'smbc UPDATE' -f exo2@exocen.com -a /tmp/"+img_filename+""
-            bashCommand = 'ssh exocen.com "' + bash2 + '"'
+            bashCommand = 'ssh exo@exocen.com "' + bash2 + '"'
             subprocess.run(bashCommand, shell=True,
                            check=True, executable="/bin/bash")
             contentToFile(response.content, img_path)
