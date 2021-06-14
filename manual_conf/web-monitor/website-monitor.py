@@ -100,7 +100,7 @@ def check_reserv(driver):
         ori_hash = hashlib.sha256(img.tobytes()).hexdigest()
 
         if new_hash != ori_hash:
-            bash_scp = "scp "+img_path+" exocen.com:/tmp/"
+            bash_scp = "scp "+img_path+" exo@exocen.com:/tmp/"
             subprocess.run(bash_scp, shell=True, check=True,
                            executable="/bin/bash")
             message = "Website update"
@@ -139,7 +139,7 @@ def check_smbc(driver):
         ori_hash = hashlib.sha256(img.tobytes()).hexdigest()
 
         if new_hash != ori_hash:
-            bash_scp = "scp "+img_path+" exocen.com:/tmp/"
+            bash_scp = "scp "+img_path+" exo@exocen.com:/tmp/"
             subprocess.run(bash_scp, shell=True, check=True,
                            executable="/bin/bash")
             message = "Website update"
