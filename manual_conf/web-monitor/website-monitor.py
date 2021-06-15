@@ -86,6 +86,7 @@ def check_reserv(driver):
 
     set_select_with_elemend_id(wait, 'selResType', 'Backcountry Camping')
     set_select_with_elemend_id(wait, 'selArrMth', 'Aug')
+    time.sleep(2)
     set_select_with_elemend_id(wait, 'selArrDay', '9th')
 
     driver.get(address)
@@ -107,7 +108,7 @@ def check_reserv(driver):
                            executable="/bin/bash")
             message = "Website update"
             bash2 = "sendemail -m '"+message + \
-                "' -t chaton@exocen.com -u 'TRAIL CAMP UPDATE' -f exo@exocen.com -a /tmp/"+img_filename+""
+                "' -t chaon@exocen.com -u 'TRAIL CAMP UPDATE' -f exo@exocen.com -a /tmp/"+img_filename+""
             bashCommand = 'ssh exo@exocen.com "' + bash2 + '"'
             subprocess.run(bashCommand, shell=True,
                            check=True, executable="/bin/bash")
