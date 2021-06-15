@@ -8,12 +8,11 @@ import time
 import requests
 from PIL import Image
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
-from selenium.webdriver.support.select import Select
-
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.ui import WebDriverWait
 
 file_path = os.path.dirname(os.path.realpath(__file__))
 # TODO add timestamp + logs
@@ -66,8 +65,9 @@ def init():
 
 
 def set_select_with_elemend_id(wait, id, text):
-    el = wait.until(EC.presence_of_element_located((By.ID, id)))
-    Select(el).select_by_visible_text(text)
+    wel = wait.until(EC.presence_of_element_located((By.ID, id)))
+    Select(wel).select_by_visible_text(text)
+    wait.until(EC.invisibility_of_element((By.ID, 'viewPortStatus')))
 
 
 def check_reserv(driver):
@@ -85,19 +85,15 @@ def check_reserv(driver):
     wait = WebDriverWait(driver, 10)
 
     set_select_with_elemend_id(wait, 'selResType', 'Backcountry Camping')
-    wait.until(EC.invisibility_of_element((By.ID, 'viewPortStatus')))
+
     driver.get(address)
     wait.until(EC.invisibility_of_element((By.ID, 'viewPortStatus')))
-    set_select_with_elemend_id(wait, 'selArrMth', 'Aug')
-    wait.until(EC.invisibility_of_element((By.ID, 'viewPortStatus')))
-    set_select_with_elemend_id(wait, 'selArrDay', '29th')
-    wait.until(EC.invisibility_of_element((By.ID, 'viewPortStatus')))
 
+    set_select_with_elemend_id(wait, 'selArrMth', 'Aug')
+    set_select_with_elemend_id(wait, 'selArrDay', '29th')
 
     set_select_with_elemend_id(wait, 'selPartySize', '1')
-    wait.until(EC.invisibility_of_element((By.ID, 'viewPortStatus')))
     set_select_with_elemend_id(wait, 'selTentPads', '1')
-    wait.until(EC.invisibility_of_element((By.ID, 'viewPortStatus')))
 
     if not os.path.isfile(img_path):
         full_screenshot(driver).save(img_path)
@@ -115,7 +111,7 @@ def check_reserv(driver):
                            executable="/bin/bash")
             message = "Website update"
             bash2 = "sendemail -m '"+message + \
-                "' -t chaton@exocen.com -u 'TRAIL CAMP UPDATE' -f exo@exocen.com -a /tmp/"+img_filename+""
+                "' -t chaton@exocen.com -cc check@exocen.com -u 'TRAIL CAMP UPDATE' -f exo@exocen.com -a /tmp/"+img_filename+""
             bashCommand = 'ssh exo@exocen.com "' + bash2 + '"'
             subprocess.run(bashCommand, shell=True,
                            check=True, executable="/bin/bash")
