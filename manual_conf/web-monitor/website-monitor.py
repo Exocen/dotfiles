@@ -85,13 +85,19 @@ def check_reserv(driver):
     wait = WebDriverWait(driver, 10)
 
     set_select_with_elemend_id(wait, 'selResType', 'Backcountry Camping')
-    set_select_with_elemend_id(wait, 'selArrMth', 'Aug')
-    set_select_with_elemend_id(wait, 'selArrDay', '29th')
-
+    wait.until(EC.invisibility_of_element((By.ID, 'viewPortStatus')))
     driver.get(address)
+    wait.until(EC.invisibility_of_element((By.ID, 'viewPortStatus')))
+    set_select_with_elemend_id(wait, 'selArrMth', 'Aug')
+    wait.until(EC.invisibility_of_element((By.ID, 'viewPortStatus')))
+    set_select_with_elemend_id(wait, 'selArrDay', '29th')
+    wait.until(EC.invisibility_of_element((By.ID, 'viewPortStatus')))
+
 
     set_select_with_elemend_id(wait, 'selPartySize', '1')
+    wait.until(EC.invisibility_of_element((By.ID, 'viewPortStatus')))
     set_select_with_elemend_id(wait, 'selTentPads', '1')
+    wait.until(EC.invisibility_of_element((By.ID, 'viewPortStatus')))
 
     if not os.path.isfile(img_path):
         full_screenshot(driver).save(img_path)
