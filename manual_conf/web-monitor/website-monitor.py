@@ -86,7 +86,7 @@ def check_reserv(driver):
 
     set_select_with_elemend_id(wait, 'selResType', 'Backcountry Camping')
     set_select_with_elemend_id(wait, 'selArrMth', 'Aug')
-    set_select_with_elemend_id(wait, 'selArrDay', '9th')
+    set_select_with_elemend_id(wait, 'selArrDay', '29th')
 
     driver.get(address)
 
