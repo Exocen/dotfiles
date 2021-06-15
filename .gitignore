@@ -1,7 +1,7 @@
 *.log
 *.tmp
-*.png
 =======
+**/web-monitor/*.png
 locals.zsh
 log/.zsh_history
 projects.zsh
