@@ -109,7 +109,7 @@ def check_reserv(driver):
                            executable="/bin/bash")
             message = "Website update"
             bash2 = "sendemail -m '"+message + \
-                "' -t chaon@exocen.com -u 'TRAIL CAMP UPDATE' -f exo@exocen.com -a /tmp/"+img_filename+""
+                "' -t chaton@exocen.com -u 'TRAIL CAMP UPDATE' -f exo@exocen.com -a /tmp/"+img_filename+""
             bashCommand = 'ssh exo@exocen.com "' + bash2 + '"'
             subprocess.run(bashCommand, shell=True,
                            check=True, executable="/bin/bash")
