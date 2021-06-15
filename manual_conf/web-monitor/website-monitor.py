@@ -1,9 +1,8 @@
 import hashlib
 import io
 import os
-import os.path
 import subprocess
-import time
+from datetime import datetime
 
 import requests
 from PIL import Image
@@ -57,6 +56,13 @@ def full_screenshot(driver):
     return img_frame
 
 
+def backup_file(file_path):
+    new_name = str(int(datetime.today().timestamp()))
+    file_path_wo_ext, ext = os.path.splitext(file_path)
+    new_path = file_path_wo_ext + '-' + new_name + ext
+    os.rename(file_path, new_path)
+
+
 def init():
     options = FirefoxOptions()
     options.add_argument("--headless")
@@ -104,19 +110,20 @@ def check_reserv(driver):
         new_hash = hashlib.sha256(new_img.tobytes()).hexdigest()
         ori_hash = hashlib.sha256(img.tobytes()).hexdigest()
 
-        if new_hash != ori_hash:
-            new_img.save(img_path)
-            bash_scp = "scp "+img_path+" exo@exocen.com:/tmp/"
-            subprocess.run(bash_scp, shell=True, check=True,
-                           executable="/bin/bash")
-            message = "Website update"
-            bash2 = "sendemail -m '"+message + \
-                "' -t chaton@exocen.com -cc check@exocen.com -u 'TRAIL CAMP UPDATE' -f exo@exocen.com -a /tmp/"+img_filename+""
-            bashCommand = 'ssh exo@exocen.com "' + bash2 + '"'
-            subprocess.run(bashCommand, shell=True,
-                           check=True, executable="/bin/bash")
-        else:
-            print('Hike No changes')
+    if new_hash != ori_hash:
+        backup_file(img_path)
+        new_img.save(img_path)
+        bash_scp = "scp "+img_path+" exo@exocen.com:/tmp/"
+        subprocess.run(bash_scp, shell=True, check=True,
+                       executable="/bin/bash")
+        message = "Website update"
+        bash2 = "sendemail -m '"+message + \
+            "' -t chaton@exocen.com -cc check@exocen.com -u 'TRAIL CAMP UPDATE' -f exo@exocen.com -a /tmp/"+img_filename+""
+        bashCommand = 'ssh exo@exocen.com "' + bash2 + '"'
+        subprocess.run(bashCommand, shell=True,
+                       check=True, executable="/bin/bash")
+    else:
+        print('Hike No changes')
 
 
 def check_smbc(driver):
@@ -143,19 +150,20 @@ def check_smbc(driver):
         new_hash = hashlib.sha256(new_img.tobytes()).hexdigest()
         ori_hash = hashlib.sha256(img.tobytes()).hexdigest()
 
-        if new_hash != ori_hash:
-            contentToFile(response.content, img_path)
-            bash_scp = "scp "+img_path+" exo@exocen.com:/tmp/"
-            subprocess.run(bash_scp, shell=True, check=True,
-                           executable="/bin/bash")
-            message = "Website update"
-            bash2 = "sendemail -m '"+message + \
-                "' -t wesh@exocen.com -bcc exo@exocen.com -u 'smbc UPDATE' -f exo2@exocen.com -a /tmp/"+img_filename+""
-            bashCommand = 'ssh exo@exocen.com "' + bash2 + '"'
-            subprocess.run(bashCommand, shell=True,
-                           check=True, executable="/bin/bash")
-        else:
-            print('SMBC No changes')
+    if new_hash != ori_hash:
+        backup_file(img_path)
+        contentToFile(response.content, img_path)
+        bash_scp = "scp "+img_path+" exo@exocen.com:/tmp/"
+        subprocess.run(bash_scp, shell=True, check=True,
+                       executable="/bin/bash")
+        message = "Website update"
+        bash2 = "sendemail -m '"+message + \
+            "' -t wesh@exocen.com -bcc exo@exocen.com -u 'smbc UPDATE' -f exo2@exocen.com -a /tmp/"+img_filename+""
+        bashCommand = 'ssh exo@exocen.com "' + bash2 + '"'
+        subprocess.run(bashCommand, shell=True,
+                       check=True, executable="/bin/bash")
+    else:
+        print('SMBC No changes')
 
 
 try:
