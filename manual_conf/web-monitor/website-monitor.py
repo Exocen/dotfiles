@@ -86,7 +86,6 @@ def check_reserv(driver):
 
     set_select_with_elemend_id(wait, 'selResType', 'Backcountry Camping')
     set_select_with_elemend_id(wait, 'selArrMth', 'Aug')
-    time.sleep(2)
     set_select_with_elemend_id(wait, 'selArrDay', '9th')
 
     driver.get(address)
@@ -98,11 +97,13 @@ def check_reserv(driver):
         full_screenshot(driver).save(img_path)
 
     with Image.open(img_path) as img:
+
         new_img = full_screenshot(driver)
         new_hash = hashlib.sha256(new_img.tobytes()).hexdigest()
         ori_hash = hashlib.sha256(img.tobytes()).hexdigest()
 
         if new_hash != ori_hash:
+            new_img.save(img_path)
             bash_scp = "scp "+img_path+" exo@exocen.com:/tmp/"
             subprocess.run(bash_scp, shell=True, check=True,
                            executable="/bin/bash")
@@ -112,7 +113,6 @@ def check_reserv(driver):
             bashCommand = 'ssh exo@exocen.com "' + bash2 + '"'
             subprocess.run(bashCommand, shell=True,
                            check=True, executable="/bin/bash")
-            new_img.save(img_path)
         else:
             print('Hike No changes')
 
@@ -142,6 +142,7 @@ def check_smbc(driver):
         ori_hash = hashlib.sha256(img.tobytes()).hexdigest()
 
         if new_hash != ori_hash:
+            contentToFile(response.content, img_path)
             bash_scp = "scp "+img_path+" exo@exocen.com:/tmp/"
             subprocess.run(bash_scp, shell=True, check=True,
                            executable="/bin/bash")
@@ -151,7 +152,6 @@ def check_smbc(driver):
             bashCommand = 'ssh exo@exocen.com "' + bash2 + '"'
             subprocess.run(bashCommand, shell=True,
                            check=True, executable="/bin/bash")
-            contentToFile(response.content, img_path)
         else:
             print('SMBC No changes')
 
