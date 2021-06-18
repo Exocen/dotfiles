@@ -16,6 +16,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 file_path = os.path.dirname(os.path.realpath(__file__))
 lame_log = []
 debug = False
+domain = ''
+scp_command = ''
+send_mail_command = ''
+# TODO Colors log
 # TODO add debug logs + debug run (--dry-run)
 
 def run_process(command):
@@ -151,9 +155,8 @@ def check_reserv2(driver):
 def check_smbc(driver):
 
     def contentToFile(content, file):
-        file = open(img_path, "wb")
-        file.write(response.content)
-        file.close()
+        with open(img_path, "wb") as file:
+            file.write(response.content)
 
     img_filename = "smbc_screenshot.png"
     img_path = os.path.join(file_path, img_filename)
