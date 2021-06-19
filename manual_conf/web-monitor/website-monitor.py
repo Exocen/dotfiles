@@ -15,7 +15,6 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 
 file_path = os.path.dirname(os.path.realpath(__file__))
-lame_log = []
 debug = False
 domain = 'exocen.com'
 bcc = 'check@' + domain
@@ -32,12 +31,6 @@ ssh_command = 'ssh ' + frm + ' "{}"'
 def run_process(command):
     if not debug:
         subprocess.run(command, shell=True,check=True, executable="/bin/bash")
-
-def add_to_log(message):
-    lame_log.append(message)
-
-def get_log():
-    print(', '.join(lame_log))
 
 def backup_file(file_path):
     new_name = str(int(datetime.today().timestamp()))
@@ -102,9 +95,9 @@ def check_reserv(driver):
         bash2 = send_mail_command.format(chaton, img_filename)
         bashCommand = ssh_command.format(bash2)
         run_process(bashCommand)
-        add_to_log('Skyline New File')
+        return 'Skyline New File'
     else:
-        add_to_log('Skyline No changes')
+        return 'Skyline No changes'
 
 
 def check_reserv2(driver):
@@ -150,9 +143,9 @@ def check_reserv2(driver):
         bash2 = send_mail_command.format(chaton, img_filename)
         bashCommand = ssh_command.format(bash2)
         run_process(bashCommand)
-        add_to_log('Maligne New File')
+        return 'Maligne New File'
     else:
-        add_to_log('Maligne No changes')
+        return 'Maligne No changes'
 
 
 def check_smbc(driver):
@@ -186,30 +179,34 @@ def check_smbc(driver):
         bash2 = send_mail_command.format(wsh, img_filename)
         bashCommand = ssh_command.format(bash2)
         run_process(bashCommand)
-        add_to_log('SMBC New File')
+        return 'SMBC New File'
     else:
-        add_to_log('SMBC No changes')
+        return 'SMBC No changes'
 
 # TODO decorator ?
 def run_check(check):
+    log = ''
     try:
        driver = init() 
-       check(driver)
+       log = check(driver)
     except Exception:
         raise
     finally:
         driver.quit()
+    return log
+    
 
-
-
-# begin_time = datetime.now()
-
-
+begin_time = datetime.now()
+lame_log = []
 to_run = [check_reserv, check_reserv2, check_smbc]
-pool = mp.Pool(mp.cpu_count())
-pool.map(run_check, [check for check in to_run])
-pool.close()
+try:
+    pool = mp.Pool(mp.cpu_count())
+    lame_log += pool.map(run_check, [check for check in to_run])
+except:
+    raise
+finally:
+    pool.close()
 
-get_log()
+execution_time = str(datetime.now() - begin_time)
 
-# print(datetime.now() - begin_time)
+print(', '.join(lame_log) + ' | ' + execution_time)
