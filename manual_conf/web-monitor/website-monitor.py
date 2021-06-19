@@ -1,5 +1,6 @@
 import hashlib
 import io
+import multiprocessing as mp
 import os
 import subprocess
 from datetime import datetime
@@ -200,7 +201,15 @@ def run_check(check):
         driver.quit()
 
 
-run_check(check_reserv)
-run_check(check_reserv2)
-run_check(check_smbc)   
+
+# begin_time = datetime.now()
+
+
+to_run = [check_reserv, check_reserv2, check_smbc]
+pool = mp.Pool(mp.cpu_count())
+pool.map(run_check, [check for check in to_run])
+pool.close()
+
 get_log()
+
+# print(datetime.now() - begin_time)
