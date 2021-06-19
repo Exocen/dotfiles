@@ -20,6 +20,7 @@ domain = ''
 scp_command = ''
 send_mail_command = ''
 # TODO Colors log
+# TODO les conventions putain ....
 # TODO add debug logs + debug run (--dry-run)
 
 def run_process(command):
@@ -189,14 +190,17 @@ def check_smbc(driver):
     else:
         add_to_log('SMBC No changes')
 
+def run_check(check):
+    try:
+       driver = init() 
+       check(driver)
+    except Exception:
+        raise
+    finally:
+        driver.quit()
 
-try:
-    driver = init()
-    check_reserv(driver)
-    check_reserv2(driver)
-    check_smbc(driver)    
-except Exception:
-    raise
-finally:
-    get_log()
-    driver.quit()
+
+run_check(check_reserv)
+run_check(check_reserv2)
+run_check(check_smbc)   
+get_log()
