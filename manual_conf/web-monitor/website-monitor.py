@@ -16,10 +16,15 @@ from selenium.webdriver.support.ui import WebDriverWait
 file_path = os.path.dirname(os.path.realpath(__file__))
 lame_log = []
 debug = False
-domain = ''
-scp_command = ''
-send_mail_command = ''
-# TODO Colors log
+domain = 'exocen.com'
+bcc = 'check@' + domain
+chaton = 'chatn@' + domain
+frm = 'exo@' + domain
+wsh = 'wesh@' + domain
+scp_command = "scp {} " + frm + ":/tmp/"
+send_mail_command =  "sendemail -m ' ' -t {0} -bcc " + bcc + " -u 'Trail update' -f " + frm + " -a '/tmp/{1}'"
+ssh_command = 'ssh ' + frm + ' "{}"'
+
 # TODO les conventions putain ....
 # TODO add debug logs + debug run (--dry-run)
 
@@ -91,12 +96,10 @@ def check_reserv(driver):
     if new_hash != ori_hash:
         backup_file(img_path)
         new_img.save(img_path)
-        bash_scp = "scp "+img_path+" exo@exocen.com:/tmp/"
+        bash_scp = scp_command.format(img_path)
         run_process(bash_scp)
-        message = "Website update"
-        bash2 = "sendemail -m '"+message + \
-            "' -t chaton@exocen.com -bcc check@exocen.com -u 'TRAIL CAMP UPDATE' -f exo@exocen.com -a /tmp/"+img_filename+""
-        bashCommand = 'ssh exo@exocen.com "' + bash2 + '"'
+        bash2 = send_mail_command.format(chaton, img_filename)
+        bashCommand = ssh_command.format(bash2)
         run_process(bashCommand)
         add_to_log('Skyline New File')
     else:
@@ -141,12 +144,10 @@ def check_reserv2(driver):
     if new_hash != ori_hash:
         backup_file(img_path)
         new_img.save(img_path)
-        bash_scp = "scp "+img_path+" exo@exocen.com:/tmp/"
+        bash_scp = scp_command.format(img_path)
         run_process(bash_scp)
-        message = "Website update"
-        bash2 = "sendemail -m '"+message + \
-            "' -t chaton@exocen.com -bcc check@exocen.com -u 'TRAIL CAMP UPDATE' -f exo@exocen.com -a /tmp/"+img_filename+""
-        bashCommand = 'ssh exo@exocen.com "' + bash2 + '"'
+        bash2 = send_mail_command.format(chaton, img_filename)
+        bashCommand = ssh_command.format(bash2)
         run_process(bashCommand)
         add_to_log('Maligne New File')
     else:
@@ -179,17 +180,16 @@ def check_smbc(driver):
     if new_hash != ori_hash:
         backup_file(img_path)
         contentToFile(response.content, img_path)
-        bash_scp = "scp "+img_path+" exo@exocen.com:/tmp/"
+        bash_scp = scp_command.format(img_path)
         run_process(bash_scp)
-        message = "Website update"
-        bash2 = "sendemail -m '"+message + \
-            "' -t wesh@exocen.com -bcc check@exocen -u 'smbc UPDATE' -f exo2@exocen.com -a /tmp/"+img_filename+""
-        bashCommand = 'ssh exo@exocen.com "' + bash2 + '"'
+        bash2 = send_mail_command.format(wsh, img_filename)
+        bashCommand = ssh_command.format(bash2)
         run_process(bashCommand)
         add_to_log('SMBC New File')
     else:
         add_to_log('SMBC No changes')
 
+# TODO decorator ?
 def run_check(check):
     try:
        driver = init() 
