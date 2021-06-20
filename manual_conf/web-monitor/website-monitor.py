@@ -1,3 +1,5 @@
+# pip install selenium
+
 import hashlib
 import io
 import multiprocessing as mp
@@ -16,21 +18,24 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 file_path = os.path.dirname(os.path.realpath(__file__))
 debug = False
-domain = 'exocen.com'
-bcc = 'check@' + domain
-chaton = 'chaton@' + domain
-frm = 'exo@' + domain
-wsh = 'wesh@' + domain
+domain = '@exocen.com'
+bcc = 'check' + domain
+chaton = 'chaton' + domain
+frm = 'exo' + domain
+wsh = 'wesh' + domain
 scp_command = "scp {} " + frm + ":/tmp/"
-send_mail_command =  "sendemail -m ' ' -t {0} -bcc " + bcc + " -u 'Trail update' -f " + frm + " -a '/tmp/{1}'"
+send_mail_command = "sendemail -m ' ' -t {0} -bcc " + \
+    bcc + " -u 'Trail update' -f " + frm + " -a '/tmp/{1}'"
 ssh_command = 'ssh ' + frm + ' "{}"'
 
 # TODO les conventions putain ....
 # TODO add debug logs + debug run (--dry-run)
 
+
 def run_process(command):
     if not debug:
-        subprocess.run(command, shell=True,check=True, executable="/bin/bash")
+        subprocess.run(command, shell=True, check=True, executable="/bin/bash")
+
 
 def backup_file(file_path):
     new_name = str(int(datetime.today().timestamp()))
@@ -46,7 +51,7 @@ def init():
     return webdriver.Firefox(options=options)
 
 
-def set_select_with_elemend_id(wait, id, text):
+def hike_set_select_with_elemend_id(wait, id, text):
     wel = wait.until(EC.presence_of_element_located((By.ID, id)))
     Select(wel).select_by_visible_text(text)
     wait.until(EC.invisibility_of_element((By.ID, 'viewPortStatus')))
@@ -66,16 +71,16 @@ def check_reserv(driver):
 
     wait = WebDriverWait(driver, 10)
 
-    set_select_with_elemend_id(wait, 'selResType', 'Backcountry Camping')
+    hike_set_select_with_elemend_id(wait, 'selResType', 'Backcountry Camping')
 
     driver.get(address)
     wait.until(EC.invisibility_of_element((By.ID, 'viewPortStatus')))
 
-    set_select_with_elemend_id(wait, 'selArrMth', 'Aug')
-    set_select_with_elemend_id(wait, 'selArrDay', '29th')
+    hike_set_select_with_elemend_id(wait, 'selArrMth', 'Aug')
+    hike_set_select_with_elemend_id(wait, 'selArrDay', '29th')
 
-    set_select_with_elemend_id(wait, 'selPartySize', '1')
-    set_select_with_elemend_id(wait, 'selTentPads', '1')
+    hike_set_select_with_elemend_id(wait, 'selPartySize', '1')
+    hike_set_select_with_elemend_id(wait, 'selTentPads', '1')
 
     if not os.path.isfile(img_path):
         driver.find_element_by_id('viewPort').screenshot(img_path)
@@ -114,16 +119,16 @@ def check_reserv2(driver):
 
     wait = WebDriverWait(driver, 10)
 
-    set_select_with_elemend_id(wait, 'selResType', 'Backcountry Camping')
+    hike_set_select_with_elemend_id(wait, 'selResType', 'Backcountry Camping')
 
     driver.get(address)
     wait.until(EC.invisibility_of_element((By.ID, 'viewPortStatus')))
 
-    set_select_with_elemend_id(wait, 'selArrMth', 'Sep')
-    set_select_with_elemend_id(wait, 'selArrDay', '1st')
+    hike_set_select_with_elemend_id(wait, 'selArrMth', 'Sep')
+    hike_set_select_with_elemend_id(wait, 'selArrDay', '1st')
 
-    set_select_with_elemend_id(wait, 'selPartySize', '1')
-    set_select_with_elemend_id(wait, 'selTentPads', '1')
+    hike_set_select_with_elemend_id(wait, 'selPartySize', '1')
+    hike_set_select_with_elemend_id(wait, 'selTentPads', '1')
 
     if not os.path.isfile(img_path):
         driver.find_element_by_id('viewPort').screenshot(img_path)
@@ -183,18 +188,18 @@ def check_smbc(driver):
     else:
         return 'SMBC No changes'
 
-# TODO decorator ?
+
 def run_check(check):
     log = ''
     try:
-       driver = init() 
-       log = check(driver)
+        driver = init()
+        log = check(driver)
     except Exception:
         raise
     finally:
         driver.quit()
     return log
-    
+
 
 begin_time = datetime.now()
 lame_log = []
