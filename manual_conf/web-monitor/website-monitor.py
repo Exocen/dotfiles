@@ -30,6 +30,7 @@ ssh_command = 'ssh ' + frm + ' "{}"'
 
 # TODO les conventions putain ....
 # TODO add debug logs + debug run (--dry-run)
+# TODO add args
 
 
 def run_process(command):
