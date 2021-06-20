@@ -49,7 +49,7 @@ def init():
     options = FirefoxOptions()
     options.add_argument("--headless")
     options.add_argument("--disable-gpu")
-    return webdriver.Firefox(options=options)
+    return webdriver.Firefox(options=options, service_log_path=os.path.devnull)
 
 
 def hike_set_select_with_elemend_id(wait, id, text):
