@@ -204,7 +204,7 @@ def run_check(check):
 
 begin_time = datetime.now()
 lame_log = []
-to_run = [check_reserv, check_smbc]
+to_run = [check_reserv]
 try:
     pool = mp.Pool(mp.cpu_count())
     lame_log += pool.map(run_check, [check for check in to_run])
