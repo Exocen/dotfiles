@@ -278,6 +278,15 @@ function maketar() { tar cvzf $1.tgz  $*; }
 function makezip() { zip -r "${1%%/}.zip" "$1" ; }
 
 ## Utilities functions
+# ps, all processes, tree, no kthread
+function psa
+{
+    ps --forest -ef | awk '$3!=2'
+}
+function psu
+{
+    ps --forest -uf | awk '$3!=2'
+}
 # Crypt function with gpg
 function crypt(){ gpg -co "${1}.gpg"  "$1";}
 
