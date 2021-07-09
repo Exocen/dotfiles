@@ -1,7 +1,7 @@
-# Video Driver (intel graphics)
-# mesa
+# Video Driver (intel graphics, AMD)
+mesa
 # Video Driver (nvidia)
-nvidia
+# nvidia
 # Amd CPU
 amd-ucode
 # WM
