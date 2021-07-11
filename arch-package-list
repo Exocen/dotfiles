@@ -28,7 +28,7 @@ nethogs
 # File Browser
 thunar
 # Terminal
-termite ttf-fira-code
+ttf-fira-code kitty
 # Web Browser
 firefox
 # Media tool

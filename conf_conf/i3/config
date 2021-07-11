@@ -45,7 +45,7 @@ set $mod Mod4
 floating_modifier $mod
 
 # start a terminal
-set $TERMINAL "/usr/bin/termite"
+set $TERMINAL "/sbin/kitty"
 bindsym $mod+Return exec $TERMINAL
 # bindcode control+62 exec $TERMINAL
 
