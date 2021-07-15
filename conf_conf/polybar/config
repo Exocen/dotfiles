@@ -104,7 +104,7 @@ label-layout-underline = ${colors.grey}
 label-indicator-underline = ${colors.grey}
 label-indicator-on = %icon%
 label-indicator-off = %icon%
-indicator-icon-0 = caps lock;;
+indicator-icon-0 = caps lock;; 
 
 [module/filesystem]
 type = internal/fs
