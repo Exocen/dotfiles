@@ -16,5 +16,5 @@ connection_status() {
 if [ "$(connection_status)" = "1" ]; then
     echo "%{u#808080}%{+u}%{F#808080}ﱾ%{F-}"
 else
-    echo
+    echo "%{u#808080}%{+u}%{F#FF0000}ﱾ%{F-}"
 fi
