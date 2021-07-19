@@ -1,0 +1,30 @@
+#!/bin/bash -
+
+max_temp=80
+
+if [ $# -eq 0 ]
+  then
+    echo "No arguments supplied"
+    exit
+fi
+
+function get_cpu () {
+if [ $1 == "amd" ]; then
+    temp=`sensors amdgpu-pci-0b00 -u | grep temp1_input | cut -b 16-17`
+elif [ $1 == "nvidia" ]; then
+    temp=`nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader`
+fi
+return $temp
+}
+
+get_cpu $1
+temp=$?
+
+display="%{u#00ff00}%{+u}%{F#00ff00}﨎 %{F-}"$temp"°C"
+alert_display="%{u#00ff00}%{+u}%{F#00ff00}﨎 %{F-}%{F#f00}"$temp"°C%{F-}"
+
+if [ $temp -gt $max_temp ]; then
+    echo $alert_display
+else
+    echo $display
+fi
