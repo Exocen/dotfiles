@@ -11,7 +11,7 @@ import requests
 from PIL import Image
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
@@ -25,7 +25,7 @@ frm = 'exo' + domain
 wsh = 'wesh' + domain
 scp_command = "scp {} " + frm + ":/tmp/"
 send_mail_command = "sendemail -m ' ' -t {0} -bcc " + \
-    bcc + " -u 'Trail update' -f " + frm + " -a '/tmp/{1}'"
+        bcc + " -u 'Trail update' -f " + frm + " -a '/tmp/{1}'"
 ssh_command = 'ssh ' + frm + ' "{}"'
 
 # TODO les conventions putain ....
@@ -46,10 +46,15 @@ def backup_file(file_path):
 
 
 def init():
-    options = FirefoxOptions()
+    options = Options()
     options.add_argument("--headless")
     options.add_argument("--disable-gpu")
-    return webdriver.Firefox(options=options, service_log_path=os.path.devnull)
+    options.add_argument("start-maximized"); # open Browser in maximized mode
+    options.add_argument("disable-infobars"); #// disabling infobars
+    options.add_argument("--disable-extensions"); #// disabling extensions
+    options.add_argument("--disable-dev-shm-usage"); #// overcome limited resource problems
+    options.add_argument("--no-sandbox"); #// Bypass OS security model
+    return webdriver.Chrome(options=options, service_log_path=os.path.devnull)
 
 
 def hike_set_select_with_elemend_id(wait, id, text):
@@ -152,43 +157,6 @@ def check_reserv2(driver):
         return 'Maligne New File'
     else:
         return 'Maligne No changes'
-
-
-def check_smbc(driver):
-
-    def contentToFile(content, file):
-        with open(img_path, "wb") as file:
-            file.write(response.content)
-
-    img_filename = "smbc_screenshot.png"
-    img_path = os.path.join(file_path, img_filename)
-    address = "https://www.smbc-comics.com/"
-    driver.get(address)
-
-    img_url = driver.find_element_by_id("cc-comic").get_attribute('src')
-
-    response = requests.get(img_url)
-
-    if not os.path.isfile(img_path):
-        contentToFile(response.content, img_path)
-
-    with Image.open(img_path) as img:
-        new_img = Image.open(io.BytesIO(response.content))
-        new_hash = hashlib.sha256(new_img.tobytes()).hexdigest()
-        ori_hash = hashlib.sha256(img.tobytes()).hexdigest()
-
-    if new_hash != ori_hash:
-        backup_file(img_path)
-        contentToFile(response.content, img_path)
-        bash_scp = scp_command.format(img_path)
-        run_process(bash_scp)
-        bash2 = send_mail_command.format(wsh, img_filename)
-        bashCommand = ssh_command.format(bash2)
-        run_process(bashCommand)
-        return 'SMBC New File'
-    else:
-        return 'SMBC No changes'
-
 
 def run_check(check):
     log = ''

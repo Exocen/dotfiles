@@ -5,7 +5,7 @@ After=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=/sbin/python3 /usr/bin/website-monitor.py
+ExecStart=python3 /usr/bin/website-monitor.py
 
 [Install]
 WantedBy=multi-user.target
