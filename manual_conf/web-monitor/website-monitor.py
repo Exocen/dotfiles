@@ -173,7 +173,13 @@ def run_check(check):
 
 begin_time = datetime.now()
 lame_log = []
-run_check(check_reserv)
+print('init')
+# run_check(check_reserv)
+driver = init()
+print('check')
+check_reserv(driver)
+driver.quit()
+
 # to_run = [check_reserv]
 # try:
 #     pool = mp.Pool(mp.cpu_count())
