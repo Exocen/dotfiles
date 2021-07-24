@@ -17,7 +17,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 
 file_path = os.path.dirname(os.path.realpath(__file__))
-debug = True
+debug = False
 domain = '@exocen.com'
 bcc = 'check' + domain
 chaton = 'chaton' + domain
@@ -53,6 +53,7 @@ def init():
     options.add_argument("disable-infobars"); #// disabling infobars
     options.add_argument("--disable-extensions"); #// disabling extensions
     options.add_argument("--disable-dev-shm-usage"); #// overcome limited resource problems
+    options.add_argument("--no-sandbox"); #// Bypass OS security model
     return webdriver.Chrome(options=options, service_log_path=os.path.devnull)
 
 
@@ -67,14 +68,13 @@ def check_reserv(driver):
     img_path = os.path.join(file_path, img_filename)
     address = "https://reservation.pc.gc.ca/Jasper/BackcountryCampsites/SkylineTrail?List"
     driver.get(address)
-    print('get')
 
     # bullshit popup
     buttonList = driver.find_elements_by_tag_name("button")
     for but in buttonList:
         if but.text == "OK":
             but.click()
-    print('wait')
+
     wait = WebDriverWait(driver, 10)
 
     hike_set_select_with_elemend_id(wait, 'selResType', 'Backcountry Camping')
@@ -91,14 +91,13 @@ def check_reserv(driver):
     if not os.path.isfile(img_path):
         driver.find_element_by_id('viewPort').screenshot(img_path)
 
-    print('img')
     with Image.open(img_path) as img:
 
         new_img = Image.open(io.BytesIO(
             driver.find_element_by_id('viewPort').screenshot_as_png))
         new_hash = hashlib.sha256(new_img.tobytes()).hexdigest()
         ori_hash = hashlib.sha256(img.tobytes()).hexdigest()
-    print('compare')
+
     if new_hash != ori_hash:
         backup_file(img_path)
         new_img.save(img_path)
@@ -173,15 +172,14 @@ def run_check(check):
 
 begin_time = datetime.now()
 lame_log = []
-run_check(check_reserv)
-# to_run = [check_reserv]
-# try:
-#     pool = mp.Pool(mp.cpu_count())
-#     lame_log += pool.map(run_check, [check for check in to_run])
-# except:
-#     raise
-# finally:
-#     pool.close()
+to_run = [check_reserv]
+try:
+    pool = mp.Pool(mp.cpu_count())
+    lame_log += pool.map(run_check, [check for check in to_run])
+except:
+    raise
+finally:
+    pool.close()
 
 execution_time = str(datetime.now() - begin_time)
 
