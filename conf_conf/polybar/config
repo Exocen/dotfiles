@@ -466,8 +466,7 @@ interval = 10
 
 [module/gpu_temp]
 type = custom/script
-# gpu_amd_temp or gpu_nvidia_temp
-exec = ~/.config/polybar/gpu_amd_temp
+exec = ~/.config/polybar/gpu_temp "amd"
 interval = 3
 
 [module/temperature]
