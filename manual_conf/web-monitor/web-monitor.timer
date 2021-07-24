@@ -2,7 +2,7 @@
 Description=web-monitor timer (every 5-10min)
 
 [Timer]
-OnCalendar=*:0/5
+OnCalendar=*:0/10
 Persistent=true
 
 [Install]
