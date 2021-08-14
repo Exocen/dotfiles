@@ -5,7 +5,7 @@ DISABLE_AUTO_TITLE="false"
 COMPLETION_WAITING_DOTS="true"
 ZSH_COMPDUMP="~/.cache"
 
-export PATH="/sbin:$PATH"
+export PATH="/usr/sbin:/sbin:$PATH"
 
 zstyle ':completion:*' menu select
 compctl -/ cd # type a directory's name to cd to it.
