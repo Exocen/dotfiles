@@ -6,7 +6,6 @@
 # is /etc/mailname.
 #myorigin = /etc/mailname
 
-smtpd_banner = $myhostname ESMTP $mail_name (Ubuntu)
 biff = no
 
 # appending .domain is the MUA's job.
@@ -22,8 +21,8 @@ readme_directory = no
 compatibility_level = 2
 
 # TLS parameters
-smtpd_tls_cert_file=/etc/letsencrypt/live/example.com/fullchain.pem
-smtpd_tls_key_file=/etc/letsencrypt/live/example.com/privkey.pem
+smtpd_tls_cert_file=/etc/letsencrypt/live/[DOMAIN]/fullchain.pem
+smtpd_tls_key_file=/etc/letsencrypt/live/[DOMAIN]/privkey.pem
 smtpd_use_tls=yes
 smtpd_tls_auth_only = yes
 smtp_tls_security_level = may

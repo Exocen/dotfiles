@@ -1,11 +1,14 @@
 #debian 9+
 #todo hostname= [DOMAIN]
-sudo apt-get install postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql mariadb-server certbot
+# pssserv = randomize
+sudo apt-get install postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql opendkim opendkim-tools mariadb-server certbot sendmail
 
 sudo certbot certonly --standalone --register-unsafely-without-email --agree-tos -d [DOMAIN]
 
+#todo can no interaction ?
 sudo mysql_secure_installation 
 
+#todo bash me
 sudo mysql -u root -p
 
 CREATE DATABASE mailserver;
