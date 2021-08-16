@@ -76,6 +76,8 @@ mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all
 inet_protocols = all
+non_smtpd_milters = inet:[127.0.0.1]:12301
+smtpd_milters=inet:[127.0.0.1]:12301
 
 # Handing off local delivery to Dovecot's LMTP, and telling it where to store mail
 virtual_transport = lmtp:unix:private/dovecot-lmtp
