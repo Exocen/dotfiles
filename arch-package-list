@@ -36,7 +36,7 @@ vlc
 # Logitech mouse
 piper
 # Bluetooth
-blueman pulseaudio-bluetooth bluez-utils pulseaudio-alsa
+blueman pipewire-pulse pipewire bluez-utils pulseaudio-alsa
 # Music player
 mpd mpc ncmpc
 # Polybar
