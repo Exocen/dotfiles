@@ -188,6 +188,7 @@ function mainScript() {
     echo -n
     info 'Script started'
     if [[ $EUID == 0 ]]; then
+        detectOS
         info 'Root Detected => new User creation'
         ins sudo
         input 'User name '
