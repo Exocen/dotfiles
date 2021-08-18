@@ -14,13 +14,13 @@ function detectOS {
 
     if [ -f /etc/os-release ]; then
     # freedesktop.org and systemd
-    . /etc/os-release
-    WOS=$NAME
+        . /etc/os-release
+        WOS=$NAME
     elif type lsb_release >/dev/null 2>&1; then
         WOS=$(lsb_release -si)
     elif [ -f /etc/lsb-release ]; then
         . /etc/lsb-release
-        OS=$DISTRIB_ID
+        WOS=$DISTRIB_ID
     elif [ -f /etc/debian_version ]; then
         WOS='Debian'
     elif [ -f /etc/centos-release ]; then
