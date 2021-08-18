@@ -22,17 +22,17 @@ function detectOS {
         . /etc/lsb-release
         WOS=$DISTRIB_ID
     elif [ -f /etc/debian_version ]; then
-        WOS='Debian'
+        WOS='debian'
     elif [ -f /etc/centos-release ]; then
-        WOS="CentOS"
+        WOS="centOS"
     elif [ -f /etc/SuSe-release ]; then
         # Older SuSE/etc.
-        WOS='Suse'
+        WOS='suse'
     elif [ -f /etc/arch-release ]; then
-        WOS="Arch"
+        WOS="qrch"
     elif [ -f /etc/redhat-release ]; then
         # Older Red Hat, CentOS, etc.
-        WOS='redHat'
+        WOS='redhat'
     else
         WOS="WTH?"
     fi
@@ -75,17 +75,17 @@ function home_cp {
 function ins {
     all="$@" #for is_working function
     info "Installation: $all "
-    if [ "$WOS" = "Ubuntu" ] || [ "$WOS" = "Debian" ] ;then
+    if [ "$WOS" = "ubuntu" ] || [ "$WOS" = "debian" ] ;then
         sudo apt update -y &>>$logFile
         sudo apt install $@ -y &>>$logFile
         is_working "$all installed"
-    elif [ "$WOS" = "Fedora" ] ;then
+    elif [ "$WOS" = "fedora" ] ;then
         sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
         sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
         sudo dnf update -y &>>$logFile
         sudo dnf install $@ -y &>>$logFile
         is_working "$all installed"
-    elif [ "$WOS" = "Arch" ] ;then
+    elif [ "$WOS" = "arch" ] ;then
         sudo pacman -S $@ --needed --noconfirm &>>$logFile
         is_working "$all installed"
     else
@@ -153,7 +153,7 @@ function basic_install {
 }
 
 function dev_env_install {
-    if [ "$WOS" = "Arch" ];then
+    if [ "$WOS" = "arch" ];then
         {
             file="$LOCAL/arch-package-list"
             if [ -f "$file" ];then
