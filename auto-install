@@ -189,7 +189,7 @@ function mainScript() {
     info 'Script started'
     if [[ $EUID == 0 ]]; then
         detectOS
-        seek_confirmation 'Can not install to Root, create an user ? (y/N)'
+        seek_confirmation 'Can not install to Root, create an user ?'
         if is_confirmed; then
             ins sudo
             input 'User name : '
