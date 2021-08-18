@@ -36,6 +36,7 @@ function detectOS {
     else
         WOS="WTH?"
     fi
+    echo $WOS
 
 }
 
