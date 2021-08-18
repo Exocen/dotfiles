@@ -184,31 +184,12 @@ else
 function mainScript() {
     echo -n
     info 'Script started'
-    if [[ $EUID == 0 ]]; then
-        detectOS
-        seek_confirmation 'Can not install to Root, create an user ?'
-        if is_confirmed; then
-            ins sudo
-            input 'User name : '
-            read name
-            input 'User password : '
-            read pass
-            if `cat /etc/group | grep 'sudo'`; then
-                useradd -m -g users -G sudo -p $pass $name
-            else
-                useradd -m -g users -G wheel -p $pass $name
-            fi
-            info 'User '$name' Created'
-        fi
-        exit 1
-    fi
     if [ -z "$EDITOR" ]
     then
         error "Need an EDITOR (export EDITOR=)"
     else
         detectOS
         basic_install
-
         if [ "$WOS" = "Arch" ];then
             seek_confirmation 'Install Dev Env ?'
             if is_confirmed; then
