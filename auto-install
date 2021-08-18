@@ -177,11 +177,25 @@ else
 function mainScript() {
     echo -n
     info 'Script started'
+    if [[ $EUID == 0 ]]; then
+        info 'Root Detected => new User creation'
+        ins sudo
+        input 'User name '
+        read name
+        input 'User password'
+        read pass
+        if `cat /etc/group | grep 'sudo'`; then
+            useradd -m -g user -G sudo -p $pass $name
+        else
+            useradd -m -g user -G wheel -p $pass $name
+        fi
+        info 'User '$name' Created'
+        exit 1
+    fi
     if [ -z "$EDITOR" ]
     then
         error "Need an EDITOR (export EDITOR=)"
     else
-
         detectOS
         basic_install
 
@@ -263,7 +277,6 @@ usage() {
 
     ${bold}Options:${reset}
     -f, --force       Force re-install and removes previous installations
-    -q, --quiet       Quiet (no output)
     -v, --verbose     Output more information. (Items echoed to 'verbose')
     -d, --debug       Runs script in BASH debug mode (set -x)
     -y, --noconfirm   Skip all user interaction.  Implied 'Yes' to all actions.
