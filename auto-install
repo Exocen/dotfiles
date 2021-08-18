@@ -189,18 +189,20 @@ function mainScript() {
     info 'Script started'
     if [[ $EUID == 0 ]]; then
         detectOS
-        info 'Root Detected => new User creation'
-        ins sudo
-        input 'User name '
-        read name
-        input 'User password'
-        read pass
-        if `cat /etc/group | grep 'sudo'`; then
-            useradd -m -g user -G sudo -p $pass $name
-        else
-            useradd -m -g user -G wheel -p $pass $name
+        seek_confirmation 'Can not install to Root, create an user ? (y/N)'
+        if is_confirmed; then
+            ins sudo
+            input 'User name : '
+            read name
+            input 'User password : '
+            read pass
+            if `cat /etc/group | grep 'sudo'`; then
+                useradd -m -g users -G sudo -p $pass $name
+            else
+                useradd -m -g users -G wheel -p $pass $name
+            fi
+            info 'User '$name' Created'
         fi
-        info 'User '$name' Created'
         exit 1
     fi
     if [ -z "$EDITOR" ]
