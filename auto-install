@@ -11,7 +11,6 @@ function is_working {
 }
 
 function detectOS {
-
     if [ -f /etc/os-release ]; then
     # freedesktop.org and systemd
         . /etc/os-release
@@ -36,8 +35,6 @@ function detectOS {
     else
         WOS="WTH?"
     fi
-    echo $WOS
-
 }
 
 function home_ln {
