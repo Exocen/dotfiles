@@ -11,23 +11,32 @@ function is_working {
 }
 
 function detectOS {
-    if [ -f /etc/lsb-release ]; then
-        OS=$(cat /etc/os-release | grep DISTRIB_ID | sed 's/^.*=//')
-        VERSION=$(cat /etc/os-release | grep DISTRIB_RELEASE | sed 's/^.*=//')
-        if [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian" ] || [ "$OS" = "Arch" ];then
-            WOS="$OS"
-        fi
-    elif [ -f /etc/redhat-release ]; then
-        WOS="Fedora"
+
+    if [ -f /etc/os-release ]; then
+    # freedesktop.org and systemd
+    . /etc/os-release
+    WOS=$NAME
+    elif type lsb_release >/dev/null 2>&1; then
+        WOS=$(lsb_release -si)
+    elif [ -f /etc/lsb-release ]; then
+        . /etc/lsb-release
+        OS=$DISTRIB_ID
+    elif [ -f /etc/debian_version ]; then
+        WOS='Debian'
     elif [ -f /etc/centos-release ]; then
         WOS="CentOS"
-    elif [ -f /etc/debian_version ]; then
-        WOS="Debian"
+    elif [ -f /etc/SuSe-release ]; then
+        # Older SuSE/etc.
+        WOS='Suse'
     elif [ -f /etc/arch-release ]; then
         WOS="Arch"
+    elif [ -f /etc/redhat-release ]; then
+        # Older Red Hat, CentOS, etc.
+        WOS='redHat'
     else
         WOS="WTH?"
     fi
+
 }
 
 function home_ln {
