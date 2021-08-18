@@ -23,17 +23,17 @@ function detectOS {
     elif [ -f /etc/debian_version ]; then
         WOS='debian'
     elif [ -f /etc/centos-release ]; then
-        WOS="centOS"
+        WOS='centOS'
     elif [ -f /etc/SuSe-release ]; then
         # Older SuSE/etc.
         WOS='suse'
     elif [ -f /etc/arch-release ]; then
-        WOS="qrch"
+        WOS='arch'
     elif [ -f /etc/redhat-release ]; then
         # Older Red Hat, CentOS, etc.
         WOS='redhat'
     else
-        WOS="WTH?"
+        WOS='WTH?'
     fi
 }
 
