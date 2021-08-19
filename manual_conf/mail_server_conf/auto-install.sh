@@ -57,7 +57,7 @@ function detectOS {
 }
 
 function pack_install {
-  sudo apt-get install postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql opendkim opendkim-tools mariadb-server certbot
+  sudo apt-get install -y postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql opendkim opendkim-tools mariadb-server certbot
   sudo certbot certonly --dry-run --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
 }
 
