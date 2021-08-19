@@ -186,7 +186,7 @@ function mainScript() {
     info 'Script started'
     if [ -z "$EDITOR" ]
     then
-        error "Need an EDITOR (export EDITOR=)"
+        export EDITOR=nano
     else
         detectOS
         basic_install
