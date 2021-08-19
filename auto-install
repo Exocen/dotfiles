@@ -12,7 +12,7 @@ function is_working {
 
 function detectOS {
     if [ -f /etc/os-release ]; then
-    # freedesktop.org and systemd
+        # freedesktop.org and systemd
         . /etc/os-release
         WOS=$ID
     elif type lsb_release >/dev/null 2>&1; then
@@ -187,14 +187,13 @@ function mainScript() {
     if [ -z "$EDITOR" ]
     then
         export EDITOR=nano
-    else
-        detectOS
-        basic_install
-        if [ "$WOS" = "Arch" ];then
-            seek_confirmation 'Install Dev Env ?'
-            if is_confirmed; then
-                dev_env_install
-            fi
+    fi
+    detectOS
+    basic_install
+    if [ "$WOS" = "Arch" ];then
+        seek_confirmation 'Install Dev Env ?'
+        if is_confirmed; then
+            dev_env_install
         fi
     fi
 }
