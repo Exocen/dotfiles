@@ -4,18 +4,18 @@ WOS=''
 DOMAIN=''
 PASSSERV=`date +%s | sha256sum | base64 | head -c 32 ; echo`
 
-function main {  
+function main {
   detectOS
   if [ "$WOS" = "Debian" ]; then
     echo "Hostname ? :"
-    read hostname    
-    echo $hostname" ? (y/N)"    
+    read hostname
+    echo $hostname" ? (y/N)"
     read answer
     if [ "$answer" == "Y" ] || [ "$answer" == "y" ] || [ "$answer" == "YES" ] || [ "$answer" == "yes" ];then
         echo 'Pre-install.....'
         DOMAIN=$hostname
         pack_install
-        generate_conf                
+        generate_conf
     else
         echo 'Cancel'
     fi
@@ -27,7 +27,7 @@ function main {
 
 function generate_conf {
   cd "${0%/*}"
-  sudo hostnamectl set-hostname $DOMAIN        
+  sudo hostnamectl set-hostname $DOMAIN
   tmpD=`mktemp -d`
   cp -r dovecot opendkim postfix opendkim.conf $tmpD
   cd $tmpD
@@ -57,8 +57,8 @@ function detectOS {
 }
 
 function pack_install {
-  sudo apt-get install postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql opendkim opendkim-tools mariadb-server certbot sendmail
-  sudo certbot certonly --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
+  sudo apt-get install postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql opendkim opendkim-tools mariadb-server certbot
+  sudo certbot certonly --dry-run --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
 }
 
 
@@ -66,11 +66,11 @@ function pack_install {
 #todo hostname= [DOMAIN]
 # pssserv = randomize
 # sudo apt-get install postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql opendkim opendkim-tools mariadb-server certbot sendmail
-# 
+#
 # sudo certbot certonly --standalone --register-unsafely-without-email --agree-tos -d [DOMAIN]
 
 #todo can no interaction ?
-# sudo mysql_secure_installation 
+# sudo mysql_secure_installation
 
 # #todo bash me
 # sudo mysql -u root -p
@@ -104,7 +104,7 @@ function pack_install {
 # # new email
 # sudo mysql -u root -p
 # INSERT INTO mailserver.virtual_users (domain_id, password , email) VALUES ('1', TO_BASE64(UNHEX(SHA2('password', 512))), 'user@example.com');
-# #new alias 
+# #new alias
 # INSERT INTO mailserver.virtual_aliases (domain_id, source, destination) VALUES ('1', 'alias@example.com', 'user@example.com');
 
 main
