@@ -63,6 +63,7 @@ function pack_install {
     sudo certbot certonly --dry-run --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
     sudo mysql_secure_installation
     build_database
+    put_conf
 }
 
 function mysql_exec {
