@@ -1,25 +1,21 @@
 #!/bin/bash
 # cd script location
 WOS=''
-DOMAIN=''
+DOMAIN=$1
 PASSSERV=`date +%s | sha256sum | base64 | head -c 32 ; echo`
-TMP_CONF=''
+TMP_CONF=`mktemp -d`
 
 function main {
     detectOS
     if [ "$WOS" = "Debian" ]; then
-        echo "Hostname ? :"
-        read hostname
-        echo $hostname" ? (y/N)"
-        read answer
-        if [ "$answer" == "Y" ] || [ "$answer" == "y" ] || [ "$answer" == "YES" ] || [ "$answer" == "yes" ];then
-            echo 'Pre-install.....'
-            DOMAIN=$hostname
-            pack_install
-            generate_conf
-        else
-            echo 'Cancel'
-        fi
+        echo 'Pre-install.....'
+        pack_install
+        generate_conf
+        #TODO dry-run here
+        sudo certbot certonly --dry-run --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
+        sudo mysql_secure_installation
+        build_database
+        put_conf
     else
         echo "Must be ran on Debian"
     fi
@@ -29,7 +25,6 @@ function main {
 function generate_conf {
     cd "${0%/*}"
     sudo hostnamectl set-hostname $DOMAIN
-    TMP_CONF=`mktemp -d`
     cp -r dovecot opendkim postfix opendkim.conf $TMP_CONF
     cd $TMP_CONF
     find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
@@ -39,11 +34,7 @@ function generate_conf {
 
 function detectOS {
     if [ -f /etc/lsb-release ]; then
-        OS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//')
-        VERSION=$(cat /etc/lsb-release | grep DISTRIB_RELEASE | sed 's/^.*=//')
-        if [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian" ] || [ "$OS" = "Arch" ];then
-            WOS="$OS"
-        fi
+        WOS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//')
     elif [ -f /etc/redhat-release ]; then
         WOS="Fedora"
     elif [ -f /etc/centos-release ]; then
@@ -60,11 +51,6 @@ function detectOS {
 function pack_install {
     sudo apt-get update -y && sudo apt-get upgrade -y
     sudo apt-get install -y postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql opendkim opendkim-tools mariadb-server certbot
-    #TODO dry-run here
-    sudo certbot certonly --dry-run --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
-    sudo mysql_secure_installation
-    build_database
-    put_conf
 }
 
 function mysql_exec {
@@ -102,16 +88,12 @@ function build_database {
     mysql_exec "INSERT INTO mailserver.virtual_domains (name) VALUES ('$DOMAIN');"
 }
 
-function sudo_cp {
-    sudo --preserve-env=TMP_CONF cp -fr  $1 $2
-}
-
 function put_conf {
     #after generate_conf (no cd)
-    sudo_cp $TMP_CONF/postfix/* /etc/postfix/
+    sudo cp -fr $TMP_CONF/postfix/* /etc/postfix/
     sudo chmod -R o-rwx /etc/postfix
 
-    sudo_cp $TMP_CONF/dovecot/* /etc/dovecot/
+    sudo cp -fr $TMP_CONF/dovecot/* /etc/dovecot/
     sudo mkdir -p /var/mail/vhosts/$DOMAIN
     sudo groupadd -g 5000 vmail
     sudo useradd -g vmail -u 5000 vmail -d /var/mail
@@ -119,9 +101,9 @@ function put_conf {
     sudo chown -R vmail:dovecot /etc/dovecot
     sudo chmod -R o-rwx /etc/dovecot
 
-    sudo_cp $TMP_CONF/opendkim.conf /etc/opendkim.conf
+    sudo cp -fr $TMP_CONF/opendkim.conf /etc/opendkim.conf
     sudo mkdir -p /etc/opendkim
-    sudo_cp $TMP_CONF/opendkim/* /etc/opendkim/
+    sudo cp -fr $TMP_CONF/opendkim/* /etc/opendkim/
     sudo opendkim-genkey -s mail -d $DOMAIN -D /etc/opendkim/keys/$DOMAIN
     sudo chown opendkim:opendkim /etc/opendkim/keys/$DOMAIN/mail.private
     sudo chmod 0400 /etc/opendkim/keys/$DOMAIN/mail.private
@@ -131,7 +113,12 @@ function put_conf {
     sudo cat /etc/opendkim/keys/$DOMAIN
 }
 
-main
+if [ -z "$1" ]
+then
+    echo "No domain supplied"
+else
+    main
+fi
 
 # Local Variables:
 # mode: Shell-script
