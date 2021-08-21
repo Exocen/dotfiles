@@ -14,6 +14,8 @@
 # numlock
 # exec --no-startup-id numlockx on
 
+exec --no-startup-id xrandr --output DP-2 --auto --output HDMI-1 --auto --left-of DP-2
+
 # Unclutter (hidden pointer)
 exec --no-startup-id unclutter &
 
@@ -134,6 +136,9 @@ bindsym $mod+space focus mode_toggle
 
 # focus the child container
 # bindsym $mod+d focus child
+
+workspace "1" output HDMI-1
+workspace "2" output DP-2
 
 # switch to workspace
 bindsym $mod+1 workspace 1

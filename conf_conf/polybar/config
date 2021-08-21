@@ -148,49 +148,24 @@ label-empty-padding = 2
 [module/i3]
 type = internal/i3
 format = <label-state> <label-mode>
-index-sort = true
-wrapping-scroll = false
 label-focused = %index%
 label-focused-foreground = #ffffff
 label-focused-background = #3f3f3f
 label-focused-underline = ${colors.green}
 label-focused-padding = 3
 
-; Available tokens:
-;   %name%
-;   %icon%
-;   %index%
-;   %output%
-; Default: %icon%  %name%
 label-unfocused = %index%
 label-unfocused-padding = 3
-
-; Available tokens:
-;   %name%
-;   %icon%
-;   %index%
-;   %output%
-; Default: %icon%  %name%
 label-visible = %index%
 label-visible-underline = ${colors.limerind}
 label-visible-padding = 3
-
-; Available tokens:
-;   %name%
-;   %icon%
-;   %index%
-;   %output%
-; Default: %icon%  %name%
 label-urgent = %index%
 label-urgent-foreground = #000000
 label-urgent-background = #bd2c40
 label-urgent-padding = 3
-
-; Separator in between workspaces
 label-separator = |
-label-separator-padding = 1
+label-separator-padding = 0.5
 label-separator-foreground = ${colors.green}
-; Only show workspaces on the same output as the bar
 
 [module/mpd]
 type = internal/mpd
