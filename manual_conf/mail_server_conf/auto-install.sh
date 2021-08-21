@@ -102,7 +102,7 @@ function put_conf {
     sudo chmod -R o-rwx /etc/dovecot
 
     sudo cp -fr $TMP_CONF/opendkim.conf /etc/opendkim.conf
-    sudo mkdir -p /etc/opendkim
+    sudo mkdir -p /etc/opendkim/keys/$DOMAIN
     sudo cp -fr $TMP_CONF/opendkim/* /etc/opendkim/
     sudo opendkim-genkey -s mail -d $DOMAIN -D /etc/opendkim/keys/$DOMAIN
     sudo chown opendkim:opendkim /etc/opendkim/keys/$DOMAIN/mail.private
