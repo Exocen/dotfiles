@@ -3,6 +3,7 @@
 WOS=''
 DOMAIN=''
 PASSSERV=`date +%s | sha256sum | base64 | head -c 32 ; echo`
+TMP_CONF=''
 
 function main {
     detectOS
@@ -28,9 +29,9 @@ function main {
 function generate_conf {
     cd "${0%/*}"
     sudo hostnamectl set-hostname $DOMAIN
-    tmpD=`mktemp -d`
-    cp -r dovecot opendkim postfix opendkim.conf $tmpD
-    cd $tmpD
+    TMP_CONF=`mktemp -d`
+    cp -r dovecot opendkim postfix opendkim.conf $TMP_CONF
+    cd $TMP_CONF
     find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
     find . -type f -print0 | xargs -0 sed -i 's/\[PASSSERV\]/'$PASSSERV'/g'
 }
@@ -103,6 +104,7 @@ function build_database {
 
 function put_conf {
     #after generate_conf (no cd)
+    cd $TMP_CONF
     sudo cp -fr postfix/* /etc/postfix/
     sudo chmod -R o-rwx /etc/postfix
 
