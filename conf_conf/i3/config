@@ -137,6 +137,7 @@ bindsym $mod+space focus mode_toggle
 # focus the child container
 # bindsym $mod+d focus child
 
+# assign workspace to monitor
 workspace "1" output HDMI-1
 workspace "2" output DP-2
 
