@@ -98,7 +98,31 @@ function build_database {
     FOREIGN KEY (domain_id) REFERENCES virtual_domains(id) ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
     mysql_exec "INSERT INTO mailserver.virtual_domains (name) VALUES ('$DOMAIN');"
+}
 
+function put_conf {
+    #after generate_conf (no cd)
+    sudo cp -fr postfix/* /etc/postfix/
+    sudo chmod -R o-rwx /etc/postfix
+
+    sudo cp -fr dovecot/* /etc/dovecot/
+    sudo mkdir -p /var/mail/vhosts/$DOMAIN
+    sudo groupadd -g 5000 vmail
+    sudo useradd -g vmail -u 5000 vmail -d /var/mail
+    sudo chown -R vmail:vmail /var/mail
+    sudo chown -R vmail:dovecot /etc/dovecot
+    sudo chmod -R o-rwx /etc/dovecot
+
+    sudo cp -fr opendkim.conf /etc/opendkim.conf
+    sudo mkdir -p /etc/opendkim
+    sudo cp -fr opendkim/* /etc/opendkim/
+    sudo opendkim-genkey -s mail -d $DOMAIN -D /etc/opendkim/keys/$DOMAIN
+    sudo chown opendkim:opendkim /etc/opendkim/keys/$DOMAIN/mail.private
+    sudo chmod 0400 /etc/opendkim/keys/$DOMAIN/mail.private
+
+    sudo systemctl restart postfix dovecot opendkim
+    echo "opendkim key: "
+    sudo cat /etc/opendkim/keys/$DOMAIN
 }
 
 main
