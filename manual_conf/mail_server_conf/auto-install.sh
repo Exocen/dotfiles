@@ -102,13 +102,16 @@ function build_database {
     mysql_exec "INSERT INTO mailserver.virtual_domains (name) VALUES ('$DOMAIN');"
 }
 
+function sudo_cp {
+    sudo cp -fr --preserve-env=TMP_CONF $1 $2
+}
+
 function put_conf {
     #after generate_conf (no cd)
-    cd $TMP_CONF
-    sudo cp -fr $TMP_CONF/postfix/* /etc/postfix/
+    sudo_cp $TMP_CONF/postfix/* /etc/postfix/
     sudo chmod -R o-rwx /etc/postfix
 
-    sudo cp -fr $TMP_CONF/dovecot/* /etc/dovecot/
+    sudo_cp $TMP_CONF/dovecot/* /etc/dovecot/
     sudo mkdir -p /var/mail/vhosts/$DOMAIN
     sudo groupadd -g 5000 vmail
     sudo useradd -g vmail -u 5000 vmail -d /var/mail
@@ -116,9 +119,9 @@ function put_conf {
     sudo chown -R vmail:dovecot /etc/dovecot
     sudo chmod -R o-rwx /etc/dovecot
 
-    sudo cp -fr $TMP_CONF/opendkim.conf /etc/opendkim.conf
+    sudo_cp $TMP_CONF/opendkim.conf /etc/opendkim.conf
     sudo mkdir -p /etc/opendkim
-    sudo cp -fr $TMP_CONF/opendkim/* /etc/opendkim/
+    sudo_cp $TMP_CONF/opendkim/* /etc/opendkim/
     sudo opendkim-genkey -s mail -d $DOMAIN -D /etc/opendkim/keys/$DOMAIN
     sudo chown opendkim:opendkim /etc/opendkim/keys/$DOMAIN/mail.private
     sudo chmod 0400 /etc/opendkim/keys/$DOMAIN/mail.private
