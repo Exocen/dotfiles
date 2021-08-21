@@ -5,34 +5,34 @@ DOMAIN=''
 PASSSERV=`date +%s | sha256sum | base64 | head -c 32 ; echo`
 
 function main {
-  detectOS
-  if [ "$WOS" = "Debian" ]; then
-    echo "Hostname ? :"
-    read hostname
-    echo $hostname" ? (y/N)"
-    read answer
-    if [ "$answer" == "Y" ] || [ "$answer" == "y" ] || [ "$answer" == "YES" ] || [ "$answer" == "yes" ];then
-        echo 'Pre-install.....'
-        DOMAIN=$hostname
-        pack_install
-        generate_conf
+    detectOS
+    if [ "$WOS" = "Debian" ]; then
+        echo "Hostname ? :"
+        read hostname
+        echo $hostname" ? (y/N)"
+        read answer
+        if [ "$answer" == "Y" ] || [ "$answer" == "y" ] || [ "$answer" == "YES" ] || [ "$answer" == "yes" ];then
+            echo 'Pre-install.....'
+            DOMAIN=$hostname
+            pack_install
+            generate_conf
+        else
+            echo 'Cancel'
+        fi
     else
-        echo 'Cancel'
+        echo "Must be ran on Debian"
     fi
-  else
-    echo "Must be ran on Debian"
-  fi
 
 }
 
 function generate_conf {
-  cd "${0%/*}"
-  sudo hostnamectl set-hostname $DOMAIN
-  tmpD=`mktemp -d`
-  cp -r dovecot opendkim postfix opendkim.conf $tmpD
-  cd $tmpD
-  find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
-  find . -type f -print0 | xargs -0 sed -i 's/\[PASSSERV\]/'$PASSSERV'/g'
+    cd "${0%/*}"
+    sudo hostnamectl set-hostname $DOMAIN
+    tmpD=`mktemp -d`
+    cp -r dovecot opendkim postfix opendkim.conf $tmpD
+    cd $tmpD
+    find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
+    find . -type f -print0 | xargs -0 sed -i 's/\[PASSSERV\]/'$PASSSERV'/g'
 }
 
 
@@ -57,8 +57,11 @@ function detectOS {
 }
 
 function pack_install {
-  sudo apt-get install -y postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql opendkim opendkim-tools mariadb-server certbot
-  sudo certbot certonly --dry-run --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
+    sudo apt-get update -y && sudo apt-get upgrade -y
+    sudo apt-get install -y postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql opendkim opendkim-tools mariadb-server certbot
+    #TODO dry-run here
+    sudo certbot certonly --dry-run --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
+    sudo mysql_secure_installation
 }
 
 
