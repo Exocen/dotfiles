@@ -110,7 +110,7 @@ function put_conf {
 
     sudo systemctl restart postfix dovecot opendkim
     echo "opendkim key: "
-    sudo cat /etc/opendkim/keys/$DOMAIN
+    sudo cat /etc/opendkim/keys/$DOMAIN/*.txt
 }
 
 if [ -z "$1" ]
