@@ -103,7 +103,7 @@ function build_database {
 }
 
 function sudo_cp {
-    sudo cp -fr --preserve-env=TMP_CONF $1 $2
+    sudo --preserve-env=TMP_CONF cp -fr  $1 $2
 }
 
 function put_conf {
