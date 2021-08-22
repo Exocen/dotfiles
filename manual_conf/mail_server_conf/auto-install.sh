@@ -6,8 +6,7 @@ TMP_CONF=`mktemp -d`
 
 function main {
     detectOS
-    if [ "$WOS" = "Debian" ]; then
-        echo 'Pre-install.....'
+    if [ "$WOS" = "debian" ]; then
         pack_install
         generate_conf
         sudo certbot certonly --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
@@ -33,14 +32,16 @@ function generate_conf {
 function detectOS {
     if [ -f /etc/lsb-release ]; then
         WOS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//')
+    elif [ -f /etc/os-release ]; then
+        WOS=$(cat os-release | grep '^ID.*' | sed 's/^.*=//')
     elif [ -f /etc/redhat-release ]; then
-        WOS="Fedora"
+        WOS="fedora"
     elif [ -f /etc/centos-release ]; then
-        WOS="CentOS"
+        WOS="centOS"
     elif [ -f /etc/debian_version ]; then
-        WOS="Debian"
+        WOS="debian"
     elif [ -f /etc/arch-release ]; then
-        WOS="Arch"
+        WOS="arch"
     else
         WOS="WTH?"
     fi
@@ -87,7 +88,7 @@ function build_database {
 }
 
 function put_conf {
-    #after generate_conf (no cd)
+    #Post-generate_conf
     sudo cp -fr $TMP_CONF/postfix/* /etc/postfix/
     sudo chmod -R o-rwx /etc/postfix
     sudo postalias /etc/aliases
