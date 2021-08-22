@@ -5,4 +5,4 @@ Tested on
 * Fedora 29+
 * Debian 8+
 * Arch (+ dev conf)
-* Raspbian
+* Raspbian 8+
