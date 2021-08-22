@@ -14,7 +14,7 @@ function detectOS {
     if [ -f /etc/lsb-release ]; then
         WOS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//')
     elif [ -f /etc/os-release ]; then
-        WOS=$(cat os-release | grep '^ID.*' | sed 's/^.*=//')
+        WOS=$(cat os-release | grep '^ID=.*' | sed 's/^.*=//')
     elif [ -f /etc/redhat-release ]; then
         WOS="fedora"
     elif [ -f /etc/centos-release ]; then
@@ -64,7 +64,7 @@ function home_cp {
 function ins {
     all="$@" #for is_working function
     info "Installation: $all "
-    if [ "$WOS" = "ubuntu" ] || [ "$WOS" = "debian" ] ;then
+    if [ "$WOS" = "ubuntu" ] || [ "$WOS" = "debian" ] || [ "$WOS" = "raspbian" ] ;then
         sudo apt update -y &>>$logFile
         sudo apt install $@ -y &>>$logFile
         is_working "$all installed"
