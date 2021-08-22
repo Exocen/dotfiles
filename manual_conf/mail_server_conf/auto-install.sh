@@ -11,8 +11,7 @@ function main {
         echo 'Pre-install.....'
         pack_install
         generate_conf
-        #TODO dry-run here
-        sudo certbot certonly --dry-run --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
+        sudo certbot certonly --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
         sudo mysql_secure_installation
         build_database
         put_conf
