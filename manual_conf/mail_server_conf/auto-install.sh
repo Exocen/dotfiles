@@ -33,7 +33,7 @@ function detectOS {
     if [ -f /etc/lsb-release ]; then
         WOS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//')
     elif [ -f /etc/os-release ]; then
-        WOS=$(cat os-release | grep '^ID.*' | sed 's/^.*=//')
+        WOS=$(cat /etc/os-release | grep '^ID=.*' | sed 's/^.*=//')
     elif [ -f /etc/redhat-release ]; then
         WOS="fedora"
     elif [ -f /etc/centos-release ]; then
