@@ -90,6 +90,7 @@ function put_conf {
     #after generate_conf (no cd)
     sudo cp -fr $TMP_CONF/postfix/* /etc/postfix/
     sudo chmod -R o-rwx /etc/postfix
+    sudo postalias /etc/aliases
 
     sudo cp -fr $TMP_CONF/dovecot/* /etc/dovecot/
     sudo mkdir -p /var/mail/vhosts/$DOMAIN
