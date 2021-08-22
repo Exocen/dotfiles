@@ -1,5 +1,4 @@
 #!/bin/bash
-# cd script location
 WOS=''
 DOMAIN=$1
 PASSSERV=`date +%s | sha256sum | base64 | head -c 32 ; echo`
@@ -106,10 +105,9 @@ function put_conf {
     sudo opendkim-genkey -s mail -d $DOMAIN -D /etc/opendkim/keys/$DOMAIN
     sudo chown opendkim:opendkim /etc/opendkim/keys/$DOMAIN/mail.private
     sudo chmod 0400 /etc/opendkim/keys/$DOMAIN/mail.private
-    sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
     sudo systemctl restart postfix dovecot opendkim
-    echo "opendkim key: "
+    echo "Opendkim key:"
     sudo cat /etc/opendkim/keys/$DOMAIN/*.txt
 }
 
