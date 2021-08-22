@@ -29,3 +29,4 @@ devices:
     type: disk
 name: default
 used_by: []
+# lxc profile create cloud-profile && cat cloud-profile1.profile | lxc profile edit cloud-profile
