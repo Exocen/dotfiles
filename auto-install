@@ -12,7 +12,7 @@ function is_working {
 
 function detectOS {
     if [ -f /etc/lsb-release ]; then
-        WOS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//')
+        WOS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//' | sed -e 's/\(.*\)/\L\1/')
     elif [ -f /etc/os-release ]; then
         WOS=$(cat /etc/os-release | grep '^ID=.*' | sed 's/^.*=//')
     elif [ -f /etc/redhat-release ]; then
@@ -85,14 +85,13 @@ function ins {
 function aur_ins {
     all="$@" #for is_working function
     info "Installation: $all "
-    if [ "$WOS" = "Arch" ] ;then
+    if [ "$WOS" = "arch" ] ;then
         # Aur tool install
-        pacaur -v &>/dev/null
+        pikaur -v &>/dev/null
         if [ $? -ne 0 ];then
-            arch_package_install https://aur.archlinux.org/auracle-git.git
-            arch_package_install https://aur.archlinux.org/pacaur.git
+            arch_package_install https://aur.archlinux.org/pikaur.git
         fi
-        pacaur -S $@ --noedit --needed --noconfirm &>>$logFile
+        pikaur -S $@ --noedit --needed --noconfirm &>>$logFile
         is_working "$all installed"
     else
         error "Invalid OS"
@@ -181,7 +180,7 @@ function mainScript() {
     fi
     detectOS
     basic_install
-    if [ "$WOS" = "Arch" ];then
+    if [ "$WOS" = "arch" ];then
         seek_confirmation 'Install Dev Env ?'
         if is_confirmed; then
             dev_env_install

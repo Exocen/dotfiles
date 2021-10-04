@@ -216,13 +216,13 @@ alias aps='apt search'
 alias apse='apt-cache search -t experimental'
 alias apshow='apt-cache showpkg'
 
-# pacaur
-alias auri='pacaur -S --noedit'
-alias aurr='pacaur -Rsu'
-alias auru='pacaur -Syu'
-alias aurs='pacaur -Ss'
-alias aurl='pacaur -Qe'
-alias aurc='pacaur -Qdt ; pacaur -Sc --noconfirm ; sudo pacman -Rnus $(pacman -Qtdq) 2>/dev/null'
+# pikaur
+alias auri='pikaur -S --noedit'
+alias aurr='pikaur -Rsu'
+alias auru='pikaur -Syu'
+alias aurs='pikaur -Ss'
+alias aurl='pikaur -Qe'
+alias aurc='pikaur -Qdt ; pikaur -Sc --noconfirm ; sudo pacman -Rnus $(pacman -Qtdq) 2>/dev/null'
 
 # yum
 alias yu='sudo yum update --color=always'
