@@ -1,0 +1,14 @@
+# Enable redirection
+sudo sysctl -w net.ipv4.ip_forward=1
+# Reduce ended connection waiting time
+sudo sysctl net.netfilter.nf_conntrack_tcp_timeout_time_wait=1
+
+# Ip forwarding
+sudo iptables -A PREROUTING -t nat -p tcp --dport {PORT_SOURCE} -j DNAT --to-destination {IP_DESTINATION:PORT_DESTINATION}
+sudo iptables -A POSTROUTING -t nat -p tcp --dport {PORT_DESTINATION} -j SNAT --to-source {IP_SOURCE:PORT_SOURCE}
+
+# Display rules
+sudo iptables -t nat -L -n -v
+
+# Save rules
+sudo iptables-save > /etc/iptables/iptables.rules
