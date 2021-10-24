@@ -31,7 +31,7 @@ function generate_conf {
 
 function detectOS {
     if [ -f /etc/lsb-release ]; then
-        WOS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//')
+        WOS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//' | sed -e 's/\(.*\)/\L\1/')
     elif [ -f /etc/os-release ]; then
         WOS=$(cat /etc/os-release | grep '^ID=.*' | sed 's/^.*=//')
     elif [ -f /etc/redhat-release ]; then
