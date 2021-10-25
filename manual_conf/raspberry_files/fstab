@@ -1,7 +1,0 @@
-LABEL=boot-rbp2  /boot    vfat     defaults,noatime,noauto,x-systemd.automount    0   0
-# rootfs is not mounted in fstab as we do it via initramfs. Uncomment for remount (slower boot)
-#/dev/mmcblk0p2  /    ext4      defaults,noatime    0   0
-/dev/sda1	/media/QB1T	ntfs-3g	umask=0022,nofail,x-systemd.device-timeout=10	0	2
-/media/QB1T/Musique	/var/lib/jail/Music	none	bind,nofail,x-systemd.device-timeout=10	0	2
-#/media/QB1T/Torrent	/var/lib/jail2/Torrent	none    bind,nofail,x-systemd.device-timeout=10	0       2
-
