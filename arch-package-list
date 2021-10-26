@@ -19,6 +19,7 @@ tlp acpi
 # Git Browser
 tig
 # diff + git diff addon
+# TODO add in gitautoconf
 # git config --global core.pager delta
 git-delta
 # Network top
