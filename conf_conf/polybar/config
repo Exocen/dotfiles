@@ -518,9 +518,9 @@ menu-2-1-exec = menu-open-0
 
 [module/vpn-wireguard]
 type = custom/script
-exec = ~/.config/polybar/vpn-wireguard.sh
+exec = ~/.config/polybar/vpn_wireguard.sh
 interval = 5
-; click-left = ~/polybar-scripts//vpn-wireguard-wg.sh --toggle &
+; click-left = ~/polybar-scripts//vpn_wireguard-wg.sh --toggle &
 
 [settings]
 screenchange-reload = true
