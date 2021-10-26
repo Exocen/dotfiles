@@ -9,6 +9,7 @@ function main {
     if [ "$WOS" = "debian" ]; then
         pack_install
         generate_conf
+        #TODO fewer user interactions
         sudo certbot certonly --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
         sudo mysql_secure_installation
         build_database
