@@ -56,7 +56,7 @@ bindsym $mod+g exec firefox
 bindsym $mod+p exec firefox -private-window
 
 # Lock
-bindsym $mod+l exec /usr/bin/i3lock -c 000000
+bindsym $mod+l exec systemctl suspend
 
 
 # mpd control
