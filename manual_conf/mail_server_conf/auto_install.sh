@@ -1,7 +1,7 @@
 #!/bin/bash
 WOS=''
 DOMAIN=$1
-PASSSERV=`date +%s | sha256sum | base64 | head -c 32 ; echo`
+PASSSERV=`date +%s%N | sha256sum | base64 | head -c 32 ; echo`
 TMP_CONF=`mktemp -d`
 
 function main {
