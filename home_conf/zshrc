@@ -9,7 +9,7 @@ export PATH="/usr/sbin:/sbin:$PATH"
 
 zstyle ':completion:*' menu select
 compctl -/ cd # type a directory's name to cd to it.
-eval `dircolors -b`
+eval $(dircolors -b)
 
 autoload -U promptinit
 promptinit
@@ -66,7 +66,6 @@ POWERLEVEL9K_CONTEXT_SUDO_FOREGROUND=1
 POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND=6
 POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND=0
 
-
 # allow approximate
 zstyle ':completion:*' completer _complete _match _approximate
 zstyle ':completion:*:match:*' original only
@@ -78,7 +77,7 @@ zstyle ':completion:*:kill:*' force-list always
 
 # cd not select parent dir.
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
-zstyle ':completion:*:c:*'  file-patterns "*(-/)" ignore-parents parent pwd
+zstyle ':completion:*:c:*' file-patterns "*(-/)" ignore-parents parent pwd
 
 # Key bindings
 typeset -g -A key
@@ -113,7 +112,6 @@ alias -s gz=tar xzf
 alias -s bz2=tar xjf
 alias -s zip=unzip
 alias -s java=$EDITOR
-# alias -s py=$EDITOR
 alias -s txt=$EDITOR
 alias -s PKGBUILD=$EDITOR
 alias -s jar=java -jar
@@ -163,25 +161,22 @@ alias em='emacs -nw'
 alias xem='sudo emacs -nw'
 alias iftop='sudo iftop'
 alias ifconfig='sudo ifconfig'
-alias powertop='sudo powertop'
 alias tre='tree -C --dirsfirst'
 alias rmcache='sudo rm -rf ~/.cache/'
 alias fuspaces='for f in *\ *; do mv "$f" "${f// /_}"; done '
-alias grubconf='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
+alias grubconfgenq='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
 alias openvpnconf='sudo openvpn --config'
 alias viewtar='tar -tf'
 alias myip='curl ipinfo.io/ip'
-alias visudo='sudo EDITOR=vim visudo'
-alias iotop='sudo iotop -o'
 
 # mount
-function mnt {
+function mnt() {
     mkdir -p $2
     sudo mount $1 $2
 
 }
 
-function mountntfs {
+function mountntfs() {
     mkdir -p $2
     sudo mount -t ntfs -o uid=$UID,umask=22 $1 $2
 
@@ -247,24 +242,23 @@ alias dnfupg='sudo dnf upgrade'
 
 ## Archive functions
 # Handy Extract function
-function extract()
-{
-    if [ -f $1 ] ; then
+function extract() {
+    if [ -f $1 ]; then
         case $1 in
-            *.tar.bz2)   tar xvjf $1     ;;
-            *.tar.gz)    tar xvzf $1     ;;
-            *.bz2)       bunzip2 $1      ;;
-            *.rar)       unrar x $1      ;;
-            *.gz)        gunzip $1       ;;
-            *.tar)       tar xvf $1      ;;
-            *.tbz2)      tar xvjf $1     ;;
-            *.tgz)       tar xvzf $1     ;;
-            *.zip)       unzip $1        ;;
-            *.Z)         uncompress $1   ;;
-            *.xz)        tar xvf $1      ;;
-            *.bz)        tar xjvf $1     ;;
-            *.7z)        7z x $1         ;;
-            *)           echo "'$1' cannot be extracted via >extract<" ;;
+        *.tar.bz2) tar xvjf $1 ;;
+        *.tar.gz) tar xvzf $1 ;;
+        *.bz2) bunzip2 $1 ;;
+        *.rar) unrar x $1 ;;
+        *.gz) gunzip $1 ;;
+        *.tar) tar xvf $1 ;;
+        *.tbz2) tar xvjf $1 ;;
+        *.tgz) tar xvzf $1 ;;
+        *.zip) unzip $1 ;;
+        *.Z) uncompress $1 ;;
+        *.xz) tar xvf $1 ;;
+        *.bz) tar xjvf $1 ;;
+        *.7z) 7z x $1 ;;
+        *) echo "'$1' cannot be extracted via >extract<" ;;
         esac
     else
         echo "'$1' is not a valid file!"
@@ -272,46 +266,41 @@ function extract()
 }
 
 # Creates an archive (*.tgz) from given list.
-function maketar() { tar cvzf $1.tgz  $*; }
+function maketar() { tar cvzf $1.tgz $*; }
 
 # Create a ZIP archive of a file or folder.
-function makezip() { zip -r "${1%%/}.zip" "$1" ; }
+function makezip() { zip -r "${1%%/}.zip" "$1"; }
 
 ## Utilities functions
 # Crypt function with gpg
-function crypt(){ gpg -co "${1}.gpg"  "$1";}
+function crypt() { gpg -co "${1}.gpg" "$1"; }
 
-function decrypt(){
+function decrypt() {
     SUFFIX=".gpg"
     NEW_FILE=${1%$SUFFIX}
     gpg -do ${NEW_FILE} $1
 }
 
 # move file(s) to tmp (with copy conservation in tmp)
-function del(){
-    for file in "$@"; do mv --backup=t "$file" /tmp/ ;done
+function del() {
+    for file in "$@"; do mv --backup=t "$file" /tmp/; done
 }
 
 function c() {
     # builtin cd "$*"
     cd "$@"
-    ls -CFh  --group-directories-first
+    ls -CFh --group-directories-first
 }
 
 function dkill() {
-    mykill=`ps -ef | grep $1 | awk '{print $2}'`
-    kill -9 $mykill 2> /dev/null
+    mykill=$(ps -ef | grep $1 | awk '{print $2}')
+    kill -9 $mykill 2>/dev/null
 }
 
 # Make your directories and files access rights sane.
-function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}
+function sanitize() { chmod -R u=rwX,g=rX,o= "$@"; }
 
 ## Git functions
-# git reset
-function greset() {
-    git fetch origin
-    git reset --hard origin/master
-}
 function gitautoconfig() {
     git config --global pull.rebase false
     git config --global user.email Exocen@users.noreply.github.com
@@ -345,7 +334,7 @@ function unproxy() {
 }
 
 ## Docker functions
-function docker_clean_everything(){
+function docker_clean_everything() {
     EXIT_STATUS=0
     docker_stop_container || EXIT_STATUS=$?
     docker_clean_container || EXIT_STATUS=$?
@@ -353,20 +342,20 @@ function docker_clean_everything(){
     docker_clean_volumes || EXIT_STATUS=$?
 }
 
-function docker_clean_container(){
+function docker_clean_container() {
     docker rm $(docker ps -aq)
 }
 
-function docker_stop_container(){
+function docker_stop_container() {
     docker stop $(docker ps -q)
 }
 
-function docker_clean_images(){
+function docker_clean_images() {
     docker rmi $(docker images -q)
 }
 
-function docker_clean_volumes(){
+function docker_clean_volumes() {
     docker volume rm $(docker volume ls -q)
 }
 
-function regex { gawk 'match($0,/'$1'/, ary) {print ary['${2:-'0'}']}'; }
+function regex() { gawk 'match($0,/'$1'/, ary) {print ary['${2:-'0'}']}'; }

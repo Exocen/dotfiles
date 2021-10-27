@@ -2,10 +2,10 @@
 
 WOS=''
 DOMAIN=$1
-PASS=`date +%s%N | sha256sum | base64 | head -c 32`
-TMP_CONF=`mktemp -d`
+PASS=$(date +%s%N | sha256sum | base64 | head -c 32)
+TMP_CONF=$(mktemp -d)
 
-function main {
+function main() {
     detectOS
     if [ "$WOS" = "debian" ]; then
         pack_install
@@ -21,7 +21,7 @@ function main {
 
 }
 
-function generate_conf {
+function generate_conf() {
     cd "${0%/*}"
     sudo hostnamectl set-hostname $DOMAIN
     cp -r dovecot opendkim postfix opendkim.conf $TMP_CONF
@@ -30,7 +30,7 @@ function generate_conf {
     find . -type f -print0 | xargs -0 sed -i 's/\[PASS\]/'$PASS'/g'
 }
 
-function detectOS {
+function detectOS() {
     if [ -f /etc/lsb-release ]; then
         WOS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//' | sed -e 's/\(.*\)/\L\1/')
     elif [ -f /etc/os-release ]; then
@@ -48,16 +48,16 @@ function detectOS {
     fi
 }
 
-function pack_install {
+function pack_install() {
     sudo apt-get update -y && sudo apt-get upgrade -y
     sudo apt-get install -y postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql opendkim opendkim-tools mariadb-server certbot
 }
 
-function mysql_exec {
+function mysql_exec() {
     sudo mysql -u root -e "$1"
 }
 
-function build_database {
+function build_database() {
     mysql_exec "CREATE DATABASE mailserver;
     CREATE USER 'mailuser'@'127.0.0.1' IDENTIFIED BY '$PASS';
     GRANT SELECT ON mailserver.* TO 'mailuser'@'127.0.0.1';
@@ -88,7 +88,7 @@ function build_database {
     mysql_exec "INSERT INTO mailserver.virtual_domains (name) VALUES ('$DOMAIN');"
 }
 
-function put_conf {
+function put_conf() {
     #Post-generate_conf
     sudo cp -fr $TMP_CONF/postfix/* /etc/postfix/
     sudo chmod -R o-rwx /etc/postfix
@@ -114,8 +114,7 @@ function put_conf {
     sudo cat /etc/opendkim/keys/$DOMAIN/*.txt
 }
 
-if [ -z "$1" ]
-then
+if [ -z "$1" ]; then
     echo "No domain supplied"
 else
     main
