@@ -1,7 +1,8 @@
 #!/bin/bash
+
 WOS=''
 DOMAIN=$1
-PASSSERV=`date +%s%N | sha256sum | base64 | head -c 32 ; echo`
+PASS=`date +%s%N | sha256sum | base64 | head -c 32`
 TMP_CONF=`mktemp -d`
 
 function main {
@@ -26,15 +27,14 @@ function generate_conf {
     cp -r dovecot opendkim postfix opendkim.conf $TMP_CONF
     cd $TMP_CONF
     find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
-    find . -type f -print0 | xargs -0 sed -i 's/\[PASSSERV\]/'$PASSSERV'/g'
+    find . -type f -print0 | xargs -0 sed -i 's/\[PASS\]/'$PASS'/g'
 }
-
 
 function detectOS {
     if [ -f /etc/lsb-release ]; then
         WOS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//' | sed -e 's/\(.*\)/\L\1/')
     elif [ -f /etc/os-release ]; then
-        WOS=$(cat /etc/os-release | grep '^ID=.*' | sed 's/^.*=//')
+        WOS=$(cat /etc/os-release | grep '^ID=.*' | sed 's/^.*=//' | sed -e 's/\(.*\)/\L\1/')
     elif [ -f /etc/redhat-release ]; then
         WOS="fedora"
     elif [ -f /etc/centos-release ]; then
@@ -59,7 +59,7 @@ function mysql_exec {
 
 function build_database {
     mysql_exec "CREATE DATABASE mailserver;
-    CREATE USER 'mailuser'@'127.0.0.1' IDENTIFIED BY '$PASSSERV';
+    CREATE USER 'mailuser'@'127.0.0.1' IDENTIFIED BY '$PASS';
     GRANT SELECT ON mailserver.* TO 'mailuser'@'127.0.0.1';
     FLUSH PRIVILEGES;
     USE mailserver;
