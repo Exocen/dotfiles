@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#TODO add multiple config + click to disconnect or change
+#TODO add multiple config + click to disconnect or change + no sudo solution :(
 
 connection_status() {
     connection=$(sudo wg show 2>/dev/null | head -n 1 | awk '{print $NF }')

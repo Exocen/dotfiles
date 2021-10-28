@@ -188,7 +188,6 @@ function mvr() {
 }
 
 ### Packages managers
-# TODO auto detect
 # dpkg
 alias dbi='sudo dpkg -i'
 alias dbr='sudo dpkg -r'
@@ -299,7 +298,7 @@ function sanitize() { chmod -R u=rwX,g=rX,o= "$@"; }
 
 ## Git functions
 function gitautoconfig() {
-    delta -V 1>/dev/null && git config --global core.pager delta || git config --unset --global core.pager
+    delta -V &>/dev/null && git config --global core.pager delta || git config --unset --global core.pager
     git config --global pull.rebase false
     git config --global user.email Exocen@users.noreply.github.com
     git config --global user.name "Exocen"
