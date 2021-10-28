@@ -20,7 +20,7 @@ setopt autocd
 setopt cdablevars
 setopt interactivecomments
 setopt nobanghist
-# Allows ‘>’ redirection to truncate existing files. Otherwise ‘>!’ or ‘>|’ must be used to truncate a file.
+# allows ‘>’ redirection to truncate existing files. Otherwise ‘>!’ or ‘>|’ must be used to truncate a file.
 # setopt noclobber
 setopt SH_WORD_SPLIT
 setopt nohup
@@ -28,7 +28,7 @@ setopt extendedglob
 setopt correct
 setopt NO_RM_STAR_SILENT
 
-# History stuff
+# history stuff
 setopt HIST_REDUCE_BLANKS
 setopt HIST_IGNORE_SPACE
 setopt SHARE_HISTORY
@@ -37,7 +37,7 @@ HISTSIZE=1000
 SAVEHIST=1000
 HISTFILE=~/.zsh_history
 
-# Vars used later on by zsh
+# vars used later on by zsh
 export EDITOR="vim"
 export BROWSER=firefox
 export TERM=xterm-256color
@@ -50,10 +50,10 @@ source $ZSH/oh-my-zsh.sh
 # systemd plug -> sc-cmd
 # sudo plug -> ESC * 2
 
-# User configuration omz
+# user configuration omz
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
-# Powerlevel10k (https://github.com/Powerlevel9k/powerlevel9k powerlevel10k)
+# powerlevel10k (https://github.com/Powerlevel9k/powerlevel9k powerlevel10k)
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir_writable dir vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(context status root_indicator background_jobs command_execution_time)
 
@@ -79,7 +79,7 @@ zstyle ':completion:*:kill:*' force-list always
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
 zstyle ':completion:*:c:*' file-patterns "*(-/)" ignore-parents parent pwd
 
-# Key bindings
+# key bindings
 typeset -g -A key
 bindkey '^?' backward-delete-char
 bindkey '^[[1~' beginning-of-line
@@ -92,7 +92,7 @@ bindkey '^[[D' backward-char
 bindkey '^[[B' down-line-or-search
 bindkey '^[[C' forward-char
 
-# Set up auto extension stuff
+# set up auto extension stuff
 alias -s html=$BROWSER
 alias -s org=$BROWSER
 alias -s php=$BROWSER
@@ -118,7 +118,7 @@ alias -s jar=java -jar
 alias -s pdf='evince'
 alias -s py='py'
 
-# Utilities aliases
+# utilities aliases
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias psf='ps -e | grep -i'
 alias psa='ps -uf --ppid 2 -p 2 --deselect'
@@ -133,7 +133,7 @@ alias rmte='find . -empty -type d'
 alias rmted='find . -empty -type d -delete -print'
 alias x='exit'
 alias sx='startx'
-alias finame="find * -iname "
+alias finame='find * -iname '
 alias kbfr='setxkbmap fr'
 alias kbus='setxkbmap us'
 alias j='jobs'
@@ -166,28 +166,7 @@ alias openvpnconf='sudo openvpn --config'
 alias viewtar='tar -tf'
 alias myip='curl ipinfo.io/ip'
 
-# mount
-function mnt() {
-    mkdir -p $2
-    sudo mount $1 $2
-
-}
-
-function mountntfs() {
-    mkdir -p $2
-    sudo mount -t ntfs -o uid=$UID,umask=22 $1 $2
-
-}
-
-# rsync
-function cpr() {
-    rsync --archive -hh --partial --info=stats1 --info=progress2 --modify-window=1 "$@"
-}
-function mvr() {
-    rsync --archive -hh --partial --info=stats1 --info=progress2 --modify-window=1 --remove-source-files "$@"
-}
-
-### Packages managers
+## Packages managers
 # dpkg
 alias dbi='sudo dpkg -i'
 alias dbr='sudo dpkg -r'
@@ -196,7 +175,7 @@ alias dbr='sudo dpkg -r'
 alias apu='sudo apt update'
 alias appg='sudo apt upgrade'
 alias apd='sudo apt dist-upgrade'
-alias apugd="sudo apt update -y && sudo apt -y full-upgrade && sudo apt autoremove -y && aptpurge"
+alias apugd='sudo apt update -y && sudo apt -y full-upgrade && sudo apt autoremove -y && aptpurge'
 alias api='sudo apt install'
 alias apie='sudo apt install -t experimental'
 alias apr='sudo apt remove'
@@ -206,6 +185,7 @@ alias apsearch='apt-cache search'
 alias aps='apt search'
 alias apse='apt-cache search -t experimental'
 alias apshow='apt-cache showpkg'
+alias aptpurge='sudo apt purge $(dpkg -l | grep "^rc" | awk "{print $2}") -y'
 
 # pikaur
 alias auri='pikaur -S --noedit'
@@ -234,10 +214,61 @@ alias dnfshow='sudo dnf info'
 alias dnfupd='sudo dnf check-update'
 alias dnfupg='sudo dnf upgrade'
 
-### Functions
+## Functions
 
-## Archive functions
-# Handy Extract function
+# move file(s) to tmp (with copy conservation in tmp)
+function del() {
+    for file in "$@"; do mv --backup=t "$file" /tmp/; done
+}
+
+# lazy browser
+function c() {
+    # builtin cd "$*"
+    cd "$@"
+    ls -CFh --group-directories-first
+}
+
+# make your directories and files access rights sane.
+function sanitize() { chmod -R u=rwX,g=rX,o= "$@"; }
+
+# mount utilities
+function mnt() {
+    mkdir -p $2
+    sudo mount $1 $2
+}
+
+function mountntfs() {
+    mkdir -p $2
+    sudo mount -t ntfs -o uid=$UID,umask=22 $1 $2
+}
+
+# rsync
+function rsynccp() {
+    rsync --archive -hh --partial --info=stats1 --info=progress2 --modify-window=1 "$@"
+}
+function rsyncmv() {
+    rsync --archive -hh --partial --info=stats1 --info=progress2 --modify-window=1 --remove-source-files "$@"
+}
+
+# gpg utilities
+function crypt() { gpg -co "${1}.gpg" "$1"; }
+
+function decrypt() {
+    SUFFIX=".gpg"
+    NEW_FILE=${1%$SUFFIX}
+    gpg -do ${NEW_FILE} $1
+}
+
+# git global config
+function gitautoconfig() {
+    delta -V &>/dev/null && git config --global core.pager delta || git config --unset --global core.pager
+    git config --global pull.rebase false
+    git config --global user.email Exocen@users.noreply.github.com
+    git config --global user.name "Exocen"
+    git config --global push.default simple
+}
+
+# archive functions
 function extract() {
     if [ -f $1 ]; then
         case $1 in
@@ -261,98 +292,6 @@ function extract() {
     fi
 }
 
-# Creates an archive (*.tgz) from given list.
 function maketar() { tar cvzf $1.tgz $*; }
 
-# Create a ZIP archive of a file or folder.
 function makezip() { zip -r "${1%%/}.zip" "$1"; }
-
-## Utilities functions
-# Crypt function with gpg
-function crypt() { gpg -co "${1}.gpg" "$1"; }
-
-function decrypt() {
-    SUFFIX=".gpg"
-    NEW_FILE=${1%$SUFFIX}
-    gpg -do ${NEW_FILE} $1
-}
-
-# move file(s) to tmp (with copy conservation in tmp)
-function del() {
-    for file in "$@"; do mv --backup=t "$file" /tmp/; done
-}
-
-function c() {
-    # builtin cd "$*"
-    cd "$@"
-    ls -CFh --group-directories-first
-}
-
-function dkill() {
-    mykill=$(ps -ef | grep $1 | awk '{print $2}')
-    kill -9 $mykill 2>/dev/null
-}
-
-# Make your directories and files access rights sane.
-function sanitize() { chmod -R u=rwX,g=rX,o= "$@"; }
-
-## Git functions
-function gitautoconfig() {
-    delta -V &>/dev/null && git config --global core.pager delta || git config --unset --global core.pager
-    git config --global pull.rebase false
-    git config --global user.email Exocen@users.noreply.github.com
-    git config --global user.name "Exocen"
-    git config --global push.default simple
-}
-
-function aptpurge() {
-    sudo apt purge $(dpkg -l | grep '^rc' | awk '{print $2}') -y
-}
-
-## Proxy functions
-function eproxy() {
-    export https_proxy=$1
-    export http_proxy=$1
-    export ftp_proxy=$1
-    export sftp_proxy=$1
-    export npm_config_proxy=$1
-    export npm_config_https_proxy=$1
-    export ALL_PROXY=$http_proxy
-}
-
-function unproxy() {
-    unset http_proxy
-    unset https_proxy
-    unset npm_config_proxy
-    unset npm_config_https_proxy
-    unset ftp_proxy
-    unset sftp_proxy
-    unset ALL_PROXY
-}
-
-## Docker functions
-function docker_clean_everything() {
-    EXIT_STATUS=0
-    docker_stop_container || EXIT_STATUS=$?
-    docker_clean_container || EXIT_STATUS=$?
-    docker_clean_images || EXIT_STATUS=$?
-    docker_clean_volumes || EXIT_STATUS=$?
-}
-
-function docker_clean_container() {
-    docker rm $(docker ps -aq)
-}
-
-function docker_stop_container() {
-    docker stop $(docker ps -q)
-}
-
-function docker_clean_images() {
-    docker rmi $(docker images -q)
-}
-
-function docker_clean_volumes() {
-    docker volume rm $(docker volume ls -q)
-}
-
-function regex() { gawk 'match($0,/'$1'/, ary) {print ary['${2:-'0'}']}'; }
