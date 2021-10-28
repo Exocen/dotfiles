@@ -90,6 +90,7 @@ function build_database() {
 
 function put_conf() {
     #Post-generate_conf
+    #TODO root only ?
     sudo cp -fr $TMP_CONF/postfix/* /etc/postfix/
     sudo chmod -R o-rwx /etc/postfix
     sudo postalias /etc/aliases
@@ -119,6 +120,8 @@ if [ -z "$1" ]; then
 else
     main
 fi
+
+rm -rf $TMP_CONF
 
 # Local Variables:
 # mode: Shell-script

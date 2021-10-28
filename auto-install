@@ -107,6 +107,7 @@ function arch_package_install() {
     cd $tmpD
     makepkg -fsri --skipinteg --noconfirm &>>$logFile
     cd $LOCAL
+    rm -rf $tmpD
 }
 
 function git_clone() {
