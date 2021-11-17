@@ -146,9 +146,6 @@ alias down='sudo poweroff'
 alias boot='sudo reboot'
 alias lsblk='lsblk -o name,mountpoint,fstype,label,size,fsavail,fsused,fsuse%,rota,uuid'
 alias lgt='pkill KILL -U'
-alias ff='firefox'
-alias cc='chromium-browser --proxy-auto-detect'
-alias ch='google-chrome-stable'
 alias py='python3'
 alias py3='python3'
 alias py2='python2'
@@ -157,14 +154,17 @@ alias pl='perl -d -e 1'
 alias jar='java -jar'
 alias am='alsamixer'
 alias em='emacs -nw'
-alias xem='sudo emacs -nw'
 alias tre='tree -C --dirsfirst'
-alias rmcache='sudo rm -rf ~/.cache/'
+alias rmcache='rm -rf ~/.cache/'
 alias fuspaces='for f in *\ *; do mv "$f" "${f// /_}"; done '
 alias grubconfgenq='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
 alias openvpnconf='sudo openvpn --config'
 alias viewtar='tar -tf'
 alias myip='curl ipinfo.io/ip'
+
+# rsync
+alias rscp='rsync --archive -hh --partial --append-verify --info=stats1 --info=progress2 --modify-window=1'
+alias rsmv='rscp --remove-source-files'
 
 ## Packages managers
 # dpkg
@@ -216,14 +216,13 @@ alias dnfupg='sudo dnf upgrade'
 
 ## Functions
 
-# move file(s) to tmp (with copy conservation in tmp)
+# move args to tmp (with copy conservation)
 function del() {
     for file in "$@"; do mv --backup=t "$file" /tmp/; done
 }
 
-# lazy browser
+# builtin cd "$*"
 function c() {
-    # builtin cd "$*"
     cd "$@"
     ls -CFh --group-directories-first
 }
@@ -242,14 +241,6 @@ function mountntfs() {
     sudo mount -t ntfs -o uid=$UID,umask=22 $1 $2
 }
 
-# rsync
-function rsynccp() {
-    rsync --archive -hh --partial --info=stats1 --info=progress2 --modify-window=1 "$@"
-}
-function rsyncmv() {
-    rsync --archive -hh --partial --info=stats1 --info=progress2 --modify-window=1 --remove-source-files "$@"
-}
-
 # gpg utilities
 function crypt() { gpg -co "${1}.gpg" "$1"; }
 
@@ -260,6 +251,7 @@ function decrypt() {
 }
 
 # git global config
+# TODO dynamic ?
 function gitautoconfig() {
     delta -V &>/dev/null && git config --global core.pager delta || git config --unset --global core.pager
     git config --global pull.rebase false
