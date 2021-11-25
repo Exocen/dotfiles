@@ -11,6 +11,9 @@ exec --no-startup-id unclutter &
 # Polybar start
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
+# Internation us keyboard layout
+exec --no-startup-id setxkbmap -rules evdev -model evdev -layout us -variant intl
+
 # background
 assign [class="(?i)thunderbird"] 5
 assign [class="(?i)steam"] 4
