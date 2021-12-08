@@ -28,7 +28,7 @@ nethogs
 # File Browser
 thunar
 # Terminal
-ttf-fira-code ttf-dejavu kitty
+ttf-fira-code ttf-dejavu alacritty
 # Web Browser
 firefox
 # Media tool
@@ -40,7 +40,7 @@ blueman pipewire-pulse pipewire bluez-utils pulseaudio-alsa
 # Music player
 mpd mpc ncmpc
 # Polybar
-polybar-git noto-fonts ttf-nerd-fonts-symbols-mono
+polybar noto-fonts ttf-nerd-fonts-symbols-mono
 # Vim addons
 vim-youcompleteme-git flake8
 # Sound app control

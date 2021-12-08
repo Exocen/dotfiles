@@ -31,7 +31,7 @@ set $mod Mod4
 floating_modifier $mod
 
 # Start a terminal
-set $TERMINAL "/sbin/kitty"
+set $TERMINAL "/sbin/alacritty"
 bindsym $mod+Return exec $TERMINAL
 # bindcode control+62 exec $TERMINAL
 

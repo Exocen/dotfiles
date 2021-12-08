@@ -252,7 +252,6 @@ function decrypt() {
 }
 
 # git global config
-# TODO dynamic ?
 function gitautoconfig() {
     delta -V &>/dev/null && git config --global core.pager delta || git config --unset --global core.pager
     git config --global pull.rebase false
