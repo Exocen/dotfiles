@@ -87,11 +87,11 @@ function aur_ins() {
     info "Installation: $all "
     if [ "$WOS" = "arch" ]; then
         # Aur tool install
-        pikaur -v &>/dev/null
+        yay -v &>/dev/null
         if [ $? -ne 0 ]; then
-            arch_package_install https://aur.archlinux.org/pikaur.git
+            arch_package_install https://aur.archlinux.org/yay.git
         fi
-        pikaur -S $@ --noedit --needed --noconfirm &>>$logFile
+        yay -S $@ --noedit --needed --noconfirm &>>$logFile
         is_working "$all installed"
     else
         error "Invalid OS"

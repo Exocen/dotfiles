@@ -186,7 +186,7 @@ icon-random =
 toggle-on-foreground = #ff
 toggle-off-foreground = #55
 
-label-song-maxlen = 45
+label-song-maxlen = 120
 label-song-ellipsis = true
 
 bar-progress-width = 10
