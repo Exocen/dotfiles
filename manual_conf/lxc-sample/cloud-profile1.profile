@@ -16,7 +16,7 @@ config:
         - [git, clone, --branch, Strix, --depth, 1,  https://github.com/exocen/dotfiles]
         - [chown, -R, exo, dotfiles]
         - [chgrp, -R, users, dotfiles]
-        - [runuser, -l, exo, -c, '~/dotfiles/auto-install']
+        - [runuser, -l, exo, -c, '~/dotfiles/auto-install -y']
 description: Cloud LXD profile
 devices:
   eth0:
