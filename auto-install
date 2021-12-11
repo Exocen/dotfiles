@@ -91,7 +91,7 @@ function aur_ins() {
         if [ $? -ne 0 ]; then
             arch_package_install https://aur.archlinux.org/yay.git
         fi
-        yay -S $@ --noedit --needed --noconfirm &>>$logFile
+        yay -S $@ --needed --noconfirm &>>$logFile
         is_working "$all installed"
     else
         error "Invalid OS"
