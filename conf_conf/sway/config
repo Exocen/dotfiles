@@ -3,13 +3,8 @@
 # Numlock
 # exec --no-startup-id numlockx on
 
-exec --no-startup-id xrandr --output DP-2 --auto --output HDMI-1 --auto --left-of DP-2
-
 # Unclutter (hidden pointer)
 exec --no-startup-id unclutter &
-
-# Polybar start
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # Internation us keyboard layout
 exec --no-startup-id setxkbmap -rules evdev -model evdev -layout us -variant intl
@@ -24,7 +19,6 @@ focus_follows_mouse no
 font pango:monospace 8
 
 # Bindings
-
 set $mod Mod4
 
 # Use Mouse+$mod to drag floating windows to their wanted position
