@@ -1,0 +1,187 @@
+# Startup apps
+
+# Numlock
+# exec --no-startup-id numlockx on
+
+exec --no-startup-id xrandr --output DP-2 --auto --output HDMI-1 --auto --left-of DP-2
+
+# Unclutter (hidden pointer)
+exec --no-startup-id unclutter &
+
+# Polybar start
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# Internation us keyboard layout
+exec --no-startup-id setxkbmap -rules evdev -model evdev -layout us -variant intl
+
+# background
+assign [class="(?i)thunderbird"] 5
+assign [class="(?i)steam"] 4
+
+focus_follows_mouse no
+
+# Font
+font pango:monospace 8
+
+# Bindings
+
+set $mod Mod4
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# Start a terminal
+set $TERMINAL "/sbin/alacritty"
+bindsym $mod+Return exec $TERMINAL
+# bindcode control+62 exec $TERMINAL
+
+# Firefox
+bindsym $mod+g exec firefox
+bindsym $mod+p exec firefox -private-window
+
+# Lock
+bindsym $mod+l exec systemctl suspend
+
+
+# mpd control
+bindsym $mod+F1 exec ~/.config/i3/mpc toggle
+bindsym $mod+F2 exec ~/.config/i3/mpc prev
+bindsym $mod+F3 exec ~/.config/i3/mpc next
+bindsym $mod+F4 exec ~/.config/i3/mpc stop
+
+bindsym XF86AudioPlay exec ~/.config/i3/mpc toggle
+bindsym XF86AudioPrev exec ~/.config/i3/mpc prev
+bindsym XF86AudioNext exec ~/.config/i3/mpc next
+bindsym XF86AudioStop exec ~/.config/i3/mpc stop
+
+# File Browser
+bindsym $mod+n exec thunar
+
+# Kill focused window
+bindsym $mod+Shift+A kill
+
+# Start dmenu (a program launcher)
+# bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec --no-startup-id "rofi -modi window,drun,run,combi -show combi -show-icons -theme solarized -font 'hack 9'"
+
+bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%- unmute
+bindsym XF86AudioMute        exec amixer -q set Master toggle
+bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 5%+ unmute
+
+# Screen brightness controls
+bindsym XF86MonBrightnessUp exec sudo light -A 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec sudo light -U 10 # decrease screen brightnes
+
+# Change focus
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move focused window
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+M move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+z layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+# bindsym $mod+q focus parent
+
+# focus the child container
+# bindsym $mod+d focus child
+
+# assign workspace to monitor
+workspace "1" output HDMI-1
+workspace "2" output DP-2
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+
+# move next or previous
+bindsym $mod+ctrl+Left workspace prev
+bindsym $mod+ctrl+Right workspace next
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Exit the session?' -b 'Yes' 'i3-msg exit'"
+# Restart
+bindsym $mod+Shift+Escape exec "sudo systemctl reboot -f"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+# These bindings trigger as soon as you enter the resize mode
+
+# Pressing left will shrink the window’s width.
+# Pressing right will grow the window’s width.
+# Pressing up will shrink the window’s height.
+# Pressing down will grow the window’s height.
+bindsym j resize shrink width 10 px or 10 ppt
+bindsym k resize grow height 10 px or 10 ppt
+bindsym l resize shrink height 10 px or 10 ppt
+bindsym m resize grow width 10 px or 10 ppt
+
+# same bindings, but for the arrow keys
+bindsym Left resize shrink width 10 px or 10 ppt
+bindsym Down resize grow height 10 px or 10 ppt
+bindsym Up resize shrink height 10 px or 10 ppt
+bindsym Right resize grow width 10 px or 10 ppt
+
+# back to normal: Enter or Escape
+bindsym Return mode "default"
+bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+bar {
+    swaybar_command waybar
+}

@@ -1,5 +1,5 @@
 # Zprofile runs startx, then xinit run i3
 export MPD_HOST="$HOME/.config/mpd/mpd_socket"
 if [ -z "$DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -eq 1 ]; then
-    exec startx
+    exec sway
 fi
