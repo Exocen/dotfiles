@@ -23,11 +23,10 @@
             "sway/workspaces",
         "sway/mode"
         ],
-        //"modules-center": [
-            //"sway/window"
-        //],
+        "modules-center": [
+            "mpd",
+        ],
         "modules-right": [
-        "mpd",
         "pulseaudio",
         "network",
         "memory",
@@ -99,13 +98,13 @@
                 "paused": "",
                 "playing": ""
             },
-            "tooltip-format": "MPD (connected)",
+            "tooltip-format": "{elapsedTime}/{totalTime}",
             "tooltip-format-disconnected": "MPD (disconnected)"
         },
 
         "cpu": {
             "interval": 5,
-            "format": "  {usage}% ({load})", // Icon: microchip
+            "format": "  {usage:>3}% ({load:>3})", // Icon: microchip
             "states": {
                 "warning": 70,
                 "critical": 90
@@ -124,7 +123,7 @@
 
         "memory": {
             "interval": 5,
-            "format": " {}%", // Icon: memory
+            "format": " {percentage:>3}%", // Icon: memory
             "states": {
                 "warning": 70,
                 "critical": 90
