@@ -75,9 +75,12 @@
         },
 
         "mpd": {
-            "format": "{stateIcon} {artist} - {album} - {title}",
+            "format": "{stateIcon} {artist} - {title}",
             "format-disconnected": "Disconnected",
-            "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped",
+            "format-stopped": "Stopped",
+            "on-click": "mpc toggle",
+            "on-click-middle": "mpc prev",
+            "on-click-right": "mpc next",
             "interval": 10,
             "consume-icons": {
                 "on": " " // Icon shows only when "consume" is on
@@ -121,7 +124,7 @@
 
         "memory": {
             "interval": 5,
-            "format": "  {}%", // Icon: memory
+            "format": " {}%", // Icon: memory
             "states": {
                 "warning": 70,
                 "critical": 90
@@ -130,8 +133,8 @@
 
         "network": {
             "interval": 1,
-            //"max-length": 200,
-            "format-wifi": "  {essid} U {bandwidthUpOctets:<5} D {bandwidthDownOctets:<5}",
+            "interface":"wlo1",
+            "format-wifi": "  {essid} U {bandwidthUpOctets:<5} D {bandwidthDownOctets:<5} ",
             "format-ethernet": "  {ifname}: {ipaddr}/{cidr}", // Icon: ethernet
             "format-disconnected": "⚠  Disconnected",
             "tooltip-format": "{ifname}: {ipaddr}"
