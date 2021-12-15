@@ -2,13 +2,21 @@
 output DP-2 pos 2048 0 res 2560x1440
 output HDMI-A-1 pos 0 288 res 2048x1152
 
+workspace "1" output HDMI-A-1
+workspace "2" output DP-2
+
 # Startup apps
 
-# Unclutter (hidden pointer)
-exec --no-startup-id unclutter &
+# Hide cursor
+seat seat0 hide_cursor 3000
 
 # Internation us keyboard layout
-exec --no-startup-id setxkbmap -rules evdev -model evdev -layout us -variant intl
+input "type:keyboard" {
+    xkb_layout us
+    xkb_rules evdev
+    xkb_variant intl
+}
+
 
 # background
 assign [class="(?i)thunderbird"] 5
@@ -111,8 +119,6 @@ bindsym $mod+space focus mode_toggle
 
 # focus the child container
 # bindsym $mod+d focus child
-workspace "1" output HDMI-A-1
-workspace "2" output DP-2
 
 # switch to workspace
 bindsym $mod+1 workspace 1

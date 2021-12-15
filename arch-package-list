@@ -5,13 +5,11 @@ mesa
 # Amd CPU
 amd-ucode
 # WM
-i3-gaps rofi xorg-server xorg-xbacklight xorg-xinit xorg-xrandr gsfonts alsa-utils jsoncpp
-# Mouse pointer hide tool
-unclutter
+wayland sway rofi
 # Auto Brightness tools
 # clight
 # Utils
-numlockx acpi otf-ipafont mcomix
+acpi otf-ipafont mcomix
 # Archive tools
 p7zip zip unrar unzip
 # Power management
@@ -23,8 +21,6 @@ tig
 git-delta
 # Network top
 nethogs
-# Wallpaper
-# nitrogen
 # File Browser
 thunar
 # Terminal
@@ -36,11 +32,11 @@ vlc
 # Logitech mouse
 piper
 # Bluetooth
-blueman pipewire-pulse pipewire bluez-utils pulseaudio-alsa
+blueman pipewire-pulse pipewire bluez-utils pipewire-alsa
 # Music player
-mpd mpc ncmpc
-# Polybar
-polybar noto-fonts ttf-nerd-fonts-symbols-mono
+mpd mpc ncmpcpp
+# Waybar
+waybar noto-fonts ttf-nerd-fonts-symbols-mono
 # Vim addons
 vim-youcompleteme-git flake8
 # Sound app control
