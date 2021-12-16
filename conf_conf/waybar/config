@@ -134,14 +134,14 @@
         },
 
         "pulseaudio": {
-            "format": "{volume}% {icon}",
-            "format-bluetooth": "{volume}% {icon}",
+            "format": "{volume}%{icon}",
+            //"format-bluetooth": "{volume}% {icon}",
             "format-muted": "ﱝ",
             "format-source-muted":"ﱝ",
             "format-icons": {
                 "headphone": "",
                 "hands-free": "",
-                "headset": ["", ""],
+                "headset": [" ", " "],
                 "phone": "",
                 "portable": "",
                 "car": "",
