@@ -5,7 +5,7 @@ mesa
 # Amd CPU
 amd-ucode
 # WM
-wayland sway rofi-lbonn-wayland-git
+wayland sway rofi-lbonn-wayland-git xorg-xwayland
 # Auto Brightness tools
 # clight
 # Utils
