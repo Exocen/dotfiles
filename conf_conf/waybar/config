@@ -75,10 +75,10 @@
             "on-click-right": "mpc next",
             "interval": 10,
             "consume-icons": {
-                "on": " " // Icon shows only when "consume" is on
+                "on": " "
             },
             "random-icons": {
-                "off": "<span color=\"#f53c3c\"></span> ", // Icon grayed out when "random" is off
+                "off": "<span color=\"#f53c3c\"></span> ",
                 "on": " "
             },
             "repeat-icons": {
@@ -88,8 +88,8 @@
                 "on": "1 "
             },
             "state-icons": {
-                "paused": "",
-                "playing": ""
+                "paused": "",
+                "playing": "契"
             },
             "tooltip-format": "{elapsedTime}/{totalTime}",
             "tooltip-format-disconnected": "MPD (disconnected)"
@@ -155,7 +155,7 @@
             "critical-threshold": 80,
             "interval": 5,
             "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-            "format": "{icon}{temperatureC}°C",
+            "format": "{icon}{temperatureC:>3}°C",
             "format-icons": [
                 "", // Icon: temperature-empty
             "", // Icon: temperature-quarter
