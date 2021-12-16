@@ -50,7 +50,7 @@
 #waybar {
     background: #323232;
     color: white;
-    font-family: monospace;
+    font-family: monospace, NotoSansMono, SymbolsNerdFont;
     font-size: 13px;
 }
 
