@@ -65,7 +65,7 @@ bindsym $mod+Shift+A kill
 
 # Start dmenu (a program launcher)
 # bindsym $mod+d exec dmenu_run
-bindsym $mod+d exec --no-startup-id "rofi -modi window,drun,run,combi -show combi -show-icons -theme solarized -font 'hack 9'"
+bindsym $mod+d exec --no-startup-id "rofi -modi drun,run,combi -show combi -show-icons -theme solarized -font 'hack 9'"
 
 bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%- unmute
 bindsym XF86AudioMute        exec amixer -q set Master toggle
