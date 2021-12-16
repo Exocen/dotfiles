@@ -6,6 +6,8 @@ mesa
 amd-ucode
 # WM
 wayland sway rofi-lbonn-wayland-git xorg-xwayland
+# Waybar
+waybar noto-fonts ttf-nerd-fonts-symbols-mono
 # Auto Brightness tools
 # clight
 # Utils
@@ -35,8 +37,6 @@ piper
 blueman pipewire-pulse pipewire bluez-utils pipewire-alsa
 # Music player
 mpd mpc ncmpcpp
-# Waybar
-waybar noto-fonts ttf-nerd-fonts-symbols-mono
 # Vim addons
 vim-youcompleteme-git flake8
 # Sound app control
