@@ -186,7 +186,7 @@ alias apsearch='apt-cache search'
 alias aps='apt search'
 alias apse='apt-cache search -t experimental'
 alias apshow='apt-cache showpkg'
-alias aptpurge='sudo apt purge $(dpkg -l | grep "^rc" | awk "{print $2}") -y'
+alias aptpurge='sudo apt purge $(dpkg -l | grep "^rc" | awk \"{print $2}\") -y'
 
 # yay
 alias auri='yay -S'
