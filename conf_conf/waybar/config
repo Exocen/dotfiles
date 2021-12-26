@@ -89,8 +89,8 @@
                 "on": "1 "
             },
             "state-icons": {
-                "paused": "",
-                "playing": "契"
+                "paused": "<span color=\"#28b463\"></span>",
+                "playing": "<span color=\"#28b463\">契</span>"
             },
             "tooltip-format": "{elapsedTime}/{totalTime}",
             "tooltip-format-disconnected": "MPD (disconnected)"
