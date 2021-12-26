@@ -128,6 +128,7 @@ function basic_install() {
     # Basic packages
     ins vim git htop iftop iotop tree zsh make wget sudo rsync
     # ln -s home conf
+    # TODO no need zprofile non-dev
     home_folder home_conf
     # zsh
     git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
