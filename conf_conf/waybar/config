@@ -71,7 +71,7 @@
             //玲栗契怜凌
             "format": "{stateIcon} {artist} - {title}",
             "format-disconnected": "Disconnected",
-            "format-stopped": "<span color=\"#28b463\">栗</span> Stopped",
+            "format-stopped": "",
             "on-click": "mpc toggle",
             "on-click-middle": "mpc prev",
             "on-click-right": "mpc next",
@@ -140,7 +140,7 @@
         },
 
         "pulseaudio": {
-            "format": "<span color=\"#b9770e\">{icon}</span>{volume:>3}%",
+            "format": "<span color=\"#28b463\">{icon}</span>{volume:>3}%",
             //"format-bluetooth":"{volume}% {icon}",
             "format-muted": "ﱝ",
             "format-source-muted":"ﱝ",
