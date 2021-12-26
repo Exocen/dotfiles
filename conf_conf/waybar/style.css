@@ -157,10 +157,6 @@
     color: rgb(102, 220, 105);
 }
 
-#temperature {
-    /* No styles */
-}
-
 #temperature.critical {
     color: red;
 }

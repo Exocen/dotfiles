@@ -30,7 +30,8 @@
             "pulseaudio",
         "network",
         "memory",
-        "cpu",
+        "cpu#core",
+        "cpu#load",
         "temperature",
         "clock"
         ],
@@ -62,14 +63,14 @@
 
         "clock": {
             "interval": 1,
-            "format": " {:%F  %H:%M:%S}",
+            "format": "<span color=\"#909497\"></span> {:%F <span color=\"#909497\"></span> %H:%M:%S}",
             "tooltip": false
         },
 
         "mpd": {
             "format": "{stateIcon} {artist} - {title}",
             "format-disconnected": "Disconnected",
-            "format-stopped": "Stopped",
+            "format-stopped": "",
             "on-click": "mpc toggle",
             "on-click-middle": "mpc prev",
             "on-click-right": "mpc next",
@@ -95,18 +96,22 @@
             "tooltip-format-disconnected": "MPD (disconnected)"
         },
 
-        "cpu": {
+        "cpu#core": {
             "interval": 5,
-            "format": "{usage:>3}%  {load:>4}",
+            "format": "<span color=\"#d4ac0d\"></span>{usage:>3}%",
             "states": {
                 "warning": 70,
                 "critical": 90
             }
         },
+        "cpu#load": {
+            "interval": 5,
+            "format": "<span color=\"#2e86c1\"></span> {load:>4}",
+        },
 
         "memory": {
             "interval": 5,
-            "format": "{percentage:>3}%",
+            "format": "<span color=\"#138d75\"></span>{percentage:>3}%",
             "states": {
                 "warning": 70,
                 "critical": 90
@@ -116,7 +121,7 @@
         "network": {
             "interval": 4,
             "interface":"wlo1",
-            "format-wifi": " {essid} {bandwidthUpOctets:<4} {bandwidthDownOctets:<4}",
+            "format-wifi": "<span color=\"#9b59b6\"></span> {essid} <span color=\"#9b59b6\"></span>{bandwidthUpOctets:<4} <span color=\"#9b59b6\"></span>{bandwidthDownOctets:<4}",
             "format-ethernet": "  {ifname}: {ipaddr}/{cidr}",
             "format-disconnected": "⚠  Disconnected",
             "tooltip-format": "{ifname}: {ipaddr}"
@@ -134,8 +139,8 @@
         },
 
         "pulseaudio": {
-            "format": "{volume}%{icon}",
-            //"format-bluetooth": "{volume}% {icon}",
+            "format": "<span color=\"#b9770e\">{icon}</span>{volume:>3}%",
+            //"format-bluetooth":"{volume}% {icon}",
             "format-muted": "ﱝ",
             "format-source-muted":"ﱝ",
             "format-icons": {
@@ -155,7 +160,7 @@
             "critical-threshold": 80,
             "interval": 5,
             "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-            "format": "{icon}{temperatureC:>3}°C",
+            "format": "<span color=\"#a93226\">{icon}</span>{temperatureC:>3}°C",
             "format-icons": [
                 "", // Icon: temperature-empty
             "", // Icon: temperature-quarter
