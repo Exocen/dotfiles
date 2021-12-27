@@ -129,8 +129,8 @@ function basic_install() {
     ins vim git htop iftop iotop tree zsh make wget sudo rsync
     # zsh
     ln -sfn $LOCAL/home_conf/zshrc  ~/.zshrc
-    git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
-    git_clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+    git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh --depth 1
+    git_clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k --depth 1
     sudo chsh -s /usr/bin/zsh $USER
     # vimrc
     git_clone https://github.com/exocen/vim-conf ~/.vim_runtime
