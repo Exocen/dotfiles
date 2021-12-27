@@ -127,10 +127,8 @@ function basic_install() {
     info "Basic installation"
     # Basic packages
     ins vim git htop iftop iotop tree zsh make wget sudo rsync
-    # ln -s home conf
-    # TODO no need zprofile non-dev
-    home_folder home_conf
     # zsh
+    ln -sfn $LOCAL/home_conf/zshrc  ~/.zshrc
     git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
     git_clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
     sudo chsh -s /usr/bin/zsh $USER
@@ -149,8 +147,8 @@ function dev_env_install() {
             if [ -f "$file" ]; then
                 info "Arch dev inv installation"
                 # .config links
+                ln -sfn $LOCAL/home_conf/zprofile  ~/.zprofile
                 conf_folder conf_conf
-                # TODO add manual confs powertop + i3sleep + tlp + add package check before install
                 list=""
                 while IFS= read -r line; do
                     char=$(echo $line | head -c1)

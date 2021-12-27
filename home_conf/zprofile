@@ -1,9 +1,7 @@
 export MPD_HOST="$HOME/.config/mpd/mpd_socket"
+
 if [ -z "$DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -eq 1 ]; then
-    exec sway
-fi
-if [ "$XDG_SESSION_DESKTOP" = "sway" ] ; then
-    # https://github.com/swaywm/sway/issues/595
     export QT_QPA_PLATFORM=wayland
     export _JAVA_AWT_WM_NONREPARENTING=1
+    exec sway
 fi
