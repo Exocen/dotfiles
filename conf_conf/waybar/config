@@ -33,7 +33,7 @@
         "cpu#core",
         "cpu#load",
         "temperature",
-        "clock"
+       "clock"
         ],
 
 
@@ -49,7 +49,7 @@
             },
             // Connected to AC
             "format": "  {icon}  {capacity}%", // Icon: bolt
-            // Not connected to AC
+                                                // Not connected to AC
             "format-discharging": "{icon}  {capacity}%",
             "format-icons": [
                 "", // Icon: battery-full
