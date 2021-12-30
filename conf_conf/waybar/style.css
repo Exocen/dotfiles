@@ -110,6 +110,10 @@
     color: red;
 }
 
+#pulseaudio.muted {
+    color:#909497;
+}
+
 #memory {
     animation-timing-function: linear;
     animation-iteration-count: infinite;
