@@ -29,11 +29,15 @@
         "modules-right": [
             "pulseaudio",
         "network",
+        "network#up",
+        "network#down",
         "memory",
         "cpu#core",
         "cpu#load",
         "temperature",
-       "clock"
+        "clock#date",
+        "clock#time",
+        "custom/capslock-status"
         ],
 
 
@@ -61,11 +65,23 @@
             "tooltip": true
         },
 
-        "clock": {
+        "clock#time": {
             "interval": 1,
-            "format": "<span color=\"#909497\"></span> {:%F <span color=\"#909497\"></span> %H:%M:%S}",
+            "format": "<span color=\"#909497\"></span> {:%H:%M:%S}",
             "tooltip": false
         },
+
+        "clock#date": {
+            "interval": 60,
+            "format": "<span color=\"#909497\"></span> {:%F}",
+            "tooltip": false
+        },
+
+        "custom/capslock-status": {
+            "exec": "~/.config/waybar/keyboard-state",
+            "restart-interval": 1
+        },
+
 
         "mpd": {
             //玲栗契怜凌
@@ -105,6 +121,7 @@
                 "critical": 90
             }
         },
+
         "cpu#load": {
             "interval": 5,
             "format": "<span color=\"#2e86c1\"></span> {load:>4}",
@@ -122,10 +139,22 @@
         "network": {
             "interval": 4,
             "interface":"wlo1",
-            "format-wifi": "<span color=\"#9b59b6\"></span> {essid} <span color=\"#9b59b6\"></span>{bandwidthUpOctets:<4} <span color=\"#9b59b6\"></span>{bandwidthDownOctets:<4}",
+            "format-wifi": "<span color=\"#9b59b6\"></span> {essid}",
             "format-ethernet": "  {ifname}: {ipaddr}/{cidr}",
             "format-disconnected": "⚠  Disconnected",
             "tooltip-format": "{ifname}: {ipaddr}"
+        },
+
+        "network#down": {
+            "interval": 2,
+            "interface":"wlo1",
+            "format-wifi": "<span color=\"#9b59b6\"></span>{bandwidthDownOctets:<4}",
+        },
+
+        "network#up": {
+            "interval": 2,
+            "interface":"wlo1",
+            "format-wifi": "<span color=\"#9b59b6\"></span>{bandwidthUpOctets:<4}",
         },
 
         "sway/workspaces": {
