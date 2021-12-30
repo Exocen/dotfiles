@@ -57,6 +57,7 @@
 /* Each module */
 #clock,
 #cpu,
+#mpd,
 #custom-capslock-status,
 #memory,
 #mode,

@@ -67,14 +67,14 @@
 
         "clock#time": {
             "interval": 1,
-            "format": "<span color=\"#909497\"></span> {:%H:%M:%S}",
+            "format": "<span color=\"#909497\"></span> {:%T}",
             "tooltip": false
         },
 
         "clock#date": {
             "interval": 60,
             "format": "<span color=\"#909497\"></span> {:%F}",
-            "tooltip": false
+            "tooltip-format":"{:%Y %B %A}"
         },
 
         "custom/capslock-status": {
@@ -109,7 +109,7 @@
                 "paused": "<span color=\"#28b463\"></span>",
                 "playing": "<span color=\"#28b463\">契</span>"
             },
-            "tooltip-format": "{elapsedTime}/{totalTime}",
+            "tooltip-format": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon} {elapsedTime}/{totalTime} - {songPosition}/{queueLength}",
             "tooltip-format-disconnected": "MPD (disconnected)"
         },
 
@@ -125,6 +125,7 @@
         "cpu#load": {
             "interval": 5,
             "format": "<span color=\"#2e86c1\"></span> {load:>4}",
+            "tooltip": false
         },
 
         "memory": {
@@ -149,12 +150,14 @@
             "interval": 2,
             "interface":"wlo1",
             "format-wifi": "<span color=\"#9b59b6\"></span>{bandwidthDownOctets:<4}",
+            "tooltip-format": "{bandwidthDownBits}"
         },
 
         "network#up": {
             "interval": 2,
             "interface":"wlo1",
             "format-wifi": "<span color=\"#9b59b6\"></span>{bandwidthUpOctets:<4}",
+            "tooltip-format": "{bandwidthUpBits}"
         },
 
         "sway/workspaces": {
