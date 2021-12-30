@@ -80,12 +80,14 @@
 
         "custom/capslock-status": {
             "exec": "~/.config/waybar/keyboard-state",
-            "restart-interval": 1
+            "restart-interval": 1,
+            "tooltip": false
         },
 
         "custom/vpn-status": {
             "exec": "~/.config/waybar/vpn-state",
-            "restart-interval": 5
+            "restart-interval": 5,
+            "tooltip": false
         },
 
 
