@@ -110,7 +110,7 @@
     color: red;
 }
 
-#pulseaudio.muted {
+#pulseaudio.muted, #custom-capslock-status {
     color:#909497;
 }
 
