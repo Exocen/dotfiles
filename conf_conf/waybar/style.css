@@ -58,9 +58,9 @@
 #clock,
 #cpu,
 #mpd,
+#custom-vpn-status,
 #custom-capslock-status,
 #memory,
-#mode,
 #network,
 #pulseaudio,
 #temperature,
@@ -98,10 +98,8 @@
     animation-duration: 2s;
 }
 
-#clock {
-}
-
-#cpu {
+#custom-vpn-status {
+    color:#9b59b6;
 }
 
 #cpu.warning {
@@ -131,7 +129,6 @@
 #network.disconnected {
     color: orange;
 }
-
 
 #temperature.critical {
     color: red;

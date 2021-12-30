@@ -28,6 +28,7 @@
         ],
         "modules-right": [
             "pulseaudio",
+        "custom/vpn-status",
         "network",
         "network#up",
         "network#down",
@@ -80,6 +81,11 @@
         "custom/capslock-status": {
             "exec": "~/.config/waybar/keyboard-state",
             "restart-interval": 1
+        },
+
+        "custom/vpn-status": {
+            "exec": "~/.config/waybar/vpn-state",
+            "restart-interval": 5
         },
 
 

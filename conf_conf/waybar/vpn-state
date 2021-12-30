@@ -1,0 +1,9 @@
+#!/bin/bash
+
+status=`find /sys/class/net/ -iname '*vpn*' | grep . &>/dev/null ; echo $?`
+
+if [ $status == 0 ]; then
+    echo '廬'
+else
+    echo ''
+fi
