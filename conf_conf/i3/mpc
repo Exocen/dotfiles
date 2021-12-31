@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-mpc $1 -h $MPD_HOST &>/dev/null
