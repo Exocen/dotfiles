@@ -36,6 +36,7 @@
         "cpu#core",
         "cpu#load",
         "temperature",
+        "custom/gpu-temp",
         "clock#date",
         "clock#time",
         "custom/capslock-status"
@@ -86,6 +87,20 @@
 
         "custom/vpn-status": {
             "exec": "~/.config/waybar/vpn-state",
+            "restart-interval": 5,
+            "tooltip": false
+        },
+
+        "custom/gpu-temp": {
+            "exec": "~/.config/waybar/gpu-temp amd",
+            "format":"<span color=\"#d68910\">{icon}</span>{:>3}°C",
+            "format-icons": [
+                "", // Icon: temperature-empty
+            "", // Icon: temperature-quarter
+            "", // Icon: temperature-half
+            "", // Icon: temperature-three-quarters
+            ""  // Icon: temperature-full
+            ],
             "restart-interval": 5,
             "tooltip": false
         },

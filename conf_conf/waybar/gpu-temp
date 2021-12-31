@@ -1,0 +1,13 @@
+#!/bin/bash -
+
+if [ $# -eq 0 ]
+  then
+    echo "No arguments supplied"
+    exit
+fi
+
+if [ $1 == "amd" ]; then
+    echo `sensors amdgpu-pci-0b00 -u | grep temp1_input | cut -b 16-17`
+elif [ $1 == "nvidia" ]; then
+    echo `nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader`
+fi
