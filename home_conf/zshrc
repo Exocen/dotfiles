@@ -127,7 +127,6 @@ alias rmte='find . -empty -type d'
 alias rmted='find . -empty -type d -delete -print'
 alias x='exit'
 alias sx='startx'
-alias finame='find * -iname '
 alias kbfr='setxkbmap fr'
 alias kbus='setxkbmap us'
 alias kbint='setxkbmap -rules evdev -model evdev -layout us -variant intl'
@@ -219,6 +218,11 @@ function del() {
 function c() {
     cd "$@"
     ls -CFh --group-directories-first
+}
+
+# find file in current folder
+function finame(){
+    find * -iname '*'$1'*'
 }
 
 # make your directories and files access rights sane.
