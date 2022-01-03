@@ -41,17 +41,6 @@ bindsym $mod+p exec firefox -private-window
 # Lock
 bindsym $mod+l exec systemctl suspend
 
-# mpd control
-bindsym $mod+F1 exec mpc toggle
-bindsym $mod+F2 exec mpc prev
-bindsym $mod+F3 exec mpc next
-bindsym $mod+F4 exec mpc stop
-
-bindsym XF86AudioPlay exec mpc toggle
-bindsym XF86AudioPrev exec mpc prev
-bindsym XF86AudioNext exec mpc next
-bindsym XF86AudioStop exec mpc stop
-
 # File Browser
 bindsym $mod+n exec thunar
 
@@ -61,13 +50,27 @@ bindsym $mod+Shift+A kill
 # Start app launcher
 bindsym $mod+d exec "rofi -modi drun,run,combi -show combi -show-icons -theme solarized -font 'hack 9'"
 
+# mpd control
+bindsym $mod+F1 exec mpc toggle
+bindsym $mod+F2 exec mpc prev
+bindsym $mod+F3 exec mpc next
+bindsym $mod+F4 exec mpc stop
+
+# volume control
+
+bindsym XF86AudioPlay exec mpc toggle
+bindsym XF86AudioPrev exec mpc prev
+bindsym XF86AudioNext exec mpc next
+bindsym XF86AudioStop exec mpc stop
+
 bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%- unmute
 bindsym XF86AudioMute        exec amixer -q set Master toggle
 bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 5%+ unmute
+bindsym $mod+F5 exec amixer -q set Master toggle
 
 # Screen brightness controls
-bindsym XF86MonBrightnessUp exec sudo light -A 10 # increase screen brightness
-bindsym XF86MonBrightnessDown exec sudo light -U 10 # decrease screen brightnes
+# bindsym XF86MonBrightnessUp exec sudo light -A 10 # increase screen brightness
+# bindsym XF86MonBrightnessDown exec sudo light -U 10 # decrease screen brightnes
 
 # Change focus
 
