@@ -143,26 +143,29 @@ function basic_install() {
 
 function dev_env_install() {
     if [ "$WOS" = "arch" ]; then
-        {
-            file="$LOCAL/arch-package-list"
-            if [ -f "$file" ]; then
-                info "Arch dev inv installation"
-                # .config links
-                ln -sfn $LOCAL/home_conf/zprofile  ~/.zprofile
-                conf_folder conf_conf
-                list=""
-                while IFS= read -r line; do
-                    char=$(echo $line | head -c1)
-                    if [ "$char" != "#" ]; then
-                        list="$list $line"
-                    fi
-                done <"$file"
+        seek_confirmation 'Install Dev Env ?'
+        if is_confirmed; then
+            {
+                file="$LOCAL/arch-package-list"
+                if [ -f "$file" ]; then
+                    info "Arch dev inv installation"
+                    # .config links
+                    ln -sfn $LOCAL/home_conf/zprofile  ~/.zprofile
+                    conf_folder conf_conf
+                    list=""
+                    while IFS= read -r line; do
+                        char=$(echo $line | head -c1)
+                        if [ "$char" != "#" ]; then
+                            list="$list $line"
+                        fi
+                    done <"$file"
 
-                aur_ins $list
-            else
-                error "Missing $file"
-            fi
-        }
+                    aur_ins $list
+                else
+                    error "Missing $file"
+                fi
+            }
+        fi
     else
         {
             error "Arch OS is needed for this installation"
@@ -179,12 +182,7 @@ function mainScript() {
     fi
     detectOS
     basic_install
-    if [ "$WOS" = "arch" ]; then
-        seek_confirmation 'Install Dev Env ?'
-        if is_confirmed; then
-            dev_env_install
-        fi
-    fi
+    dev_env_install
 }
 
 function trapCleanup() {
@@ -269,8 +267,8 @@ optstring=h
 unset options
 while (($#)); do
     case $1 in
-    # If option is of type -ab
-    -[!-]?*)
+        # If option is of type -ab
+        -[!-]?*)
         # Loop over each character starting with the second
         for ((i = 1; i < ${#1}; i++)); do
             c=${1:i:1}
@@ -293,8 +291,8 @@ while (($#)); do
     --) options+=(--endopts) ;;
     # Otherwise, nothing special
     *) options+=("$1") ;;
-    esac
-    shift
+esac
+shift
 done
 set -- "${options[@]}"
 unset options
@@ -307,21 +305,21 @@ unset options
 # Read the options and set stuff
 while [[ $1 = -?* ]]; do
     case $1 in
-    -h | --help)
-        usage >&2
-        safeExit
-        ;;
-    -v | --verbose) verbose=true ;;
-    -l | --log) printLog=true ;;
-    -q | --quiet) quiet=true ;;
-    -d | --debug) debug=true ;;
-    -f | --force) force=true ;;
-    -y | --noconfirm) noconfirm=true ;;
-    --endopts)
-        shift
-        break
-        ;;
-    *) die "invalid option: '$1'." ;;
+        -h | --help)
+            usage >&2
+            safeExit
+            ;;
+        -v | --verbose) verbose=true ;;
+        -l | --log) printLog=true ;;
+        -q | --quiet) quiet=true ;;
+        -d | --debug) debug=true ;;
+        -f | --force) force=true ;;
+        -y | --noconfirm) noconfirm=true ;;
+        --endopts)
+            shift
+            break
+            ;;
+        *) die "invalid option: '$1'." ;;
     esac
     shift
 done
