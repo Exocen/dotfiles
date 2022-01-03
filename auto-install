@@ -166,12 +166,7 @@ function dev_env_install() {
                 fi
             }
         fi
-    else
-        {
-            error "Arch OS is needed for this installation"
-        }
     fi
-
 }
 
 function mainScript() {
