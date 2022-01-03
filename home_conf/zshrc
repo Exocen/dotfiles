@@ -57,8 +57,6 @@ source $ZSH/oh-my-zsh.sh
 # systemd plug -> sc-cmd
 # sudo plug -> ESC * 2
 
-POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
-
 # user configuration omz
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
