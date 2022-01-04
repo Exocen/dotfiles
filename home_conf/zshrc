@@ -1,6 +1,4 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -143,15 +141,12 @@ alias lgt='pkill KILL -U'
 alias py='python3'
 alias py3='python3'
 alias py2='python2'
-alias ipy='ipython3'
 alias pl='perl -d -e 1'
 alias jar='java -jar'
 alias am='alsamixer'
-alias em='emacs -nw'
 alias tre='tree -C --dirsfirst'
 alias rmcache='rm -rf ~/.cache/'
 alias fuspaces='for f in *\ *; do mv "$f" "${f// /_}"; done '
-alias grubconfgenq='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
 alias openvpnconf='sudo openvpn --config'
 alias viewtar='tar -tf'
 alias myip='curl ipinfo.io/ip'
