@@ -174,13 +174,17 @@
             "interval": 2,
             "interface":"wlo1",
             "format-wifi": "<span color=\"#9b59b6\"></span>{bandwidthDownOctets:<4}",
+            "format-disconnected": "",
+            "format-linked": "",
             "tooltip-format": "{bandwidthDownBits}"
         },
 
         "network#up": {
             "interval": 2,
             "interface":"wlo1",
+            "format-disconnected": "",
             "format-wifi": "<span color=\"#9b59b6\"></span>{bandwidthUpOctets:<4}",
+            "format-linked": "",
             "tooltip-format": "{bandwidthUpBits}"
         },
 
