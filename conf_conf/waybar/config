@@ -39,6 +39,7 @@
         "custom/gpu-temp",
         "clock#date",
         "clock#time",
+        "tray",
         "custom/capslock-status"
         ],
 
@@ -228,9 +229,7 @@
         },
 
         "tray": {
-            "icon-size": 21,
+            "icon-size": 15,
             "spacing": 10
         }
-
 }
-
