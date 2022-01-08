@@ -64,8 +64,7 @@
 #memory,
 #network,
 #pulseaudio,
-#temperature,
-#tray {
+#temperature{
     padding-left: 0;
     padding-right: 15px;
 }
@@ -155,6 +154,10 @@
     border-color: #4c7899;
     color: white;
     background-color: #285577;
+}
+
+#tray {
+    padding-left: 15px;
 }
 
 #workspaces button.urgent {

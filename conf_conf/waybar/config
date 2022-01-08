@@ -21,7 +21,8 @@
 
         "modules-left": [
             "sway/workspaces",
-        "sway/mode"
+        "sway/mode",
+        "tray"
         ],
         "modules-center": [
             "mpd",
@@ -39,7 +40,6 @@
         "custom/gpu-temp",
         "clock#date",
         "clock#time",
-        "tray",
         "custom/capslock-status"
         ],
 
