@@ -148,7 +148,7 @@
 
         "cpu#load": {
             "interval": 5,
-            "format": "<span color=\"#2e86c1\"></span> {load:>4}",
+            "format": "<span color=\"#2e86c1\"></span> {load:<5}",
             "tooltip": false
         },
 
@@ -190,7 +190,7 @@
 
         "sway/workspaces": {
             "all-outputs": false,
-            "disable-scroll": true,
+            "disable-scroll": false,
             "format": "{icon} {name}",
             "format-icons": {
                 "urgent": "",
@@ -218,7 +218,7 @@
         },
 
         "temperature": {
-            "critical-threshold": 80,
+            "critical-threshold": 85,
             "interval": 5,
             "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
             "format": "<span color=\"#a93226\">{icon}</span>{temperatureC:>3}°C",
