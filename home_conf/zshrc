@@ -206,7 +206,7 @@ alias dnfupg='sudo dnf upgrade'
 
 # move args to tmp (with copy conservation)
 function del() {
-    for file in "$@"; do mv --backup=t "$file" /tmp/; done
+    for file in "$@"; do mv --backup=t "$file" /var/tmp/; done
 }
 
 # builtin cd "$*"
