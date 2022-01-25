@@ -15,7 +15,8 @@ acpi otf-ipafont mcomix
 # Archive tools
 p7zip zip unrar unzip
 # Power management
-tlp acpi
+# tlp
+acpi
 # Git Browser
 tig
 # diff + git diff addon
