@@ -149,7 +149,7 @@ alias rmcache='rm -rf ~/.cache/'
 alias fuspaces='for f in *\ *; do mv "$f" "${f// /_}"; done '
 alias openvpnconf='sudo openvpn --config'
 alias viewtar='tar -tf'
-alias myip='curl ipinfo.io/ip'
+alias myip='echo `curl -s ipinfo.io/ip`'
 
 # rsync
 alias rscp='rsync --archive -hh --partial --append-verify --info=stats1 --info=progress2 --modify-window=1'
