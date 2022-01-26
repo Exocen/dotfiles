@@ -8,7 +8,12 @@ sudo iptables -A PREROUTING -t nat -p tcp --dport {PORT_SOURCE} -j DNAT --to-des
 sudo iptables -A POSTROUTING -t nat -p tcp --dport {PORT_DESTINATION} -j SNAT --to-source {IP_SOURCE:PORT_SOURCE}
 
 # Display rules
+# iptables -S or
 sudo iptables -t nat -L -n -v
+
+# Network {interface} kill switch for {user/group}
+# --uid-owner user OR  --gid-owner group
+sudo iptables -A OUTPUT ! -o {interface} -m mark ! --mark $(sudo wg show {interface} fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner {user} -j REJECT
 
 # Save rules
 sudo iptables-save > /etc/iptables/iptables.rules
