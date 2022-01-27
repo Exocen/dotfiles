@@ -5,7 +5,7 @@ import re
 import os.path
 import sys
 
-t = "https://www.youtube.com/watch?v=dMxXn_rCgvI"
+t = "PLAecd6qz5DFlaOXEmNifThzG-8mOSyyKU"
 filename = None
 
 year = date.today().strftime('%Y')
@@ -45,6 +45,14 @@ ydl_opts = {
 }
 
 with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-    ydl.download([t])
+    result = ydl.extract_info(t, download=False)
+    for k in result['entries']:
+        print(k['id'])
 
-convert(filename)
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl2:
+        print(ydl.extract_info(result['entries'][0]['id'], download=False)['title'])
+
+# with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+#     ydl.download([t])
+
+# convert(filename)
