@@ -1,6 +1,7 @@
 # Outputs
 output DP-2 pos 2048 0 res 2560x1440
 output HDMI-A-1 pos 0 288 res 2048x1152
+output * bg #000000 solid_color
 
 workspace "1" output HDMI-A-1
 workspace "2" output DP-2
