@@ -9,7 +9,7 @@ t = "PLAecd6qz5DFlaOXEmNifThzG-8mOSyyKU"
 audio_format = "flac"
 audio_data_list = []
 
-#create and delete this
+# create and delete this
 temp_dest = '~/tmp_files'
 
 year = date.today().strftime('%Y')
@@ -26,6 +26,7 @@ ydl_opts = {
     # 'progress_hooks': [my_hook],
 }
 # todo rem outtmpl and metafromtile
+
 
 class audio_data:
     artist = ''
@@ -45,8 +46,10 @@ class audio_data:
         return self.artist + ' - ' + self.title + '.' + audio_format
 
 
-#dl all one with
+# dl all one with
 def dl_list(audio_datas):
+    # with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+    #     ydl.download([t])
     # getfilepath
     pass
 
@@ -57,28 +60,28 @@ def tag_and_move(audio_data):
         if audio_data.artist:
             filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename)
             try:
-               meta = mutagen.easyid3.EasyID3(filepath)
+                meta = mutagen.easyid3.EasyID3(filepath)
             except mutagen.id3.ID3NoHeaderError:
                 meta = mutagen.File(filepath, easy=True)
                 meta['title'] = audio_data.title
                 meta['artist'] = audio_data.artist
                 meta.save()
-        #move file BUT NOT OVERWRITE
+        # move file BUT NOT OVERWRITE
 
 
 def sort_stuff(title):
     # full dict_title_by_id
     # for filename in dict_title_by_audio:
-    # compare get_filename with existing files or csv list
-    # take the rest and compare with
-    # dict_title_by_audio.pop(title, None)
+    # check file_list.csv exist if not generate (file list for dest)
+    # compare get_filename with file_list.csv
+    # keep not existing files
     pass
 
 
 def my_hook(d):
     if d['status'] == 'finished':
         # find and select audiodata , then add filepath :
-        filename.append(os.path.splitext(d['filename'])[0]+'.'+audio_format)
+        pass
 
 
 with youtube_dl.YoutubeDL(ydl_opts) as ydl:
@@ -88,8 +91,3 @@ with youtube_dl.YoutubeDL(ydl_opts) as ydl:
 
     with youtube_dl.YoutubeDL(ydl_opts) as ydl2:
         print(ydl.extract_info(result['entries'][0]['id'], download=False)['title'])
-
-# with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-#     ydl.download([t])
-
-# convert(filename)
