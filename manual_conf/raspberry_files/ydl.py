@@ -11,6 +11,7 @@ audio_data_list = []
 
 # create and delete this
 temp_dest = '~/tmp_files'
+# file_list_path = /run/user/$uid/file_list
 
 year = date.today().strftime('%Y')
 
