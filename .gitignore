@@ -13,3 +13,4 @@ cache/
 .gmx-private
 conf_conf/mpd/*
 !conf_conf/mpd/mpd.conf
+.vscode
