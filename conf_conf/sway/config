@@ -6,6 +6,10 @@ output * bg #000000 solid_color
 workspace "1" output HDMI-A-1
 workspace "2" output DP-2
 
+set $opacity 0.9
+# for_window [class=".*"] opacity $opacity
+for_window [app_id="Alacritty"] opacity $opacity
+
 # Startup apps
 
 # Hide cursor
