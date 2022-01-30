@@ -13,7 +13,7 @@ from tempfile import mkdtemp
 audio_format = "flac"
 # User tmp
 tmp_dir = path.normpath(environ.get("XDG_RUNTIME_DIR"))
-# Should be removed before script end
+# Should be removed before successfull script end
 pytemp_dir = mkdtemp(dir=tmp_dir)
 playlist_id = sys.argv[-1]
 playlist_path_location = sys.argv[-2]
@@ -35,8 +35,6 @@ ydl_opts = {
 
 
 class Audio_data:
-    artist = ""
-
     def __init__(self, title, yid):
         self.title = title
         self.yid = yid
@@ -44,17 +42,11 @@ class Audio_data:
         if len(parsed_title) > 0 and len(parsed_title[0]) == 2:
             self.artist = parsed_title[0][0]
             self.title = parsed_title[0][1]
-
-    @property
-    def filename(self):
-        if not self.artist:
-            return self.title + "." + audio_format
-        return self.artist + " - " + self.title + "." + audio_format
-
-    @property
-    # Src Filepath
-    def filepath(self):
-        return path.join(pytemp_dir, self.filename)
+            self.filename = self.artist + " - " + self.title + "." + audio_format
+        else:
+            self.artist = None
+            self.filename = self.title + "." + audio_format
+        self.filepath = path.join(pytemp_dir, self.filename)
 
 
 def dl_list(audio_data_list):
