@@ -15,5 +15,12 @@ iptables -t nat -L -n -v
 # --uid-owner user OR  --gid-owner group
 iptables -A OUTPUT ! -o {interface} -m mark ! --mark $( wg show {interface} fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner {user} -j REJECT
 
+
+# Wireguard killswitch sample:
+# Add to [Interface]
+#PostUp  =  iptables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner {USER} -j REJECT &&          >  \ip6tables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner {USER} -j REJECT
+# PreDown = iptables -D OUTPUT ! -o %i -m mark ! --mark $(wg show  %i fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner {USER} -j REJECT &&          >  \ip6tables -D OUTPUT ! -o %i -m mark ! --mark $(wg show  %i fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner {USER} -j REJECT
+#sc-start/enable wg-quick@interface.service
+
 # Save rules
 iptables-save > /etc/iptables/iptables.rules
