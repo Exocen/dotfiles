@@ -103,7 +103,7 @@ def write_title_list(file_path):
 def main():
 
     # Dl infos only
-    infos = extract_info(playlist_id)
+    infos = extract_info()
     playlist_title = infos["title"]
     file_list_path = path.join(tmp_dir, playlist_title + ".cvs")
 
