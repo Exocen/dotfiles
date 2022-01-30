@@ -112,7 +112,7 @@ def main():
     for info in infos["entries"]:
         audio_data_list.append(Audio_data(info["title"], info["id"]))
 
-    existing_title_list = generate_file_list(file_list_path,)
+    existing_title_list = generate_file_list(file_list_path)
 
     audio_data_list = list(
         filter(lambda a: a.filename not in existing_title_list, audio_data_list)
