@@ -8,7 +8,9 @@ from mutagen.easyid3 import EasyID3
 from os import path, environ, listdir
 from tempfile import mkdtemp
 
-# Usage ./Script dest-dir pid
+if len(sys.argv) != 3:
+    print("Usage ./Script dest-dir id")
+    quit()
 
 audio_format = "flac"
 # User tmp
