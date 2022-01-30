@@ -8,7 +8,7 @@ from mutagen.easyid3 import EasyID3
 from os import path, environ, listdir
 from tempfile import mkdtemp
 
-# Usage ./Script dest-dir yid
+# Usage ./Script dest-dir pid
 
 audio_format = "flac"
 # User tmp
@@ -35,9 +35,9 @@ ydl_opts = {
 
 
 class Audio_data:
-    def __init__(self, title, yid):
+    def __init__(self, title, pid):
         self.title = title
-        self.yid = yid
+        self.pid = pid
         parsed_title = re.findall(r"(.*?)\s*-\s*(.*)", title)
         if len(parsed_title) > 0 and len(parsed_title[0]) == 2:
             self.artist = parsed_title[0][0]
@@ -51,7 +51,7 @@ class Audio_data:
 
 def dl_list(audio_data_list):
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([audio_data.yid for audio_data in audio_data_list])
+        ydl.download([audio_data.pid for audio_data in audio_data_list])
 
 
 def extract_info():
@@ -59,7 +59,7 @@ def extract_info():
         return ydl.extract_info(playlist_id, download=False)
 
 
-def tag_and_move(audio_data_list):
+def tag_and_copy(audio_data_list):
     for audio_data in audio_data_list:
         if audio_data.filepath:
             dest_path = path.join(playlist_path_location, audio_data.filename)
@@ -113,7 +113,7 @@ def main():
     # Dl and tag missing
     if audio_data_list:
         dl_list(audio_data_list)
-        tag_and_move(audio_data_list)
+        tag_and_copy(audio_data_list)
 
     # Create fast save
     write_title_list(file_list_path)
