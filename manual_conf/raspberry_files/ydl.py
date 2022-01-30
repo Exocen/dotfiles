@@ -1,11 +1,11 @@
-import mutagen
-from mutagen.easyid3 import EasyID3
-import youtube_dl
 import re
 import sys
-from os import path, environ, listdir
 import csv
 import shutil
+import youtube_dl
+import mutagen
+from mutagen.easyid3 import EasyID3
+from os import path, environ, listdir
 from tempfile import mkdtemp
 
 # Usage ./Script dest-dir yid
@@ -15,14 +15,10 @@ audio_format = "flac"
 tmp_dir = path.normpath(environ.get("XDG_RUNTIME_DIR"))
 # Should be removed before script end
 pytemp_dir = mkdtemp(dir=tmp_dir)
-filepath_by_title = dict()
+playlist_id = sys.argv[-1]
+playlist_path_location = sys.argv[-2]
 
-
-def my_hook(v):
-    if v["status"] == "finished":
-        print("hook: " + v["filename"])
-        filepath_by_title[path.basename(v["filename"])] = v["filename"]
-
+# TODO ADD options rng + sleep + stuff
 
 ydl_opts = {
     "extractaudio": True,
@@ -34,7 +30,6 @@ ydl_opts = {
         }
     ],
     "outtmpl": pytemp_dir + "/%(title)s.%(ext)s",
-    "progress_hooks": [my_hook],
     "keepvideo": True,
 }
 
@@ -67,16 +62,16 @@ def dl_list(audio_data_list):
         ydl.download([audio_data.yid for audio_data in audio_data_list])
 
 
-def extract_info(playlist_id):
+def extract_info():
     with youtube_dl.YoutubeDL() as ydl:
         return ydl.extract_info(playlist_id, download=False)
 
 
-def tag_and_move(audio_data_list, playlist_path_location):
+def tag_and_move(audio_data_list):
     for audio_data in audio_data_list:
         if audio_data.filepath:
+            dest_path = path.join(playlist_path_location, audio_data.filename)
             if audio_data.artist:
-                dest_path = path.join(playlist_path_location, audio_data.filename)
                 try:
                     meta = EasyID3(audio_data.filepath)
                 except mutagen.id3.ID3NoHeaderError:
@@ -84,11 +79,11 @@ def tag_and_move(audio_data_list, playlist_path_location):
                     meta["title"] = audio_data.title
                     meta["artist"] = audio_data.artist
                     meta.save()
-                if not path.exists(dest_path):
-                    shutil.copyfile(audio_data.filepath, dest_path)
+            if not path.exists(dest_path):
+                shutil.copyfile(audio_data.filepath, dest_path)
 
 
-def generate_file_list(file_path, playlist_path_location):
+def generate_file_list(file_path):
     if path.exists(file_path):
         with open(file_path, newline="") as f:
             reader = csv.reader(f)
@@ -97,7 +92,7 @@ def generate_file_list(file_path, playlist_path_location):
         return listdir(playlist_path_location)
 
 
-def write_title_list(file_path, playlist_path_location):
+def write_title_list(file_path):
     existing_title_list = listdir(playlist_path_location)
     print(existing_title_list)
     with open(file_path, "w", newline="") as csv_file:
@@ -106,8 +101,6 @@ def write_title_list(file_path, playlist_path_location):
 
 
 def main():
-    playlist_id = sys.argv[-1]
-    playlist_path_location = sys.argv[-2]
 
     # Dl infos only
     infos = extract_info(playlist_id)
@@ -119,7 +112,7 @@ def main():
     for info in infos["entries"]:
         audio_data_list.append(Audio_data(info["title"], info["id"]))
 
-    existing_title_list = generate_file_list(file_list_path, playlist_path_location)
+    existing_title_list = generate_file_list(file_list_path,)
 
     audio_data_list = list(
         filter(lambda a: a.filename not in existing_title_list, audio_data_list)
@@ -128,10 +121,10 @@ def main():
     # Dl and tag missing
     if audio_data_list:
         dl_list(audio_data_list)
-        tag_and_move(audio_data_list, playlist_path_location)
+        tag_and_move(audio_data_list)
 
     # Create fast save
-    write_title_list(file_list_path, playlist_path_location)
+    write_title_list(file_list_path)
 
     shutil.rmtree(pytemp_dir)
 
