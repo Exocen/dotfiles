@@ -20,8 +20,6 @@ pytemp_dir = mkdtemp(dir=tmp_dir)
 playlist_id = sys.argv[-1]
 playlist_path_location = sys.argv[-2]
 
-# TODO ADD options rng + sleep + stuff
-
 ydl_opts = {
     "extractaudio": True,
     "format": "bestaudio/best",
@@ -33,6 +31,8 @@ ydl_opts = {
     ],
     "outtmpl": pytemp_dir + "/%(title)s.%(ext)s",
     "keepvideo": True,
+    "sleep_interval": 10,
+    "max_sleep_interval": 20,
 }
 
 
