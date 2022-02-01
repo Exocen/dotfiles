@@ -5,7 +5,7 @@ import shutil
 import youtube_dl
 import mutagen
 from mutagen.easyid3 import EasyID3
-from os import path, environ, listdir
+from os import path, listdir
 from tempfile import mkdtemp
 
 if len(sys.argv) != 3:
@@ -13,8 +13,7 @@ if len(sys.argv) != 3:
     quit()
 
 audio_format = "flac"
-# User tmp
-tmp_dir = path.normpath(environ.get("XDG_RUNTIME_DIR"))
+tmp_dir = path.join("/tmp")
 # Should be removed before successfull script end
 pytemp_dir = mkdtemp(dir=tmp_dir)
 playlist_id = sys.argv[-1]

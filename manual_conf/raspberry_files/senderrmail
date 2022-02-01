@@ -1,4 +1,5 @@
 #!/bin/sh
-SSH=bob.com
-ERR=`systemctl status %i`
-/usr/bin/ssh $SSH 'export ERR='"'$ERR'"'; echo $ERR | mail -s "[SYSTEMD_%i] Fail" $USER@$HOST'
+SSH={ip_address}
+USER={user}
+ERR=`systemctl status $1`
+/usr/bin/ssh $USER@$SSH -i {key_path} 'export ERR='"'$ERR'"'; echo $ERR | mail -s "[SYSTEMD_'$1'] Fail" $USER@$HOST'

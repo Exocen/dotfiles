@@ -14,12 +14,13 @@ iptables -t nat -L -n -v
 # Network {interface} kill switch for {user/group}
 # --uid-owner user OR  --gid-owner group
 iptables -A OUTPUT ! -o {interface} -m mark ! --mark $( wg show {interface} fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner {user} -j REJECT
+ip6tables -A OUTPUT ! -o {interface} -m mark ! --mark $( wg show {interface} fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner {user} -j REJECT
 
 
 # Wireguard killswitch sample:
 # Add to [Interface]
-#PostUp  =  iptables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner {USER} -j REJECT &&          >  \ip6tables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner {USER} -j REJECT
-# PreDown = iptables -D OUTPUT ! -o %i -m mark ! --mark $(wg show  %i fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner {USER} -j REJECT &&          >  \ip6tables -D OUTPUT ! -o %i -m mark ! --mark $(wg show  %i fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner {USER} -j REJECT
+# PostUp  =  iptables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT && ip6tables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
+# PreDown = iptables -D OUTPUT ! -o %i -m mark ! --mark $(wg show  %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT ip6tables -D OUTPUT ! -o %i -m mark ! --mark $(wg show  %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
 #sc-start/enable wg-quick@interface.service
 
 # Save rules
