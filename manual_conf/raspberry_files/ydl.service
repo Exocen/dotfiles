@@ -1,0 +1,13 @@
+[Unit]
+Description=Ydl script
+After=wg-quick@{interface}.service
+Requires=wg-quick@{interface}.service
+OnFailure=notify-email@%i.service
+
+[Service]
+User=vpn_user
+Type=exec
+ExecStart=python3 ydl.py "path" "id"
+
+[Install]
+WantedBy=multi-user.target

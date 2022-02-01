@@ -1,0 +1,8 @@
+[Unit]
+Description=Send err email
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash -c 'senderrmail %i'
+[Install]
+WantedBy=multi-user.target
