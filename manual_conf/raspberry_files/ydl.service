@@ -7,7 +7,7 @@ OnFailure=notify-email@%i.service
 [Service]
 User=vpn_user
 Type=exec
-ExecStart=python3 ydl.py "path" "id"
+ExecStart=python3 ydl.py "tmp_path" "path" "id"
 
 [Install]
 WantedBy=multi-user.target

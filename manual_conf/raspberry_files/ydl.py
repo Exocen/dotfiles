@@ -8,12 +8,12 @@ from mutagen.easyid3 import EasyID3
 from os import path, listdir
 from tempfile import mkdtemp
 
-if len(sys.argv) != 3:
-    print("Usage ./Script dest-dir id")
+if len(sys.argv) != 4:
+    print("Usage ./Script tmp-dir dest-dir id")
     quit()
 
 audio_format = "flac"
-tmp_dir = path.join("/tmp")
+tmp_dir = sys.argv[-3]
 # Should be removed before successfull script end
 pytemp_dir = mkdtemp(dir=tmp_dir)
 playlist_id = sys.argv[-1]
