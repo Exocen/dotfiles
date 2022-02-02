@@ -22,6 +22,7 @@ playlist_path_location = sys.argv[-2]
 ydl_opts = {
     "extractaudio": True,
     "format": "bestaudio/best",
+    "quiet": True,
     "postprocessors": [
         {
             "key": "FFmpegExtractAudio",
@@ -56,7 +57,7 @@ def dl_list(audio_data_list):
 
 
 def extract_info():
-    with youtube_dl.YoutubeDL() as ydl:
+    with youtube_dl.YoutubeDL({"quiet": True}) as ydl:
         return ydl.extract_info(playlist_id, download=False)
 
 
@@ -87,7 +88,6 @@ def generate_file_list(file_path):
 
 def write_title_list(file_path):
     existing_title_list = listdir(playlist_path_location)
-    print(existing_title_list)
     with open(file_path, "w", newline="") as csv_file:
         write = csv.writer(csv_file)
         write.writerow(existing_title_list)
@@ -113,6 +113,7 @@ def main():
 
     # Dl and tag missing
     if audio_data_list:
+        print(audio_data_list)
         dl_list(audio_data_list)
         tag_and_copy(audio_data_list)
 
