@@ -30,7 +30,6 @@ ydl_opts = {
         }
     ],
     "outtmpl": pytemp_dir + "/%(title)s.%(ext)s",
-    "keepvideo": True,
     "sleep_interval": 10,
     "max_sleep_interval": 20,
 }
