@@ -35,9 +35,9 @@
         "network#down",
         "memory",
         "cpu#core",
-        "cpu#load",
-        "temperature",
+        //"cpu#load",
         "custom/gpu-temp",
+        "temperature",
         "clock#date",
         "clock#time",
         "custom/capslock-status"
@@ -94,7 +94,7 @@
 
         "custom/gpu-temp": {
             "exec": "~/.config/waybar/gpu-temp amd",
-            "format":"<span color=\"#d68910\">{icon}</span>{:>3}°C",
+            "format":"<span color=\"#138d75\">{icon}</span>{:>3}°C",
             "format-icons": [
                 "", // Icon: temperature-empty
             "", // Icon: temperature-quarter
@@ -148,13 +148,13 @@
 
         "cpu#load": {
             "interval": 5,
-            "format": "<span color=\"#2e86c1\"></span> {load:<5}",
+            "format": "<span color=\"#138d75\"></span> {load:<5}",
             "tooltip": false
         },
-
+        
         "memory": {
             "interval": 5,
-            "format": "<span color=\"#138d75\"></span>{percentage:>3}%",
+            "format": "<span color=\"#2e86c1\"></span>{percentage:>3}%",
             "states": {
                 "warning": 70,
                 "critical": 90
@@ -221,7 +221,7 @@
             "critical-threshold": 85,
             "interval": 5,
             "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-            "format": "<span color=\"#a93226\">{icon}</span>{temperatureC:>3}°C",
+            "format": "<span color=\"#cd6155\">{icon}</span>{temperatureC:>3}°C",
             "format-icons": [
                 "", // Icon: temperature-empty
             "", // Icon: temperature-quarter
