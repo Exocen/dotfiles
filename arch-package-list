@@ -35,7 +35,7 @@ vlc
 # Logitech mouse
 piper
 # Bluetooth
-blueman pipewire-pulse pipewire bluez-utils pipewire-alsa wireplumber
+blueman pipewire-pulse pipewire bluez-utils wireplumber
 # Music player
 mpd mpc ncmpcpp
 # Vim addons
