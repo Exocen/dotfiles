@@ -9,7 +9,7 @@ from os import path, listdir
 from tempfile import mkdtemp
 
 if len(sys.argv) != 4:
-    print("Usage ./Script tmp-dir dest-dir id")
+    print("Usage ./Script tmpram-dir dest-dir id")
     quit()
 
 audio_format = "flac"
@@ -112,11 +112,11 @@ def main():
 
     # Dl and tag missing
     if audio_data_list:
-        print(audio_data_list)
+        # TODO using + loop (no bulk dl) + rng sleep + print title -> logs ?
         dl_list(audio_data_list)
         tag_and_copy(audio_data_list)
 
-    # Create fast save
+    # Create save
     write_title_list(file_list_path)
 
     shutil.rmtree(pytemp_dir)
