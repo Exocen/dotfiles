@@ -56,7 +56,7 @@ def tag_and_copy(audio_data_list, pytemp_dir):
         filepath = path.join(pytemp_dir, audio_data.filename)
         if audio_data.artist:
             try:
-                meta = EasyID3(audio_data.filename)
+                meta = EasyID3(filepath)
             except mutagen.id3.ID3NoHeaderError:
                 meta = mutagen.File(filepath, easy=True)
                 meta["title"] = audio_data.title
