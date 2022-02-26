@@ -42,7 +42,7 @@ class Audio_data:
 
 def dl_list(audio_data, ydl_opts):
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-        ydl.download(audio_data.pid)
+        ydl.download([audio_data.pid])
 
 
 def extract_info():
