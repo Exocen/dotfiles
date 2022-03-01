@@ -1,7 +1,7 @@
 [Unit]
 Description=Ydl script
-After=wg-quick@{interface}.service
-Requires=wg-quick@{interface}.service
+After=vpn_manager.service
+Requires=vpn_manager.service
 OnFailure=notify-email@%i.service
 
 [Service]

@@ -10,11 +10,7 @@ from mutagen.easyid3 import EasyID3
 from os import path, listdir
 from tempfile import TemporaryDirectory
 
-
-# TODO intern solution
-# TODO add vpn managment
 # TODO auto stop if too much fails (3 retries => stop timer)
-# TODO VPN 403 -> auto vpn switch
 if len(sys.argv) != 4:
     print("Usage ./Script tmpram-dir dest-dir id")
     quit()
@@ -115,23 +111,23 @@ def main():
         filter(lambda a: a.filename not in existing_title_list, audio_data_list)
     )
 
-    # Dl and tag missing ydl_opts
+    # Dl and tag
     if audio_data_list:
         with TemporaryDirectory(dir=tmp_dir) as tmpdirname:
-            # TODO print title -> logs ?
             try:
                 for audio_data in audio_data_list:
+                    print('DL : ' + audio_data.filename)
                     dl_list(audio_data, gen_ydl_options(audio_format, tmpdirname))
                     # if not last occurence
                     if audio_data != audio_data_list[-1]:
                         sleep(randint(0, rng_range))
                 tag_and_copy(audio_data_list, tmpdirname)
-            # TODO add 403
+                write_title_list(file_list_path)
+            # TODO add 403 -> sc-stop vpn_manager -> quits
             except Exception as e:
                 print(e)
-
-    # Create save
-    write_title_list(file_list_path)
+    else:
+        write_title_list(file_list_path)
 
 
 if __name__ == "__main__":
