@@ -20,7 +20,9 @@ def down():
     for interface in interfaces:
         if interface:
             print("wg down " + interface)
-            subprocess.run(["/usr/bin/wg-quick", "down", interface])
+            s = subprocess.run(["/usr/bin/wg-quick", "down", interface])
+            if(s.returncode != 0):
+                raise Exception(s.stderr)
 
 
 def open_file(file_path):
@@ -48,7 +50,9 @@ def up():
 
     down()
     print("wg up " + filenames[next_index])
-    subprocess.run(["/usr/bin/wg-quick", "up", filenames[next_index].split(".")[0]])
+    s = subprocess.run(["/usr/bin/wg-quick", "up", filenames[next_index].split(".")[0]])
+    if(s.returncode != 0):
+        raise Exception(s.stderr)
     write_file(filepath, next_index)
 
 
@@ -67,6 +71,6 @@ if __name__ == "__main__":
 
 
 # TODO systemd mount tmpfs
-# TODO Script that
+# TODO Script that + add all ip6tables
 # PostUp = iptables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner vpn_user -j REJECT && ip6tables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner vpn_user -j REJECT && iptables -D OUTPUT -m owner --uid-owner vpn_user -j REJECT
 # PreDown = iptables -A OUTPUT -m owner --uid-owner vpn_user -j REJECT && iptables -D OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner vpn_user -j REJECT && ip6tables -D OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner vpn_user -j REJECT
