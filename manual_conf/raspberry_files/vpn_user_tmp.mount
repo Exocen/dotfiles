@@ -1,0 +1,11 @@
+[Unit]
+Description=Tmpfs Mount
+
+[Mount]
+What=tmpfs
+Where=/tmp_user_1
+Type=tmpfs
+Options=noexec,nodev,nosuid,mode=1700,size=90%,X-mount.mkdir,uid=
+
+[Install]
+WantedBy=multi-user.target

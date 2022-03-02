@@ -1,27 +1,70 @@
-# import subprocess, sys
-# from random import randint
+import subprocess
+import sys
+from random import randint
+from os import listdir, path
 
-# up()
-# filenames = sort ls /etc/wireguard/
-# file u=rw permission
-# file -> last-used -> tmpfs
-# if file:
-#   index = read file
-#   next_index = 0 if index >= len(filenames)-1 else index+1
-# else:
-#   next_index = rng(0, len(filenames)-1)
-# down()
-# /usr/bin/wg-quick up (filenames[next_index])
-# write file(next_index)
 
-# down()
-# interface = wg show interfaces
-# loop : wg-quick down interface
+def print_usage():
+    print("Usage script.py down/up")
 
-# main
-# 2 args => down up
-# up -> up()
-# down -> down()
+
+if len(sys.argv) != 2:
+    print_usage()
+    quit()
+
+
+def down():
+    interfaces = subprocess.run(
+        ["wg", "show", "interfaces"], capture_output=True, text=True
+    ).stdout.split("\n")
+    for interface in interfaces:
+        if interface:
+            print("wg down " + interface)
+            subprocess.run(["/usr/bin/wg-quick", "down", interface])
+
+
+def open_file(file_path):
+    if path.exists(file_path):
+        with open(file_path) as file:
+            return int(file.read())
+
+
+def write_file(file_path, index):
+    with open(file_path, "w") as file:
+        file.write(str(index))
+
+
+def up():
+    filenames = listdir("/etc/wireguard/")
+    filenames.sort()
+    filepath = "/root/last_used"
+    # TODO file u=rw permission + tmpfs
+    index = open_file(filepath)
+
+    if index is not None:
+        next_index = 0 if index >= len(filenames) - 1 else index + 1
+    else:
+        next_index = randint(0, len(filenames) - 1)
+
+    down()
+    print("wg up " + filenames[next_index])
+    subprocess.run(["/usr/bin/wg-quick", "up", filenames[next_index]])
+    write_file(filepath, next_index)
+
+
+def main():
+    cmd = sys.argv[-1]
+    if cmd == "up":
+        up()
+    elif cmd == "down":
+        down()
+    else:
+        print_usage()
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+
 
 # TODO systemd mount tmpfs
 # TODO Script that
