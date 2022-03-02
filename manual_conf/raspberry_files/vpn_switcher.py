@@ -53,8 +53,9 @@ def up():
         next_index = randint(0, len(filenames) - 1)
 
     down()
-    print("wg up " + filenames[next_index])
-    run_process(["/usr/bin/wg-quick", "up", filenames[next_index].split(".")[0]])
+    next_conf = filenames[next_index].split(".")[0]
+    print("wg up " + next_conf)
+    run_process(["/usr/bin/wg-quick", "up", next_conf])
     write_file(filepath, next_index)
 
 
