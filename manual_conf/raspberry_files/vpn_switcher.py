@@ -13,16 +13,20 @@ if len(sys.argv) != 2:
     quit()
 
 
+def run_process(cmd):
+    s = subprocess.run(cmd, capture_output=True, text=True)
+    if s.returncode != 0:
+        raise Exception(s.stderr)
+    print(s.stdout)
+    return s
+
+
 def down():
-    interfaces = subprocess.run(
-        ["wg", "show", "interfaces"], capture_output=True, text=True
-    ).stdout.split("\n")
+    interfaces = run_process(["wg", "show", "interfaces"]).stdout.split("\n")
     for interface in interfaces:
         if interface:
             print("wg down " + interface)
-            s = subprocess.run(["/usr/bin/wg-quick", "down", interface])
-            if(s.returncode != 0):
-                raise Exception(s.stderr)
+            run_process(["/usr/bin/wg-quick", "down", interface])
 
 
 def open_file(file_path):
@@ -50,9 +54,7 @@ def up():
 
     down()
     print("wg up " + filenames[next_index])
-    s = subprocess.run(["/usr/bin/wg-quick", "up", filenames[next_index].split(".")[0]])
-    if(s.returncode != 0):
-        raise Exception(s.stderr)
+    run_process(["/usr/bin/wg-quick", "up", filenames[next_index].split(".")[0]])
     write_file(filepath, next_index)
 
 
