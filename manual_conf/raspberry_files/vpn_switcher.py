@@ -48,7 +48,7 @@ def up():
 
     down()
     print("wg up " + filenames[next_index])
-    subprocess.run(["/usr/bin/wg-quick", "up", filenames[next_index]])
+    subprocess.run(["/usr/bin/wg-quick", "up", filenames[next_index].split(".")[0]])
     write_file(filepath, next_index)
 
 
