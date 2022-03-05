@@ -5,6 +5,7 @@ import shutil
 import youtube_dl
 import mutagen
 import subprocess
+import os
 from time import sleep
 from random import randint
 from mutagen.easyid3 import EasyID3
@@ -174,6 +175,8 @@ def main():
                 manage_error(error_tries)
     else:
         write_title_list(file_list_path)
+    if error_tries != 0:
+        os.remove(error_file)
 
 
 if __name__ == "__main__":
