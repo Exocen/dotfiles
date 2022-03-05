@@ -129,9 +129,10 @@ def main():
     # Dl infos only
     try:
         infos = extract_info()
-    except Exception:
+    except Exception as exception:
         manage_error(error_tries + 1)
-        raise
+        # TODO why raise does not work
+        print(exception)
         sys.exit(1)
 
     playlist_title = infos["title"]
@@ -161,9 +162,10 @@ def main():
                         sleep(randint(0, rng_range))
                 write_title_list(file_list_path)
             # TODO find and add 405
-            except Exception:
+            except Exception as exception:
                 manage_error(error_tries + 1)
-                raise
+                # TODO why raise does not work
+                print(exception)
                 sys.exit(1)
     else:
         write_title_list(file_list_path)
