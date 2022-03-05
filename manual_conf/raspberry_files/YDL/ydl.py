@@ -129,9 +129,9 @@ def main():
     # Dl infos only
     try:
         infos = extract_info()
-    except Exception:
+    except Exception as exception:
         manage_error(error_tries + 1)
-        raise
+        raise exception
 
     playlist_title = infos["title"]
     file_list_path = path.join(tmp_dir, playlist_title + ".cvs")
@@ -160,9 +160,9 @@ def main():
                         sleep(randint(0, rng_range))
                 write_title_list(file_list_path)
             # TODO find and add 405
-            except Exception:
+            except Exception as exception:
                 manage_error(error_tries + 1)
-                raise
+                raise exception
     else:
         write_title_list(file_list_path)
     if error_tries != 0:
