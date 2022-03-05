@@ -122,7 +122,10 @@ def main():
 
     error_ydl = open_file()
     error_tries = error_ydl if error_ydl is not None else 0
-    if error_tries >= 3:
+    if error_tries == 3:
+        write_file(error_tries + 1)
+        sys.exit(1)
+    elif error_tries > 3:
         print("Ydl Stopped: Too much retries")
         return
 
