@@ -5,7 +5,7 @@ Description=Tmpfs Mount
 What=tmpfs
 Where=/root_tmp
 Type=tmpfs
-Options=noexec,nodev,nosuid,mode=1700,size=10%,X-mount.mkdir,uid=
+Options=noexec,nodev,nosuid,mode=1700,size=10%,X-mount.mkdir
 
 [Install]
 WantedBy=multi-user.target
