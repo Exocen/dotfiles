@@ -137,11 +137,9 @@ def main():
     # Dl infos only
     try:
         infos = extract_info()
-    except Exception as exception:
+    except Exception:
         manage_error(error_tries + 1)
-        # TODO why raise does not work
-        print(exception)
-        sys.exit(1)
+        raise
 
     playlist_title = infos["title"]
     file_list_path = path.join(tmp_dir, playlist_title + ".cvs")
@@ -170,11 +168,9 @@ def main():
                         sleep(randint(0, rng_range))
                 write_title_list(file_list_path)
             # TODO find and add 405
-            except Exception as exception:
+            except Exception:
                 manage_error(error_tries + 1)
-                # TODO why raise does not work
-                print(exception)
-                sys.exit(1)
+                raise
     else:
         write_title_list(file_list_path)
     if error_tries != 0:
