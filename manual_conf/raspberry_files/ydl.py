@@ -48,20 +48,19 @@ def extract_info():
         return ydl.extract_info(playlist_id, download=False)
 
 
-def tag_and_copy(audio_data_list, pytemp_dir):
-    for audio_data in audio_data_list:
-        dest_path = path.join(playlist_path_location, audio_data.filename)
-        filepath = path.join(pytemp_dir, audio_data.filename)
-        if audio_data.artist:
-            try:
-                meta = EasyID3(filepath)
-            except mutagen.id3.ID3NoHeaderError:
-                meta = mutagen.File(filepath, easy=True)
-                meta["title"] = audio_data.title
-                meta["artist"] = audio_data.artist
-                meta.save()
-        if not path.exists(dest_path):
-            shutil.copyfile(filepath, dest_path)
+def tag_and_copy(audio_data, pytemp_dir):
+    dest_path = path.join(playlist_path_location, audio_data.filename)
+    filepath = path.join(pytemp_dir, audio_data.filename)
+    if audio_data.artist:
+        try:
+            meta = EasyID3(filepath)
+        except mutagen.id3.ID3NoHeaderError:
+            meta = mutagen.File(filepath, easy=True)
+            meta["title"] = audio_data.title
+            meta["artist"] = audio_data.artist
+            meta.save()
+    if not path.exists(dest_path):
+        shutil.copyfile(filepath, dest_path)
 
 
 def generate_file_list(file_path):
@@ -162,10 +161,10 @@ def main():
                 for audio_data in audio_data_list:
                     print("DL : " + audio_data.filename)
                     dl_list(audio_data, gen_ydl_options(audio_format, tmpdirname))
+                    tag_and_copy(audio_data, tmpdirname)
                     # if not last occurence
                     if audio_data != audio_data_list[-1]:
                         sleep(randint(0, rng_range))
-                tag_and_copy(audio_data_list, tmpdirname)
                 write_title_list(file_list_path)
             # TODO find and add 405
             except Exception:
