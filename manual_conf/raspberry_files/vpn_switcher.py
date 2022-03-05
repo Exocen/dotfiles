@@ -43,8 +43,7 @@ def write_file(file_path, index):
 def up():
     filenames = listdir("/etc/wireguard/")
     filenames.sort()
-    filepath = "/root/last_used"
-    # TODO file u=rw permission + tmpfs
+    filepath = "/root_tmp/last_used"
     index = open_file(filepath)
 
     if index is not None:
@@ -71,9 +70,3 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
-
-
-# TODO systemd mount tmpfs
-# TODO Script that + add all ip6tables
-# PostUp = iptables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner vpn_user -j REJECT && ip6tables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner vpn_user -j REJECT && iptables -D OUTPUT -m owner --uid-owner vpn_user -j REJECT
-# PreDown = iptables -A OUTPUT -m owner --uid-owner vpn_user -j REJECT && iptables -D OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner vpn_user -j REJECT && ip6tables -D OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner vpn_user -j REJECT

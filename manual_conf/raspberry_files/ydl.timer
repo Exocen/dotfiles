@@ -4,9 +4,10 @@ Requires=ydl.service
 
 [Timer]
 Unit=ydl.service
-OnCalendar=*:0/5
+OnCalendar=*:0/30
+# every 30 min
 RandomizedDelaySec=300 
-#5 min
+# 5 min
 
 [Install]
 WantedBy=timers.target

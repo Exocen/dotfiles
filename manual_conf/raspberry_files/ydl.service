@@ -1,7 +1,7 @@
 [Unit]
 Description=Ydl script
-After=vpn_manager.service,vpn_user_tmp.mount
-Requires=vpn_manager.service,vpn_user_tmp.mount
+After=vpn_manager.service vpn_user_tmp.mount
+Requires=vpn_manager.service vpn_user_tmp.mount
 OnFailure=notify-email@%i.service
 
 [Service]

@@ -3,9 +3,9 @@ Description=Tmpfs Mount
 
 [Mount]
 What=tmpfs
-Where=/vpn_user_tmp
+Where=/root_tmp
 Type=tmpfs
-Options=noexec,nodev,nosuid,mode=1700,size=90%,X-mount.mkdir,uid=
+Options=noexec,nodev,nosuid,mode=1700,size=10%,X-mount.mkdir,uid=
 
 [Install]
 WantedBy=multi-user.target

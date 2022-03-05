@@ -1,6 +1,6 @@
 [Unit]
-After=network-online.target nss-lookup.target
-Wants=network-online.target nss-lookup.target
+After=network-online.target nss-lookup.target root_tmp.mount
+Wants=network-online.target nss-lookup.target root_tmp.mount
 
 [Service]
 Type=oneshot

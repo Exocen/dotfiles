@@ -4,13 +4,13 @@ import csv
 import shutil
 import youtube_dl
 import mutagen
+import subprocess
 from time import sleep
 from random import randint
 from mutagen.easyid3 import EasyID3
 from os import path, listdir
 from tempfile import TemporaryDirectory
 
-# TODO auto stop if too much fails (3 retries => stop timer)
 if len(sys.argv) != 4:
     print("Usage ./Script tmpram-dir dest-dir id")
     quit()
@@ -18,6 +18,7 @@ if len(sys.argv) != 4:
 audio_format = "flac"
 rng_range = 30
 tmp_dir = sys.argv[-3]
+error_file = path.join(tmp_dir, "ydl_tries_errors")
 playlist_id = sys.argv[-1]
 playlist_path_location = sys.argv[-2]
 
@@ -78,6 +79,14 @@ def write_title_list(file_path):
         write.writerow(existing_title_list)
 
 
+def run_process(cmd):
+    s = subprocess.run(cmd, capture_output=True, text=True)
+    if s.returncode != 0:
+        raise Exception(s.stderr)
+    print(s.stdout)
+    return s
+
+
 def gen_ydl_options(audio_format, tmpdirname):
     return {
         "extractaudio": True,
@@ -93,10 +102,44 @@ def gen_ydl_options(audio_format, tmpdirname):
     }
 
 
+def open_file():
+    if path.exists(error_file):
+        with open(error_file) as file:
+            return int(file.read())
+
+
+def write_file(index):
+    with open(error_file, "w") as file:
+        file.write(str(index))
+
+
+def manage_error(error_tries):
+    if error_tries == 0:
+        return
+    elif error_tries < 3:
+        write_file(error_tries)
+    elif error_tries >= 3:
+        write_file(error_tries)
+        run_process(["/usr/bin/systemctl", "restart", "vpn_manager.service"])
+
+
 def main():
 
+    error_ydl = open_file()
+    error_tries = error_ydl if error_ydl is not None else 0
+    if error_tries >= 3:
+        print("Ydl Stopped: Too much retries")
+        return
+
     # Dl infos only
-    infos = extract_info()
+    try:
+        infos = extract_info()
+    except Exception:
+        error_tries = error_tries + 1
+        raise
+    finally:
+        manage_error(error_tries)
+
     playlist_title = infos["title"]
     file_list_path = path.join(tmp_dir, playlist_title + ".cvs")
 
@@ -116,16 +159,19 @@ def main():
         with TemporaryDirectory(dir=tmp_dir) as tmpdirname:
             try:
                 for audio_data in audio_data_list:
-                    print('DL : ' + audio_data.filename)
+                    print("DL : " + audio_data.filename)
                     dl_list(audio_data, gen_ydl_options(audio_format, tmpdirname))
                     # if not last occurence
                     if audio_data != audio_data_list[-1]:
                         sleep(randint(0, rng_range))
                 tag_and_copy(audio_data_list, tmpdirname)
                 write_title_list(file_list_path)
-            # TODO add 403 -> sc-stop vpn_manager -> quits
-            except Exception as e:
-                print(e)
+            # TODO find and add 405
+            except Exception:
+                error_tries = error_tries + 1
+                raise
+            finally:
+                manage_error(error_tries)
     else:
         write_title_list(file_list_path)
 
