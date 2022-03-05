@@ -130,10 +130,8 @@ def main():
     try:
         infos = extract_info()
     except Exception:
-        error_tries = error_tries + 1
+        manage_error(error_tries + 1)
         raise
-    finally:
-        manage_error(error_tries)
 
     playlist_title = infos["title"]
     file_list_path = path.join(tmp_dir, playlist_title + ".cvs")
