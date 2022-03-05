@@ -115,7 +115,7 @@ def write_file(index):
 
 def manage_error(error_tries):
     write_file(error_tries)
-    run_process(["/usr/bin/systemctl", "restart", "vpn_manager.service"])
+    run_process(["/usr/bin/sudo", "/usr/bin/systemctl", "restart", "vpn_manager.service"])
 
 
 def main():
