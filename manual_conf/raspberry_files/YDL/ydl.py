@@ -114,13 +114,8 @@ def write_file(index):
 
 
 def manage_error(error_tries):
-    if error_tries == 0:
-        return
-    elif error_tries < 3:
-        write_file(error_tries)
-    elif error_tries >= 3:
-        write_file(error_tries)
-        run_process(["/usr/bin/systemctl", "restart", "vpn_manager.service"])
+    write_file(error_tries)
+    run_process(["/usr/bin/systemctl", "restart", "vpn_manager.service"])
 
 
 def main():
@@ -168,10 +163,8 @@ def main():
                 write_title_list(file_list_path)
             # TODO find and add 405
             except Exception:
-                error_tries = error_tries + 1
+                manage_error(error_tries + 1)
                 raise
-            finally:
-                manage_error(error_tries)
     else:
         write_title_list(file_list_path)
     if error_tries != 0:

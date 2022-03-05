@@ -1,4 +1,0 @@
-dtoverlay=disable-wifi
-dtoverlay=disable-bt
-
-# /boot/config.txt
