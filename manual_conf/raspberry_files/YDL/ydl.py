@@ -52,6 +52,7 @@ def tag_and_copy(audio_data, pytemp_dir):
     dest_path = path.join(playlist_path_location, audio_data.filename)
     filepath = path.join(pytemp_dir, audio_data.filename)
     if audio_data.artist:
+        # if format/title = 'artist - song' use id3 tags
         try:
             meta = EasyID3(filepath)
         except mutagen.id3.ID3NoHeaderError:
@@ -115,11 +116,15 @@ def write_file(index):
 
 def manage_error(error_tries):
     write_file(error_tries)
-    run_process(["/usr/bin/sudo", "/usr/bin/systemctl", "restart", "vpn_manager.service"])
+    run_process(
+        ["/usr/bin/sudo", "/usr/bin/systemctl", "restart", "vpn_manager.service"]
+    )
 
 
 def main():
 
+    # Error management -> error -> switch vpn up to 3 times
+    # error/mail on the 3 error -> then stop running
     error_ydl = open_file()
     error_tries = error_ydl if error_ydl is not None else 0
     if error_tries == 3:
