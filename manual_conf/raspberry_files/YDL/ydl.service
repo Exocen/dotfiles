@@ -5,6 +5,7 @@ Requires=vpn_manager.service vpn_user_tmp.mount
 OnFailure=notify-email@%i.service
 
 [Service]
+Restart=on-failure
 User=vpn_user
 Type=exec
 ExecStart=python3 ydl.py "/tmp_user_1" "path" "id"

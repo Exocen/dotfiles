@@ -8,7 +8,7 @@ iptables -A PREROUTING -t nat -p tcp --dport {PORT_SOURCE} -j DNAT --to-destinat
 iptables -A POSTROUTING -t nat -p tcp --dport {PORT_DESTINATION} -j SNAT --to-source {IP_SOURCE:PORT_SOURCE}
 
 # Display rules
-# iptables -S or
+iptables -S
 iptables -t nat -L -n -v
 
 # Network {interface} kill switch for {user/group}
@@ -19,6 +19,6 @@ ip6tables -A OUTPUT ! -o {interface} -m mark ! --mark $( wg show {interface} fwm
 
 # Wireguard killswitch sample:
 # Add to [Interface]
-# PostUp  =  iptables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT && ip6tables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
-# PreDown = iptables -D OUTPUT ! -o %i -m mark ! --mark $(wg show  %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT ip6tables -D OUTPUT ! -o %i -m mark ! --mark $(wg show  %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
-#sc-start/enable wg-quick@interface.service
+PostUp  =  iptables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT && ip6tables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
+PreDown = iptables -D OUTPUT ! -o %i -m mark ! --mark $(wg show  %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT ip6tables -D OUTPUT ! -o %i -m mark ! --mark $(wg show  %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
+sc-start/enable wg-quick@interface.service
