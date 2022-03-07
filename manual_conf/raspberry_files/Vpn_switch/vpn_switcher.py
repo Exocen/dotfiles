@@ -58,12 +58,19 @@ def up():
     write_file(filepath, next_index)
 
 
+def reload():
+    down()
+    up()
+
+
 def main():
     cmd = sys.argv[-1]
     if cmd == "up":
         up()
     elif cmd == "down":
         down()
+    elif cmd == "reload":
+        reload()
     else:
         print_usage()
 

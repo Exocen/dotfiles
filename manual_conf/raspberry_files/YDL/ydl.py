@@ -116,8 +116,9 @@ def write_file(index):
 
 def manage_error(error_tries):
     write_file(error_tries)
+    # TODO sudoless
     run_process(
-        ["/usr/bin/sudo", "/usr/bin/systemctl", "restart", "vpn_manager.service"]
+        ["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"]
     )
 
 
