@@ -22,6 +22,7 @@ tmp_dir = sys.argv[-3]
 error_file = path.join(tmp_dir, "ydl_tries_errors")
 playlist_id = sys.argv[-1]
 playlist_path_location = sys.argv[-2]
+retry_counter = 3
 
 
 class Audio_data:
@@ -116,7 +117,6 @@ def write_file(index):
 
 def manage_error(error_tries):
     write_file(error_tries)
-    # TODO sudoless
     run_process(
         ["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"]
     )
@@ -124,15 +124,16 @@ def manage_error(error_tries):
 
 def main():
 
-    # Error management -> error -> switch vpn up to 3 times
-    # error/mail on the 3 error -> then stop running
+    # Error management -> error -> switch vpn up to retry_counter
+    # error/mail on the retry_counter + 1 error -> then stop running
     error_ydl = open_file()
     error_tries = error_ydl if error_ydl is not None else 0
-    if error_tries == 3:
+    if error_tries == retry_counter:
         write_file(error_tries + 1)
         sys.exit(1)
-    elif error_tries > 3:
+    elif error_tries > retry_counter:
         print("Ydl Stopped: Too much retries")
+        run_process(["/usr/bin/sudo", "/usr/bin/systemctl", "stop", "ydl.timer"])
         return
 
     # Dl infos only
