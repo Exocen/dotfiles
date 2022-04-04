@@ -163,7 +163,7 @@ def main():
         title_list = [audio_data.title for audio_data in audio_data_list]
 
     audio_data_list = list(
-        filter(lambda a: a.filename not in existing_title_list, audio_data_list)
+        filter(lambda a: a.title not in existing_title_list, audio_data_list)
     )
 
     # Dl and tag
@@ -184,8 +184,6 @@ def main():
             except Exception:
                 manage_error(error_tries + 1)
                 raise
-    else:
-        write_title_list(file_list_path, title_list)
     if error_tries != 0:
         os.remove(error_file)
 
