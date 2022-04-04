@@ -158,7 +158,7 @@ def main():
 
     if existing_title_list:
         title_list = list(set(
-            [audio_data.title for audio_data in audio_data_list].extend(existing_title_list)))
+            [audio_data.title for audio_data in audio_data_list] + existing_title_list))
     else:
         title_list = [audio_data.title for audio_data in audio_data_list]
 
