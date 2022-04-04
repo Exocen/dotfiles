@@ -62,7 +62,7 @@ def tag_and_copy(audio_data, pytemp_dir):
             meta["artist"] = audio_data.artist
             meta.save()
     if not path.exists(dest_path):
-        shutil.copyfile(filepath, dest_path)
+        shutil.move(filepath, dest_path)
 
 
 def generate_file_list(file_path):
