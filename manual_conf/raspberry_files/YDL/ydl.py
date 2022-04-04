@@ -171,7 +171,8 @@ def main():
                         audio_format, tmpdirname))
 
                     tag_and_copy(audio_data, tmpdirname)
-                    done_list = done_list.append(audio_data.title)
+                    done_list.append(audio_data.title)
+
                     write_title_list(file_list_path, done_list)
                     # if not last occurence
                     if audio_data != audio_data_list[-1]:
