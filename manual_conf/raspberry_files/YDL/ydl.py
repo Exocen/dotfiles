@@ -62,7 +62,9 @@ def tag_and_copy(audio_data, pytemp_dir):
             meta["artist"] = audio_data.artist
             meta.save()
     if not path.exists(dest_path):
-        shutil.move(filepath, dest_path)
+        # Move -> Invalid cross-device link -> copy delete
+        shutil.copy(filepath, dest_path)
+        os.remove(filepath)
 
 
 def generate_file_list(file_path):
