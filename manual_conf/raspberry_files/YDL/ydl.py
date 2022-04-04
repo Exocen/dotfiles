@@ -9,7 +9,7 @@ import os
 from time import sleep
 from random import randint
 from mutagen.easyid3 import EasyID3
-from os import path, listdir
+from os import path
 from tempfile import TemporaryDirectory
 
 if len(sys.argv) != 4:
@@ -19,7 +19,7 @@ if len(sys.argv) != 4:
 audio_format = "flac"
 rng_range = 30
 tmp_dir = sys.argv[-3]
-error_file = path.join(tmp_dir, "ydl_tries_errors")
+error_file = path.join(tmp_dir, "ydl_error_counter")
 playlist_id = sys.argv[-1]
 playlist_path_location = sys.argv[-2]
 retry_counter = 3
@@ -71,14 +71,13 @@ def generate_file_list(file_path):
             reader = csv.reader(f)
             return list(reader)[0]
     else:
-        return listdir(playlist_path_location)
+        return []
 
 
-def write_title_list(file_path):
-    existing_title_list = listdir(playlist_path_location)
+def write_title_list(file_path, title_list):
     with open(file_path, "w", newline="") as csv_file:
         write = csv.writer(csv_file)
-        write.writerow(existing_title_list)
+        write.writerow(title_list)
 
 
 def run_process(cmd):
@@ -117,15 +116,16 @@ def write_file(index):
 
 def manage_error(error_tries):
     write_file(error_tries)
+    # TODO stand alone -> put this in unit (after 3 fails)
     run_process(
         ["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"]
     )
 
 
 def main():
-
     # Error management -> error -> switch vpn up to retry_counter
     # error/mail on the retry_counter + 1 error -> then stop running
+    # TODO stand alone process + intern timer
     error_ydl = open_file()
     error_tries = error_ydl if error_ydl is not None else 0
     if error_tries == retry_counter:
@@ -133,7 +133,9 @@ def main():
         sys.exit(1)
     elif error_tries > retry_counter:
         print("Ydl Stopped: Too much retries")
-        run_process(["/usr/bin/sudo", "/usr/bin/systemctl", "stop", "ydl.timer"])
+        # TODO remove
+        run_process(
+            ["/usr/bin/sudo", "/usr/bin/systemctl", "stop", "ydl.timer"])
         return
 
     # Dl infos only
@@ -144,10 +146,11 @@ def main():
         raise
 
     playlist_title = infos["title"]
-    file_list_path = path.join(tmp_dir, playlist_title + ".cvs")
+    file_list_path = path.join(playlist_path_location, playlist_title + ".cvs")
 
     # Check existing
     audio_data_list = []
+
     for info in infos["entries"]:
         audio_data_list.append(Audio_data(info["title"], info["id"]))
 
@@ -156,6 +159,7 @@ def main():
     audio_data_list = list(
         filter(lambda a: a.filename not in existing_title_list, audio_data_list)
     )
+    title_list = [audio_data.title for audio_data in audio_data_list]
 
     # Dl and tag
     if audio_data_list:
@@ -163,18 +167,20 @@ def main():
             try:
                 for audio_data in audio_data_list:
                     print("DL : " + audio_data.filename)
-                    dl_list(audio_data, gen_ydl_options(audio_format, tmpdirname))
+                    dl_list(audio_data, gen_ydl_options(
+                        audio_format, tmpdirname))
+
                     tag_and_copy(audio_data, tmpdirname)
                     # if not last occurence
                     if audio_data != audio_data_list[-1]:
                         sleep(randint(0, rng_range))
-                write_title_list(file_list_path)
+                write_title_list(file_list_path, title_list)
             # TODO find and add 405
             except Exception:
                 manage_error(error_tries + 1)
                 raise
     else:
-        write_title_list(file_list_path)
+        write_title_list(file_list_path, title_list)
     if error_tries != 0:
         os.remove(error_file)
 

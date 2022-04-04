@@ -13,7 +13,7 @@ for_window [app_id="Alacritty"] opacity $opacity
 # Startup apps
 
 # Hide cursor
-seat seat0 hide_cursor 3000
+seat seat0 hide_cursor 5000
 
 # Right Ctrl+Right Shift to switch
 input "type:keyboard" {

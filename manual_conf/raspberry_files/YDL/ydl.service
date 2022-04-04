@@ -1,16 +1,17 @@
 [Unit]
 Description=Ydl script
-After=vpn_manager.service vpn_user_tmp.mount
-Requires=vpn_manager.service vpn_user_tmp.mount
+After=vpn_manager.service
+Requires=vpn_manager.service
 OnFailure=notify-email@%i.service
 StartLimitInterval=400
 StartLimitBurst=3
+RequiresMountsFor=%/tmp_user_1%
 
 [Service]
 Restart=on-failure
 User=vpn_user
 Type=exec
-ExecStart=python3 ydl.py "/tmp_user_1" "path" "id"
+ExecStart=python3 ydl.py "%/tmp_user_1%" "path" "id"
 
 [Install]
 WantedBy=multi-user.target
