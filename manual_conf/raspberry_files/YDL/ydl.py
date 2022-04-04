@@ -75,6 +75,8 @@ def generate_file_list(file_path):
 
 
 def write_title_list(file_path, title_list):
+    if not title_list:
+        raise Exception('title list empty')
     with open(file_path, "w", newline="") as csv_file:
         write = csv.writer(csv_file)
         write.writerow(title_list)
