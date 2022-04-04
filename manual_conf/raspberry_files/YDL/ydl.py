@@ -156,12 +156,6 @@ def main():
 
     existing_title_list = generate_file_list(file_list_path)
 
-    if existing_title_list:
-        title_list = list(set(
-            [audio_data.title for audio_data in audio_data_list] + existing_title_list))
-    else:
-        title_list = [audio_data.title for audio_data in audio_data_list]
-
     audio_data_list = list(
         filter(lambda a: a.title not in existing_title_list, audio_data_list)
     )
@@ -170,9 +164,8 @@ def main():
     if audio_data_list:
         with TemporaryDirectory(dir=tmp_dir) as tmpdirname:
             try:
-                done_list = existing_title_list
+                done_list = existing_title_list if existing_title_list else []
                 for audio_data in audio_data_list:
-                    done_list = existing_title_list
                     print("DL : " + audio_data.filename)
                     dl_list(audio_data, gen_ydl_options(
                         audio_format, tmpdirname))
@@ -183,7 +176,7 @@ def main():
                     # if not last occurence
                     if audio_data != audio_data_list[-1]:
                         sleep(randint(0, rng_range))
-                    
+
             # TODO find and add 405
             except Exception:
                 manage_error(error_tries + 1)
