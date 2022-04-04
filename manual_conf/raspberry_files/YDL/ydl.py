@@ -116,7 +116,7 @@ def write_file(index):
 
 def manage_error(error_tries):
     write_file(error_tries)
-    # TODO stand alone -> put this in unit (after 3 fails)
+    # Should ONLY have reload permission (visudo)
     run_process(
         ["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"]
     )
@@ -159,7 +159,7 @@ def main():
     audio_data_list = list(
         filter(lambda a: a.filename not in existing_title_list, audio_data_list)
     )
-    title_list = [audio_data.title for audio_data in audio_data_list]
+    title_list = list(set([audio_data.title for audio_data in audio_data_list].extend(existing_title_list)))
 
     # Dl and tag
     if audio_data_list:
