@@ -8,6 +8,7 @@ import subprocess
 import os
 from time import sleep
 from random import randint
+from pathlib import Path
 from mutagen.easyid3 import EasyID3
 from os import path
 from tempfile import TemporaryDirectory
@@ -62,7 +63,7 @@ def tag_and_copy(audio_data, pytemp_dir):
             meta["artist"] = audio_data.artist
             meta.save()
     if not path.exists(dest_path):
-        shutil.copyfile(os.path(filepath), os.path(dest_path))
+        shutil.copyfile(Path(filepath), Path(dest_path))
 
 
 def generate_file_list(file_path):
