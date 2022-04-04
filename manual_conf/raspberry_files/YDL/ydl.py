@@ -29,14 +29,14 @@ class Audio_data:
     def __init__(self, title, pid):
         self.title = title
         self.pid = pid
+        self.filename = self.title + "." + audio_format
         parsed_title = re.findall(r"(.*?)\s*-\s*(.*)", title)
         if len(parsed_title) > 0 and len(parsed_title[0]) == 2:
             self.artist = parsed_title[0][0]
             self.tagtitle = parsed_title[0][1]
-            self.filename = self.artist + " - " + self.title + "." + audio_format
         else:
             self.artist = None
-            self.filename = self.title + "." + audio_format
+            self.tagtitle = None
 
 
 def dl_list(audio_data, ydl_opts):
