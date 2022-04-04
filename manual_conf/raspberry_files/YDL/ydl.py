@@ -156,10 +156,15 @@ def main():
 
     existing_title_list = generate_file_list(file_list_path)
 
+    if existing_title_list:
+        title_list = list(set([audio_data.title for audio_data in audio_data_list].extend(existing_title_list)))
+    else:
+        title_list = [audio_data.title for audio_data in audio_data_list]
+
     audio_data_list = list(
         filter(lambda a: a.filename not in existing_title_list, audio_data_list)
     )
-    title_list = list(set([audio_data.title for audio_data in audio_data_list].extend(existing_title_list)))
+    
 
     # Dl and tag
     if audio_data_list:
