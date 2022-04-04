@@ -170,16 +170,20 @@ def main():
     if audio_data_list:
         with TemporaryDirectory(dir=tmp_dir) as tmpdirname:
             try:
+                done_list = existing_title_list
                 for audio_data in audio_data_list:
+                    done_list = existing_title_list
                     print("DL : " + audio_data.filename)
                     dl_list(audio_data, gen_ydl_options(
                         audio_format, tmpdirname))
 
                     tag_and_copy(audio_data, tmpdirname)
+                    done_list = done_list.append(audio_data.title)
+                    write_title_list(file_list_path, done_list)
                     # if not last occurence
                     if audio_data != audio_data_list[-1]:
                         sleep(randint(0, rng_range))
-                write_title_list(file_list_path, title_list)
+                    
             # TODO find and add 405
             except Exception:
                 manage_error(error_tries + 1)
