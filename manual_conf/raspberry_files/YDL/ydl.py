@@ -63,7 +63,7 @@ def tag_and_copy(audio_data, pytemp_dir):
             meta.save()
     if not path.exists(dest_path):
         # Move -> Invalid cross-device link -> copy delete
-        shutil.copy(filepath, dest_path)
+        shutil.copy2(filepath, dest_path)
         os.remove(filepath)
 
 
@@ -174,7 +174,6 @@ def main():
 
                     tag_and_copy(audio_data, tmpdirname)
                     done_list.append(audio_data.title)
-
                     write_title_list(file_list_path, done_list)
                     # if not last occurence
                     if audio_data != audio_data_list[-1]:
