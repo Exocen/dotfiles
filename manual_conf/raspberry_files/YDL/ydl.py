@@ -32,7 +32,7 @@ class Audio_data:
         parsed_title = re.findall(r"(.*?)\s*-\s*(.*)", title)
         if len(parsed_title) > 0 and len(parsed_title[0]) == 2:
             self.artist = parsed_title[0][0]
-            self.title = parsed_title[0][1]
+            self.tagtitle = parsed_title[0][1]
             self.filename = self.artist + " - " + self.title + "." + audio_format
         else:
             self.artist = None
@@ -58,7 +58,7 @@ def tag_and_copy(audio_data, pytemp_dir):
             meta = EasyID3(filepath)
         except mutagen.id3.ID3NoHeaderError:
             meta = mutagen.File(filepath, easy=True)
-            meta["title"] = audio_data.title
+            meta["title"] = audio_data.tagtitle
             meta["artist"] = audio_data.artist
             meta.save()
     if not path.exists(dest_path):
@@ -75,8 +75,6 @@ def generate_file_list(file_path):
 
 
 def write_title_list(file_path, title_list):
-    if not title_list:
-        raise Exception('title list empty')
     with open(file_path, "w", newline="") as csv_file:
         write = csv.writer(csv_file)
         write.writerow(title_list)
@@ -168,7 +166,7 @@ def main():
             try:
                 done_list = existing_title_list if existing_title_list else []
                 for audio_data in audio_data_list:
-                    print("DL : " + audio_data.filename)
+                    print("DL : " + audio_data.title)
                     dl_list(audio_data, gen_ydl_options(
                         audio_format, tmpdirname))
 
