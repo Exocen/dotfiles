@@ -30,7 +30,7 @@ class Audio_data:
         self.title = title
         self.pid = pid
         self.filename = self.title + "." + audio_format
-        
+
         parsed_title = re.findall(r"(.*?)\s*-\s*(.*)", title)
         if len(parsed_title) > 0 and len(parsed_title[0]) == 2:
             self.artist = parsed_title[0][0]
