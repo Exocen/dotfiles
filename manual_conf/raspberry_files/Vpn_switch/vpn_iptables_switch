@@ -2,8 +2,6 @@
 # PostUp = /usr/bin/bash -c 'exec /usr/bin/vpn_iptables_switch up %i'
 # PreDown = /usr/bin/bash -c 'exec /usr/bin/vpn_iptables_switch down %i'
 
-# TODO add secure check + duplicate managment
-
 if [ "$#" -ne 2 ]; then
     echo "$1: usage : script up/down interface"
     exit 3

@@ -89,8 +89,8 @@ function build_database() {
 }
 
 function put_conf() {
-    #Post-generate_conf
-    #TODO sudoless ?
+    # Post-generate_conf
+    # Can't be sudoless or root :(
     sudo cp -fr $TMP_CONF/postfix/* /etc/postfix/
     sudo chmod -R o-rwx /etc/postfix
     sudo postalias /etc/aliases

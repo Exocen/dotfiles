@@ -30,6 +30,7 @@ class Audio_data:
         self.title = title
         self.pid = pid
         self.filename = self.title + "." + audio_format
+        
         parsed_title = re.findall(r"(.*?)\s*-\s*(.*)", title)
         if len(parsed_title) > 0 and len(parsed_title[0]) == 2:
             self.artist = parsed_title[0][0]
@@ -62,7 +63,7 @@ def tag_and_copy(audio_data, pytemp_dir):
             meta["artist"] = audio_data.artist
             meta.save()
     if not path.exists(dest_path):
-        # Move -> Invalid cross-device link -> copy delete
+        # shutil.move -> Invalid cross-device link
         shutil.copyfile(filepath, dest_path)
         shutil.rmtree(filepath)
 
@@ -127,7 +128,7 @@ def manage_error(error_tries):
 def main():
     # Error management -> error -> switch vpn up to retry_counter
     # error/mail on the retry_counter + 1 error -> then stop running
-    # TODO stand alone process + intern timer
+    # TODO stand alone process + intern timer + intern error counter
     error_ydl = open_file()
     error_tries = error_ydl if error_ydl is not None else 0
     if error_tries == retry_counter:
@@ -179,7 +180,6 @@ def main():
                     if audio_data != audio_data_list[-1]:
                         sleep(randint(0, rng_range))
 
-            # TODO find and add 405
             except Exception:
                 manage_error(error_tries + 1)
                 raise
