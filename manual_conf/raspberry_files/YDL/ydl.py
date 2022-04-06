@@ -190,9 +190,9 @@ def main():
         try:
             downloader()
             sleep(300 + randint(0, 300))
-        except Network_Error():
+        except Network_Error:
             pass
-        except Exception():
+        except Exception:
             loop = False
             raise
 
