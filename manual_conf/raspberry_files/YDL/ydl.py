@@ -33,6 +33,7 @@ class Network_Error(Exception):
     if s.returncode != 0:
         raise Exception(s.stderr)
     print(s.stdout)
+    sleep(10)
     print("Vpn reloading...")
 
 
