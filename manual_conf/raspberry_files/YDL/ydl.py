@@ -6,7 +6,6 @@ import youtube_dl
 import mutagen
 import subprocess
 import logging
-from systemd import journal
 from random import seed, randint
 from time import sleep
 from mutagen.easyid3 import EasyID3
@@ -19,7 +18,6 @@ if len(sys.argv) != 4:
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger('YDL')
-log.addHandler(journal.JournaldLogHandler())
 audio_format = "flac"
 rng_range = 30
 tmp_dir = sys.argv[-3]
@@ -166,7 +164,7 @@ def downloader():
             try:
                 done_list = existing_title_list if existing_title_list else []
                 for audio_data in audio_data_list:
-                    log.info("DL : " + audio_data.title)
+                    log.info("Downloading: " + audio_data.title)
                     dl_list(audio_data, gen_ydl_options(
                         audio_format, tmpdirname))
 
