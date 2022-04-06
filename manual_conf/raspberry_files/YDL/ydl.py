@@ -6,7 +6,7 @@ import youtube_dl
 import mutagen
 import subprocess
 import logging
-from systemd.journal import JournalHandler
+from systemd import journal
 from random import seed, randint
 from time import sleep
 from mutagen.easyid3 import EasyID3
@@ -17,9 +17,9 @@ if len(sys.argv) != 4:
     print("Usage ./Script tmpram-dir dest-dir id")
     quit()
 
+logging.basicConfig(level=logging.INFO)
 log = logging.getLogger('YDL')
-log.addHandler(JournalHandler())
-log.setLevel(logging.INFO)
+log.addHandler(journal.JournaldLogHandler())
 audio_format = "flac"
 rng_range = 30
 tmp_dir = sys.argv[-3]
