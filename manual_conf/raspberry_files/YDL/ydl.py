@@ -35,7 +35,8 @@ class Network_Error(Exception):
     s = subprocess.run(cmd, capture_output=True, text=True)
     if s.returncode != 0:
         raise Exception(s.stderr)
-    log.warning(s.stdout)
+    if s.stdout:
+        log.warning(s.stdout)
     sleep(10)
     log.info("Vpn reloading...")
 
@@ -181,7 +182,7 @@ def downloader():
 
 def main():
 
-    log.info("Ydl Starting...")
+    log.info("Starting...")
     seed()
     global loop
     while(loop):
