@@ -134,15 +134,14 @@ class Main:
 
         log.info("Starting...")
         seed()
-        global loop
-        while(loop):
+        while(self.loop):
             try:
                 self.downloader()
                 sleep(cooldown + randint(0, cooldown))
             except Network_Error:
                 pass
             except Exception:
-                loop = False
+                self.loop = False
                 raise
 
 
