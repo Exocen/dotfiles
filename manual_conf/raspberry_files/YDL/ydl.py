@@ -176,6 +176,7 @@ def downloader():
 
 
 def main():
+    print("Ydl Starting...")
     seed()
     global loop
     while(loop):
@@ -186,7 +187,7 @@ def main():
             pass
         except Exception():
             loop = False
-            return
+            raise
 
 
 if __name__ == "__main__":
