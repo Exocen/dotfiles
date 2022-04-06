@@ -30,6 +30,7 @@ loop = True
 
 
 class Network_Error(Exception):
+    log.info("Vpn reloading...")
     cmd = ["/usr/bin/sudo", "/usr/bin/systemctl",
            "reload", "vpn_manager.service"]
     s = subprocess.run(cmd, capture_output=True, text=True)
@@ -38,7 +39,7 @@ class Network_Error(Exception):
     if s.stdout:
         log.warning(s.stdout)
     sleep(10)
-    log.info("Vpn reloading...")
+    log.debug("Vpn reloaded")
 
 
 class Audio_data:
