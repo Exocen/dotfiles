@@ -5,9 +5,8 @@ import shutil
 import youtube_dl
 import mutagen
 import subprocess
-import os
+from random import seed, randint
 from time import sleep
-from random import randint
 from mutagen.easyid3 import EasyID3
 from os import path
 from tempfile import TemporaryDirectory
@@ -22,7 +21,19 @@ tmp_dir = sys.argv[-3]
 error_file = path.join(tmp_dir, "ydl_error_counter")
 playlist_id = sys.argv[-1]
 playlist_path_location = sys.argv[-2]
-retry_counter = 3
+retry_counter_max = 3
+retry_counter = 0
+loop = True
+
+
+class Network_Error(Exception):
+    cmd = ["/usr/bin/sudo", "/usr/bin/systemctl",
+           "reload", "vpn_manager.service"]
+    s = subprocess.run(cmd, capture_output=True, text=True)
+    if s.returncode != 0:
+        raise Exception(s.stderr)
+    print(s.stdout)
+    print("Vpn reloading...")
 
 
 class Audio_data:
@@ -83,14 +94,6 @@ def write_title_list(file_path, title_list):
         write.writerow(title_list)
 
 
-def run_process(cmd):
-    s = subprocess.run(cmd, capture_output=True, text=True)
-    if s.returncode != 0:
-        raise Exception(s.stderr)
-    print(s.stdout)
-    return s
-
-
 def gen_ydl_options(audio_format, tmpdirname):
     return {
         "extractaudio": True,
@@ -117,36 +120,24 @@ def write_file(index):
         file.write(str(index))
 
 
-def manage_error(error_tries):
-    write_file(error_tries)
+def connection_error():
     # Should ONLY have reload permission (visudo)
-    run_process(
-        ["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"]
-    )
-
-
-def main():
-    # Error management -> error -> switch vpn up to retry_counter
-    # error/mail on the retry_counter + 1 error -> then stop running
-    # TODO stand alone process + intern timer + intern error counter
-    error_ydl = open_file()
-    error_tries = error_ydl if error_ydl is not None else 0
-    if error_tries == retry_counter:
-        write_file(error_tries + 1)
-        sys.exit(1)
-    elif error_tries > retry_counter:
-        print("Ydl Stopped: Too much retries")
-        # TODO remove
-        run_process(
-            ["/usr/bin/sudo", "/usr/bin/systemctl", "stop", "ydl.timer"])
+    global retry_counter
+    global loop
+    retry_counter = retry_counter + 1
+    if retry_counter < retry_counter_max:
+        raise Network_Error()
+    else:
+        loop = False
         return
 
+
+def downloader():
     # Dl infos only
     try:
         infos = extract_info()
     except Exception:
-        manage_error(error_tries + 1)
-        raise
+        connection_error()
 
     playlist_title = infos["title"]
     file_list_path = path.join(playlist_path_location, playlist_title + ".cvs")
@@ -181,10 +172,21 @@ def main():
                         sleep(randint(0, rng_range))
 
             except Exception:
-                manage_error(error_tries + 1)
-                raise
-    if error_tries != 0:
-        os.remove(error_file)
+                connection_error()
+
+
+def main():
+    seed()
+    global loop
+    while(loop):
+        try:
+            downloader()
+            sleep(300 + randint(0, 300))
+        except Network_Error():
+            pass
+        except Exception():
+            loop = False
+            return
 
 
 if __name__ == "__main__":

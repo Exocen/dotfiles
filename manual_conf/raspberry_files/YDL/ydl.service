@@ -3,14 +3,12 @@ Description=Ydl script
 After=vpn_manager.service
 Requires=vpn_manager.service
 OnFailure=notify-email@%i.service
-StartLimitInterval=400
-StartLimitBurst=3
 RequiresMountsFor=%/tmp_user_1%
 
 [Service]
-Restart=on-failure
 User=vpn_user
-Type=exec
+Type=oneshot
+RemainAfterExit=yes
 ExecStart=python3 ydl.py "%/tmp_user_1%" "path" "id"
 
 [Install]
