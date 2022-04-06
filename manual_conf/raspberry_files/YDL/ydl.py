@@ -12,27 +12,20 @@ from mutagen.easyid3 import EasyID3
 from os import path
 from tempfile import TemporaryDirectory
 
-if len(sys.argv) != 4:
-    print("Usage ./Script tmpram-dir dest-dir id")
-    quit()
-
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger('YDL')
 audio_format = "flac"
 rng_range = 30
+cooldown = 300
 tmp_dir = sys.argv[-3]
-error_file = path.join(tmp_dir, "ydl_error_counter")
 playlist_id = sys.argv[-1]
 playlist_path_location = sys.argv[-2]
 retry_counter_max = 3
-retry_counter = 0
-loop = True
 
 
 class Network_Error(Exception):
     log.info("Vpn reloading...")
-    cmd = ["/usr/bin/sudo", "/usr/bin/systemctl",
-           "reload", "vpn_manager.service"]
+    cmd = ["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"]
     s = subprocess.run(cmd, capture_output=True, text=True)
     if s.returncode != 0:
         raise Exception(s.stderr)
@@ -57,145 +50,131 @@ class Audio_data:
             self.tagtitle = None
 
 
-def dl_list(audio_data, ydl_opts):
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([audio_data.pid])
+class Main:
 
+    def __init__(self):
+        self.retry_counter = 0
+        self.loop = True
 
-def extract_info():
-    with youtube_dl.YoutubeDL({"quiet": True}) as ydl:
-        return ydl.extract_info(playlist_id, download=False)
+    def dl_list(self, audio_data, ydl_opts):
+        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([audio_data.pid])
 
+    def extract_info(self):
+        with youtube_dl.YoutubeDL({"quiet": True}) as ydl:
+            return ydl.extract_info(playlist_id, download=False)
 
-def tag_and_copy(audio_data, pytemp_dir):
-    dest_path = path.join(playlist_path_location, audio_data.filename)
-    filepath = path.join(pytemp_dir, audio_data.filename)
-    if audio_data.artist:
-        # if format/title = 'artist - song' use id3 tags
-        try:
-            meta = EasyID3(filepath)
-        except mutagen.id3.ID3NoHeaderError:
-            meta = mutagen.File(filepath, easy=True)
-            meta["title"] = audio_data.tagtitle
-            meta["artist"] = audio_data.artist
-            meta.save()
-    if not path.exists(dest_path):
-        # shutil.move -> Invalid cross-device link
-        shutil.copyfile(filepath, dest_path)
-        shutil.rmtree(filepath)
-
-
-def generate_file_list(file_path):
-    if path.exists(file_path):
-        with open(file_path, newline="") as f:
-            reader = csv.reader(f)
-            return list(reader)[0]
-    else:
-        return []
-
-
-def write_title_list(file_path, title_list):
-    with open(file_path, "w", newline="") as csv_file:
-        write = csv.writer(csv_file)
-        write.writerow(title_list)
-
-
-def gen_ydl_options(audio_format, tmpdirname):
-    return {
-        "extractaudio": True,
-        "format": "bestaudio/best",
-        "quiet": True,
-        "postprocessors": [
-            {
-                "key": "FFmpegExtractAudio",
-                "preferredcodec": audio_format,
-            }
-        ],
-        "outtmpl": tmpdirname + "/%(title)s.%(ext)s",
-    }
-
-
-def open_file():
-    if path.exists(error_file):
-        with open(error_file) as file:
-            return int(file.read())
-
-
-def write_file(index):
-    with open(error_file, "w") as file:
-        file.write(str(index))
-
-
-def connection_error():
-    # Should ONLY have reload permission (visudo)
-    global retry_counter
-    global loop
-    retry_counter = retry_counter + 1
-    if retry_counter < retry_counter_max:
-        raise Network_Error()
-    else:
-        loop = False
-        return
-
-
-def downloader():
-    # Dl infos only
-    try:
-        infos = extract_info()
-    except Exception:
-        connection_error()
-
-    playlist_title = infos["title"]
-    file_list_path = path.join(playlist_path_location, playlist_title + ".cvs")
-
-    # Check existing
-    audio_data_list = []
-
-    for info in infos["entries"]:
-        audio_data_list.append(Audio_data(info["title"], info["id"]))
-
-    existing_title_list = generate_file_list(file_list_path)
-
-    audio_data_list = list(
-        filter(lambda a: a.title not in existing_title_list, audio_data_list)
-    )
-
-    # Dl and tag
-    if audio_data_list:
-        with TemporaryDirectory(dir=tmp_dir) as tmpdirname:
+    def tag_and_copy(self, audio_data, pytemp_dir):
+        dest_path = path.join(playlist_path_location, audio_data.filename)
+        filepath = path.join(pytemp_dir, audio_data.filename)
+        if audio_data.artist:
+            # if format/title = 'artist - song' use id3 tags
             try:
-                done_list = existing_title_list if existing_title_list else []
-                for audio_data in audio_data_list:
-                    log.info("Downloading: " + audio_data.title)
-                    dl_list(audio_data, gen_ydl_options(
-                        audio_format, tmpdirname))
+                meta = EasyID3(filepath)
+            except mutagen.id3.ID3NoHeaderError:
+                meta = mutagen.File(filepath, easy=True)
+                meta["title"] = audio_data.tagtitle
+                meta["artist"] = audio_data.artist
+                meta.save()
+        if not path.exists(dest_path):
+            # shutil.move -> Invalid cross-device link
+            shutil.copyfile(filepath, dest_path)
+            shutil.rmtree(filepath)
 
-                    tag_and_copy(audio_data, tmpdirname)
-                    done_list.append(audio_data.title)
-                    write_title_list(file_list_path, done_list)
-                    # if not last occurence
-                    if audio_data != audio_data_list[-1]:
-                        sleep(randint(0, rng_range))
+    def get_file_list(self, file_path):
+        if path.exists(file_path):
+            with open(file_path, newline="") as f:
+                reader = csv.reader(f)
+                return list(reader)[0]
+        else:
+            return []
 
-            except Exception:
-                connection_error()
+    def write_title_list(self, file_path, title_list):
+        with open(file_path, "w", newline="") as csv_file:
+            write = csv.writer(csv_file)
+            write.writerow(title_list)
 
+    def gen_ydl_options(self, audio_format, tmpdirname):
+        return {
+            "extractaudio": True,
+            "format": "bestaudio/best",
+            "quiet": True,
+            "postprocessors": [
+                {
+                    "key": "FFmpegExtractAudio",
+                    "preferredcodec": audio_format,
+                }
+            ],
+            "outtmpl": tmpdirname + "/%(title)s.%(ext)s",
+        }
 
-def main():
+    def connection_error(self):
+        # Should ONLY have reload permission (visudo)
+        self.retry_counter = self.retry_counter + 1
+        if self.retry_counter < retry_counter_max:
+            raise Network_Error()
+        else:
+            self.loop = False
+            return
 
-    log.info("Starting...")
-    seed()
-    global loop
-    while(loop):
+    def downloader(self):
+        # Dl infos only
         try:
-            downloader()
-            sleep(300 + randint(0, 300))
-        except Network_Error:
-            pass
+            infos = self.extract_info()
         except Exception:
-            loop = False
-            raise
+            self.connection_error()
+
+        playlist_title = infos["title"]
+        file_list_path = path.join(
+            playlist_path_location, playlist_title + ".cvs")
+
+        # Check existing
+        audio_data_list = []
+
+        for info in infos["entries"]:
+            audio_data_list.append(Audio_data(info["title"], info["id"]))
+
+        existing_title_list = self.get_file_list(file_list_path)
+
+        audio_data_list = list(filter(lambda a: a.title not in existing_title_list, audio_data_list))
+
+        # Dl and tag
+        if audio_data_list:
+            with TemporaryDirectory(dir=tmp_dir) as tmpdirname:
+                try:
+                    done_list = existing_title_list if existing_title_list else []
+                    for audio_data in audio_data_list:
+                        log.info("Downloading: " + audio_data.title)
+                        self.dl_list(audio_data, self.gen_ydl_options(audio_format, tmpdirname))
+
+                        self.tag_and_copy(audio_data, tmpdirname)
+                        done_list.append(audio_data.title)
+                        self.write_title_list(file_list_path, done_list)
+                        # if not last occurence
+                        if audio_data != audio_data_list[-1]:
+                            sleep(randint(0, rng_range))
+
+                except Exception:
+                    self.connection_error()
+
+    def run(self):
+
+        log.info("Starting...")
+        seed()
+        global loop
+        while(loop):
+            try:
+                self.downloader()
+                sleep(cooldown + randint(0, cooldown))
+            except Network_Error:
+                pass
+            except Exception:
+                loop = False
+                raise
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    if len(sys.argv) != 4:
+        print("Usage ./Script tmpram-dir dest-dir id")
+    quit()
+    sys.exit(Main().run())
