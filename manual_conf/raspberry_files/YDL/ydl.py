@@ -146,6 +146,10 @@ class Main:
                 raise
 
 
+if __name__ == "__main__":
+    Main().run()
+
+
 class Network_Error(Exception):
     log.info("Vpn reloading...")
     cmd = ["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"]
