@@ -69,16 +69,18 @@ class Main:
 
     def gen_ydl_options(self, audio_format, tmpdirname):
         return {
-            "extractaudio": True,
-            "format": "bestaudio/best",
-            "quiet": True,
-            "postprocessors": [
-                {
-                    "key": "FFmpegExtractAudio",
-                    "preferredcodec": audio_format,
-                }
-            ],
-            "outtmpl": tmpdirname + "/%(title)s.%(ext)s",
+            "extractaudio":
+            True,
+            "format":
+            "bestaudio/best",
+            "quiet":
+            True,
+            "postprocessors": [{
+                "key": "FFmpegExtractAudio",
+                "preferredcodec": audio_format,
+            }],
+            "outtmpl":
+            tmpdirname + "/%(title)s.%(ext)s",
         }
 
     def connection_error(self):
@@ -98,8 +100,8 @@ class Main:
             self.connection_error()
 
         playlist_title = infos["title"]
-        file_list_path = path.join(
-            playlist_path_location, playlist_title + ".cvs")
+        file_list_path = path.join(playlist_path_location,
+                                   playlist_title + ".cvs")
 
         # Check existing
         audio_data_list = []
@@ -109,7 +111,9 @@ class Main:
 
         existing_title_list = self.get_file_list(file_list_path)
 
-        audio_data_list = list(filter(lambda a: a.title not in existing_title_list, audio_data_list))
+        audio_data_list = list(
+            filter(lambda a: a.title not in existing_title_list,
+                   audio_data_list))
 
         # Dl and tag
         if audio_data_list:
@@ -118,7 +122,9 @@ class Main:
                     done_list = existing_title_list if existing_title_list else []
                     for audio_data in audio_data_list:
                         log.info("Downloading: " + audio_data.title)
-                        self.dl_list(audio_data, self.gen_ydl_options(audio_format, tmpdirname))
+                        self.dl_list(
+                            audio_data,
+                            self.gen_ydl_options(audio_format, tmpdirname))
 
                         self.tag_and_copy(audio_data, tmpdirname)
                         done_list.append(audio_data.title)
@@ -134,7 +140,7 @@ class Main:
 
         log.info("Starting...")
         seed()
-        while(self.loop):
+        while (self.loop):
             try:
                 self.downloader()
                 sleep(cooldown + randint(0, cooldown))
@@ -145,23 +151,27 @@ class Main:
                 raise
 
 
-if __name__ == "__main__":
-    Main().run()
-
-
 class Network_Error(Exception):
-    log.info("Vpn reloading...")
-    cmd = ["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"]
-    s = subprocess.run(cmd, capture_output=True, text=True)
-    if s.returncode != 0:
-        raise Exception(s.stderr)
-    if s.stdout:
-        log.warning(s.stdout)
-    sleep(10)
-    log.debug("Vpn reloaded")
+
+    def __init__(self, message, errors):
+        # Call the base class constructor with the parameters it needs
+        super().__init__(message)
+        log.info("Vpn reloading...")
+        cmd = [
+            "/usr/bin/sudo", "/usr/bin/systemctl", "reload",
+            "vpn_manager.service"
+        ]
+        s = subprocess.run(cmd, capture_output=True, text=True)
+        if s.returncode != 0:
+            raise Exception(s.stderr)
+        if s.stdout:
+            log.warning(s.stdout)
+        sleep(10)
+        log.debug("Vpn reloaded")
 
 
 class Audio_data:
+
     def __init__(self, title, pid):
         self.title = title
         self.pid = pid
@@ -174,3 +184,7 @@ class Audio_data:
         else:
             self.artist = None
             self.tagtitle = None
+
+
+if __name__ == "__main__":
+    Main().run()
