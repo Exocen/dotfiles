@@ -23,33 +23,6 @@ playlist_path_location = sys.argv[-2]
 retry_counter_max = 3
 
 
-class Network_Error(Exception):
-    log.info("Vpn reloading...")
-    cmd = ["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"]
-    s = subprocess.run(cmd, capture_output=True, text=True)
-    if s.returncode != 0:
-        raise Exception(s.stderr)
-    if s.stdout:
-        log.warning(s.stdout)
-    sleep(10)
-    log.debug("Vpn reloaded")
-
-
-class Audio_data:
-    def __init__(self, title, pid):
-        self.title = title
-        self.pid = pid
-        self.filename = self.title + "." + audio_format
-
-        parsed_title = re.findall(r"(.*?)\s*-\s*(.*)", title)
-        if len(parsed_title) > 0 and len(parsed_title[0]) == 2:
-            self.artist = parsed_title[0][0]
-            self.tagtitle = parsed_title[0][1]
-        else:
-            self.artist = None
-            self.tagtitle = None
-
-
 class Main:
 
     def __init__(self):
@@ -173,8 +146,28 @@ class Main:
                 raise
 
 
-if __name__ == "__main__":
-    if len(sys.argv) != 4:
-        print("Usage ./Script tmpram-dir dest-dir id")
-    quit()
-    sys.exit(Main().run())
+class Network_Error(Exception):
+    log.info("Vpn reloading...")
+    cmd = ["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"]
+    s = subprocess.run(cmd, capture_output=True, text=True)
+    if s.returncode != 0:
+        raise Exception(s.stderr)
+    if s.stdout:
+        log.warning(s.stdout)
+    sleep(10)
+    log.debug("Vpn reloaded")
+
+
+class Audio_data:
+    def __init__(self, title, pid):
+        self.title = title
+        self.pid = pid
+        self.filename = self.title + "." + audio_format
+
+        parsed_title = re.findall(r"(.*?)\s*-\s*(.*)", title)
+        if len(parsed_title) > 0 and len(parsed_title[0]) == 2:
+            self.artist = parsed_title[0][0]
+            self.tagtitle = parsed_title[0][1]
+        else:
+            self.artist = None
+            self.tagtitle = None
