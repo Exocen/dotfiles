@@ -33,6 +33,7 @@
         "network",
         "network#up",
         "network#down",
+        "disk",
         "memory",
         "cpu#core",
         //"cpu#load",
@@ -106,7 +107,15 @@
             "tooltip": false
         },
 
-
+        "disk": {
+            "interval": 30,
+            "format": "<span color=\"#05e4fc\">{path}</span> {percentage_free}%",
+            "states": {
+                "warning": 80,
+                "critical":90
+            },
+            "path": "/"
+        },
         "mpd": {
             //玲栗契怜凌
             "format": "{stateIcon} {artist} - {title}",
@@ -151,7 +160,7 @@
             "format": "<span color=\"#138d75\"></span> {load:<5}",
             "tooltip": false
         },
-        
+
         "memory": {
             "interval": 5,
             "format": "<span color=\"#2e86c1\"></span>{percentage:>3}%",

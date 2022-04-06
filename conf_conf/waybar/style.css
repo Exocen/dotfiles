@@ -54,6 +54,7 @@
 #memory,
 #network,
 #pulseaudio,
+#disk,
 #temperature{
     padding-left: 0;
     padding-right: 15px;
@@ -70,11 +71,11 @@
     animation-direction: alternate;
 }
 
-#battery.warning {
+#battery.warning, #disk.warning {
     color: orange;
 }
 
-#battery.critical {
+#battery.critical, #disk.critical {
     color: red;
 }
 
