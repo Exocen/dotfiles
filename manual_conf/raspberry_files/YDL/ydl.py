@@ -5,6 +5,8 @@ import shutil
 import youtube_dl
 import mutagen
 import subprocess
+import logging
+from systemd.journal import JournalHandler
 from random import seed, randint
 from time import sleep
 from mutagen.easyid3 import EasyID3
@@ -15,6 +17,9 @@ if len(sys.argv) != 4:
     print("Usage ./Script tmpram-dir dest-dir id")
     quit()
 
+log = logging.getLogger('YDL')
+log.addHandler(JournalHandler())
+log.setLevel(logging.INFO)
 audio_format = "flac"
 rng_range = 30
 tmp_dir = sys.argv[-3]
@@ -32,9 +37,9 @@ class Network_Error(Exception):
     s = subprocess.run(cmd, capture_output=True, text=True)
     if s.returncode != 0:
         raise Exception(s.stderr)
-    print(s.stdout)
+    log.warning(s.stdout)
     sleep(10)
-    print("Vpn reloading...")
+    log.info("Vpn reloading...")
 
 
 class Audio_data:
@@ -161,7 +166,7 @@ def downloader():
             try:
                 done_list = existing_title_list if existing_title_list else []
                 for audio_data in audio_data_list:
-                    print("DL : " + audio_data.title)
+                    log.info("DL : " + audio_data.title)
                     dl_list(audio_data, gen_ydl_options(
                         audio_format, tmpdirname))
 
@@ -177,7 +182,8 @@ def downloader():
 
 
 def main():
-    print("Ydl Starting...")
+
+    log.info("Ydl Starting...")
     seed()
     global loop
     while(loop):
