@@ -18,6 +18,7 @@ audio_format = "flac"
 rng_range = 30
 sleep_cooldown = 5
 cooldown = 300
+# TODO args -> csv lists -> multiple playlists
 tmp_dir = sys.argv[-3]
 playlist_id = sys.argv[-1]
 playlist_path_location = sys.argv[-2]

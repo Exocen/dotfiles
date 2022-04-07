@@ -5,7 +5,7 @@ from os import listdir, path
 
 
 def print_usage():
-    print("Usage script.py down/up")
+    print("Usage script.py down/up/reload")
 
 
 if len(sys.argv) != 2:

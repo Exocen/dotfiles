@@ -16,7 +16,4 @@ elif [ "$1" == "down" ]; then
     ip6tables -I OUTPUT -m owner --uid-owner vpn_user -j REJECT
     iptables -D OUTPUT ! -o $2 -m mark ! --mark $(wg show $2 fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner vpn_user -j REJECT
     ip6tables -D OUTPUT ! -o $2 -m mark ! --mark $(wg show $2 fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner vpn_user -j REJECT
-else
-    echo "$1: usage : script up/down interface"
-    exit 3
 fi
