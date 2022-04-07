@@ -84,7 +84,6 @@ class Main:
         }
 
     def connection_error(self):
-        # Should ONLY have reload permission (visudo)
         self.retry_counter = self.retry_counter + 1
         if self.retry_counter < retry_counter_max:
             raise Network_Error()
@@ -100,8 +99,7 @@ class Main:
             self.connection_error()
 
         playlist_title = infos["title"]
-        file_list_path = path.join(playlist_path_location,
-                                   playlist_title + ".cvs")
+        file_list_path = path.join(playlist_path_location, playlist_title + ".cvs")
 
         # Check existing
         audio_data_list = []
@@ -122,10 +120,7 @@ class Main:
                     done_list = existing_title_list if existing_title_list else []
                     for audio_data in audio_data_list:
                         log.info("Downloading: " + audio_data.title)
-                        self.dl_list(
-                            audio_data,
-                            self.gen_ydl_options(audio_format, tmpdirname))
-
+                        self.dl_list(audio_data, self.gen_ydl_options(audio_format, tmpdirname))
                         self.tag_and_copy(audio_data, tmpdirname)
                         done_list.append(audio_data.title)
                         self.write_title_list(file_list_path, done_list)
@@ -138,7 +133,7 @@ class Main:
 
     def run(self):
 
-        log.info("Starting...")
+        log.debug("YDL Starting...")
         seed()
         while (self.loop):
             try:
@@ -154,13 +149,10 @@ class Main:
 class Network_Error(Exception):
 
     def __init__(self, message, errors):
-        # Call the base class constructor with the parameters it needs
+        # Should ONLY have reload permission (visudo)
         super().__init__(message)
         log.info("Vpn reloading...")
-        cmd = [
-            "/usr/bin/sudo", "/usr/bin/systemctl", "reload",
-            "vpn_manager.service"
-        ]
+        cmd = ["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"]
         s = subprocess.run(cmd, capture_output=True, text=True)
         if s.returncode != 0:
             raise Exception(s.stderr)
