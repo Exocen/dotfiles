@@ -16,6 +16,7 @@ logging.basicConfig(level=logging.INFO)
 log = logging.getLogger('YDL')
 audio_format = "flac"
 rng_range = 30
+sleep_cooldown = 5
 cooldown = 300
 tmp_dir = sys.argv[-3]
 playlist_id = sys.argv[-1]
@@ -126,7 +127,7 @@ class Main:
                         self.write_title_list(file_list_path, done_list)
                         # if not last occurence
                         if audio_data != audio_data_list[-1]:
-                            sleep(randint(0, rng_range))
+                            sleep(randint(sleep_cooldown, sleep_cooldown + rng_range))
 
                 except Exception:
                     self.connection_error()
@@ -158,7 +159,7 @@ class Network_Error(Exception):
             raise Exception(s.stderr)
         if s.stdout:
             log.warning(s.stdout)
-        sleep(10)
+        sleep(sleep_cooldown)
         log.debug("Vpn reloaded")
 
 
