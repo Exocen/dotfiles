@@ -83,7 +83,7 @@ class Main:
         if d['status'] == 'finished':
             self.last_dl_file = d['filename']
 
-    def gen_ydl_options(self):
+    def gen_ydl_options(self, tmpdirname):
         return {
             "extractaudio":
             True,
@@ -96,7 +96,7 @@ class Main:
                 "preferredcodec": audio_format,
             }],
             "outtmpl":
-            self.tmp_dir + "/%(title)s.%(ext)s",
+            tmpdirname + "/%(title)s.%(ext)s",
             'progress_hooks': [self.file_hook],
         }
 
@@ -137,7 +137,7 @@ class Main:
                     done_list = existing_title_list if existing_title_list else []
                     for audio_data in audio_data_list:
                         log.info("Downloading: " + audio_data.title)
-                        self.dl_list(audio_data, self.gen_ydl_options())
+                        self.dl_list(audio_data, self.gen_ydl_options(tmpdirname))
                         audio_data.filename = self.last_dl_file
                         self.tag_and_copy(audio_data, tmpdirname)
                         done_list.append(audio_data.title)
