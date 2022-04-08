@@ -100,20 +100,20 @@ class Main:
             'progress_hooks': [self.file_hook],
         }
 
-    def connection_error(self):
+    def connection_error(self, exception):
         self.retry_counter = self.retry_counter + 1
         if self.retry_counter < retry_counter_max:
             raise Network_Error()
         else:
             self.loop = False
-            return
+            raise exception
 
     def downloader(self):
         # Dl infos only
         try:
             infos = self.extract_info()
-        except Exception:
-            self.connection_error()
+        except Exception as exception:
+            self.connection_error(exception)
 
         playlist_title = infos["title"]
         file_list_path = path.join(self.playlist_path_location, playlist_title + ".cvs")
@@ -146,8 +146,8 @@ class Main:
                         if audio_data != audio_data_list[-1]:
                             sleep(randint(sleep_cooldown, sleep_cooldown + rng_range))
 
-                except Exception:
-                    self.connection_error()
+                except Exception as exception:
+                    self.connection_error(exception)
 
     def run(self):
         log.debug("YDL Starting...")
@@ -170,8 +170,8 @@ class Main:
 class Network_Error(Exception):
 
     def __init__(self):
-        # Should ONLY have reload permission (visudo)
         log.info("Vpn reloading...")
+        # Should ONLY have reload permission (visudo)
         cmd = ["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"]
         s = subprocess.run(cmd, capture_output=True, text=True)
         if s.returncode != 0:
