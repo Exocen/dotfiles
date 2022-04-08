@@ -11,7 +11,7 @@ from mutagen.easyid3 import EasyID3
 from os import path
 from tempfile import TemporaryDirectory
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger('YDL')
 audio_format = "flac"
 rng_range = 30
@@ -39,6 +39,7 @@ class Main:
             # extracting each data row one by one
             for row in csvreader:
                 rows.append(row)
+        log.debug(f'Using new parameters -> {rows}')
         return rows
 
     def dl_list(self, audio_data, ydl_opts):
@@ -64,9 +65,11 @@ class Main:
         if not path.exists(dest_path):
             # shutil.move -> Invalid cross-device link
             shutil.copyfile(filepath, dest_path)
+            log.debug(f'File moved {filepath}->{dest_path}')
             shutil.rmtree(filepath)
 
     def get_file_list(self, file_path):
+        log.debug(f"getting titles from {file_path}")
         if path.exists(file_path):
             with open(file_path, newline="") as f:
                 reader = csv.reader(f)
@@ -75,6 +78,7 @@ class Main:
             return []
 
     def write_title_list(self, file_path, title_list):
+        log.debug(f"writing titles to {file_path}")
         with open(file_path, "w", newline="") as csv_file:
             write = csv.writer(csv_file)
             write.writerow(title_list)
