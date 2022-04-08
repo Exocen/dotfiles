@@ -27,7 +27,7 @@ class Main:
         self.tmp_dir = None
         self.playlist_id = None
         self.playlist_path_location = None
-        self.params_list = self.get_param_list(params_location)
+        self.params_list = self.get_param_list()
         self.retry_counter = 0
         self.loop = True
 
