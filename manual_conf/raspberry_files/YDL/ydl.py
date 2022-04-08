@@ -18,7 +18,7 @@ rng_range = 30
 sleep_cooldown = 5
 cooldown = 300
 params_location = path.join(path.dirname(path.realpath(__file__)), "ydl_param.csv")
-retry_counter_max = 3
+retry_counter_max = 0
 
 
 class Main:
