@@ -169,9 +169,8 @@ class Main:
 
 class Network_Error(Exception):
 
-    def __init__(self, message, errors):
+    def __init__(self):
         # Should ONLY have reload permission (visudo)
-        super().__init__(message)
         log.info("Vpn reloading...")
         cmd = ["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"]
         s = subprocess.run(cmd, capture_output=True, text=True)
