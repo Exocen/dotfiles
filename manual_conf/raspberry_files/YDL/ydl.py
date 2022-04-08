@@ -148,7 +148,7 @@ class Main:
         while (self.loop):
             try:
                 for params in self.params_list:
-                    param_list = params.split(',')
+                    param_list = ''.join(params).split(',')
                     self.tmp_dir = param_list[0]
                     self.playlist_id = param_list[1]
                     self.playlist_path_location = param_list[2]
