@@ -11,14 +11,14 @@ from mutagen.easyid3 import EasyID3
 from os import path
 from tempfile import TemporaryDirectory
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 log = logging.getLogger('YDL')
 audio_format = "flac"
 rng_range = 30
 sleep_cooldown = 5
 cooldown = 300
 params_location = path.join(path.dirname(path.realpath(__file__)), "ydl_param.csv")
-retry_counter_max = 0
+retry_counter_max = 3
 
 
 class Main:
@@ -56,7 +56,7 @@ class Main:
         log.debug(audio_data.filename)
         log.debug(dest_path)
         filepath = path.join(tmpdirname, audio_data.filename)
-        log.debug(f'Moving file {filepath} -> {dest_path}')
+        log.debug(f'Moving {filepath} -> {dest_path}')
         if audio_data.artist:
             # if format/title = 'artist - song' use id3 tags
             try:
@@ -67,7 +67,6 @@ class Main:
                 meta["artist"] = audio_data.artist
                 meta.save()
         if not path.exists(dest_path):
-            # shutil.move -> Invalid cross-device link
             shutil.copyfile(filepath, dest_path)
 
     def get_file_list(self, file_path):
@@ -88,7 +87,6 @@ class Main:
     def file_hook(self, d):
         if d['status'] == 'finished':
             pre, ext = path.splitext(path.basename(d['filename']))
-            log.debug(pre + '.' + audio_format)
             self.last_dl_file = pre + '.' + audio_format
 
     def gen_ydl_options(self, tmpdirname):
