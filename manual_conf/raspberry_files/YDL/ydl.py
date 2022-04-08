@@ -88,7 +88,7 @@ class Main:
 
     def file_hook(self, d):
         if d['status'] == 'finished':
-            pre, ext = path.splitext(d['filename'])
+            pre, ext = path.splitext(path.basename(d['filename']))
             log.debug(pre + '.' + audio_format)
             self.last_dl_file = pre + '.' + audio_format
 
