@@ -53,6 +53,7 @@ class Main:
     def tag_and_copy(self, audio_data, pytemp_dir):
         dest_path = path.join(self.playlist_path_location, audio_data.filename)
         filepath = path.join(pytemp_dir, audio_data.filename)
+        log.debug(f'Moving file {filepath} -> {dest_path}')
         if audio_data.artist:
             # if format/title = 'artist - song' use id3 tags
             try:
@@ -65,7 +66,6 @@ class Main:
         if not path.exists(dest_path):
             # shutil.move -> Invalid cross-device link
             shutil.copyfile(filepath, dest_path)
-            log.debug(f'File moved {filepath}->{dest_path}')
             shutil.rmtree(filepath)
 
     def get_file_list(self, file_path):
