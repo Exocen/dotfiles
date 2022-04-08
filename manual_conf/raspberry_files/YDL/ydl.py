@@ -149,8 +149,8 @@ class Main:
             try:
                 for params in self.params_list:
                     self.tmp_dir = params[0]
-                    self.playlist_id = params[1]
-                    self.playlist_path_location = params[2]
+                    self.playlist_path_location = params[1]
+                    self.playlist_id = params[2]
                     self.downloader()
                     sleep(cooldown + randint(0, cooldown))
             except Network_Error:
