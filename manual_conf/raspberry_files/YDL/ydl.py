@@ -32,13 +32,13 @@ class Main:
         self.loop = True
 
     def get_param_list(self):
-        params = []
+        rows = []
         with open(params_location, 'r') as csvfile:
             csvreader = csv.reader(csvfile)
             # extracting each data row one by one
             for row in csvreader:
-                params.append(row)
-        return params
+                rows.append(row)
+        return rows
 
     def dl_list(self, audio_data, ydl_opts):
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
@@ -148,9 +148,10 @@ class Main:
         while (self.loop):
             try:
                 for params in self.params_list:
-                    self.tmp_dir = params[0]
-                    self.playlist_id = params[1]
-                    self.playlist_path_location = [2]
+                    param_list = params.split(',')
+                    self.tmp_dir = param_list[0]
+                    self.playlist_id = param_list[1]
+                    self.playlist_path_location = param_list[2]
                     self.downloader()
                     sleep(cooldown + randint(0, cooldown))
             except Network_Error:
