@@ -1,5 +1,4 @@
 import re
-import sys
 import csv
 import shutil
 import youtube_dl
@@ -18,18 +17,28 @@ audio_format = "flac"
 rng_range = 30
 sleep_cooldown = 5
 cooldown = 300
-# TODO args -> csv lists -> multiple playlists
-tmp_dir = sys.argv[-3]
-playlist_id = sys.argv[-1]
-playlist_path_location = sys.argv[-2]
+params_location = path.join(path.dirname(path.realpath(__file__)), "ydl_param.csv")
 retry_counter_max = 3
 
 
 class Main:
 
     def __init__(self):
+        self.tmp_dir = None
+        self.playlist_id = None
+        self.playlist_path_location = None
+        self.params_list = self.get_file_list(params_location)
         self.retry_counter = 0
         self.loop = True
+
+    def get_param_list(self):
+        params = []
+        with open(params_location, 'r') as csvfile:
+            csvreader = csv.reader(csvfile)
+            # extracting each data row one by one
+            for row in csvreader:
+                params.append(row)
+        return params
 
     def dl_list(self, audio_data, ydl_opts):
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
@@ -37,10 +46,10 @@ class Main:
 
     def extract_info(self):
         with youtube_dl.YoutubeDL({"quiet": True}) as ydl:
-            return ydl.extract_info(playlist_id, download=False)
+            return ydl.extract_info(self.playlist_id, download=False)
 
     def tag_and_copy(self, audio_data, pytemp_dir):
-        dest_path = path.join(playlist_path_location, audio_data.filename)
+        dest_path = path.join(self.playlist_path_location, audio_data.filename)
         filepath = path.join(pytemp_dir, audio_data.filename)
         if audio_data.artist:
             # if format/title = 'artist - song' use id3 tags
@@ -101,7 +110,7 @@ class Main:
             self.connection_error()
 
         playlist_title = infos["title"]
-        file_list_path = path.join(playlist_path_location, playlist_title + ".cvs")
+        file_list_path = path.join(self.playlist_path_location, playlist_title + ".cvs")
 
         # Check existing
         audio_data_list = []
@@ -117,7 +126,7 @@ class Main:
 
         # Dl and tag
         if audio_data_list:
-            with TemporaryDirectory(dir=tmp_dir) as tmpdirname:
+            with TemporaryDirectory(dir=self.tmp_dir) as tmpdirname:
                 try:
                     done_list = existing_title_list if existing_title_list else []
                     for audio_data in audio_data_list:
@@ -134,13 +143,16 @@ class Main:
                     self.connection_error()
 
     def run(self):
-
         log.debug("YDL Starting...")
         seed()
         while (self.loop):
             try:
-                self.downloader()
-                sleep(cooldown + randint(0, cooldown))
+                for params in self.params_list:
+                    self.tmp_dir = params[0]
+                    self.playlist_id = params[1]
+                    self.playlist_path_location = [2]
+                    self.downloader()
+                    sleep(cooldown + randint(0, cooldown))
             except Network_Error:
                 pass
             except Exception:
