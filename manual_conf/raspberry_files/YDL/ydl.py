@@ -65,18 +65,11 @@ class Main:
 
     def gen_ydl_options(self, tmpdirname):
         return {
-            "extractaudio":
-            True,
-            "format":
-            "bestaudio/best",
-            "quiet":
-            True,
-            "postprocessors": [{
-                "key": "FFmpegExtractAudio",
-                "preferredcodec": audio_format,
-            }],
-            "outtmpl":
-            tmpdirname + "/%(title)s.%(ext)s",
+            "extractaudio": True,
+            "format": "bestaudio/best",
+            "quiet": True,
+            "postprocessors": [{"key": "FFmpegExtractAudio", "preferredcodec": audio_format, }],
+            "outtmpl": tmpdirname + "/%(title)s.%(ext)s",
             'progress_hooks': [self.file_hook],
         }
 
