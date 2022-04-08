@@ -69,7 +69,6 @@ class Main:
         if not path.exists(dest_path):
             # shutil.move -> Invalid cross-device link
             shutil.copyfile(filepath, dest_path)
-            shutil.rmtree(filepath)
 
     def get_file_list(self, file_path):
         log.debug(f"getting titles from {file_path}")
@@ -141,10 +140,10 @@ class Main:
 
         # Dl and tag
         if audio_data_list:
-            with TemporaryDirectory(dir=self.tmp_dir) as tmpdirname:
-                try:
-                    done_list = existing_title_list if existing_title_list else []
-                    for audio_data in audio_data_list:
+            try:
+                done_list = existing_title_list if existing_title_list else []
+                for audio_data in audio_data_list:
+                    with TemporaryDirectory(dir=self.tmp_dir) as tmpdirname:
                         log.info("Downloading: " + audio_data.title)
                         self.dl_list(audio_data, self.gen_ydl_options(tmpdirname))
                         audio_data.filename = self.last_dl_file
@@ -155,8 +154,8 @@ class Main:
                         if audio_data != audio_data_list[-1]:
                             sleep(randint(sleep_cooldown, sleep_cooldown + rng_range))
 
-                except Exception as exception:
-                    self.connection_error(exception)
+            except Exception as exception:
+                self.connection_error(exception)
 
     def run(self):
         log.debug("YDL Starting...")
