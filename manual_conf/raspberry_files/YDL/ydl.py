@@ -28,48 +28,12 @@ class Main:
         self.playlist_id = None
         self.playlist_path_location = None
         self.params_list = self.get_param_list()
+        log.debug(f'Using new parameters -> {self.params_list}')
         self.retry_counter = 0
         self.loop = True
         self.last_dl_file = None
 
-    def get_param_list(self):
-        rows = []
-        with open(params_location, 'r') as csvfile:
-            csvreader = csv.reader(csvfile)
-            # extracting each data row one by one
-            for row in csvreader:
-                rows.append(row)
-        log.debug(f'Using new parameters -> {rows}')
-        return rows
-
-    def dl_list(self, audio_data, ydl_opts):
-        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            ydl.download([audio_data.pid])
-
-    def extract_info(self):
-        with youtube_dl.YoutubeDL({"quiet": True}) as ydl:
-            return ydl.extract_info(self.playlist_id, download=False)
-
-    def tag_and_copy(self, audio_data, tmpdirname):
-        dest_path = path.join(self.playlist_path_location, audio_data.filename)
-        log.debug(self.playlist_path_location)
-        log.debug(audio_data.filename)
-        log.debug(dest_path)
-        filepath = path.join(tmpdirname, audio_data.filename)
-        log.debug(f'Moving {filepath} -> {dest_path}')
-        if audio_data.artist:
-            # if format/title = 'artist - song' use id3 tags
-            try:
-                meta = EasyID3(filepath)
-            except mutagen.id3.ID3NoHeaderError:
-                meta = mutagen.File(filepath, easy=True)
-                meta["title"] = audio_data.tagtitle
-                meta["artist"] = audio_data.artist
-                meta.save()
-        if not path.exists(dest_path):
-            shutil.copyfile(filepath, dest_path)
-
-    def get_file_list(self, file_path):
+    def get_title_list(self, file_path):
         log.debug(f"getting titles from {file_path}")
         if path.exists(file_path):
             with open(file_path, newline="") as f:
@@ -84,7 +48,17 @@ class Main:
             write = csv.writer(csv_file)
             write.writerow(title_list)
 
+    def get_param_list(self):
+        rows = []
+        with open(params_location, 'r') as csvfile:
+            csvreader = csv.reader(csvfile)
+            # extracting each data row one by one
+            for row in csvreader:
+                rows.append(row)
+        return rows
+
     def file_hook(self, d):
+        # Get video filename -> audio filename
         if d['status'] == 'finished':
             pre, ext = path.splitext(path.basename(d['filename']))
             self.last_dl_file = pre + '.' + audio_format
@@ -114,6 +88,32 @@ class Main:
             self.loop = False
             raise exception
 
+    def dl_list(self, audio_data, ydl_opts):
+        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([audio_data.pid])
+
+    def extract_info(self):
+        with youtube_dl.YoutubeDL({"quiet": True}) as ydl:
+            return ydl.extract_info(self.playlist_id, download=False)
+
+    def tag_and_copy(self, audio_data, tmpdirname):
+        dest_path = path.join(self.playlist_path_location, audio_data.filename)
+        filepath = path.join(tmpdirname, audio_data.filename)
+
+        # if artist -> use id3 tags
+        if audio_data.artist:
+            try:
+                meta = EasyID3(filepath)
+            except mutagen.id3.ID3NoHeaderError:
+                meta = mutagen.File(filepath, easy=True)
+                meta["title"] = audio_data.tagtitle
+                meta["artist"] = audio_data.artist
+                meta.save()
+        # copy audio file (no need to remove files in tmpdir)
+        if not path.exists(dest_path):
+            log.debug(f'Moving {filepath} -> {dest_path}')
+            shutil.copyfile(filepath, dest_path)
+
     def downloader(self):
         # Dl infos only
         try:
@@ -130,7 +130,7 @@ class Main:
         for info in infos["entries"]:
             audio_data_list.append(Audio_data(info["title"], info["id"]))
 
-        existing_title_list = self.get_file_list(file_list_path)
+        existing_title_list = self.get_title_list(file_list_path)
 
         audio_data_list = list(
             filter(lambda a: a.title not in existing_title_list,
@@ -141,6 +141,7 @@ class Main:
             try:
                 done_list = existing_title_list if existing_title_list else []
                 for audio_data in audio_data_list:
+                    # new tmp dir every dl
                     with TemporaryDirectory(dir=self.tmp_dir) as tmpdirname:
                         log.info("Downloading: " + audio_data.title)
                         self.dl_list(audio_data, self.gen_ydl_options(tmpdirname))
@@ -148,12 +149,17 @@ class Main:
                         self.tag_and_copy(audio_data, tmpdirname)
                         done_list.append(audio_data.title)
                         self.write_title_list(file_list_path, done_list)
-                        # if not last occurence
+                        # sleep if not last occurence
                         if audio_data != audio_data_list[-1]:
                             sleep(randint(sleep_cooldown, sleep_cooldown + rng_range))
 
             except Exception as exception:
                 self.connection_error(exception)
+
+    def set_params(self, params):
+        self.tmp_dir = params[0]
+        self.playlist_path_location = params[1]
+        self.playlist_id = params[2]
 
     def run(self):
         log.debug("YDL Starting...")
@@ -161,9 +167,7 @@ class Main:
         while (self.loop):
             try:
                 for params in self.params_list:
-                    self.tmp_dir = params[0]
-                    self.playlist_path_location = params[1]
-                    self.playlist_id = params[2]
+                    self.set_params(params)
                     self.downloader()
                 sleep(cooldown + randint(0, cooldown))
             except Network_Error:
