@@ -50,9 +50,9 @@ class Main:
         with youtube_dl.YoutubeDL({"quiet": True}) as ydl:
             return ydl.extract_info(self.playlist_id, download=False)
 
-    def tag_and_copy(self, audio_data, pytemp_dir):
+    def tag_and_copy(self, audio_data, tmpdirname):
         dest_path = path.join(self.playlist_path_location, audio_data.filename)
-        filepath = path.join(pytemp_dir, audio_data.filename)
+        filepath = path.join(tmpdirname, audio_data.filename)
         log.debug(f'Moving file {filepath} -> {dest_path}')
         if audio_data.artist:
             # if format/title = 'artist - song' use id3 tags
