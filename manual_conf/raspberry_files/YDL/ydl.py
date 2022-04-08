@@ -30,6 +30,7 @@ class Main:
         self.params_list = self.get_param_list()
         self.retry_counter = 0
         self.loop = True
+        self.last_dl_file = None
 
     def get_param_list(self):
         rows = []
@@ -78,7 +79,11 @@ class Main:
             write = csv.writer(csv_file)
             write.writerow(title_list)
 
-    def gen_ydl_options(self, audio_format, tmpdirname):
+    def file_hook(self, d):
+        if d['status'] == 'finished':
+            self.last_dl_file = d['filename']
+
+    def gen_ydl_options(self):
         return {
             "extractaudio":
             True,
@@ -91,7 +96,8 @@ class Main:
                 "preferredcodec": audio_format,
             }],
             "outtmpl":
-            tmpdirname + "/%(title)s.%(ext)s",
+            self.tmp_dir + "/%(title)s.%(ext)s",
+            'progress_hooks': [self.file_hook],
         }
 
     def connection_error(self):
@@ -131,7 +137,8 @@ class Main:
                     done_list = existing_title_list if existing_title_list else []
                     for audio_data in audio_data_list:
                         log.info("Downloading: " + audio_data.title)
-                        self.dl_list(audio_data, self.gen_ydl_options(audio_format, tmpdirname))
+                        self.dl_list(audio_data, self.gen_ydl_options())
+                        audio_data.filename = self.last_dl_file
                         self.tag_and_copy(audio_data, tmpdirname)
                         done_list.append(audio_data.title)
                         self.write_title_list(file_list_path, done_list)
@@ -181,8 +188,7 @@ class Audio_data:
     def __init__(self, title, pid):
         self.title = title
         self.pid = pid
-        self.filename = self.title + "." + audio_format
-
+        self.filename = None
         parsed_title = re.findall(r"(.*?)\s*-\s*(.*)", title)
         if len(parsed_title) > 0 and len(parsed_title[0]) == 2:
             self.artist = parsed_title[0][0]
