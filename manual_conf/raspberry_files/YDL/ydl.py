@@ -52,6 +52,9 @@ class Main:
 
     def tag_and_copy(self, audio_data, tmpdirname):
         dest_path = path.join(self.playlist_path_location, audio_data.filename)
+        log.debug(self.playlist_path_location)
+        log.debug(audio_data.filename)
+        log.debug(dest_path)
         filepath = path.join(tmpdirname, audio_data.filename)
         log.debug(f'Moving file {filepath} -> {dest_path}')
         if audio_data.artist:
@@ -86,6 +89,7 @@ class Main:
     def file_hook(self, d):
         if d['status'] == 'finished':
             pre, ext = path.splitext(d['filename'])
+            log.debug(pre + '.' + audio_format)
             self.last_dl_file = pre + '.' + audio_format
 
     def gen_ydl_options(self, tmpdirname):
