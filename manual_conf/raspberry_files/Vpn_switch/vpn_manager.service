@@ -1,6 +1,6 @@
 [Unit]
-After=network-online.target nss-lookup.target root_tmp.mount
-Wants=network-online.target nss-lookup.target root_tmp.mount
+After=check-internet.service root_tmp.mount
+Wants=check-internet.service root_tmp.mount
 
 [Service]
 Type=oneshot
