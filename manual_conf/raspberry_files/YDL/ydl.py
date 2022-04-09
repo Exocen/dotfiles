@@ -14,9 +14,9 @@ from tempfile import TemporaryDirectory
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger('YDL')
 audio_format = "flac"
-rng_range = 30
-sleep_cooldown = 5
-cooldown = 300
+post_dl_cooldown = 15
+post_vpn_cooldown = 30
+loop_cooldown = 300
 params_location = path.join(path.dirname(path.realpath(__file__)), "ydl_param.csv")
 retry_counter_max = 3
 
@@ -144,7 +144,7 @@ class Main:
                         self.write_title_list(file_list_path, done_list)
                         # sleep if not last occurence
                         if audio_data != audio_data_list[-1]:
-                            sleep(randint(sleep_cooldown, sleep_cooldown + rng_range))
+                            sleep(post_dl_cooldown + randint(0, post_dl_cooldown))
 
             except Exception as exception:
                 self.connection_error(exception)
@@ -162,7 +162,7 @@ class Main:
                 for params in self.params_list:
                     self.set_params(params)
                     self.downloader()
-                sleep(cooldown + randint(0, cooldown))
+                sleep(loop_cooldown + randint(0, loop_cooldown))
             except Network_Error:
                 pass
             except Exception:
@@ -181,7 +181,7 @@ class Network_Error(Exception):
             raise Exception(s.stderr)
         if s.stdout:
             log.warning(s.stdout)
-        sleep(sleep_cooldown)
+        sleep(post_vpn_cooldown)
         log.debug("Vpn reloaded")
 
 
