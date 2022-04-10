@@ -62,8 +62,11 @@ class Main:
     def file_hook(self, d):
         # Get video filename -> audio filename
         if d['status'] == 'finished':
-            pre, ext = path.splitext(path.basename(d['filename']))
-            self.last_dl_file = pre + '.' + audio_format
+            if self.audio_transform:
+                pre, ext = path.splitext(path.basename(d['filename']))
+                self.last_dl_file = pre + '.' + audio_format
+            else:
+                self.last_dl_file = d['filename']
 
     def gen_ydl_options(self, tmpdirname):
         opts = {
