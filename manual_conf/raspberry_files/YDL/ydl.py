@@ -71,15 +71,14 @@ class Main:
 
     def gen_ydl_options(self, tmpdirname):
         opts = {
-            "extractaudio": True,
             "format": "bestaudio/best",
             "quiet": True,
-
             "outtmpl": tmpdirname + "/%(title)s.%(ext)s",
             'progress_hooks': [self.file_hook],
         }
         if self.audio_transform:
-            opts.update({"postprocessors": [{"key": "FFmpegExtractAudio", "preferredcodec": audio_format, }]})
+            opts.update({"postprocessors": [{"key": "FFmpegExtractAudio", "preferredcodec": audio_format, }],
+                         "extractaudio": True, })
         return opts
 
     def connection_error(self, dl_error):
