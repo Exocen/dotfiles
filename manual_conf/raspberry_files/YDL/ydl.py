@@ -17,6 +17,7 @@ audio_format = "flac"
 post_dl_cooldown = 15
 post_vpn_cooldown = 30
 loop_cooldown = 300
+# Script dir
 params_location = path.join(path.dirname(path.realpath(__file__)), "ydl_param.csv")
 retry_counter_max = 3
 
@@ -32,6 +33,7 @@ class Main:
         self.retry_counter = 0
         self.loop = True
         self.last_dl_file = None
+        self.audio_transform = None
 
     def get_title_list(self, file_path):
         log.debug(f"getting titles from {file_path}")
@@ -64,20 +66,23 @@ class Main:
             self.last_dl_file = pre + '.' + audio_format
 
     def gen_ydl_options(self, tmpdirname):
-        return {
+        opts = {
             "extractaudio": True,
             "format": "bestaudio/best",
             "quiet": True,
-            "postprocessors": [{"key": "FFmpegExtractAudio", "preferredcodec": audio_format, }],
+
             "outtmpl": tmpdirname + "/%(title)s.%(ext)s",
             'progress_hooks': [self.file_hook],
         }
+        if self.audio_transform:
+            opts.update({"postprocessors": [{"key": "FFmpegExtractAudio", "preferredcodec": audio_format, }]})
+        return opts
 
     def connection_error(self, dl_error):
         self.retry_counter = self.retry_counter + 1
         if self.retry_counter < retry_counter_max:
             log.info("Vpn reloading...")
-            # Should ONLY have reload permission (visudo)
+            # Should ONLY have this command permission (visudo)
             cmd = ["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"]
             s = subprocess.run(cmd, capture_output=True, text=True)
             if s.returncode != 0:
@@ -164,6 +169,10 @@ class Main:
         self.tmp_dir = params[0]
         self.playlist_path_location = params[1]
         self.playlist_id = params[2]
+        if params[3].lower() == 'true':
+            self.audio_transform = True
+        elif params[3].lower() == 'false':
+            self.audio_transform = False
 
     def run(self):
         log.debug("YDL Starting...")
