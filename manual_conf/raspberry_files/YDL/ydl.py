@@ -106,8 +106,8 @@ class Main:
         dest_path = path.join(self.playlist_path_location, audio_data.filename)
         filepath = path.join(tmpdirname, audio_data.filename)
 
-        # if artist -> use id3 tags
-        if audio_data.artist:
+        # if artist and audio -> use id3 tags
+        if self.audio_transform and audio_data.artist is not None:
             try:
                 meta = EasyID3(filepath)
             except mutagen.id3.ID3NoHeaderError:
