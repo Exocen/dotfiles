@@ -73,13 +73,21 @@ class Main:
             'progress_hooks': [self.file_hook],
         }
 
-    def connection_error(self, exception):
+    def connection_error(self, dl_error):
         self.retry_counter = self.retry_counter + 1
         if self.retry_counter < retry_counter_max:
-            raise Network_Error()
+            log.info("Vpn reloading...")
+            # Should ONLY have reload permission (visudo)
+            cmd = ["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"]
+            s = subprocess.run(cmd, capture_output=True, text=True)
+            if s.returncode != 0:
+                raise Exception(s.stderr)
+            if s.stdout:
+                log.warning(s.stdout)
+            sleep(post_vpn_cooldown)
+            log.debug("Vpn reloaded")
         else:
-            self.loop = False
-            raise exception
+            raise dl_error
 
     def dl_list(self, audio_data, ydl_opts):
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
@@ -111,8 +119,8 @@ class Main:
         # Dl infos only
         try:
             infos = self.extract_info()
-        except Exception as exception:
-            self.connection_error(exception)
+        except youtube_dl.utils.DownloadError as dl_error:
+            self.connection_error(dl_error)
 
         playlist_title = infos["title"]
         file_list_path = path.join(self.playlist_path_location, playlist_title + ".cvs")
@@ -146,8 +154,8 @@ class Main:
                         if audio_data != audio_data_list[-1]:
                             sleep(post_dl_cooldown + randint(0, post_dl_cooldown))
 
-            except Exception as exception:
-                self.connection_error(exception)
+            except youtube_dl.utils.DownloadError as dl_error:
+                self.connection_error(dl_error)
 
     def set_params(self, params):
         self.tmp_dir = params[0]
@@ -158,31 +166,10 @@ class Main:
         log.debug("YDL Starting...")
         seed()
         while (self.loop):
-            try:
-                for params in self.params_list:
-                    self.set_params(params)
-                    self.downloader()
-                sleep(loop_cooldown + randint(0, loop_cooldown))
-            except Network_Error:
-                pass
-            except Exception:
-                self.loop = False
-                raise
-
-
-class Network_Error(Exception):
-
-    def __init__(self):
-        log.info("Vpn reloading...")
-        # Should ONLY have reload permission (visudo)
-        cmd = ["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"]
-        s = subprocess.run(cmd, capture_output=True, text=True)
-        if s.returncode != 0:
-            raise Exception(s.stderr)
-        if s.stdout:
-            log.warning(s.stdout)
-        sleep(post_vpn_cooldown)
-        log.debug("Vpn reloaded")
+            for params in self.params_list:
+                self.set_params(params)
+                self.downloader()
+            sleep(loop_cooldown + randint(0, loop_cooldown))
 
 
 class Audio_data:
