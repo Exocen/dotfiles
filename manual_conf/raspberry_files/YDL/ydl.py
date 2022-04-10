@@ -121,6 +121,7 @@ class Main:
             infos = self.extract_info()
         except youtube_dl.utils.DownloadError as dl_error:
             self.connection_error(dl_error)
+            return
 
         playlist_title = infos["title"]
         file_list_path = path.join(self.playlist_path_location, playlist_title + ".cvs")
@@ -156,6 +157,7 @@ class Main:
 
             except youtube_dl.utils.DownloadError as dl_error:
                 self.connection_error(dl_error)
+                return
 
     def set_params(self, params):
         self.tmp_dir = params[0]
