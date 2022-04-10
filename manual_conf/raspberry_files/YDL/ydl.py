@@ -73,12 +73,12 @@ class Main:
         opts = {
             "quiet": True,
             'progress_hooks': [self.file_hook],
+            "outtmpl": tmpdirname + "/%(title)s.%(ext)s",
         }
         if self.audio_transform:
             opts.update({"postprocessors": [{"key": "FFmpegExtractAudio", "preferredcodec": audio_format, }],
                          "extractaudio": True,
-                         "format": "bestaudio/best",
-                         "outtmpl": tmpdirname + "/%(title)s.%(ext)s", })
+                         "format": "bestaudio/best", })
         return opts
 
     def connection_error(self, dl_error):
