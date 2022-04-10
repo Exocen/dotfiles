@@ -17,8 +17,8 @@ audio_format = "flac"
 post_dl_cooldown = 15
 post_vpn_cooldown = 30
 loop_cooldown = 300
-# Script dir
 params_location = path.join(path.dirname(path.realpath(__file__)), "ydl_param.csv")
+DEFAULT_USAGE = f"multiline csv file usage -> tmp_dir, playlist_path_location, playlist_id, audio_transform(true/false) to {params_location}"
 retry_counter_max = 3
 
 
@@ -166,6 +166,8 @@ class Main:
                 return
 
     def set_params(self, params):
+        if len(params) != 4:
+            raise Exception(DEFAULT_USAGE)
         self.tmp_dir = params[0]
         self.playlist_path_location = params[1]
         self.playlist_id = params[2]
@@ -173,6 +175,8 @@ class Main:
             self.audio_transform = True
         elif params[3].lower() == 'false':
             self.audio_transform = False
+        else:
+            raise Exception(DEFAULT_USAGE)
 
     def run(self):
         log.debug("YDL Starting...")
