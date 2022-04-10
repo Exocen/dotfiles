@@ -145,12 +145,13 @@ class Main:
                 for audio_data in audio_data_list:
                     # new tmp dir every dl
                     with TemporaryDirectory(dir=self.tmp_dir) as tmpdirname:
-                        log.info("Downloading: " + audio_data.title)
+                        log.debug("Downloading: " + audio_data.title)
                         self.dl_list(audio_data, self.gen_ydl_options(tmpdirname))
                         audio_data.filename = self.last_dl_file
                         self.tag_and_copy(audio_data, tmpdirname)
                         done_list.append(audio_data.title)
                         self.write_title_list(file_list_path, done_list)
+                        log.info("Downloaded: " + audio_data.title)
                         # sleep if not last occurence
                         if audio_data != audio_data_list[-1]:
                             sleep(post_dl_cooldown + randint(0, post_dl_cooldown))
