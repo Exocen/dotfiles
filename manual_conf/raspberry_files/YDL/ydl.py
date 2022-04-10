@@ -60,13 +60,14 @@ class Main:
         return rows
 
     def file_hook(self, d):
-        # Get video filename -> audio filename
         if d['status'] == 'finished':
+            filename = path.basename(d['filename'])
             if self.audio_transform:
-                pre, ext = path.splitext(path.basename(d['filename']))
+                # Get video filename -> audio filename
+                pre, ext = path.splitext(filename)
                 self.last_dl_file = pre + '.' + audio_format
             else:
-                self.last_dl_file = d['filename']
+                self.last_dl_file = filename
 
     def gen_ydl_options(self, tmpdirname):
         opts = {
