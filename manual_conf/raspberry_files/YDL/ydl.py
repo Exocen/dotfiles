@@ -11,7 +11,7 @@ from mutagen.easyid3 import EasyID3
 from os import path
 from tempfile import TemporaryDirectory
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger('YDL')
 audio_format = "flac"
 video_format = "mkv"
@@ -63,18 +63,17 @@ class Main:
     def file_hook(self, d):
         if d['status'] == 'finished':
             filename = path.basename(d['filename'])
+            pre, ext = path.splitext(filename)
             if self.audio_transform:
-                # Get video filename -> audio filename
-                pre, ext = path.splitext(filename)
                 self.last_dl_file = pre + '.' + audio_format
             else:
-                self.last_dl_file = filename
+                self.last_dl_file = pre + '.' + video_format
 
     def gen_ydl_options(self, tmpdirname):
         opts = {
             "quiet": True,
             'progress_hooks': [self.file_hook],
-            "outtmpl": tmpdirname + "/%(title)s.%(ext)s",
+            "outtmpl": tmpdirname + "/%(title)s.",
         }
         if self.audio_transform:
             opts.update({"postprocessors": [{"key": "FFmpegExtractAudio", "preferredcodec": audio_format, }],
