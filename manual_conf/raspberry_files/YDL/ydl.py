@@ -60,13 +60,21 @@ class Main:
                 rows.append(row)
         return rows
 
+    def get_filename_without_ext(self, filename):
+        pre, ext = path.splitext(filename)
+        if ext:
+            return self.get_filename_without_ext(pre)
+        else:
+            return pre
+
     def file_hook(self, d):
         if d['status'] == 'finished':
-            filename = path.basename(d['filename'])
+            filename = self.get_filename_without_ext(path.basename(d['filename']))
+
             if self.audio_transform:
-                self.last_dl_file = filename + audio_format
+                self.last_dl_file = filename + '.' + audio_format
             else:
-                self.last_dl_file = filename + video_format
+                self.last_dl_file = filename + '.' + video_format
 
     def gen_ydl_options(self, tmpdirname):
         opts = {
