@@ -80,7 +80,7 @@ class Main:
         opts = {
             "quiet": True,
             'progress_hooks': [self.file_hook],
-            "outtmpl": tmpdirname + "/%(title)s.",
+            "outtmpl": tmpdirname + "/%(title)s",
         }
         if self.audio_transform:
             opts.update({"postprocessors": [{"key": "FFmpegExtractAudio", "preferredcodec": audio_format, }],
