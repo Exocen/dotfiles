@@ -62,8 +62,7 @@ class Main:
 
     def file_hook(self, d):
         if d['status'] == 'finished':
-            filename = path.basename(d['filename'])
-            pre, ext = path.splitext(filename)
+            pre, _ = path.splitext(path.basename(d['filename']))
             if self.audio_transform:
                 self.last_dl_file = pre + '.' + audio_format
             else:
@@ -80,7 +79,7 @@ class Main:
                          "extractaudio": True,
                          "format": "bestaudio/best", })
         else:
-            opts.update({"postprocessors": [{"key": "FFmpegPostProcessor", "preferredcodec": video_format, }], })
+            opts.update({"postprocessors": [{"key": "FFmpegVideoConvertor", "preferedformat": video_format, }], })
         return opts
 
     def connection_error(self, dl_error):
