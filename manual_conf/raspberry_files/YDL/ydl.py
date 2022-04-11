@@ -11,7 +11,7 @@ from mutagen.easyid3 import EasyID3
 from os import path
 from tempfile import TemporaryDirectory
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 log = logging.getLogger('YDL')
 audio_format = "flac"
 video_format = "mkv"
