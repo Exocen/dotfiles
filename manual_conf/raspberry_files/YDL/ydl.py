@@ -79,6 +79,8 @@ class Main:
             opts.update({"postprocessors": [{"key": "FFmpegExtractAudio", "preferredcodec": audio_format, }],
                          "extractaudio": True,
                          "format": "bestaudio/best", })
+        else:
+            opts.update({"format": "mkv", })
         return opts
 
     def connection_error(self, dl_error):
