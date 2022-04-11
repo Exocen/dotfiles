@@ -14,6 +14,7 @@ from tempfile import TemporaryDirectory
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger('YDL')
 audio_format = "flac"
+video_format = "mkv"
 post_dl_cooldown = 15
 post_vpn_cooldown = 30
 loop_cooldown = 300
@@ -80,7 +81,7 @@ class Main:
                          "extractaudio": True,
                          "format": "bestaudio/best", })
         else:
-            opts.update({"format": "mkv", })
+            opts.update({"postprocessors": [{"key": "FFmpegPostProcessor", "preferredcodec": video_format, }], })
         return opts
 
     def connection_error(self, dl_error):
