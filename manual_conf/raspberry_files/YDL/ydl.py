@@ -16,11 +16,10 @@ log = logging.getLogger('YDL')
 audio_format = "flac"
 video_format = "mkv"
 post_dl_cooldown = 15
-post_vpn_cooldown = 30
 loop_cooldown = 300
 params_location = path.join(path.dirname(path.realpath(__file__)), "ydl_param.csv")
 DEFAULT_USAGE = f"multiline csv file usage -> tmp_dir, playlist_path_location, playlist_id, audio_transform(true/false) to {params_location}"
-retry_counter_max = 3
+retry_counter_max = 10
 
 
 class Main:
@@ -101,7 +100,6 @@ class Main:
                 raise Exception(s.stderr)
             if s.stdout:
                 log.warning(s.stdout)
-            sleep(post_vpn_cooldown)
             log.debug("Vpn reloaded")
         else:
             raise dl_error
@@ -176,6 +174,7 @@ class Main:
             except youtube_dl.utils.DownloadError as dl_error:
                 self.connection_error(dl_error)
                 return
+        self.retry_counter = 0
 
     def set_params(self, params):
         if len(params) != 4:
