@@ -92,7 +92,7 @@ class Main:
     def connection_error(self, dl_error):
         self.retry_counter = self.retry_counter + 1
         if self.retry_counter < retry_counter_max:
-            log.info("Vpn reloading...")
+            log.info(f"Vpn reloading, {self.retry_counter - retry_counter_max} tries left")
             # Should ONLY have this command permission (visudo)
             cmd = ["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"]
             s = subprocess.run(cmd, capture_output=True, text=True)
