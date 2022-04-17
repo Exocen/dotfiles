@@ -167,9 +167,9 @@ class Main:
                         done_list.append(audio_data.title)
                         self.write_title_list(file_list_path, done_list)
                         log.info("Downloaded: " + audio_data.title)
-                        # sleep if not last occurence
+                        # sleep if not last occurrence
                         if audio_data != audio_data_list[-1]:
-                            sleep(post_dl_cooldown + randint(0, post_dl_cooldown))
+                            Main.random_sleep(post_dl_cooldown)
 
             except youtube_dl.utils.DownloadError as dl_error:
                 self.connection_error(dl_error)
@@ -189,6 +189,10 @@ class Main:
         else:
             raise Exception(DEFAULT_USAGE)
 
+    @staticmethod
+    def random_sleep(sleep_time):
+        sleep(sleep_time + randint(0, sleep_time))
+
     def run(self):
         log.debug("YDL Starting...")
         seed()
@@ -196,7 +200,7 @@ class Main:
             for params in self.params_list:
                 self.set_params(params)
                 self.downloader()
-            sleep(loop_cooldown + randint(0, loop_cooldown))
+                Main.random_sleep(loop_cooldown / len(self.params_list))
 
 
 class Audio_data:
