@@ -18,7 +18,7 @@ video_format = "mkv"
 post_dl_cooldown = 15
 loop_cooldown = 300
 params_location = path.join(path.dirname(path.realpath(__file__)), "ydl_param.csv")
-DEFAULT_USAGE = f"multiline csv file usage -> tmp_dir, playlist_path_location, playlist_id, audio_transform(true/false) to {params_location}"
+DEFAULT_USAGE = f"multiline csv file usage -> tmp_dir, output_dir, playlist_id, audio_transform(true/false) to {params_location}"
 retry_counter_max = 10
 
 
