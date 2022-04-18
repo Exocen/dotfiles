@@ -95,15 +95,14 @@ class Main:
             log.info(f"Vpn reloading, {retry_counter_max - self.retry_counter} tries left")
             # Should ONLY have this command permission (visudo)
             Main.run_process(["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"])
-            Main.run_process(["/usr/bin/ping", "1.1.1.1", "-c", "5", "-q"], True)
             log.debug("Vpn reloaded")
         else:
             raise dl_error
 
     @staticmethod
-    def run_process(cmd, allow_error=False):
+    def run_process(cmd):
         s = subprocess.run(cmd, capture_output=True, text=True)
-        if s.returncode != 0 and not allow_error:
+        if s.returncode != 0:
             raise Exception(s.stderr)
         if s.stdout:
             log.warning(s.stdout)
