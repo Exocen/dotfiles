@@ -94,15 +94,20 @@ class Main:
         if self.retry_counter < retry_counter_max:
             log.info(f"Vpn reloading, {retry_counter_max - self.retry_counter} tries left")
             # Should ONLY have this command permission (visudo)
-            cmd = ["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"]
-            s = subprocess.run(cmd, capture_output=True, text=True)
-            if s.returncode != 0:
-                raise Exception(s.stderr)
-            if s.stdout:
-                log.warning(s.stdout)
+            Main.run_process(["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"])
+            Main.run_process(["/usr/bin/ping", "1.1.1.1", "-c", "5", "-q"])
             log.debug("Vpn reloaded")
         else:
             raise dl_error
+
+    @staticmethod
+    def run_process(cmd):
+        s = subprocess.run(cmd, capture_output=True, text=True)
+        if s.returncode != 0:
+            raise Exception(s.stderr)
+        if s.stdout:
+            log.warning(s.stdout)
+        return s
 
     def dl_list(self, audio_data, ydl_opts):
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
