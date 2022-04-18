@@ -23,7 +23,7 @@ def run_process(cmd):
 
 
 def ping_check():
-    run_process(["/usr/bin/ping", "ping", "1.1.1.1", "-c", "5"])
+    run_process(["/usr/bin/ping", "1.1.1.1", "-c", "5"])
 
 
 def down():
