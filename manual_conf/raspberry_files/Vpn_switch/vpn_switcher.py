@@ -73,7 +73,7 @@ def reload():
 def main():
     cmd = sys.argv[-1]
     if cmd == "up":
-        up()
+        reload()
     elif cmd == "down":
         down()
     elif cmd == "reload":
