@@ -1,5 +1,6 @@
 import subprocess
 import sys
+from time import sleep
 from random import randint
 from os import listdir, path
 
@@ -19,6 +20,10 @@ def run_process(cmd):
         raise Exception(s.stderr)
     print(s.stdout)
     return s
+
+
+def ping_check():
+    run_process(["/usr/bin/ping", "ping", "1.1.1.1", "-c", "5"])
 
 
 def down():
@@ -56,6 +61,8 @@ def up():
     print("wg up " + next_conf)
     run_process(["/usr/bin/wg-quick", "up", next_conf])
     write_file(filepath, next_index)
+    sleep(5)
+    ping_check()
 
 
 def reload():

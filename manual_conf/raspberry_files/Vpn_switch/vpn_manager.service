@@ -1,6 +1,6 @@
 [Unit]
-After=check-internet.service root_tmp.mount
-Wants=check-internet.service root_tmp.mount
+After=root_tmp.mount
+Wants=root_tmp.mount
 
 [Service]
 Type=oneshot
