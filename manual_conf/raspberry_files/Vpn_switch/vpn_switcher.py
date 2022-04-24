@@ -16,7 +16,6 @@ def run_process(cmd, no_error=True):
         raise Exception(s.stderr)
     if s.stdout:
         print(s.stdout)
-    return s
 
 
 def open_file(file_path):
@@ -33,7 +32,6 @@ def write_file(file_path, index):
 def main():
     filenames = listdir(WIREGUARD_INTPUT_DIR)
     filenames.sort()
-    # TODO Bad
     filepath = path.join(WIREGUARD_DIR, "last-used")
     index = open_file(filepath)
 
