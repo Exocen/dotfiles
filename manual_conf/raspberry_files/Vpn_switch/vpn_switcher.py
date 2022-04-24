@@ -3,14 +3,9 @@ import sys
 from random import randint
 from os import listdir, path
 
-
-def print_usage():
-    print("Usage script.py down/up/reload")
-
-
-if len(sys.argv) != 2:
-    print_usage()
-    quit()
+WIREGUARD_DIR = "/etc/wireguard/"
+WIREGUARD_INTPUT_DIR = "/etc/wireguard_input/"
+DEFAULT_CONF = "wg0.conf"
 
 
 def run_process(cmd):
@@ -19,14 +14,6 @@ def run_process(cmd):
         raise Exception(s.stderr)
     print(s.stdout)
     return s
-
-
-def down():
-    interfaces = run_process(["wg", "show", "interfaces"]).stdout.split("\n")
-    for interface in interfaces:
-        if interface:
-            print("wg down " + interface)
-            run_process(["/usr/bin/wg-quick", "down", interface])
 
 
 def open_file(file_path):
@@ -40,10 +27,11 @@ def write_file(file_path, index):
         file.write(str(index))
 
 
-def up():
-    filenames = listdir("/etc/wireguard/")
+def main():
+    filenames = listdir(WIREGUARD_INTPUT_DIR)
     filenames.sort()
-    filepath = "/root_tmp/last_used"
+    # TODO Bad
+    filepath = path.join(WIREGUARD_DIR, "last-used")
     index = open_file(filepath)
 
     if index is not None:
@@ -51,28 +39,11 @@ def up():
     else:
         next_index = randint(0, len(filenames) - 1)
 
-    down()
     next_conf = filenames[next_index].split(".")[0]
-    print("wg up " + next_conf)
-    run_process(["/usr/bin/wg-quick", "up", next_conf])
+    print("wg reload " + next_conf)
+    run_process(["/usr/bin/ln", "-sf", path.join(WIREGUARD_INTPUT_DIR, next_conf), path.join(WIREGUARD_DIR, DEFAULT_CONF)])
+    run_process(["/usr/bin/systemctl", "restart", "wg-quick@wg0"])
     write_file(filepath, next_index)
-
-
-def reload():
-    down()
-    up()
-
-
-def main():
-    cmd = sys.argv[-1]
-    if cmd == "up":
-        reload()
-    elif cmd == "down":
-        down()
-    elif cmd == "reload":
-        reload()
-    else:
-        print_usage()
 
 
 if __name__ == "__main__":
