@@ -5,9 +5,7 @@ Wants=root_tmp.mount
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/usr/bin/python3 /usr/bin/vpn_switcher.py up
-ExecStop=/usr/bin/python3 /usr/bin/vpn_switcher.py down
-ExecReload=/usr/bin/python3 /usr/bin/vpn_switcher.py reload
+ExecStart=/usr/bin/vpn_switcher.py
 Environment=WG_ENDPOINT_RESOLUTION_RETRIES=infinity
 
 [Install]

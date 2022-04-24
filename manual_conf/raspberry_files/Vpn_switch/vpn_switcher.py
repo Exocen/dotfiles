@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import subprocess
 import sys
 from random import randint
@@ -8,11 +10,12 @@ WIREGUARD_INTPUT_DIR = "/etc/wireguard_input/"
 DEFAULT_CONF = "wg0.conf"
 
 
-def run_process(cmd):
+def run_process(cmd, no_error=True):
     s = subprocess.run(cmd, capture_output=True, text=True)
-    if s.returncode != 0:
+    if s.returncode != 0 and no_error:
         raise Exception(s.stderr)
-    print(s.stdout)
+    if s.stdout:
+        print(s.stdout)
     return s
 
 
@@ -39,10 +42,11 @@ def main():
     else:
         next_index = randint(0, len(filenames) - 1)
 
-    next_conf = filenames[next_index].split(".")[0]
+    next_conf = filenames[next_index]
     print("wg reload " + next_conf)
     run_process(["/usr/bin/ln", "-sf", path.join(WIREGUARD_INTPUT_DIR, next_conf), path.join(WIREGUARD_DIR, DEFAULT_CONF)])
-    run_process(["/usr/bin/systemctl", "restart", "wg-quick@wg0"])
+    run_process(["/usr/bin/wg-quick", "down", "wg0"], False)
+    run_process(["/usr/bin/wg-quick", "up", "wg0"])
     write_file(filepath, next_index)
 
 
