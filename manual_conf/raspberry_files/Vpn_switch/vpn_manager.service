@@ -1,7 +1,3 @@
-[Unit]
-After=root_tmp.mount
-Wants=root_tmp.mount
-
 [Service]
 Type=oneshot
 RemainAfterExit=yes
