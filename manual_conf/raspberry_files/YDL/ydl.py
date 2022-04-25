@@ -60,7 +60,7 @@ class Main:
                     rows.append(row)
                 if len(rows) == 4:
                     return rows
-        raise Exception(DEFAULT_USAGE)
+        log.error(DEFAULT_USAGE)
 
     def get_filename_without_ext(self, filename):
         pre, ext = path.splitext(filename)
