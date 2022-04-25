@@ -57,6 +57,8 @@ class Main:
             # extracting each data row one by one
             for row in csvreader:
                 rows.append(row)
+        if len(rows) != 4:
+            raise Exception(DEFAULT_USAGE)
         return rows
 
     def get_filename_without_ext(self, filename):
@@ -181,8 +183,6 @@ class Main:
         self.retry_counter = 0
 
     def set_params(self, params):
-        if len(params) != 4:
-            raise Exception(DEFAULT_USAGE)
         self.tmp_dir = params[0]
         self.playlist_path_location = params[1]
         self.playlist_id = params[2]
