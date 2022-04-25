@@ -11,7 +11,7 @@ from mutagen.easyid3 import EasyID3
 from os import path
 from tempfile import TemporaryDirectory
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger('YDL')
 audio_format = "flac"
 video_format = "mkv"
@@ -179,6 +179,7 @@ class Main:
 
             except youtube_dl.utils.DownloadError as dl_error:
                 self.connection_error(dl_error)
+                self.downloader()
                 return
         self.retry_counter = 0
 
