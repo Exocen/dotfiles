@@ -52,14 +52,15 @@ class Main:
 
     def get_param_list(self):
         rows = []
-        with open(params_location, 'r') as csvfile:
-            csvreader = csv.reader(csvfile)
-            # extracting each data row one by one
-            for row in csvreader:
-                rows.append(row)
-        if len(rows) != 4:
-            raise Exception(DEFAULT_USAGE)
-        return rows
+        if path.exists(params_location):
+            with open(params_location, 'r') as csvfile:
+                csvreader = csv.reader(csvfile)
+                # extracting each data row one by one
+                for row in csvreader:
+                    rows.append(row)
+                if len(rows) == 4:
+                    return rows
+        raise Exception(DEFAULT_USAGE)
 
     def get_filename_without_ext(self, filename):
         pre, ext = path.splitext(filename)
