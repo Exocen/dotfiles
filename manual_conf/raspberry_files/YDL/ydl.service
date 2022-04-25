@@ -7,9 +7,7 @@ RequiresMountsFor=%/tmp_user_1%
 
 [Service]
 User=vpn_user
-Type=oneshot
-RemainAfterExit=yes
-ExecStart=python3 ydl.py "%/tmp_user_1%" "path" "id"
+ExecStart=python3 ydl
 
 [Install]
 WantedBy=multi-user.target
