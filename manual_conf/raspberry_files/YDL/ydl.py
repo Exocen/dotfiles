@@ -58,8 +58,7 @@ class Main:
                 # extracting each data row one by one
                 for row in csvreader:
                     rows.append(row)
-                if len(rows) == 4:
-                    return rows
+                return rows
         raise Exception(DEFAULT_USAGE)
 
     def get_filename_without_ext(self, filename):
