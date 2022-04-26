@@ -16,7 +16,7 @@ log = logging.getLogger('YDL')
 audio_format = "flac"
 video_format = "mkv"
 post_dl_cooldown = 15
-loop_cooldown = 300
+loop_cooldown = 10
 params_location = path.join(path.dirname(path.realpath(__file__)), "ydl_param.csv")
 DEFAULT_USAGE = f"multiline csv file usage -> tmp_dir, output_dir, playlist_id, audio_transform(true/false) to {params_location}"
 retry_counter_max = 10
@@ -142,6 +142,7 @@ class Main:
             infos = self.extract_info()
         except youtube_dl.utils.DownloadError as dl_error:
             self.connection_error(dl_error)
+            self.downloader()
             return
 
         playlist_title = infos["title"]
@@ -169,6 +170,7 @@ class Main:
                         log.debug("Downloading: " + audio_data.title)
                         self.dl_list(audio_data, self.gen_ydl_options(tmpdirname))
                         audio_data.filename = self.last_dl_file
+                        log.debug("Tag and copy: " + audio_data.title)
                         self.tag_and_copy(audio_data, tmpdirname)
                         done_list.append(audio_data.title)
                         self.write_title_list(file_list_path, done_list)
