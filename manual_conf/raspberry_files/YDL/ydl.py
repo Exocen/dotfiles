@@ -70,12 +70,15 @@ class Main:
 
     def file_hook(self, d):
         if d['status'] == 'finished':
+            log.debug(d['filename'])
             filename = self.get_filename_without_ext(path.basename(d['filename']))
+            log.debug(filename)
 
             if self.audio_transform:
                 self.last_dl_file = filename + '.' + audio_format
             else:
                 self.last_dl_file = filename + '.' + video_format
+            log.debug(self.last_dl_file)
 
     def gen_ydl_options(self, tmpdirname):
         opts = {
