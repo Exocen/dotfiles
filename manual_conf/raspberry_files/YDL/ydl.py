@@ -139,7 +139,6 @@ class Main:
                 meta["title"] = audio_data.tagtitle
                 meta["artist"] = audio_data.artist
                 meta.save()
-        # copy audio file (no need to remove files in tmpdir)
         if not path.exists(dest_path):
             log.debug(f'Moving {filepath} -> {dest_path}')
             shutil.copyfile(filepath, dest_path)
