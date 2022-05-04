@@ -129,7 +129,7 @@ class Main:
         log.debug(f'files : {filenames}')
         if len(filenames) != 1:
             raise Exception(f"Too many files: {filenames}")
-        filepath = filenames[0]
+        filepath = path.join(tmpdirname, filenames[0])
         # if artist and audio -> use id3 tags
         if self.audio_transform and audio_data.artist is not None:
             try:
