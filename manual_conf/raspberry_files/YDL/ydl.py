@@ -183,9 +183,7 @@ class Main:
                         done_list.append(audio_data.title)
                         self.write_title_list(file_list_path, done_list)
                         log.info("Downloaded: " + audio_data.title)
-                        # sleep if not last occurrence
-                        if audio_data != audio_data_list[-1]:
-                            Main.random_sleep(post_dl_cooldown)
+                        Main.random_sleep(post_dl_cooldown)
 
             except youtube_dl.utils.DownloadError as dl_error:
                 self.connection_error(dl_error)
@@ -215,10 +213,7 @@ class Main:
             for params in self.params_list:
                 self.set_params(params)
                 self.downloader()
-            # (loop_cooldown / len(self.params_list) -> same waiting time by playlist
-            # loop_cooldown * self.retry_counter -> get more time to fix
-            # self.retry_counter + 1 => self.retry_counter start at 0
-            Main.random_sleep((loop_cooldown / len(self.params_list)) * (self.retry_counter + 1))
+            Main.random_sleep(loop_cooldown)
 
 
 class Audio_data:
