@@ -11,7 +11,7 @@ from mutagen.easyid3 import EasyID3
 from os import path, listdir
 from tempfile import TemporaryDirectory
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger('YDL')
 audio_format = "flac"
 video_format = "mkv"
@@ -126,6 +126,7 @@ class Main:
         dest_path = path.join(self.playlist_path_location, audio_data.filename)
         # youtube_dl hook doesn't give the right filename post processing
         filenames = listdir(tmpdirname)
+        log.debug(f'files : {filenames}')
         if len(filenames) != 1:
             raise Exception(f"Too many files: {filenames}")
         filepath = filenames[0]
