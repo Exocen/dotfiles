@@ -214,10 +214,10 @@ class Main:
             for params in self.params_list:
                 self.set_params(params)
                 self.downloader()
-                # (loop_cooldown / len(self.params_list) -> same waiting time by playlist
-                # loop_cooldown * self.retry_counter -> get more time to fix
-                # self.retry_counter + 1 => self.retry_counter start at 0
-                Main.random_sleep((loop_cooldown / len(self.params_list)) * (self.retry_counter + 1))
+            # (loop_cooldown / len(self.params_list) -> same waiting time by playlist
+            # loop_cooldown * self.retry_counter -> get more time to fix
+            # self.retry_counter + 1 => self.retry_counter start at 0
+            Main.random_sleep((loop_cooldown / len(self.params_list)) * (self.retry_counter + 1))
 
 
 class Audio_data:
