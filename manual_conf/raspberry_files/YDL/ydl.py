@@ -8,7 +8,7 @@ import logging
 from random import seed, randint
 from time import sleep
 from mutagen.easyid3 import EasyID3
-from os import path
+from os import path, listdir
 from tempfile import TemporaryDirectory
 
 logging.basicConfig(level=logging.INFO)
@@ -124,8 +124,11 @@ class Main:
 
     def tag_and_copy(self, audio_data, tmpdirname):
         dest_path = path.join(self.playlist_path_location, audio_data.filename)
-        filepath = path.join(tmpdirname, audio_data.filename)
-
+        # youtube_dl hook doesn't give the right filename post processing
+        filenames = listdir(tmpdirname)
+        if len(filenames) != 1:
+            raise Exception(f"Too many files: {filenames}")
+        filepath = filenames[0]
         # if artist and audio -> use id3 tags
         if self.audio_transform and audio_data.artist is not None:
             try:
