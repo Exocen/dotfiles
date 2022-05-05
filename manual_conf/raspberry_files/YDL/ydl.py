@@ -11,12 +11,12 @@ from mutagen.easyid3 import EasyID3
 from os import path, listdir
 from tempfile import TemporaryDirectory
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger('YDL')
 audio_format = "flac"
 video_format = "mkv"
 post_dl_cooldown = 15
-loop_cooldown = 600
+loop_cooldown = 10
 params_location = path.join(path.dirname(path.realpath(__file__)), "ydl_param.csv")
 DEFAULT_USAGE = f"multiline csv file usage -> tmp_dir, output_dir, playlist_id, audio_transform(true/false) to {params_location}"
 retry_counter_max = 10
@@ -91,7 +91,7 @@ class Main:
                          "extractaudio": True,
                          "format": "bestaudio/best", })
         else:
-            opts.update({"postprocessors": [{"key": "FFmpegVideoConvertor", "preferedformat": video_format, }], })
+            opts.update({"recode-video": video_format})
         return opts
 
     def connection_error(self, dl_error):
