@@ -102,6 +102,7 @@ class Main:
             # Should ONLY have this command permission (visudo)
             Main.run_process(["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"])
             log.debug("Vpn reloaded")
+            sleep(loop_cooldown * self.retry_counter)
         else:
             raise dl_error
 
