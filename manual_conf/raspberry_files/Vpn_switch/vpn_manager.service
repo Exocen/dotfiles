@@ -2,6 +2,7 @@
 Type=oneshot
 RemainAfterExit=yes
 ExecStart=/usr/bin/vpn_switcher.py
+ExecReload=/usr/bin/vpn_switcher.py
 Environment=WG_ENDPOINT_RESOLUTION_RETRIES=infinity
 
 [Install]
