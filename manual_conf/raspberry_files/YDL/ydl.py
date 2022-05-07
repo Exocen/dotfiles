@@ -70,10 +70,7 @@ class Main:
 
     def file_hook(self, d):
         if d['status'] == 'finished':
-            log.debug(d['filename'])
             filename = self.get_filename_without_ext(path.basename(d['filename']))
-            log.debug(filename)
-
             if self.audio_transform:
                 self.last_dl_file = filename + '.' + audio_format
             else:
@@ -102,6 +99,7 @@ class Main:
             # Should ONLY have this command permission (visudo)
             Main.run_process(["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"])
             log.debug("Vpn reloaded")
+            sleep(loop_cooldown * self.retry_counter)
         else:
             raise dl_error
 
