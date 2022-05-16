@@ -15,7 +15,7 @@ for_window [app_id="Alacritty"] opacity $opacity
 # Hide cursor
 seat seat0 hide_cursor 5000
 
-# Right Ctrl+Right Shift to switch
+# Right_Ctrl + Right_Shift to switch
 input "type:keyboard" {
     xkb_layout us,us
     xkb_variant ,intl
@@ -39,29 +39,29 @@ set $TERMINAL "/sbin/alacritty"
 bindsym $mod+Return exec $TERMINAL
 # bindcode control+62 exec $TERMINAL
 
-# Firefox
+# Internet browser
 bindsym $mod+g exec firefox
 bindsym $mod+p exec firefox -private-window
-
-# Lock
-bindsym $mod+l exec systemctl suspend
 
 # File Browser
 bindsym $mod+n exec thunar
 
+# Lock
+bindsym $mod+l exec systemctl suspend
+
 # Kill focused window
 bindsym $mod+Shift+A kill
 
-# Start app launcher
+# App launcher
 bindsym $mod+d exec "rofi -modi drun,run,combi -show combi -show-icons -theme solarized -font 'hack 9'"
 
-# mpd control
+# Mpd control
 bindsym $mod+F1 exec mpc toggle
 bindsym $mod+F2 exec mpc prev
 bindsym $mod+F3 exec mpc next
 bindsym $mod+F4 exec mpc stop
 
-# volume control
+# Volume control
 
 bindsym XF86AudioPlay exec mpc toggle
 bindsym XF86AudioPrev exec mpc prev
@@ -71,11 +71,11 @@ bindsym XF86AudioStop exec mpc stop
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym XF86AudioMute        exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym $mod+F5 exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym $mod+F5              exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 # Screen brightness controls
-# bindsym XF86MonBrightnessUp exec sudo light -A 10 # increase screen brightness
-# bindsym XF86MonBrightnessDown exec sudo light -U 10 # decrease screen brightnes
+bindsym XF86MonBrightnessUp   exec light -A 10
+bindsym XF86MonBrightnessDown exec light -U 10
 
 # Change focus
 

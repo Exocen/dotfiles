@@ -8,7 +8,7 @@ amd-ucode
 wayland sway rofi-lbonn-wayland-git xorg-xwayland
 # Waybar
 waybar noto-fonts ttf-nerd-fonts-symbols-mono
-# Auto Brightness tools
+# Brightness tool
 # clight
 # Utils
 acpi otf-ipafont mcomix
