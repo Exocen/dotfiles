@@ -125,6 +125,7 @@
             "on-click-middle": "mpc prev",
             "on-click-right": "mpc next",
             "interval": 10,
+            "max-length": 150,
             "consume-icons": {
                 "on": " "
             },
