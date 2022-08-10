@@ -19,6 +19,7 @@ post_dl_cooldown = 15
 loop_cooldown = 600
 params_location = path.join(path.dirname(path.realpath(__file__)), "ydl_param.csv")
 DEFAULT_USAGE = f"multiline csv file usage -> tmp_dir, output_dir, playlist_id, audio_transform(true/false) to {params_location}"
+safe_fail_count = 2
 retry_counter_max = 10
 
 
@@ -93,7 +94,9 @@ class Main:
 
     def connection_error(self, dl_error):
         self.retry_counter = self.retry_counter + 1
-        if self.retry_counter < retry_counter_max:
+        if self.retry_counter <= safe_fail_count:
+            pass
+        elif self.retry_counter < retry_counter_max:
             log.debug(dl_error)
             log.info(f"Vpn reloading, {retry_counter_max - self.retry_counter} tries left")
             # Should ONLY have this command permission (visudo)

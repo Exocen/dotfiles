@@ -47,7 +47,7 @@ bindsym $mod+p exec firefox -private-window
 bindsym $mod+n exec thunar
 
 # Lock
-bindsym $mod+l exec systemctl suspend
+# bindsym $mod+l exec systemctl suspend
 
 # Kill focused window
 bindsym $mod+Shift+A kill
