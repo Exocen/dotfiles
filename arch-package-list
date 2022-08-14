@@ -43,6 +43,6 @@ vim-youcompleteme-git flake8
 # Sound app control
 pavucontrol
 # Windows usb installer
-# ventoy-bin
+# woeusb
 # Autolock
 # xautolock
