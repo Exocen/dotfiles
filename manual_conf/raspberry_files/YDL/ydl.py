@@ -95,7 +95,8 @@ class Main:
     def connection_error(self, dl_error):
         self.retry_counter = self.retry_counter + 1
         if self.retry_counter <= safe_fail_count:
-            pass
+            # Shit happen
+            sleep(loop_cooldown * self.retry_counter)
         elif self.retry_counter < retry_counter_max:
             log.debug(dl_error)
             log.info(f"Vpn reloading, {retry_counter_max - self.retry_counter} tries left")
