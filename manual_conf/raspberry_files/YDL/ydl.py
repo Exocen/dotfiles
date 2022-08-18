@@ -154,8 +154,7 @@ class Main:
             self.downloader()
             return
         except:
-            #TODO add falses positives counter :(
-            pass
+            return
 
         playlist_title = infos["title"]
         file_list_path = path.join(self.playlist_path_location, playlist_title + ".cvs")
@@ -194,8 +193,7 @@ class Main:
                 self.downloader()
                 return
             except:
-                #TODO add falses positives counter :(
-                pass
+                return
         self.retry_counter = 0
 
     def set_params(self, params):
