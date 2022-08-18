@@ -153,7 +153,7 @@ class Main:
             self.connection_error(dl_error)
             self.downloader()
             return
-        except:
+        except Exception:
             return
 
         playlist_title = infos["title"]
@@ -192,7 +192,7 @@ class Main:
                 self.connection_error(dl_error)
                 self.downloader()
                 return
-            except:
+            except Exception:
                 return
         self.retry_counter = 0
 
