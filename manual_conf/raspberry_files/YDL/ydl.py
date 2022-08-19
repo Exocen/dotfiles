@@ -23,6 +23,17 @@ safe_fail_count = 2
 retry_counter_max = 10
 
 
+class voidLogger:
+    def error(msg):
+        pass
+
+    def warning(msg):
+        pass
+
+    def debug(msg):
+        pass
+
+
 class Main:
 
     def __init__(self):
@@ -81,6 +92,7 @@ class Main:
     def gen_ydl_options(self, tmpdirname):
         opts = {
             "quiet": True,
+            "logger": voidLogger,
             'progress_hooks': [self.file_hook],
             "outtmpl": tmpdirname + "/%(title)s.",
         }
@@ -121,7 +133,7 @@ class Main:
             ydl.download([audio_data.pid])
 
     def extract_info(self):
-        with youtube_dl.YoutubeDL({"quiet": True}) as ydl:
+        with youtube_dl.YoutubeDL({"logger": voidLogger, "quiet": True}) as ydl:
             return ydl.extract_info(self.playlist_id, download=False)
 
     def tag_and_copy(self, audio_data, tmpdirname):
@@ -152,8 +164,6 @@ class Main:
         except youtube_dl.utils.DownloadError as dl_error:
             self.connection_error(dl_error)
             self.downloader()
-            return
-        except Exception:
             return
 
         playlist_title = infos["title"]
@@ -191,8 +201,6 @@ class Main:
             except youtube_dl.utils.DownloadError as dl_error:
                 self.connection_error(dl_error)
                 self.downloader()
-                return
-            except Exception:
                 return
         self.retry_counter = 0
 
