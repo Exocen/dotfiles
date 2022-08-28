@@ -25,13 +25,13 @@ retry_counter_max = 10
 
 class voidLogger:
     def error(msg):
-        pass
+        log.degug(msg)
 
     def warning(msg):
-        pass
+        log.degug(msg)
 
     def debug(msg):
-        pass
+        log.degug(msg)
 
 
 class Main:
@@ -108,6 +108,7 @@ class Main:
         self.retry_counter = self.retry_counter + 1
         if self.retry_counter <= safe_fail_count:
             # Shit happen
+            log.debug(dl_error)
             sleep(loop_cooldown * self.retry_counter)
         elif self.retry_counter < retry_counter_max:
             log.debug(dl_error)
