@@ -42,8 +42,8 @@ def main():
 
     next_conf = filenames[next_index]
     print("wg reload " + next_conf)
-    run_process(["/usr/bin/ln", "-sf", path.join(WIREGUARD_INTPUT_DIR, next_conf), path.join(WIREGUARD_DIR, DEFAULT_CONF)])
     run_process(["/usr/bin/wg-quick", "down", "wg0"], False)
+    run_process(["/usr/bin/ln", "-sf", path.join(WIREGUARD_INTPUT_DIR, next_conf), path.join(WIREGUARD_DIR, DEFAULT_CONF)])
     run_process(["/usr/bin/wg-quick", "up", "wg0"])
     write_file(filepath, next_index)
 
