@@ -5,6 +5,7 @@ import sys
 from random import randint
 from os import listdir, path
 
+# TODO add logger
 WIREGUARD_DIR = "/etc/wireguard/"
 WIREGUARD_INTPUT_DIR = "/etc/wireguard_input/"
 DEFAULT_CONF = "wg0.conf"
