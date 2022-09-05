@@ -7,7 +7,7 @@ amd-ucode
 # WM
 wayland sway rofi-lbonn-wayland-git xorg-xwayland
 # Waybar
-waybar noto-fonts ttf-nerd-fonts-symbols-mono
+waybar noto-fonts ttf-nerd-fonts-symbols-2048-em
 # Brightness tool
 # clight
 # Utils
