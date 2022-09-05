@@ -59,8 +59,8 @@ function mysql_exec() {
 
 function build_database() {
     mysql_exec "CREATE DATABASE mailserver;
-    CREATE USER 'mailuser'@'127.0.0.1' IDENTIFIED BY '$PASS';
-    GRANT SELECT ON mailserver.* TO 'mailuser'@'127.0.0.1';
+    CREATE USER 'mailuser'@'localhost' IDENTIFIED BY '$PASS';
+    GRANT SELECT ON mailserver.* TO 'mailuser'@'localhost';
     FLUSH PRIVILEGES;
     USE mailserver;
     CREATE TABLE \`virtual_domains\` (
