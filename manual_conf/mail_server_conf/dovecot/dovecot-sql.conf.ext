@@ -72,7 +72,7 @@ driver = mysql
 #   connect = /etc/dovecot/authdb.sqlite
 #
 #connect =
-connect = host=127.0.0.1 dbname=mailserver user=mailuser password=[PASSSERV]
+connect = host=localhost dbname=mailserver user=mailuser password=[PASS]
 
 # Default password scheme.
 #
