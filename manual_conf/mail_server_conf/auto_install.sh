@@ -55,14 +55,16 @@ function mysql_exec() {
     sudo mysql -u root -e "$1"
 }
 
+# Need a fresh db
 function build_database() {
-    #  mysql_secure_installation
-    mysql_exec "DELETE FROM mysql.user WHERE User='';
-    DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
-    DROP DATABASE IF EXISTS test;
-    DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
-    FLUSH PRIVILEGES;"
+    # mysql_secure_installation
+    mysql_exec "DELETE FROM mysql.user WHERE User='';"
+    mysql_exec "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');"
+    mysql_exec "DROP DATABASE IF EXISTS test;"
+    mysql_exec "DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';"
+    mysql_exec "FLUSH PRIVILEGES;"
 
+    # mailserver creation
     mysql_exec "CREATE DATABASE mailserver;
     CREATE USER 'mailuser'@'localhost' IDENTIFIED BY '$PASS';
     GRANT SELECT ON mailserver.* TO 'mailuser'@'localhost';
