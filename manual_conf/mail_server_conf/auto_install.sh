@@ -10,9 +10,7 @@ function main() {
     if [ "$WOS" = "debian" ]; then
         pack_install
         generate_conf
-        #TODO fewer user interactions
         sudo certbot certonly --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
-        sudo mysql_secure_installation
         build_database
         put_conf
     else
@@ -58,6 +56,13 @@ function mysql_exec() {
 }
 
 function build_database() {
+    #  mysql_secure_installation
+    mysql_exec "DELETE FROM mysql.user WHERE User='';
+    DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+    DROP DATABASE IF EXISTS test;
+    DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
+    FLUSH PRIVILEGES;"
+
     mysql_exec "CREATE DATABASE mailserver;
     CREATE USER 'mailuser'@'localhost' IDENTIFIED BY '$PASS';
     GRANT SELECT ON mailserver.* TO 'mailuser'@'localhost';
@@ -84,8 +89,8 @@ function build_database() {
     \`destination\` varchar(100) NOT NULL,
     PRIMARY KEY (\`id\`),
     FOREIGN KEY (domain_id) REFERENCES virtual_domains(id) ON DELETE CASCADE
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
-    mysql_exec "INSERT INTO mailserver.virtual_domains (name) VALUES ('$DOMAIN');"
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    INSERT INTO mailserver.virtual_domains (name) VALUES ('$DOMAIN');"
 }
 
 function put_conf() {
