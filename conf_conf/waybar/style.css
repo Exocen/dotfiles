@@ -133,6 +133,11 @@ window#waybar {
     font-weight: bold;
 }
 
+button:hover {
+    background: inherit;
+    box-shadow: inset 0 -3px #ffffff;
+}
+
 #workspaces button {
     border-top: 2px solid transparent;
     padding-bottom: 2px;
