@@ -24,21 +24,21 @@
         "sway/mode",
         "tray"
         ],
-        "modules-center": [
-            "mpd",
-        ],
+        //"modules-center": [
+        //    "mpd//",
+        //],
         "modules-right": [
             "pulseaudio",
-        "custom/vpn-status",
+//        "custom/vpn-status",
         "network",
         "network#up",
         "network#down",
         "disk",
         "memory",
-        "cpu#core",
+  //      "cpu#core",
         //"cpu#load",
-        "custom/gpu-temp",
-        "temperature",
+  //      "custom/gpu-temp",
+  //      "temperature",
         "clock#date",
         "clock#time",
         "custom/capslock-status"
@@ -173,7 +173,7 @@
 
         "network": {
             "interval": 4,
-            "interface":"wlo1",
+            "interface":"wlp1s0",
             "format-wifi": "<span color=\"#9b59b6\"></span> {essid}",
             "format-ethernet": "  {ifname}: {ipaddr}/{cidr}",
             "format-disconnected": "⚠  Disconnected",
@@ -182,7 +182,7 @@
 
         "network#down": {
             "interval": 2,
-            "interface":"wlo1",
+            "interface":"wlp1s0",
             "format-wifi": "<span color=\"#9b59b6\"></span>{bandwidthDownOctets:<4}",
             "format-disconnected": "",
             "format-linked": "",
@@ -191,7 +191,7 @@
 
         "network#up": {
             "interval": 2,
-            "interface":"wlo1",
+            "interface":"wlp1s0",
             "format-disconnected": "",
             "format-wifi": "<span color=\"#9b59b6\"></span>{bandwidthUpOctets:<4}",
             "format-linked": "",

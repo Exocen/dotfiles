@@ -3,7 +3,7 @@ mesa
 # Video Driver (nvidia)
 # nvidia
 # Amd CPU
-amd-ucode
+# amd-ucode
 # WM
 wayland sway rofi-lbonn-wayland-git xorg-xwayland
 # Waybar
