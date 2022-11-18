@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]; then
+    echo "on or off"
+    exit 1
+fi
+
+
+export SWAYSOCK=`ls /run/user/1000/sway-*`
+swaymsg "output * dpms $1"
