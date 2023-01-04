@@ -11,7 +11,7 @@ default_border none
 default_floating_border normal 0
 # Startup apps
 
-#exec swaymsg "workspace 1; exec firefox --kiosk youtube.com"
+exec swaymsg "workspace 1; exec firefox -private-window youtube.com"
 #exec sleep 60 && swaymsg "workspace 2; exec kodi --windowing=x11"
 #exec swaymsg "workspace 1; exec steam -pipewire -bigpicture"
 
