@@ -11,7 +11,7 @@ from mutagen.easyid3 import EasyID3
 from os import path, listdir
 from tempfile import TemporaryDirectory
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 log = logging.getLogger('YDL')
 audio_format = "flac"
 video_format = "mkv"
@@ -182,10 +182,12 @@ class Main:
             filter(lambda a: a.title not in existing_title_list,
                    audio_data_list))
 
+        done_list = list(filter(lambda a: a not in [b.title for b in audio_data_list], existing_title_list))
+
         # Dl and tag
         if audio_data_list:
             try:
-                done_list = existing_title_list if existing_title_list else []
+                log.debug(done_list)
                 for audio_data in audio_data_list:
                     # new tmp dir every dl
                     with TemporaryDirectory(dir=self.tmp_dir) as tmpdirname:
@@ -203,6 +205,8 @@ class Main:
                 self.connection_error(dl_error)
                 self.downloader()
                 return
+        elif not audio_data_list and (len(existing_title_list) != len(done_list)):
+            self.write_title_list(file_list_path, done_list)
         self.retry_counter = 0
 
     def set_params(self, params):
