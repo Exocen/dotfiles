@@ -109,13 +109,13 @@ class Main:
         if self.retry_counter <= safe_fail_count:
             # Shit happen
             log.debug(dl_error)
-            Main.let_sleep(loop_cooldown * self.retry_counter)
+            Main.let_sleep(loop_cooldown, True)
         elif self.retry_counter < retry_counter_max:
             log.debug(dl_error)
             log.info(f"Vpn reloading, {retry_counter_max - self.retry_counter} tries left")
             Main.run_process(["/usr/bin/mullvad", "reconnect"])
             log.debug("Vpn reloaded")
-            Main.let_sleep(loop_cooldown * self.retry_counter)
+            Main.let_sleep(loop_cooldown)
         else:
             raise dl_error
 
