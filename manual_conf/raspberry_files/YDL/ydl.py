@@ -11,7 +11,7 @@ from mutagen.easyid3 import EasyID3
 from os import path, listdir
 from tempfile import TemporaryDirectory
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger('YDL')
 audio_format = "flac"
 video_format = "mkv"
@@ -25,13 +25,13 @@ retry_counter_max = 10
 
 class voidLogger:
     def error(msg):
-        log.degug(msg)
+        log.debug(msg)
 
     def warning(msg):
-        log.degug(msg)
+        log.debug(msg)
 
     def debug(msg):
-        log.degug(msg)
+        log.debug(msg)
 
 
 class Main:
@@ -109,14 +109,13 @@ class Main:
         if self.retry_counter <= safe_fail_count:
             # Shit happen
             log.debug(dl_error)
-            sleep(loop_cooldown * self.retry_counter)
+            Main.let_sleep(loop_cooldown * self.retry_counter)
         elif self.retry_counter < retry_counter_max:
             log.debug(dl_error)
             log.info(f"Vpn reloading, {retry_counter_max - self.retry_counter} tries left")
-            # Should ONLY have this command permission (visudo)
-            Main.run_process(["/usr/bin/sudo", "/usr/bin/systemctl", "reload", "vpn_manager.service"])
+            Main.run_process(["/usr/bin/mullvad", "reconnect"])
             log.debug("Vpn reloaded")
-            sleep(loop_cooldown * self.retry_counter)
+            Main.let_sleep(loop_cooldown * self.retry_counter)
         else:
             raise dl_error
 
@@ -156,6 +155,7 @@ class Main:
                 meta.save()
         if not path.exists(dest_path):
             log.debug(f'Moving {filepath} -> {dest_path}')
+            # TODO Rsync that shit
             shutil.copyfile(filepath, dest_path)
 
     def downloader(self):
@@ -197,7 +197,7 @@ class Main:
                         done_list.append(audio_data.title)
                         self.write_title_list(file_list_path, done_list)
                         log.info("Downloaded: " + audio_data.title)
-                        Main.random_sleep(post_dl_cooldown)
+                        Main.let_sleep(post_dl_cooldown, True)
 
             except youtube_dl.utils.DownloadError as dl_error:
                 self.connection_error(dl_error)
@@ -217,8 +217,12 @@ class Main:
             raise Exception(DEFAULT_USAGE)
 
     @staticmethod
-    def random_sleep(sleep_time):
-        sleep(sleep_time + randint(0, sleep_time))
+    def let_sleep(sleep_time, is_rnd=False):
+        if (is_rnd)
+            sleep_time = sleep_time + randint(0, sleep_time)
+        log.debug("Sleeping for " + sleep_time + " second(s)")
+        sleep(sleep_time)
+
 
     def run(self):
         log.debug("YDL Starting...")
@@ -227,7 +231,7 @@ class Main:
             for params in self.params_list:
                 self.set_params(params)
                 self.downloader()
-            Main.random_sleep(loop_cooldown)
+            Main.let_sleep(loop_cooldown, True)
 
 
 class Audio_data:
