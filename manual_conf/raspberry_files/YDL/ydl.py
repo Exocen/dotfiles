@@ -218,7 +218,7 @@ class Main:
 
     @staticmethod
     def let_sleep(sleep_time, is_rnd=False):
-        if (is_rnd)
+        if (is_rnd):
             sleep_time = sleep_time + randint(0, sleep_time)
         log.debug("Sleeping for " + sleep_time + " second(s)")
         sleep(sleep_time)
