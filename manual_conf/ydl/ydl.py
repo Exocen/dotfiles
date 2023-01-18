@@ -161,7 +161,7 @@ class Main:
                 meta.save()
 
         cmd = ['/bin/bash', '-c', f"rsync -a -s --no-perms {quote(filepath)} {quote(dest_path)}"]
-        log.debug(f'Running {cmd}')
+        log.info(f'Running {cmd}')
         Main.run_process(cmd)
 
     def downloader(self):
