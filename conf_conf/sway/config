@@ -57,8 +57,7 @@ bindsym $mod+n exec thunar
 bindsym $mod+Shift+A kill
 
 # App launcher
-#bindsym $mod+d exec "rofi -modi drun,run,combi -show combi -show-icons -theme solarized -font 'hack 9'"
-bindsym $mod+d exec "tofi"
+bindsym $mod+d exec "rofi -modi drun,run,combi -show combi -show-icons -theme solarized -font 'hack 9'"
 
 # Mpd control
 bindsym $mod+F1 exec mpc toggle
