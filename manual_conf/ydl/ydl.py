@@ -1,10 +1,13 @@
+import mutagen
+import youtube_dl
+
 import re
 import csv
 import shutil
-import youtube_dl
-import mutagen
 import subprocess
 import logging
+from shlex import quote
+from pathlib import Path
 from random import seed, randint
 from time import sleep
 from mutagen.easyid3 import EasyID3
@@ -13,17 +16,20 @@ from tempfile import TemporaryDirectory
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger('YDL')
+tmp_dir = "/var/tmp"
 audio_format = "flac"
 video_format = "mkv"
 post_dl_cooldown = 15
 loop_cooldown = 600
 params_location = path.join(path.dirname(path.realpath(__file__)), "ydl_param.csv")
-DEFAULT_USAGE = f"multiline csv file usage -> tmp_dir, output_dir, playlist_id, audio_transform(true/false) to {params_location}"
+DEFAULT_USAGE = f"multiline csv file usage -> output_dir (can use host:/), playlist_id, audio_transform(true/false) to {params_location}"
 safe_fail_count = 2
 retry_counter_max = 10
 
+class CmdException(Exception):
+    pass
 
-class voidLogger:
+class VoidLogger:
     def error(msg):
         log.debug(msg)
 
@@ -37,7 +43,6 @@ class voidLogger:
 class Main:
 
     def __init__(self):
-        self.tmp_dir = None
         self.playlist_id = None
         self.playlist_path_location = None
         self.params_list = self.get_param_list()
@@ -57,10 +62,11 @@ class Main:
             return []
 
     def write_title_list(self, file_path, title_list):
-        log.debug(f"writing titles to {file_path}")
+        log.info(f"writing titles to {file_path}")
         with open(file_path, "w", newline="") as csv_file:
             write = csv.writer(csv_file)
             write.writerow(title_list)
+
 
     def get_param_list(self):
         rows = []
@@ -91,15 +97,15 @@ class Main:
 
     def gen_ydl_options(self, tmpdirname):
         opts = {
-            "quiet": True,
-            "logger": voidLogger,
-            'progress_hooks': [self.file_hook],
-            "outtmpl": tmpdirname + "/%(title)s.",
-        }
+                "quiet": True,
+                "logger": VoidLogger,
+                'progress_hooks': [self.file_hook],
+                "outtmpl": tmpdirname + "/%(title)s.",
+                }
         if self.audio_transform:
             opts.update({"postprocessors": [{"key": "FFmpegExtractAudio", "preferredcodec": audio_format, }],
-                         "extractaudio": True,
-                         "format": "bestaudio/best", })
+                "extractaudio": True,
+                "format": "bestaudio/best", })
         else:
             opts.update({"recode-video": video_format})
         return opts
@@ -123,7 +129,7 @@ class Main:
     def run_process(cmd):
         s = subprocess.run(cmd, capture_output=True, text=True)
         if s.returncode != 0:
-            raise Exception(s.stderr)
+            raise CmdException(s.stderr)
         if s.stdout:
             log.warning(s.stdout)
         return s
@@ -133,7 +139,7 @@ class Main:
             ydl.download([audio_data.pid])
 
     def extract_info(self):
-        with youtube_dl.YoutubeDL({"logger": voidLogger, "quiet": True}) as ydl:
+        with youtube_dl.YoutubeDL({"logger": VoidLogger, "quiet": True}) as ydl:
             return ydl.extract_info(self.playlist_id, download=False)
 
     def tag_and_copy(self, audio_data, tmpdirname):
@@ -153,10 +159,10 @@ class Main:
                 meta["title"] = audio_data.tagtitle
                 meta["artist"] = audio_data.artist
                 meta.save()
-        if not path.exists(dest_path):
-            log.debug(f'Moving {filepath} -> {dest_path}')
-            # TODO Rsync that shit
-            shutil.copyfile(filepath, dest_path)
+
+        cmd = ['/bin/bash', '-c', f"rsync -a -s --no-perms {quote(filepath)} {quote(dest_path)}"]
+        log.debug(f'Running {cmd}')
+        Main.run_process(cmd)
 
     def downloader(self):
         # Dl infos only
@@ -168,7 +174,7 @@ class Main:
             return
 
         playlist_title = infos["title"]
-        file_list_path = path.join(self.playlist_path_location, playlist_title + ".cvs")
+        file_list_path = path.join(path.dirname(path.realpath(__file__)), playlist_title + ".cvs")
 
         # Check existing
         audio_data_list = []
@@ -180,15 +186,15 @@ class Main:
 
         done_list = list(filter(lambda a: a in [b.title for b in audio_data_list], existing_title_list))
         audio_data_list = list(
-            filter(lambda a: a.title not in existing_title_list,
-                   audio_data_list))
+                filter(lambda a: a.title not in existing_title_list,
+                    audio_data_list))
 
         # Dl and tag
         if audio_data_list:
             try:
                 for audio_data in audio_data_list:
                     # new tmp dir every dl
-                    with TemporaryDirectory(dir=self.tmp_dir) as tmpdirname:
+                    with TemporaryDirectory(dir=tmp_dir) as tmpdirname:
                         log.debug("Downloading: " + audio_data.title)
                         self.dl_list(audio_data, self.gen_ydl_options(tmpdirname))
                         audio_data.filename = self.last_dl_file
@@ -199,7 +205,7 @@ class Main:
                         log.info("Downloaded: " + audio_data.title)
                         Main.let_sleep(post_dl_cooldown, True)
 
-            except youtube_dl.utils.DownloadError as dl_error:
+            except (youtube_dl.utils.DownloadError, CmdException) as dl_error:
                 self.connection_error(dl_error)
                 self.downloader()
                 return
@@ -208,12 +214,11 @@ class Main:
         self.retry_counter = 0
 
     def set_params(self, params):
-        self.tmp_dir = params[0]
-        self.playlist_path_location = params[1]
-        self.playlist_id = params[2]
-        if params[3].lower() == 'true':
+        self.playlist_path_location = params[0]
+        self.playlist_id = params[1]
+        if params[2].lower() == 'true':
             self.audio_transform = True
-        elif params[3].lower() == 'false':
+        elif params[2].lower() == 'false':
             self.audio_transform = False
         else:
             raise Exception(DEFAULT_USAGE)
