@@ -112,6 +112,7 @@ alias -s py='py'
 
 # utilities aliases
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+alias find_dups='find -L . ! -empty -type f -exec md5sum {} + | sort | uniq -w32 -dD'
 alias psf='ps -e | grep -i'
 alias psa='ps -uf --ppid 2 -p 2 --deselect'
 alias ll='ls -lFh --group-directories-first --color=auto'
