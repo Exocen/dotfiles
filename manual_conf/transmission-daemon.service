@@ -1,0 +1,16 @@
+# /etc/systemd/system/transmission-daemon.service
+[Unit]
+Description=Transmission BitTorrent Daemon
+After=mullvad-daemon.service
+Requires=mullvad-daemon.service
+
+[Service]
+User=
+Type=notify
+ExecStart=/usr/bin/transmission-daemon -f --log-error
+ExecStop=/bin/kill -s STOP $MAINPID
+ExecReload=/bin/kill -s HUP $MAINPID
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
