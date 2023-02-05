@@ -1,4 +1,0 @@
-#!/bin/bash
-
-export SWAYSOCK=`ls /run/user/1000/sway-*`
-sway exit
