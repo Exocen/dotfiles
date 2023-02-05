@@ -1,5 +1,0 @@
-#!/bin/sh
-SSH={ip_address}
-USER={user}
-ERR=`systemctl status $1`
-/usr/bin/ssh $USER@$SSH -i {key_path} 'echo '"'$ERR'"' | mail -s "['$HOSTNAME'][SYSTEMD_'$1'] Fail" $USER@$HOST'

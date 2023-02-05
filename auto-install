@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 WOS=''
 LOCAL=$(dirname "$(readlink -f "$0")")
-#TODO add cst inst-dir
 
 function is_working() {
     if [ $? -eq 0 ]; then
@@ -55,11 +54,8 @@ function conf_folder() {
 }
 
 function home_cp() {
-    #TODO nope just call /bin/cp
-    unalias cp >/dev/null 2>&1
-    cp -fr $(pwd)/$1 ~/$1 >/dev/null 2>&1
+    /bin/cp -fr $(pwd)/$1 ~/$1 >/dev/null 2>&1
     is_working "Copy $1 to ~"
-    alias cp="cp -iv" >/dev/null 2>&1
 }
 
 # run detectOS before
@@ -106,19 +102,15 @@ function arch_package_install() {
     sudo pacman -S --needed base-devel git --noconfirm &>>$logFile
     tmpD=$(mktemp -d)
     git clone $1 $tmpD &>>$logFile
-    #TODO remove cd
+    current_dir=`pwd`
     cd $tmpD
     makepkg -fsri --skipinteg --noconfirm &>>$logFile
-    cd $LOCAL
+    cd $current_dir
     rm -rf $tmpD
 }
 
 function git_clone() {
     info "Cloning $1"
-    #TODO hewwww change to git force something
-    if $force; then
-        rm -rf $2
-    fi
     if [ ! -e "$2" ]; then
         git clone --depth=1 $1 $2 &>>$logFile
         is_working "Cloned: $1 to $2"
