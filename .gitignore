@@ -1,16 +1,8 @@
+### tmp/log
 *.log
 *.tmp
-=======
-locals.zsh
-log/.zsh_history
-projects.zsh
-custom
-!custom/plugins/example
-!custom/example.zsh
-*.swp
-!custom/example.zshcache
-cache/
-.gmx-private
+### mdp
 conf_conf/mpd/*
 !conf_conf/mpd/mpd.conf
+### vscode
 .vscode
