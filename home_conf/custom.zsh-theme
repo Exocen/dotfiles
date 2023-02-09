@@ -1,15 +1,14 @@
 # settings
 typeset +H _current_dir="%{$fg_bold[blue]%}%3~%{$reset_color%} "
-typeset +H _return_status="%{$fg_bold[red]%}%(?..⍉)%{$reset_color%}"
 typeset +H _hist_no="%{$fg[grey]%}%h%{$reset_color%}"
 
 PROMPT='
 ${_current_dir}%{$fg[yellow]%}%{$(prompt_git)%}%{$reset_color%}
-%{%(!.${fg[red]}.${fg[white]})%}▶%{$reset_color%} '
+%{%(?.${fg[white]}.${fg[red]})%}▶%{$reset_color%} '
 
 PROMPT2='%{%(!.${fg[red]}.${fg[white]})%}◀%{$reset_color%} '
 
-RPROMPT='$(vi_mode_prompt_info)%{$(echotc UP 1)%}$(_user_host)[%*] ${_return_status}%{$(echotc DO 1)%}'
+RPROMPT='$(vi_mode_prompt_info)%{$(echotc UP 1)%}$(_user_host)[%*]%{$(echotc DO 1)%}'
 
 function _user_host() {
   local me
@@ -95,5 +94,5 @@ ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[cyan]%}§ "
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[white]%}◒ "
 
 export LSCOLORS="exfxcxdxbxegedabagacad"
-export LS_COLORS='di=34;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'
+export LS_COLORS='di=1;95;40:ln=35;40:so=32;40:pi=33;40:ex=92;40:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'
 export GREP_COLORS='mt=1;33'
