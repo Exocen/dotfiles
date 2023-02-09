@@ -123,12 +123,13 @@ function basic_install() {
     info "Basic installation"
     # Basic packages
     ins vim git htop iftop iotop tree zsh make wget sudo rsync
+
     # zsh
     ln -sfn $LOCAL/home_conf/zshrc  ~/.zshrc
-    ln -sfn $LOCAL/home_conf/p10k.zsh ~/.p10k.zsh
     git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
     ln -sfn $LOCAL/home_conf/custom.zsh-theme ~/.oh-my-zsh/custom/themes
     sudo chsh -s /usr/bin/zsh $USER
+
     # vimrc
     git_clone https://github.com/exocen/vim-conf ~/.vim_runtime
     sh ~/.vim_runtime/install_awesome_vimrc.sh &>>$logFile
