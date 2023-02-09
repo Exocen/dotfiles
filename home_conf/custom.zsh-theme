@@ -8,7 +8,7 @@ ${_current_dir}%{$fg[yellow]%}%{$(prompt_git)%}%{$reset_color%}
 
 PROMPT2='%{%(!.${fg[red]}.${fg[white]})%}◀%{$reset_color%} '
 
-RPROMPT='$(vi_mode_prompt_info)%{$(echotc UP 1)%}$(_user_host)[%*]%{$(echotc DO 1)%}'
+RPROMPT='%{$(echotc UP 1)%}$(_user_host)[%*]%{$(echotc DO 1)%}'
 
 function _user_host() {
   local me
@@ -69,30 +69,15 @@ prompt_git() {
     zstyle ':vcs_info:*' formats ' %u%c'
     zstyle ':vcs_info:*' actionformats ' %u%c'
     vcs_info
-     if [[ -n $dirty ]]; then
-    echo -n "%{$fg[yellow]%}"
+    if [[ -n $dirty ]]; then
+        echo -n "%{$fg[yellow]%}"
     else
-    echo -n "%{$fg[green]%}"
+        echo -n "%{$fg[green]%}"
     fi
     echo -n "${${ref:gs/%/%%}/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }${mode}%{$reset_color%}"
   fi
 }
 
-
-MODE_INDICATOR="%{$fg_bold[yellow]%}❮%{$reset_color%}%{$fg[yellow]%}❮❮%{$reset_color%}"
-
-# Git prompt settings
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[green]%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg[red]%}✗%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_CLEAN=""
-ZSH_THEME_GIT_PROMPT_ADDED="%{$fg[green]%}✚ "
-ZSH_THEME_GIT_PROMPT_MODIFIED="%{$fg[yellow]%}⚑ "
-ZSH_THEME_GIT_PROMPT_DELETED="%{$fg[red]%}✖ "
-ZSH_THEME_GIT_PROMPT_RENAMED="%{$fg[blue]%}▴ "
-ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[cyan]%}§ "
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[white]%}◒ "
-
 export LSCOLORS="exfxcxdxbxegedabagacad"
-export LS_COLORS='di=1;95;40:ln=35;40:so=32;40:pi=33;40:ex=92;40:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'
+export LS_COLORS='di=1;33:ln=35:so=32:pi=33:ex=92:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:or=31'
 export GREP_COLORS='mt=1;33'
