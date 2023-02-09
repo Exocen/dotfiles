@@ -76,7 +76,7 @@ function ins() {
         sudo pacman -S $@ --needed --noconfirm &>>$logFile
         is_working "$all installed"
     else
-        error "Unknow OS"
+        error "Unknow OS: $WOS"
     fi
 }
 
