@@ -2,14 +2,22 @@
 typeset +H _current_dir="%{$fg_bold[blue]%}%3~%{$reset_color%} "
 typeset +H _hist_no="%{$fg[grey]%}%h%{$reset_color%}"
 
-PROMPT='${_current_dir}$(prompt_git)%{%(?.${fg[white]}.${fg[red]})%}▶%{$reset_color%} '
+PROMPT='${_current_dir}$(prompt_git)%{%(?.${fg[white]}.${fg[red]})%}$(_is_root)%{$reset_color%} '
 RPROMPT='$(_user_host)[%*]'
+
+function _is_root() {
+    if [ "$EUID" -eq 0 ]; then
+        echo -n '¤'
+    else
+        echo -n '▶'
+    fi
+}
 
 function _user_host() {
   local me
   if [[ -n $SSH_CONNECTION ]]; then
     me="%n@%m"
-  elif [[ $LOGNAME != $USERNAME ]] || [ "$EUID" -eq 0 ]; then
+  elif [[ $LOGNAME != $USERNAME ]]; then
     me="%n"
   fi
   if [[ -n $me ]]; then
