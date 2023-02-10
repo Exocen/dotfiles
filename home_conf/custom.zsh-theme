@@ -2,14 +2,12 @@
 typeset +H _current_dir="%{$fg_bold[blue]%}%3~%{$reset_color%} "
 typeset +H _hist_no="%{$fg[grey]%}%h%{$reset_color%}"
 
-PROMPT='${_current_dir}$(prompt_git)%{%(?.${fg[white]}.${fg[red]})%}$(_is_root)%{$reset_color%} '
+PROMPT='${_current_dir}$(prompt_git) $(_is_root) %{%(?.${fg[white]}.${fg[red]})%}▶%{$reset_color%} '
 RPROMPT='$(_user_host)[%*]'
 
 function _is_root() {
     if [ "$EUID" -eq 0 ]; then
-         echo -n '%{$fg_bold[blue]%}root%{$reset_color%} ▶'
-    else
-         echo -n '▶'
+         echo -n "%{$fg_bold[red]%}root%{$reset_color%}"
     fi
 }
 
@@ -77,7 +75,7 @@ prompt_git() {
     else
         echo -n "%{$fg[green]%}"
     fi
-    echo -n "${${ref:gs/%/%%}/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }${mode}%{$reset_color%} "
+    echo -n "${${ref:gs/%/%%}/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }${mode}%{$reset_color%}"
   fi
 }
 
