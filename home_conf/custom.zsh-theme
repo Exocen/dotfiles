@@ -7,7 +7,7 @@ RPROMPT='$(_user_host)[%*]'
 
 function _is_root() {
     if [ "$EUID" -eq 0 ]; then
-         echo -n '%{$fg_bold[orange]%}root%{$reset_color%} ▶'
+         echo -n '%{$fg_bold[blue]%}root%{$reset_color%} ▶'
     else
          echo -n '▶'
     fi
