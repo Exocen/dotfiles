@@ -10,7 +10,7 @@ function _is_root() {
     if [ "$EUID" -eq 0 ]; then
          isroot='%{$fg_bold[orange]%}root%{$reset_color%}'
     fi
-    echo -n '$isroot ▶'
+    echo -n '$(isroot) ▶'
 }
 
 function _user_host() {
