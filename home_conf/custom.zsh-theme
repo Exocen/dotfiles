@@ -9,7 +9,7 @@ function _user_host() {
   local me
   if [[ -n $SSH_CONNECTION ]]; then
     me="%n@%m"
-  elif [[ $LOGNAME != $USERNAME ]] || [ "$EUID" -e 0 ]; then
+  elif [[ $LOGNAME != $USERNAME ]] || [ "$EUID" -eq 0 ]; then
     me="%n"
   fi
   if [[ -n $me ]]; then
