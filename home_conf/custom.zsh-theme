@@ -2,19 +2,14 @@
 typeset +H _current_dir="%{$fg_bold[blue]%}%3~%{$reset_color%} "
 typeset +H _hist_no="%{$fg[grey]%}%h%{$reset_color%}"
 
-PROMPT='
-${_current_dir}%{$fg[yellow]%}%{$(prompt_git)%}%{$reset_color%}
-%{%(?.${fg[white]}.${fg[red]})%}▶%{$reset_color%} '
-
-PROMPT2='%{%(!.${fg[red]}.${fg[white]})%}◀%{$reset_color%} '
-
-RPROMPT='%{$(echotc UP 1)%}$(_user_host)[%*]%{$(echotc DO 1)%}'
+PROMPT='${_current_dir}$(prompt_git)%{%(?.${fg[white]}.${fg[red]})%}▶%{$reset_color%} '
+RPROMPT='$(_user_host)[%*]'
 
 function _user_host() {
   local me
   if [[ -n $SSH_CONNECTION ]]; then
     me="%n@%m"
-  elif [[ $LOGNAME != $USERNAME ]]; then
+  elif [[ $LOGNAME != $USERNAME ]] || [ "$EUID" -e 0 ]; then
     me="%n"
   fi
   if [[ -n $me ]]; then
@@ -74,7 +69,7 @@ prompt_git() {
     else
         echo -n "%{$fg[green]%}"
     fi
-    echo -n "${${ref:gs/%/%%}/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }${mode}%{$reset_color%}"
+    echo -n "${${ref:gs/%/%%}/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }${mode}%{$reset_color%} "
   fi
 }
 
