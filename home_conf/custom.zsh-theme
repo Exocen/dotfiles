@@ -6,11 +6,11 @@ PROMPT='${_current_dir}$(prompt_git)%{%(?.${fg[white]}.${fg[red]})%}$(_is_root)%
 RPROMPT='$(_user_host)[%*]'
 
 function _is_root() {
-    isroot=""
     if [ "$EUID" -eq 0 ]; then
-         isroot='%{$fg_bold[orange]%}root%{$reset_color%}'
+         echo -n '%{$fg_bold[orange]%}root%{$reset_color%} ▶'
+    else
+         echo -n '▶'
     fi
-    echo -n "$isroot ▶"
 }
 
 function _user_host() {
