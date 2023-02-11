@@ -234,7 +234,8 @@ tmpDir="/tmp/${scriptName}.$RANDOM.$RANDOM.$RANDOM.$$"
 # Logging
 # -----------------------------------
 # Log is only used when the '-l' flag is set.
-logFile="/tmp/${scriptName}.log"
+
+logFile="/tmp/${scriptName}-`date "+%s"`.log"
 
 # Options and Usage
 # -----------------------------------
