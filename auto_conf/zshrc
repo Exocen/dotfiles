@@ -154,6 +154,7 @@ alias openvpnconf='sudo openvpn --config'
 alias viewtar='tar -tf'
 alias myip='echo `curl -s ipinfo.io/ip`'
 alias opened_ports='sudo lsof -i -n -P | grep LISTEN'
+alias ip='ip -c'
 
 # rsync
 alias rscp='rsync --archive -hh --partial --append-verify --info=stats1 --info=progress2 --modify-window=1'
