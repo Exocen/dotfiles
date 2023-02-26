@@ -5,8 +5,10 @@ sysctl net.netfilter.nf_conntrack_tcp_timeout_time_wait=1
 
 # Ip forwarding
 iptables -t nat -A PREROUTING -p tcp --dport {PORT_DESTINATION} -j REDIRECT --to-port {PORT_SOURCE}
-#
+# tested with udp
 iptables -A PREROUTING -t nat -p tcp --dport {PORT_SOURCE} -j DNAT --to-destination {IP_DESTINATION:PORT_DESTINATION}
+iptables -t nat -A POSTROUTING -j MASQUERADE
+#
 iptables -A POSTROUTING -t nat -p tcp --dport {PORT_DESTINATION} -j SNAT --to-source {IP_SOURCE:PORT_SOURCE}
 
 # Display rules
