@@ -13,6 +13,7 @@ from time import sleep
 from mutagen.easyid3 import EasyID3
 from os import path, listdir
 from tempfile import TemporaryDirectory
+from urllib.request import urlopen
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger('YDL')
@@ -29,9 +30,9 @@ retry_counter_max = 10
 class CmdException(Exception):
     pass
 
-class VoidLogger:
+class YDL_Logger:
     def error(msg):
-        log.debug(msg)
+        log.error(msg)
 
     def warning(msg):
         log.debug(msg)
@@ -46,6 +47,7 @@ class Main:
         self.playlist_id = None
         self.playlist_path_location = None
         self.params_list = self.get_param_list()
+        self.last_video_count = {param[1]:0 for param in self.params_list}
         log.debug(f'Using new parameters -> {self.params_list}')
         self.retry_counter = 0
         self.loop = True
@@ -98,8 +100,8 @@ class Main:
     def gen_ydl_options(self, tmpdirname):
         opts = {
                 "quiet": True,
-                "logger": VoidLogger,
-                'progress_hooks': [self.file_hook],
+                "logger": YDL_Logger,
+                "progress_hooks": [self.file_hook],
                 "outtmpl": tmpdirname + "/%(title)s.",
                 }
         if self.audio_transform:
@@ -139,7 +141,7 @@ class Main:
             ydl.download([audio_data.pid])
 
     def extract_info(self):
-        with youtube_dl.YoutubeDL({"logger": VoidLogger, "quiet": True}) as ydl:
+        with youtube_dl.YoutubeDL({"logger": YDL_Logger, "quiet": True}) as ydl:
             return ydl.extract_info(self.playlist_id, download=False)
 
     def tag_and_copy(self, audio_data, tmpdirname):
@@ -164,7 +166,25 @@ class Main:
         log.info(f'Running {cmd}')
         Main.run_process(cmd)
 
+    def get_video_count(self):
+        try:
+            reg_pattern = "playlistBylineRenderer.:{.text.:{.runs.:.{.text.:.(\d*?).}"
+            url = "https://www.youtube.com/playlist?list=" + self.playlist_id
+            found_str = re.findall(reg_pattern, urlopen(url).read().decode("utf-8"))
+            video_count = found_str[0] if len(found_str) > 0 else 0
+            log.debug(f"{video_count} Videos found in {self.playlist_id} (previous: {self.last_video_count[self.playlist_id]})")
+        except Exception as dl_error:
+            #TODO get correct exception
+            self.connection_error(dl_error)
+            self.downloader()
+            return
+
     def downloader(self):
+        #Check playlist len
+        video_count = self.get_video_count()
+        if video_count == self.last_video_count[self.playlist_id]:
+            return
+
         # Dl infos only
         try:
             infos = self.extract_info()
@@ -172,8 +192,8 @@ class Main:
             self.connection_error(dl_error)
             self.downloader()
             return
-
         playlist_title = infos["title"]
+
         file_list_path = path.join(path.dirname(path.realpath(__file__)), playlist_title + ".cvs")
 
         # Check existing
@@ -212,6 +232,7 @@ class Main:
         elif (len(existing_title_list) != len(done_list)):
             self.write_title_list(file_list_path, done_list)
         self.retry_counter = 0
+        self.last_video_count[self.playlist_id] = video_count
 
     def set_params(self, params):
         self.playlist_path_location = params[0]
