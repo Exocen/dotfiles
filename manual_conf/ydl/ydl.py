@@ -106,8 +106,8 @@ class Main:
                 }
         if self.audio_transform:
             opts.update({"postprocessors": [{"key": "FFmpegExtractAudio", "preferredcodec": audio_format, }],
-                "extractaudio": True,
-                "format": "bestaudio/best", })
+                         "extractaudio": True,
+                         "format": "bestaudio/best", })
         else:
             opts.update({"recode-video": video_format})
         return opts
@@ -173,14 +173,16 @@ class Main:
             found_str = re.findall(reg_pattern, urlopen(url).read().decode("utf-8"))
             video_count = found_str[0] if len(found_str) > 0 else 0
             log.debug(f"{video_count} Videos found in {self.playlist_id} (previous: {self.last_video_count[self.playlist_id]})")
+            return video_count
         except Exception as dl_error:
-            #TODO get correct exception
+            #TODO get correct exception + return empty/0
             self.connection_error(dl_error)
             self.downloader()
-            return
+            return 0
 
     def downloader(self):
-        #Check playlist len
+
+        # Check playlist len
         video_count = self.get_video_count()
         if video_count == self.last_video_count[self.playlist_id]:
             return
@@ -193,7 +195,6 @@ class Main:
             self.downloader()
             return
         playlist_title = infos["title"]
-
         file_list_path = path.join(path.dirname(path.realpath(__file__)), playlist_title + ".cvs")
 
         # Check existing
@@ -207,7 +208,7 @@ class Main:
         done_list = list(filter(lambda a: a in [b.title for b in audio_data_list], existing_title_list))
         audio_data_list = list(
                 filter(lambda a: a.title not in existing_title_list,
-                    audio_data_list))
+                       audio_data_list))
 
         # Dl and tag
         if audio_data_list:
@@ -229,6 +230,8 @@ class Main:
                 self.connection_error(dl_error)
                 self.downloader()
                 return
+
+        # Keep infos for next loop
         elif (len(existing_title_list) != len(done_list)):
             self.write_title_list(file_list_path, done_list)
         self.retry_counter = 0
@@ -246,6 +249,7 @@ class Main:
 
     @staticmethod
     def let_sleep(sleep_time, is_rnd=False):
+        # TODO keep rnd ?
         if (is_rnd):
             sleep_time = sleep_time + randint(0, sleep_time)
         log.debug("Sleeping for " + str(sleep_time) + " second(s)")
