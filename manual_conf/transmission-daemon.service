@@ -11,6 +11,8 @@ ExecStart=/usr/bin/transmission-daemon -f --log-error
 ExecStop=/bin/kill -s STOP $MAINPID
 ExecReload=/bin/kill -s HUP $MAINPID
 NoNewPrivileges=true
+StandardOutput=null
+StandardError=journal
 
 [Install]
 WantedBy=multi-user.target
