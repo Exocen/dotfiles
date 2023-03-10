@@ -46,10 +46,10 @@ export TERM=xterm-256color
 # ohmyzsh !
 export ZSH=$HOME/.oh-my-zsh
 
-if [ ! -f $ZSH/custom/themes/custom.zsh-theme ]; then
-    ZSH_THEME="avit"
-else
+if [ -f $ZSH/custom/themes/custom.zsh-theme ]; then
     ZSH_THEME="custom"
+else
+    ZSH_THEME="avit"
 fi
 plugins=(git docker sudo systemd lxd archlinux cp dirhistory rsync extract)
 source $ZSH/oh-my-zsh.sh
