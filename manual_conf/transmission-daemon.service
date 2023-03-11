@@ -1,7 +1,7 @@
 # /etc/systemd/system/transmission-daemon.service
 [Unit]
 Description=Transmission BitTorrent Daemon
-After=mullvad-daemon.service
+After=mullvad-daemon.service mullvad-check.service
 Requires=mullvad-daemon.service
 
 [Service]
