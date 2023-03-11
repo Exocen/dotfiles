@@ -1,4 +1,5 @@
 #!/bin/bash
+# Check mullvad status
 max_duration="30 minutes"
 end_date=`date -d "$max_duration" +%s`
 while ! curl -s https://am.i.mullvad.net/connected | grep -qi "you are connected to mullvad" ; do
