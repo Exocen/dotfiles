@@ -1,0 +1,40 @@
+#!/bin/bash
+
+#TODO Description
+#TODO service emitter + receiver
+
+TIMESTAMP_FILEPATH=$HOME/live-check-timestamp
+
+function usage(){
+    echo "Usage: live-check save/check"
+    exit 1
+}
+
+function save(){
+    date -d "2 hour" +%s > $TIMESTAMP_FILEPATH
+    exit 0
+}
+
+function check(){
+    while true
+    do
+        sleep 10
+        if [ -f "$TIMESTAMP_FILEPATH" ]; then
+            timestamp=`cat $TIMESTAMP_FILEPATH`
+            if [ `date +%s` -ge $timestamp ]; then
+                echo "Live-check Expired"
+                exit 1
+            fi
+        fi
+    done
+}
+
+if [ $# -eq 1 ]; then
+    if [ $1 = "save" ]; then
+        save
+    fi
+    if [ $1 = "check" ]; then
+        check
+    fi
+fi
+usage
