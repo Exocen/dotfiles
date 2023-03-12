@@ -4,6 +4,7 @@
 #TODO service emitter + receiver
 
 TIMESTAMP_FILEPATH=$HOME/live-check-timestamp
+TIME_DELAY=14400
 
 function usage(){
     echo "Usage: live-check save/check"
@@ -11,19 +12,20 @@ function usage(){
 }
 
 function save(){
-    date -d "2 hour" +%s > $TIMESTAMP_FILEPATH
+    date -d "$TIME_DELAY second" +%s > $TIMESTAMP_FILEPATH
     exit 0
 }
 
 function check(){
     while true
     do
-        sleep 10
+        sleep $TIME_DELAY
         if [ -f "$TIMESTAMP_FILEPATH" ]; then
             timestamp=`cat $TIMESTAMP_FILEPATH`
             if [ `date +%s` -ge $timestamp ]; then
                 echo "Live-check Expired"
-                exit 1
+                rm $TIMESTAMP_FILEPATH
+                echo "Subject:Live-Check Expired" | sendmail $USER@$HOST
             fi
         fi
     done
