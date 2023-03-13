@@ -18,7 +18,7 @@ function save(){
 
 function check(){
     if [ -f "$TIMESTAMP_FILEPATH" ]; then
-        if [ `date +%s` -ge `cat $TIMESTAMP_FILEPATH`]; then
+        if [ `date +%s` -ge `cat $TIMESTAMP_FILEPATH` ]; then
             echo "Live-check Expired"
             rm $TIMESTAMP_FILEPATH
             echo "Subject:Live-Check Expired" | sendmail $USER@$HOST
