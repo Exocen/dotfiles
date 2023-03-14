@@ -1,0 +1,17 @@
+[Unit]
+Description=
+
+[Timer]
+#start 15 minutes after boot and again every week while the system is running
+OnBootSec=15min
+OnUnitActiveSec=1w
+
+
+#When activated, it triggers the service immediately if it missed the last start time
+Persistent=true
+OnCalendar=weekly
+#OnCalendar=Mon,Tue *-*-01..04 12:00:00
+#Use systemd-analyze calendar
+
+[Install]
+WantedBy=timers.target
