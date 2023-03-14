@@ -21,7 +21,7 @@ function check(){
         if [ `date +%s` -ge `cat $TIMESTAMP_FILEPATH` ]; then
             echo "Live-check Expired"
             rm $TIMESTAMP_FILEPATH
-            echo "Subject:Live-Check Expired" | sendmail $USER@$HOST
+            echo -e "Subject:Live-Check Expired\n`date`" | sendmail $USER@`hostname`
         fi
     fi
     exit 0
