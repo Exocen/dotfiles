@@ -1,38 +1,40 @@
 #!/bin/bash
 #TODO Description
 
-TIMESTAMP_FILEPATH=$HOME/live-check-timestamp
+TIMESTAMP_FILEPATH=$HOME/live-check-timestamps
 TIME_DELAY="4 hour"
 MESSAGE="Live-Check Expired"
 
 function usage(){
-    echo "Usage: live-check save/check name"
+    echo "Usage: live-check (save arg|empty)"
     exit 1
 }
 
 function save(){
-    date -d "$TIME_DELAY" +%s > "$TIMESTAMP_FILEPATH-$1"
+    mkdir -p $TIMESTAMP_FILEPATH
+    date -d "$TIME_DELAY" +%s > "$TIMESTAMP_FILEPATH/$1"
     exit 0
 }
 
 function check(){
-    filepath="$TIMESTAMP_FILEPATH-$1"
-    if [ -f "$filepath" ]; then
-        if [ `date +%s` -ge `cat $filepath` ]; then
-            echo "$1: $MESSAGE"
-            rm $filepath
-            echo -e "Subject:$1: $MESSAGE\n`date`" | sendmail $USER@`hostname`
-        fi
+    if [ ! -d $TIMESTAMP_FILEPATH ]; then
+        usage
+        exit 1
     fi
+    for file in $TIMESTAMP_FILEPATH/* ; do
+        filename="${file##*/}"
+        if [ `date +%s` -ge `cat $file` ] ; then
+            echo "$filename: $MESSAGE"
+            echo -e "Subject:$filename: $MESSAGE\n`date`" | sendmail $USER@`hostname` && rm $file
+        fi
+    done
     exit 0
 }
 
-if [ $# -eq 2 ]; then
-    if [ $1 = "save" ]; then
-        save $2
-    fi
-    if [ $1 = "check" ]; then
-        check $2
-    fi
+if [ $# -eq 0 ]; then
+    check
+fi
+if [ $# -eq 2  ] && [ $1 = "save" ]; then
+    save $2
 fi
 usage
