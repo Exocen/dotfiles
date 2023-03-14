@@ -1,38 +1,38 @@
 #!/bin/bash
-
 #TODO Description
-#TODO service emitter + receiver
 
 TIMESTAMP_FILEPATH=$HOME/live-check-timestamp
 TIME_DELAY="4 hour"
+MESSAGE="Live-Check Expired"
 
 function usage(){
-    echo "Usage: live-check save/check"
+    echo "Usage: live-check save/check name"
     exit 1
 }
 
 function save(){
-    date -d "$TIME_DELAY" +%s > $TIMESTAMP_FILEPATH
+    date -d "$TIME_DELAY" +%s > "$TIMESTAMP_FILEPATH-$1"
     exit 0
 }
 
 function check(){
-    if [ -f "$TIMESTAMP_FILEPATH" ]; then
-        if [ `date +%s` -ge `cat $TIMESTAMP_FILEPATH` ]; then
-            echo "Live-check Expired"
-            rm $TIMESTAMP_FILEPATH
-            echo -e "Subject:Live-Check Expired\n`date`" | sendmail $USER@`hostname`
+    filepath="$TIMESTAMP_FILEPATH-$1"
+    if [ -f "$filepath" ]; then
+        if [ `date +%s` -ge `cat $filepath` ]; then
+            echo "$1: $MESSAGE"
+            rm $filepath
+            echo -e "Subject:$1: $MESSAGE\n`date`" | sendmail $USER@`hostname`
         fi
     fi
     exit 0
 }
 
-if [ $# -eq 1 ]; then
+if [ $# -eq 2 ]; then
     if [ $1 = "save" ]; then
-        save
+        save $2
     fi
     if [ $1 = "check" ]; then
-        check
+        check $2
     fi
 fi
 usage
