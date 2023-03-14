@@ -6,7 +6,7 @@ TIME_DELAY="4 hour"
 MESSAGE="Live-Check Expired"
 
 function usage(){
-    echo "Usage: live-check (save arg|empty)"
+    echo "Usage: live-check (arg > save | empty > check)"
     exit 1
 }
 
@@ -34,7 +34,7 @@ function check(){
 if [ $# -eq 0 ]; then
     check
 fi
-if [ $# -eq 2  ] && [ $1 = "save" ]; then
-    save $2
+if [ $# -eq 1 ] ; then
+    save $1
 fi
 usage
