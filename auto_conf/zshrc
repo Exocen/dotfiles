@@ -51,6 +51,7 @@ if [ -f $ZSH/custom/themes/custom.zsh-theme ]; then
 else
     ZSH_THEME="avit"
 fi
+
 plugins=(git docker sudo systemd lxd archlinux cp dirhistory rsync extract)
 source $ZSH/oh-my-zsh.sh
 # systemd plug -> sc-cmd
@@ -155,10 +156,6 @@ alias viewtar='tar -tf'
 alias myip='echo `curl -s ipinfo.io/ip`'
 alias opened_ports='sudo lsof -i -n -P | grep LISTEN'
 alias ip='ip -c'
-
-# rsync
-alias rscp='rsync --archive -hh --partial --append-verify --info=stats1 --info=progress2 --modify-window=1'
-alias rsmv='rscp --remove-source-files'
 
 ## Packages managers
 # dpkg
