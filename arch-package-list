@@ -5,7 +5,7 @@ mesa
 # Amd CPU
 amd-ucode
 # WM
-wayland sway xorg-xwayland rofi-lbonn-wayland-only-git
+wayland sway xorg-xwayland tofi
 # Waybar
 waybar noto-fonts ttf-nerd-fonts-symbols-2048-em
 # Brightness tool
