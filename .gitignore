@@ -2,7 +2,7 @@
 *.log
 *.tmp
 ### mdp
-home_conf/mpd/*
-!home_conf/mpd/mpd.conf
+**/mpd/*
+**/!mpd/mpd.conf
 ### vscode
 .vscode
