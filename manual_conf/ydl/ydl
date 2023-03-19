@@ -100,11 +100,11 @@ class Main:
 
     def gen_ydl_options(self, tmpdirname):
         opts = {
-                "quiet": True,
-                "logger": YDL_Logger,
-                "progress_hooks": [self.file_hook],
-                "outtmpl": tmpdirname + "/%(title)s.",
-                }
+            "quiet": True,
+            "logger": YDL_Logger,
+            "progress_hooks": [self.file_hook],
+            "outtmpl": tmpdirname + "/%(title)s.",
+        }
         if self.audio_transform:
             opts.update({"postprocessors": [{"key": "FFmpegExtractAudio", "preferredcodec": audio_format, }],
                          "extractaudio": True,
@@ -208,8 +208,8 @@ class Main:
 
         done_list = list(filter(lambda a: a in [b.title for b in audio_data_list], existing_title_list))
         audio_data_list = list(
-                filter(lambda a: a.title not in existing_title_list,
-                       audio_data_list))
+            filter(lambda a: a.title not in existing_title_list,
+                   audio_data_list))
 
         # Dl and tag
         if audio_data_list:
@@ -256,10 +256,23 @@ class Main:
         log.debug("Sleeping for " + str(sleep_time) + " second(s)")
         sleep(sleep_time)
 
+    @staticmethod
+    def check_ffmpeg():
+        try:
+            cmd = ['/usr/bin/ffmpeg', '-version']
+            log.info(f'Running {cmd}')
+            Main.run_process(cmd)
+        except CmdException as check_error:
+            log.error(f'ffmpeg error: {check_error}')
+            exit()
+
+
 
     def run(self):
         log.debug("YDL Starting...")
+        Main.check_ffmpeg()
         seed()
+        # TODO need to replace this loop by a systemd timer ?
         while (self.loop):
             for params in self.params_list:
                 self.set_params(params)
