@@ -1,13 +1,13 @@
+# /etc/systemd/system/ydl.service
 [Unit]
 Description=Ydl script
-After=vpn_manager.service
-Requires=vpn_manager.service
+After=mullvad-check.service
+Requires=mullvad-check.service
 OnFailure=notify-email@%i.service
-RequiresMountsFor=%/tmp_user_1%
 
 [Service]
-User=vpn_user
-ExecStart=python3 ydl
+User=
+ExecStart=/usr/bin/ydl
 
 [Install]
 WantedBy=multi-user.target

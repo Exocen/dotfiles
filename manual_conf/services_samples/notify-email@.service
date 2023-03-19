@@ -1,0 +1,14 @@
+# /etc/systemd/system/notify-email@.service
+# Needs to be enabled
+# OnFailure=notify-email@%i.service
+
+[Unit]
+Description=Send email
+
+[Service]
+User=
+Type=oneshot
+ExecStart=/usr/bin/bash -c '/usr/bin/systemctl status %i | /usr/bin/msmtp -a default DESTINATION'
+
+[Install]
+WantedBy=multi-user.target

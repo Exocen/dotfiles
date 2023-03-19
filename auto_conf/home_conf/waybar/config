@@ -193,7 +193,7 @@
             "interval": 2,
             "interface":"wlp1s0",
             "format-disconnected": "",
-            "format-wifi": "<span color=\"#9b59b6\"></span>{bandwidthUpOctets:<4}",
+            "format-wifi": "<span color=\"#9b59b6\"> </span>{bandwidthUpOctets:<4}",
             "format-linked": "",
             "tooltip-format": "{bandwidthUpBits}"
         },

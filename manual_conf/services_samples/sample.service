@@ -1,0 +1,16 @@
+[Unit]
+Description=
+Requires=
+Wants=
+After=network.target
+OnFailure=notify-email@%i.service
+
+[Service]
+# simple exec oneshot notify
+Type=oneshot
+RemainAfterExit=yes
+
+ExecStart=/path/
+# ExecStop, ExecReload
+Restart=always
+RestartSec=30
