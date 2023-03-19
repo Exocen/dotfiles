@@ -28,8 +28,10 @@ DEFAULT_USAGE = f"multiline csv file usage -> output_dir (can use host:/), playl
 safe_fail_count = 2
 retry_counter_max = 10
 
+
 class CmdException(Exception):
     pass
+
 
 class YDL_Logger:
     def error(msg):
@@ -48,7 +50,7 @@ class Main:
         self.playlist_id = None
         self.playlist_path_location = None
         self.params_list = self.get_param_list()
-        self.last_video_count = {param[1]:0 for param in self.params_list}
+        self.last_video_count = {param[1]: 0 for param in self.params_list}
         log.debug(f'Using new parameters -> {self.params_list}')
         self.retry_counter = 0
         self.loop = True
@@ -176,7 +178,7 @@ class Main:
             log.debug(f"{video_count} Videos found in {self.playlist_id} (previous: {self.last_video_count[self.playlist_id]})")
             return video_count
         except Exception as dl_error:
-            #TODO get correct exception + return empty/0
+            # TODO get correct exception + return empty/0
             self.connection_error(dl_error)
             self.downloader()
             return 0
@@ -250,7 +252,6 @@ class Main:
 
     @staticmethod
     def let_sleep(sleep_time, is_rnd=False):
-        # TODO keep rnd ?
         if (is_rnd):
             sleep_time = sleep_time + randint(0, sleep_time)
         log.debug("Sleeping for " + str(sleep_time) + " second(s)")
@@ -260,19 +261,15 @@ class Main:
     def check_ffmpeg():
         try:
             cmd = ['/usr/bin/ffmpeg', '-version']
-            log.info(f'Running {cmd}')
             Main.run_process(cmd)
-        except CmdException as check_error:
+        except Exception as check_error:
             log.error(f'ffmpeg error: {check_error}')
-            exit()
-
-
+            exit(1)
 
     def run(self):
         log.debug("YDL Starting...")
         Main.check_ffmpeg()
         seed()
-        # TODO need to replace this loop by a systemd timer ?
         while (self.loop):
             for params in self.params_list:
                 self.set_params(params)
