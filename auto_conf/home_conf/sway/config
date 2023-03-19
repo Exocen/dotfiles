@@ -53,7 +53,6 @@ bindsym $mod+n exec thunar
 bindsym $mod+Shift+A kill
 
 # App launcher
-# bindsym $mod+d exec "rofi -modi drun,run,combi -show combi -show-icons -theme solarized -font 'hack 9'"
 set $drun tofi-drun | xargs swaymsg exec --
 bindsym $mod+d exec $drun
 
