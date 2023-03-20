@@ -177,10 +177,9 @@ class Main:
             video_count = found_str[0] if len(found_str) > 0 else 0
             log.debug(f"{video_count} Videos found in {self.playlist_id} (previous: {self.last_video_count[self.playlist_id]})")
             return video_count
+        # check not mandatory, any error : process continue
         except Exception as dl_error:
-            # TODO get correct exception + return empty/0
             self.connection_error(dl_error)
-            self.downloader()
             return 0
 
     def downloader(self):
