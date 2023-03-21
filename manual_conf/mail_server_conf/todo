@@ -1,1 +1,2 @@
 create fail2ban config sample
+sudoless install
