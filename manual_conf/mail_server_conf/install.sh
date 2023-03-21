@@ -14,7 +14,7 @@ function main() {
         build_database
         put_conf
     else
-        echo "Must be ran on Debian"
+        echo "Must be run on Debian"
     fi
 
 }
@@ -121,7 +121,7 @@ function put_conf() {
 }
 
 if [ `id -u` -ne 0 ]; then
-    echo "Must be run by root"
+    echo "Must be run as root"
 else
     if [ -z "$1" ]; then
         echo "No domain supplied"
