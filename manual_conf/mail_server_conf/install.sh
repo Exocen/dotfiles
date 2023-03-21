@@ -2,7 +2,7 @@
 
 WOS=''
 DOMAIN=$1
-PASS=$(date +%s%N | sha256sum | base64 | head -c 32)
+PASS=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 32)
 TMP_CONF=$(mktemp -d)
 
 function main() {
@@ -10,7 +10,7 @@ function main() {
     if [ "$WOS" = "debian" ]; then
         pack_install
         generate_conf
-        sudo certbot certonly --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
+        certbot certonly --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
         build_database
         put_conf
     else
@@ -20,7 +20,7 @@ function main() {
 }
 
 function generate_conf() {
-    sudo hostnamectl set-hostname $DOMAIN
+    hostnamectl set-hostname $DOMAIN
     cp -r dovecot opendkim postfix opendkim.conf $TMP_CONF
     cd $TMP_CONF
     find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
@@ -28,7 +28,7 @@ function generate_conf() {
 }
 
 function detectOS() {
-  if [ -f /etc/lsb-release ]; then
+    if [ -f /etc/lsb-release ]; then
         WOS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//' | tr -dc '[:alnum:]\n\r' | tr '[:upper:]' '[:lower:]')
     elif [ -f /etc/os-release ]; then
         WOS=$(cat /etc/os-release | grep '^ID=.*' | sed 's/^.*=//'  | tr -dc '[:alnum:]\n\r' | tr '[:upper:]' '[:lower:]')
@@ -42,7 +42,7 @@ function detectOS() {
         WOS="arch"
     else
         WOS="WTH?"
-  fi
+    fi
 }
 
 function pack_install() {
@@ -96,35 +96,38 @@ function build_database() {
 
 function put_conf() {
     # Post-generate_conf
-    # Can't be sudoless or root :(
-    sudo cp -fr $TMP_CONF/postfix/* /etc/postfix/
-    sudo chmod -R o-rwx /etc/postfix
-    sudo postalias /etc/aliases
+    cp -fr $TMP_CONF/postfix/* /etc/postfix/
+    chmod -R o-rwx /etc/postfix
+    postalias /etc/aliases
 
-    sudo cp -fr $TMP_CONF/dovecot/* /etc/dovecot/
-    sudo mkdir -p /var/mail/vhosts/$DOMAIN
-    sudo groupadd -g 5000 vmail
-    sudo useradd -g vmail -u 5000 vmail -d /var/mail
-    sudo chown -R vmail:vmail /var/mail
-    sudo chown -R vmail:dovecot /etc/dovecot
-    sudo chmod -R o-rwx /etc/dovecot
+    cp -fr $TMP_CONF/dovecot/* /etc/dovecot/
+    mkdir -p /var/mail/vhosts/$DOMAIN
+    groupadd -g 5000 vmail
+    useradd -g vmail -u 5000 vmail -d /var/mail
+    chown -R vmail:vmail /var/mail
+    chown -R vmail:dovecot /etc/dovecot
+    chmod -R o-rwx /etc/dovecot
 
-    sudo cp -fr $TMP_CONF/opendkim.conf /etc/opendkim.conf
-    sudo mkdir -p /etc/opendkim/keys/$DOMAIN
-    sudo cp -fr $TMP_CONF/opendkim/* /etc/opendkim/
-    sudo opendkim-genkey -s mail -d $DOMAIN -D /etc/opendkim/keys/$DOMAIN
-    sudo chown opendkim:opendkim /etc/opendkim/keys/$DOMAIN/mail.private
-    sudo chmod 0400 /etc/opendkim/keys/$DOMAIN/mail.private
+    cp -fr $TMP_CONF/opendkim.conf /etc/opendkim.conf
+    mkdir -p /etc/opendkim/keys/$DOMAIN
+    cp -fr $TMP_CONF/opendkim/* /etc/opendkim/
+    opendkim-genkey -s mail -d $DOMAIN -D /etc/opendkim/keys/$DOMAIN
+    chown opendkim:opendkim /etc/opendkim/keys/$DOMAIN/mail.private
+    chmod 0400 /etc/opendkim/keys/$DOMAIN/mail.private
 
-    sudo systemctl restart postfix dovecot opendkim
+    systemctl restart postfix dovecot opendkim
     echo "Opendkim key:"
-    sudo cat /etc/opendkim/keys/$DOMAIN/*.txt
+    cat /etc/opendkim/keys/$DOMAIN/*.txt
 }
 
-if [ -z "$1" ]; then
-    echo "No domain supplied"
+if [ `id -u` -ne 0 ]; then
+    echo "Must be run by root"
 else
-    main
+    if [ -z "$1" ]; then
+        echo "No domain supplied"
+    else
+        main
+    fi
 fi
 
 cd "${0%/*}"
