@@ -20,7 +20,6 @@ function main() {
 }
 
 function generate_conf() {
-    cd "${0%/*}"
     sudo hostnamectl set-hostname $DOMAIN
     cp -r dovecot opendkim postfix opendkim.conf $TMP_CONF
     cd $TMP_CONF
@@ -29,10 +28,10 @@ function generate_conf() {
 }
 
 function detectOS() {
-    if [ -f /etc/lsb-release ]; then
-        WOS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//' | sed -e 's/\(.*\)/\L\1/')
+  if [ -f /etc/lsb-release ]; then
+        WOS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//' | tr -dc '[:alnum:]\n\r' | tr '[:upper:]' '[:lower:]')
     elif [ -f /etc/os-release ]; then
-        WOS=$(cat /etc/os-release | grep '^ID=.*' | sed 's/^.*=//' | sed -e 's/\(.*\)/\L\1/')
+        WOS=$(cat /etc/os-release | grep '^ID=.*' | sed 's/^.*=//'  | tr -dc '[:alnum:]\n\r' | tr '[:upper:]' '[:lower:]')
     elif [ -f /etc/redhat-release ]; then
         WOS="fedora"
     elif [ -f /etc/centos-release ]; then
@@ -43,7 +42,7 @@ function detectOS() {
         WOS="arch"
     else
         WOS="WTH?"
-    fi
+  fi
 }
 
 function pack_install() {
@@ -128,6 +127,7 @@ else
     main
 fi
 
+cd "${0%/*}"
 rm -rf $TMP_CONF
 
 # Local Variables:

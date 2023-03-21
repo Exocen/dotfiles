@@ -13,7 +13,7 @@ waybar noto-fonts ttf-nerd-fonts-symbols-2048-em
 # Utils
 acpi otf-ipafont mcomix
 # Archive tools
-p7zip zip unrar unzip
+7-zip zip unrar unzip xarchiver
 # Power management
 # tlp
 acpi
