@@ -1,1 +1,2 @@
 create fail2ban config sample
+change mysql -> hash postmap
