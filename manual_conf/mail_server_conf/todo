@@ -1,2 +1,4 @@
 create fail2ban config sample
 change mysql -> hash postmap
+readme description imap lmpt smtp ssl
+redo postfix master.cf
