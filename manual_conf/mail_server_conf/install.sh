@@ -1,12 +1,10 @@
 #!/bin/bash
 
-WOS=''
 DOMAIN=$1
 TMP_CONF=$(mktemp -d)
 
 function main() {
-    detectOS
-    if [ "$WOS" = "debian" ]; then
+    if [ `detectOS` = "debian" ]; then
         pack_install
         generate_conf
         certbot certonly --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
@@ -39,6 +37,7 @@ function detectOS() {
     else
         WOS="WTH?"
     fi
+    return WOS
 }
 
 function pack_install() {
