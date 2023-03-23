@@ -2,7 +2,6 @@
 
 WOS=''
 DOMAIN=$1
-PASS=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 32)
 TMP_CONF=$(mktemp -d)
 
 function main() {
@@ -11,7 +10,7 @@ function main() {
         pack_install
         generate_conf
         certbot certonly --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
-        build_database
+        # build_database
         put_conf
     else
         echo "Must be run on Debian"
@@ -21,10 +20,9 @@ function main() {
 
 function generate_conf() {
     hostnamectl set-hostname $DOMAIN
-    cp -r dovecot opendkim postfix opendkim.conf $TMP_CONF
+    cp -r dovecot.conf opendkim postfix opendkim.conf $TMP_CONF
     cd $TMP_CONF
     find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
-    find . -type f -print0 | xargs -0 sed -i 's/\[PASS\]/'$PASS'/g'
 }
 
 function detectOS() {
@@ -47,51 +45,7 @@ function detectOS() {
 
 function pack_install() {
     sudo apt-get update -y && sudo apt-get upgrade -y
-    sudo apt-get install -y postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql opendkim opendkim-tools mariadb-server certbot
-}
-
-function mysql_exec() {
-    sudo mysql -u root -e "$1"
-}
-
-# Need a fresh db
-function build_database() {
-    # mysql_secure_installation
-    mysql_exec "DELETE FROM mysql.user WHERE User='';"
-    mysql_exec "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');"
-    mysql_exec "DROP DATABASE IF EXISTS test;"
-    mysql_exec "DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';"
-    mysql_exec "FLUSH PRIVILEGES;"
-
-    # mailserver creation
-    mysql_exec "CREATE DATABASE mailserver;
-    CREATE USER 'mailuser'@'localhost' IDENTIFIED BY '$PASS';
-    GRANT SELECT ON mailserver.* TO 'mailuser'@'localhost';
-    FLUSH PRIVILEGES;
-    USE mailserver;
-    CREATE TABLE \`virtual_domains\` (
-    \`id\` int(11) NOT NULL auto_increment,
-    \`name\` varchar(50) NOT NULL,
-    PRIMARY KEY (\`id\`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-    CREATE TABLE \`virtual_users\` (
-    \`id\` int(11) NOT NULL auto_increment,
-    \`domain_id\` int(11) NOT NULL,
-    \`password\` varchar(106) NOT NULL,
-    \`email\` varchar(100) NOT NULL,
-    PRIMARY KEY (\`id\`),
-    UNIQUE KEY \`email\` (\`email\`),
-    FOREIGN KEY (domain_id) REFERENCES virtual_domains(id) ON DELETE CASCADE
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-    CREATE TABLE \`virtual_aliases\` (
-    \`id\` int(11) NOT NULL auto_increment,
-    \`domain_id\` int(11) NOT NULL,
-    \`source\` varchar(100) NOT NULL,
-    \`destination\` varchar(100) NOT NULL,
-    PRIMARY KEY (\`id\`),
-    FOREIGN KEY (domain_id) REFERENCES virtual_domains(id) ON DELETE CASCADE
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-    INSERT INTO mailserver.virtual_domains (name) VALUES ('$DOMAIN');"
+    sudo apt-get install -y postfix dovecot-core dovecot-imapd dovecot-lmtpd opendkim opendkim-tools certbot
 }
 
 function put_conf() {
@@ -100,7 +54,7 @@ function put_conf() {
     chmod -R o-rwx /etc/postfix
     postalias /etc/aliases
 
-    cp -fr $TMP_CONF/dovecot/* /etc/dovecot/
+    cp -fr $TMP_CONF/dovecot.conf /etc/dovecot/
     mkdir -p /var/mail/vhosts/$DOMAIN
     groupadd -g 5000 vmail
     useradd -g vmail -u 5000 vmail -d /var/mail
@@ -108,7 +62,7 @@ function put_conf() {
     chown -R vmail:dovecot /etc/dovecot
     chmod -R o-rwx /etc/dovecot
 
-    cp -fr $TMP_CONF/opendkim.conf /etc/opendkim.conf
+    cp -fr $TMP_CONF/opendkim.conf /etc/
     mkdir -p /etc/opendkim/keys/$DOMAIN
     cp -fr $TMP_CONF/opendkim/* /etc/opendkim/
     opendkim-genkey -s mail -d $DOMAIN -D /etc/opendkim/keys/$DOMAIN
