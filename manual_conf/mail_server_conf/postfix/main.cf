@@ -1,23 +1,9 @@
 # /etc/postfix/main.cf
 # See /usr/share/postfix/main.cf.dist for a commented, more complete version
 
-# Debian specific:  Specifying a file name will cause the first
-# line of that file to be used as the name.  The Debian default
-# is /etc/mailname.
-#myorigin = /etc/mailname
-
 biff = no
-
-# appending .domain is the MUA's job.
 append_dot_mydomain = no
-
-# Uncomment the next line to generate "delayed mail" warnings
-#delay_warning_time = 4h
-
 readme_directory = no
-
-# See http://www.postfix.org/COMPATIBILITY_README.html -- default to 2 on
-# fresh installs.
 compatibility_level = 2
 
 # TLS parameters
@@ -34,9 +20,6 @@ smtpd_sasl_tls_security_options = noanonymous
 smtpd_sasl_type = dovecot
 smtpd_sasl_path = private/auth
 smtpd_sasl_auth_enable = yes
-
-# See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
-# information on enabling SSL in the smtp client.
 
 # Restrictions
 smtpd_helo_restrictions =
@@ -61,18 +44,14 @@ smtpd_relay_restrictions =
         permit_sasl_authenticated,
         defer_unauth_destination
 
-# See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
-# information on enabling SSL in the smtp client.
-
 myhostname = [DOMAIN]
-#alias_maps = hash:/etc/aliases
-#alias_database = hash:/etc/aliases
 mydomain = [DOMAIN]
 myorigin = $mydomain
 mydestination = localhost
 relayhost =
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
-#mailbox_size_limit = 0
+#mailbox_size_limit = 51200000
+#virtual_mailbox_limit = 51200000
 recipient_delimiter = +
 inet_interfaces = all
 inet_protocols = all
