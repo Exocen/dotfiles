@@ -65,8 +65,8 @@ smtpd_relay_restrictions =
 # information on enabling SSL in the smtp client.
 
 myhostname = [DOMAIN]
-alias_maps = hash:/etc/aliases
-alias_database = hash:/etc/aliases
+#alias_maps = hash:/etc/aliases
+#alias_database = hash:/etc/aliases
 mydomain = [DOMAIN]
 myorigin = $mydomain
 mydestination = localhost
@@ -83,10 +83,14 @@ smtpd_milters=inet:[127.0.0.1]:12301
 virtual_transport = lmtp:unix:private/dovecot-lmtp
 
 # Virtual domains, users, and aliases
-virtual_mailbox_domains = mysql:/etc/postfix/mysql-virtual-mailbox-domains.cf
-virtual_mailbox_maps = mysql:/etc/postfix/mysql-virtual-mailbox-maps.cf
-virtual_alias_maps = mysql:/etc/postfix/mysql-virtual-alias-maps.cf,
-        mysql:/etc/postfix/mysql-virtual-email2email.cf
+#virtual_mailbox_domains = mysql:/etc/postfix/mysql-virtual-mailbox-domains.cf
+#virtual_mailbox_maps = mysql:/etc/postfix/mysql-virtual-mailbox-maps.cf
+#virtual_alias_maps = mysql:/etc/postfix/mysql-virtual-alias-maps.cf,
+ #       mysql:/etc/postfix/mysql-virtual-email2email.cf
+#virtual_mailbox_domains = $mydomain
+virtual_mailbox_base = /var/mail/vhosts
+virtual_mailbox_maps = hash:/etc/postfix/vmailbox
+virtual_alias_maps = hash:/etc/postfix/virtual_alias
 
 # Even more Restrictions and MTA params
 disable_vrfy_command = yes

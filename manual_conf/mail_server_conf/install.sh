@@ -9,13 +9,11 @@ function main() {
     if [ "$WOS" = "debian" ]; then
         pack_install
         generate_conf
-        certbot certonly --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
-        # build_database
+        certbot certonly --standalone --register-unsafely-without-email --dry-run --agree-tos -d $DOMAIN
         put_conf
     else
         echo "Must be run on Debian"
     fi
-
 }
 
 function generate_conf() {
@@ -52,8 +50,8 @@ function put_conf() {
     # Post-generate_conf
     cp -fr $TMP_CONF/postfix/* /etc/postfix/
     chmod -R o-rwx /etc/postfix
-    postalias /etc/aliases
 
+    touch /etc/postfix/vmailbox
     cp -fr $TMP_CONF/dovecot.conf /etc/dovecot/
     mkdir -p /var/mail/vhosts/$DOMAIN
     groupadd -g 5000 vmail
