@@ -9,8 +9,7 @@ function main() {
     if [ "$WOS" = "debian" ]; then
         pack_install
         generate_conf
-        #TODO dry-run :P
-        certbot certonly --standalone --register-unsafely-without-email --dry-run --agree-tos -d $DOMAIN
+        certbot certonly --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
         put_conf
     else
         echo "Must be run on Debian"
