@@ -1,7 +1,15 @@
 #!/bin/bash
-if [ $# -eq 2 ]
-then
-    sudo mysql -u root -e "INSERT INTO mailserver.virtual_aliases (domain_id, source, destination) VALUES ('1', '$1', '$2');"
-else
-    echo "Usage: ./script alias_email email"
+if [ `id -u` -ne 0 ]; then
+    echo "Must be run as root"
+    exit 1
 fi
+if [ ! -n "$2" ]
+then
+    echo "Usage: $0 ALIAS EMAIL"
+    exit 1
+fi
+
+echo "$1 $2" >> /etc/postfix/virtual_alias
+postmap /etc/postfix/virtual_alias
+systemctl reload postfix
+echo "$1 to $2 added"
