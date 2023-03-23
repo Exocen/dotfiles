@@ -1,8 +1,8 @@
 # /etc/systemd/system/transmission-daemon.service
 [Unit]
 Description=Transmission BitTorrent Daemon
-After=mullvad-check.service
-Requires=mullvad-check.service
+After=vpn-check.service
+Requires=vpn-check.service
 OnFailure=notify-email@%i.service
 
 [Service]

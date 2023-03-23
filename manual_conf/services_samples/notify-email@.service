@@ -9,6 +9,7 @@ Description=Send email
 User=
 Type=oneshot
 ExecStart=/usr/bin/bash -c '/usr/bin/systemctl status %i | /usr/bin/msmtp -a default DESTINATION'
+# ExecStart=/usr/bin/bash -c '/usr/bin/systemctl status %i | /usr/bin/sendmail DESTINATION'
 
 [Install]
 WantedBy=multi-user.target
