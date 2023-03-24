@@ -1,5 +1,0 @@
-/^Received:.*with ESMTP/        IGNORE
-/^X-Mailer:/                    IGNORE
-/^User-Agent:/                  IGNORE
-/^Mime-Version:/                IGNORE
-#postmap /etc/postfix/header_checks
