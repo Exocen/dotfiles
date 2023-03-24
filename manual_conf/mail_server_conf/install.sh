@@ -55,6 +55,7 @@ function put_conf() {
     postmap /etc/postfix/vmailbox
     touch /etc/postfix/virtual_alias
     postmap /etc/postfix/virtual_alias
+    newaliases
 
     cp -fr $TMP_CONF/dovecot.conf /etc/dovecot/
     mkdir -p /var/mail/vhosts/$DOMAIN
