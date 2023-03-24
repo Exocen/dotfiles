@@ -37,7 +37,7 @@ function detectOS() {
     else
         WOS="WTH?"
     fi
-    return WOS
+    return $WOS
 }
 
 function pack_install() {
