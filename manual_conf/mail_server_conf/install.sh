@@ -4,7 +4,7 @@ DOMAIN=$1
 TMP_CONF=$(mktemp -d)
 
 function main() {
-    if [ `detectOS` = "debian" ]; then
+    if [ `detectOS` == "debian" ]; then
         pack_install
         generate_conf
         certbot certonly --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
