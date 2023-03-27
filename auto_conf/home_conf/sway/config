@@ -11,6 +11,7 @@ set $opacity 0.9
 for_window [app_id="Alacritty"] opacity $opacity
 
 # Startup apps
+exec swaync
 
 # Hide cursor
 seat seat0 hide_cursor 5000
@@ -70,9 +71,9 @@ bindsym XF86AudioPrev exec mpc prev
 bindsym XF86AudioNext exec mpc next
 bindsym XF86AudioStop exec mpc stop
 
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5% && notify-send "Volume: $(pactl get-sink-volume @DEFAULT_SINK@ | head -n 1 | sed 's/%.*//g' | sed 's/.*\ //g')%"
 bindsym XF86AudioMute        exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5% && notify-send "Volume: $(pactl get-sink-volume @DEFAULT_SINK@ | head -n 1 | sed 's/%.*//g' | sed 's/.*\ //g')%"
 bindsym $mod+F5              exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 # Screen brightness controls
