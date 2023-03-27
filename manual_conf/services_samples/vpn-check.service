@@ -1,6 +1,6 @@
-# /etc/systemd/system/mullvad-check.service
+# /etc/systemd/system/vpn-check.service
 [Unit]
-Description=Mullvad Check
+Description=VPN Check
 After=mullvad-daemon.service
 Wants=mullvad-daemon.service
 OnFailure=notify-email@%i.service
@@ -8,7 +8,7 @@ OnFailure=notify-email@%i.service
 [Service]
 Type=oneshot
 RemainAfterExit=true
-ExecStart=/usr/bin/mullvad-check
+ExecStart=/usr/bin/vpn-check
 
 [Install]
 WantedBy=multi-user.target

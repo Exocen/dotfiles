@@ -1,12 +1,12 @@
 #!/bin/bash
-# Check mullvad status
+# Check Vpn status
 max_duration="30 minutes"
 end_date=`date -d "$max_duration" +%s`
 while ! curl -s https://am.i.mullvad.net/connected | grep -qi "you are connected to mullvad" ; do
     if [ `date +%s` -ge $end_date  ] ; then
-        echo "Mullvad check expired"
+        echo "VPN check expired"
         exit 1
     fi
     sleep 1
 done
-echo "Mullvad connected"
+echo "VPN connected"
