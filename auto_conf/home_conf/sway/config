@@ -11,7 +11,7 @@ default_border none
 default_floating_border normal 0
 # Startup apps
 exec swaync
-exec swayidle timeout 7200 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"'
+exec swayidle
 
 exec swaymsg "workspace 2; exec firefox -private youtube.com"
 exec sleep 60 && swaymsg "workspace 1; exec kodi --windowing=x11"
