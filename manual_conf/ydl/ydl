@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# TODO add import checker
 import mutagen
 import youtube_dl
 
@@ -165,6 +166,7 @@ class Main:
                 meta["artist"] = audio_data.artist
                 meta.save()
 
+        # TODO add rsync checker
         cmd = ['/bin/bash', '-c', f"rsync -a -s --no-perms {quote(filepath)} {quote(dest_path)}"]
         log.info(f'Running {cmd}')
         Main.run_process(cmd)
