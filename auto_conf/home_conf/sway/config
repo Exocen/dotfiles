@@ -154,7 +154,12 @@ bindsym $mod+ctrl+Right workspace next
 # reload the configuration file
 bindsym $mod+Shift+r reload
 
-# restart
+
+# Power control
+#TODO without sudo
+bindsym $mod+p+Escape exec "sudo systemctl poweroff"
+bindsym $mod+s+Escape exec "sudo systemctl suspend"
+bindsym $mod+r+Escape exec "sudo systemctl reboot"
 bindsym $mod+Shift+Escape exec "sudo systemctl reboot -f"
 
 # resize window (you can also use the mouse for that)
