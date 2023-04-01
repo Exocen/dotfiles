@@ -14,7 +14,7 @@ exec swaync
 exec swayidle
 
 exec swaymsg "workspace 2; exec firefox -private youtube.com"
-exec sleep 60 && swaymsg "workspace 1; exec kodi --windowing=x11"
+exec sleep 20 && swaymsg "workspace 1; exec kodi --windowing=x11"
 #exec swaymsg "workspace 1; exec steam -pipewire -bigpicture"
 
 # Hide cursor
@@ -79,9 +79,9 @@ bindsym XF86AudioStop exec mpc stop
 # TODO add mute/status
 # TODO use scripts for sway -> mediacenter ?
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5% && notify-send -t 1000 "Volume: $(pactl get-sink-volume @DEFAULT_SINK@ | head -n 1 | sed 's/%.*//g' | sed 's/.*\ //g')%"
-bindsym XF86AudioMute        exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMute        exec pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send -t 1000 "$(pactl get-sink-mute @DEFAULT_SINK@)"
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5% && notify-send -t 1000 "Volume: $(pactl get-sink-volume @DEFAULT_SINK@ | head -n 1 | sed 's/%.*//g' | sed 's/.*\ //g')%"
-bindsym $mod+F5              exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym $mod+F5             exec pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send -t 1000 "$(pactl get-sink-mute @DEFAULT_SINK@)"
 
 # Screen brightness controls
 bindsym XF86MonBrightnessUp   exec light -A 10
