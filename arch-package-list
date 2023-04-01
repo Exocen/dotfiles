@@ -5,7 +5,9 @@ mesa
 # Amd CPU
 amd-ucode
 # WM
-wayland sway xorg-xwayland tofi swaync
+wayland sway xorg-xwayland
+# Menu, notifications, idle managment
+tofi swaync-git swayidle
 # Waybar
 waybar noto-fonts ttf-nerd-fonts-symbols-2048-em
 # Brightness tool
