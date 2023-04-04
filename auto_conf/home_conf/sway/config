@@ -9,6 +9,7 @@ for_window [instance="steam"] floating enable, resize set 3840 2160, move positi
 for_window [title="^.*"] title_format ""
 default_border none
 default_floating_border normal 0
+
 # Startup apps
 exec swaync
 exec swayidle
