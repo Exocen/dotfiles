@@ -1,6 +1,5 @@
 # Outputs
-output DP-2 pos 2048 0 res 2560x1440
-output HDMI-A-1 pos 0 288 res 2048x1152
+output DP-2 res 2560x1440 pos 0,0
 output * bg #000000 solid_color
 
 workspace "1" output HDMI-A-1
@@ -11,7 +10,6 @@ set $opacity 0.9
 for_window [app_id="Alacritty"] opacity $opacity
 
 # Startup apps
-exec swaync
 
 # Hide cursor
 seat seat0 hide_cursor 5000
