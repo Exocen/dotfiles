@@ -5,7 +5,7 @@ mesa
 # Amd CPU
 amd-ucode
 # WM
-wayland sway xorg-xwayland
+wayland sway xorg-xwayland qt5-wayland
 # Menu, notifications, idle managment
 tofi swaync-git swayidle
 # Waybar
