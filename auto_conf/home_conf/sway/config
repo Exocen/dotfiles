@@ -10,6 +10,7 @@ set $opacity 0.9
 for_window [app_id="Alacritty"] opacity $opacity
 
 # Startup apps
+exec swaync
 
 # Hide cursor
 seat seat0 hide_cursor 5000
