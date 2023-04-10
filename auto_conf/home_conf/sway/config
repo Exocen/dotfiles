@@ -2,8 +2,8 @@
 output DP-2 res 2560x1440 pos 0,0
 output * bg #000000 solid_color
 
-workspace "1" output HDMI-A-1
-workspace "2" output DP-2
+#workspace "1" output HDMI-A-1
+workspace "1" output DP-2
 
 set $opacity 0.9
 # for_window [class=".*"] opacity $opacity
@@ -53,7 +53,7 @@ bindsym $mod+n exec thunar
 bindsym $mod+Shift+A kill
 
 # App launcher
-set $drun tofi-drun | xargs swaymsg exec --
+set $drun tofi-run | xargs swaymsg exec --
 bindsym $mod+d exec $drun
 
 # Power control
