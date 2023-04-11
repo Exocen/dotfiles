@@ -1,5 +1,4 @@
 # Outputs
-output * bg #000000 solid_color
 
 set $opacity 0.9
 # for_window [class=".*"] opacity $opacity
@@ -17,6 +16,11 @@ exec swayidle
 exec swaymsg "workspace 2; exec firefox -private youtube.com"
 exec sleep 20 && swaymsg "workspace 1; exec kodi --windowing=x11"
 #exec swaymsg "workspace 1; exec steam -pipewire -bigpicture"
+
+# Notifications
+exec swaync
+# Background
+exec wlr-sunclock -a tblr -o "#4166f5" -n "#282b34"
 
 # Hide cursor
 seat seat0 hide_cursor 5000
@@ -60,7 +64,7 @@ bindsym $mod+n exec thunar
 bindsym $mod+Shift+A kill
 
 # App launcher
-set $drun tofi-drun | xargs swaymsg exec --
+set $drun tofi-run | xargs swaymsg exec --
 bindsym $mod+d exec $drun
 
 # Power control
