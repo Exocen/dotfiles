@@ -1,8 +1,9 @@
 # Outputs
 
-set $opacity 0.9
-# for_window [class=".*"] opacity $opacity
-for_window [app_id="Alacritty"] opacity $opacity
+# Opacity
+#set $opacity 0.9
+#for_window [class=".*"] opacity $opacity
+#for_window [app_id="Alacritty"] opacity $opacity
 
 for_window [instance="steam"] floating enable, resize set 3840 2160, move position 0 0
 for_window [title="^.*"] title_format ""
