@@ -6,8 +6,8 @@ mesa
 amd-ucode
 # WM
 wayland sway xorg-xwayland qt5-wayland
-# Menu, notifications, idle managment
-tofi swaync-git swayidle
+# Menu, notifications, idle managment, background
+tofi swaync-git swayidle wlr-sunclock
 # Waybar
 waybar noto-fonts ttf-nerd-fonts-symbols-2048-em
 # Brightness tool

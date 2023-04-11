@@ -1,6 +1,6 @@
 # Outputs
 output DP-2 res 2560x1440 pos 0,0
-output * bg #000000 solid_color
+#output * bg #000000 solid_color
 
 #workspace "1" output HDMI-A-1
 workspace "1" output DP-2
@@ -10,7 +10,11 @@ set $opacity 0.9
 for_window [app_id="Alacritty"] opacity $opacity
 
 # Startup apps
+
+# Notifications
 exec swaync
+# Background
+exec wlr-sunclock -a tblr -o "#4166f5" -n "#282b34"
 
 # Hide cursor
 seat seat0 hide_cursor 5000

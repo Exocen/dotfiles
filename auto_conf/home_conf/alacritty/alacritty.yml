@@ -13,7 +13,9 @@ env:
   TERM: alacritty
   LANG: "en_US.UTF-8"
   LC_CTYPE: en_US.UTF-8
-  #window:
+
+window:
+  opacity: 0.8
   # Window dimensions (changes require restart)
   #
   # Specified in number of columns/lines, not pixels.
@@ -148,7 +150,6 @@ font:
   #
   # This is a global setting and will require a log out or restart to take
   # effect.
-  AppleFontSmoothing: true
 
 # If `true`, bold text is drawn using the bright color variants.
 #draw_bold_text_with_bright_colors: false
