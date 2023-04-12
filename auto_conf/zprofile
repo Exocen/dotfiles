@@ -4,5 +4,6 @@ if [ -z "$DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -eq 1 ]; then
     export QT_QPA_PLATFORM=wayland
     export _JAVA_AWT_WM_NONREPARENTING=1
     export MOZ_ENABLE_WAYLAND=1
+    export SDL_VIDEODRIVER=wayland
     exec sway 1>/run/user/$UID/sway.log 2>/run/user/$UID/sway_err.log
 fi
