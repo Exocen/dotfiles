@@ -161,6 +161,7 @@ alias ip='ip -c'
 alias dbi='sudo dpkg -i'
 alias dbr='sudo dpkg -r'
 
+# TODO use plugins -> yum, dnf,  apt ? , pacman ? yay ?
 # apt
 alias apu='sudo apt update'
 alias appg='sudo apt upgrade'

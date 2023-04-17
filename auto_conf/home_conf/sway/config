@@ -51,6 +51,14 @@ bindsym $mod+Shift+p exec firefox -private-window
 # File Browser
 bindsym $mod+n exec thunar
 
+
+# Screenshot a window
+bindsym $mod+Print exec sway-screenshot -m window
+# Screenshot a monitor
+bindsym Print exec sway-screenshot -m output
+# Screenshot a region
+bindsym $mod+Shift+Print exec sway-screenshot -m region
+
 # Lock
 # bindsym $mod+l exec systemctl suspend
 
@@ -128,10 +136,10 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 # focus the parent container
-# bindsym $mod+q focus parent
+#bindsym $mod+ focus parent
 
 # focus the child container
-# bindsym $mod+d focus child
+#bindsym $mod+ focus child
 
 # switch to workspace
 bindsym $mod+1 workspace 1
