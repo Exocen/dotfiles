@@ -151,7 +151,6 @@ alias am='alsamixer'
 alias tre='tree -C --dirsfirst'
 alias rmcache='rm -rf ~/.cache/'
 alias fuspaces='for f in *\ *; do mv "$f" "${f// /_}"; done '
-alias openvpnconf='sudo openvpn --config'
 alias viewtar='tar -tf'
 alias myip='echo `curl -s ipinfo.io/ip`'
 alias opened_ports='sudo lsof -i -n -P | grep LISTEN'
@@ -182,44 +181,44 @@ alias aurr='yay -Rsu'
 alias auru='yay -Syu'
 alias aurs='yay -Ss'
 alias aurl='yay -Qe'
-alias aurc='yay -Qdt ; yay -Sc --noconfirm ; sudo pacman -Rnus $(pacman -Qtdq) 2>/dev/null'
+alias aurls='yay -Qi | awk "/^Name/{name=\$3} /^Installed Size/{print \$4\$5, name}" | sort -h'
+alias aurc='yay -Qdt ; yay -Sc --noconfirm ; yay -Qtdq | yay -Rns - 2>/dev/null ;:'
 
 # yum
-alias yu='sudo yum update --color=always'
+alias yu='yum update --color=always'
 alias ys='yum search --color=always'
-alias yi='sudo yum install --color=always'
-alias yr='sudo yum autoremove --color=always'
-alias yc='sudo yum clean all --color=always'
+alias yi='yum install --color=always'
+alias yr='yum autoremove --color=always'
+alias yc='yum clean all --color=always'
 
 # dnf
-alias dnf='sudo dnf'
-alias dnfdistclean='sudo dnf clean all'
-alias dnfdistsync='sudo dnf distro-sync'
-alias dnfi='sudo dnf install'
-alias dnfpkgclean='sudo dnf remove $(package-cleanup --leaves)'
-alias dnfr='sudo dnf erase'
-alias dnfs='sudo dnf search'
-alias dnfshow='sudo dnf info'
-alias dnfupd='sudo dnf check-update'
-alias dnfupg='sudo dnf upgrade'
+alias dnfdistclean='dnf clean all'
+alias dnfdistsync='dnf distro-sync'
+alias dnfi='dnf install'
+alias dnfpkgclean='dnf remove $(package-cleanup --leaves)'
+alias dnfr='dnf erase'
+alias dnfs='dnf search'
+alias dnfshow='dnf info'
+alias dnfupd='dnf check-update'
+alias dnfupg='dnf upgrade'
 
 ## Functions
 
-# move args to tmp (with copy conservation)
+# Move args to tmp (with copy conservation)
 function del() {
     for file in "$@"; do mv --backup=t "$file" /var/tmp/; done
 }
 
-# builtin cd "$*"
+# Builtin cd "$*"
 function c() {
     cd "$@"
     ls -CFh --group-directories-first
 }
 
-# make your directories and files access rights sane.
+# Make your directories and files access rights sane.
 function sanitize() { chmod -R u=rwX,g=rX,o= "$@"; }
 
-# mount utilities
+# Mount utilities
 function mnt() {
     mkdir -p $2
     sudo mount $1 $2
@@ -230,7 +229,7 @@ function mountntfs() {
     sudo mount -t ntfs -o uid=$UID,umask=22 $1 $2
 }
 
-# gpg utilities
+# Gpg utilities
 function crypt() { gpg -co "${1}.gpg" "$1"; }
 
 function decrypt() {
@@ -239,7 +238,7 @@ function decrypt() {
     gpg -do ${NEW_FILE} $1
 }
 
-# git global config
+# Git global config
 function gitautoconfig() {
     delta -V &>/dev/null && git config --global core.pager delta || git config --unset --global core.pager
     git config --global pull.rebase false
@@ -248,7 +247,7 @@ function gitautoconfig() {
     git config --global push.default simple
 }
 
-# archive functions
+# Archive functions
 function maketar() { tar cvzf $1.tgz $*; }
 
 function makezip() { zip -r "${1%%/}.zip" "$1"; }
