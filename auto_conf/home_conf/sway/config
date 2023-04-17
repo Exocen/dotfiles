@@ -57,6 +57,14 @@ bindsym $mod+Shift+p exec firefox -private-window
 # File Browser
 bindsym $mod+n exec thunar
 
+
+# Screenshot a window
+bindsym $mod+Print exec sway-screenshot -m window
+# Screenshot a monitor
+bindsym Print exec sway-screenshot -m output
+# Screenshot a region
+bindsym $mod+Shift+Print exec sway-screenshot -m region
+
 # Lock
 # bindsym $mod+l exec systemctl suspend
 
@@ -74,15 +82,15 @@ bindsym $mod+r+Escape exec "sudo systemctl reboot"
 bindsym $mod+Shift+Escape exec "sudo systemctl reboot -f"
 
 # Mpd control
-bindsym $mod+F1 exec mpc toggle 1>/dev/null
-bindsym $mod+F2 exec mpc prev 1>/dev/null
-bindsym $mod+F3 exec mpc next 1>/dev/null
-bindsym $mod+F4 exec mpc stop 1>/dev/null
+bindsym $mod+F1 exec mpc toggle -q
+bindsym $mod+F2 exec mpc prev -q
+bindsym $mod+F3 exec mpc next -q
+bindsym $mod+F4 exec mpc stop -q
 
-bindsym XF86AudioPlay exec mpc toggle 1>/dev/null
-bindsym XF86AudioPrev exec mpc prev 1>/dev/null
-bindsym XF86AudioNext exec mpc next 1>/dev/null
-bindsym XF86AudioStop exec mpc stop 1>/dev/null
+bindsym XF86AudioPlay exec mpc toggle -q
+bindsym XF86AudioPrev exec mpc prev -q
+bindsym XF86AudioNext exec mpc next -q
+bindsym XF86AudioStop exec mpc stop -q
 
 # Volume control
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5% && notify-send -t 1000 "Volume: $(pactl get-sink-volume @DEFAULT_SINK@ | head -n 1 | sed 's/%.*//g' | sed 's/.*\ //g')%"
@@ -134,10 +142,10 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 # focus the parent container
-# bindsym $mod+q focus parent
+#bindsym $mod+ focus parent
 
 # focus the child container
-# bindsym $mod+d focus child
+#bindsym $mod+ focus child
 
 # switch to workspace
 bindsym $mod+1 workspace 1
