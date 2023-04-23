@@ -182,8 +182,10 @@ alias aurr='yay -Rsu'
 alias auru='yay -Syu'
 alias aurs='yay -Ss'
 alias aurl='yay -Qe'
+# Get packages list sorted by declared size
 alias aurls='yay -Qi | awk "/^Name/{name=\$3} /^Installed Size/{print \$4\$5, name}" | sort -h'
-alias aurc='yay -Qdt ; yay -Sc --noconfirm ; yay -Qtdq | yay -Rns - 2>/dev/null ;:'
+# Clean cache + orphan/unneeded packages
+alias aurc='yay -Sc --noconfirm ; yay -Qtdq | yay -Rns --noconfirm - 2>/dev/null ;:'
 
 # yum
 alias yu='yum update --color=always'
