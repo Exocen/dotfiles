@@ -147,6 +147,7 @@ function dev_env_install() {
                 if [ -f "$file" ]; then
                     info "Arch dev inv installation"
                     # .config links
+                    ln -sfn $LOCAL/auto_conf/zprofile  ~/.zprofile
                     conf_folder auto_conf/home_conf
                     list=""
                     while IFS= read -r line; do
