@@ -6,16 +6,16 @@ config:
       - git
     users:
     - default
-    - name: exo
+    - name: tester
       lock_passwd: false
       groups: users
       shell: /bin/bash
       sudo: ALL=(ALL) NOPASSWD:ALL
     runcmd:
-        - [cd, /home/exo]
+        - [cd, /home/tester]
         - [git, clone, --branch, Strix, --depth, 1,  https://github.com/exocen/dotfiles]
-        - [chown, -R, exo:users, dotfiles]
-        - [runuser, -l, exo, -c, '~/dotfiles/auto-install -y']
+        - [chown, -R, tester:users, dotfiles]
+        - [runuser, -l, tester, -c, '~/dotfiles/auto-install -y']
 description: Cloud LXD profile
 devices:
   eth0:
