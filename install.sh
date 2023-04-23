@@ -85,7 +85,7 @@ function aur_ins() {
     info "Installation: $all "
     if [ "$WOS" = "arch" ]; then
         # Aur tool install
-        yay -v &>/dev/null
+        yay -V &>/dev/null
         if [ $? -ne 0 ]; then
             arch_package_install https://aur.archlinux.org/yay.git
         fi
