@@ -261,7 +261,7 @@ class Main:
     @staticmethod
     def check_ffmpeg():
         try:
-            cmd = ['/usr/bin/ffmpeg', '-version']
+            cmd = ['/usr/bin/ffmpeg', '-version', '1>/dev/null']
             Main.run_process(cmd)
         except Exception as check_error:
             log.error(f'ffmpeg error: {check_error}')
