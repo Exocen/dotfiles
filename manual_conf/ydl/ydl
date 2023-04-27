@@ -137,7 +137,7 @@ class Main:
         if s.returncode != 0:
             raise CmdException(s.stderr)
         if s.stdout:
-            log.warning(s.stdout)
+            log.debug(s.stdout)
         return s
 
     def dl_list(self, audio_data, ydl_opts):
