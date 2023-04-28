@@ -109,7 +109,7 @@ alias -s java=$EDITOR
 alias -s txt=$EDITOR
 alias -s PKGBUILD=$EDITOR
 alias -s jar=java -jar
-alias -s pdf='evince'
+alias -s pdf=$BROWSER
 alias -s py='py'
 
 # utilities aliases
