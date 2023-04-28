@@ -118,7 +118,7 @@
         },
         "mpd": {
             //玲栗契怜凌
-            "format": "{stateIcon} {artist} - {title}",
+            "format": "{stateIcon}  {artist} - {title}",
             "format-disconnected": "Disconnected",
             "format-stopped": "",
             "on-click": "mpc toggle",
