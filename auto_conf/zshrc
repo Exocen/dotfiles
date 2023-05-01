@@ -52,7 +52,7 @@ else
     ZSH_THEME="avit"
 fi
 
-plugins=(git docker sudo systemd lxd archlinux cp dirhistory rsync extract)
+plugins=(git docker sudo systemd lxd archlinux cp dirhistory rsync extract rust screen)
 source $ZSH/oh-my-zsh.sh
 # systemd plug -> sc-cmd
 # sudo plug -> ESC * 2
@@ -109,7 +109,7 @@ alias -s java=$EDITOR
 alias -s txt=$EDITOR
 alias -s PKGBUILD=$EDITOR
 alias -s jar=java -jar
-alias -s pdf='evince'
+alias -s pdf=$BROWSER
 alias -s py='py'
 
 # utilities aliases

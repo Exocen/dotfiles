@@ -9,7 +9,7 @@ wayland sway xorg-xwayland qt5-wayland
 # Menu, notifications, idle managment, background, screenshot
 tofi swaync-git swayidle wlr-sunclock sway-screenshot
 # Waybar
-waybar noto-fonts ttf-nerd-fonts-symbols-2048-em
+waybar noto-fonts ttf-nerd-fonts-symbols
 # Brightness tool
 # clight
 # Utils
