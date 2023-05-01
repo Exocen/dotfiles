@@ -41,7 +41,7 @@
 window#waybar {
     background: #323232;
     font-family: monospace, NotoSansMono, SymbolsNerdFont;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 /* Each module */

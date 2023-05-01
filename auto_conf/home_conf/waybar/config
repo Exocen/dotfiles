@@ -71,7 +71,7 @@
 
         "clock#time": {
             "interval": 1,
-            "format": "<span color=\"#909497\"></span> {:%T}",
+            "format": "<span color=\"#909497\">󱑑</span> {:%T}",
             "tooltip": false
         },
 
@@ -109,7 +109,7 @@
 
         "disk": {
             "interval": 30,
-            "format": "<span color=\"#05e4fc\">{path}</span> {percentage_used}%",
+            "format": "<span color=\"#05e4fc\">󰋊 {path}</span> {percentage_used}%",
             "states": {
                 "warning": 80,
                 "critical":90
@@ -117,7 +117,6 @@
             "path": "/"
         },
         "mpd": {
-            //玲栗契怜凌
             "format": "{stateIcon}  {artist} - {title}",
             "format-disconnected": "Disconnected",
             "format-stopped": "",
@@ -140,8 +139,8 @@
                 "on": "1 "
             },
             "state-icons": {
-                "paused": "<span color=\"#28b463\"></span>",
-                "playing": "<span color=\"#28b463\">契</span>"
+                "paused": "<span color=\"#28b463\">󰏤</span>",
+                "playing": "<span color=\"#28b463\">󰐊</span>"
             },
             "tooltip-format": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon} {elapsedTime}/{totalTime} - {songPosition}/{queueLength}",
             "tooltip-format-disconnected": "MPD (disconnected)"
@@ -149,7 +148,7 @@
 
         "cpu#core": {
             "interval": 5,
-            "format": "<span color=\"#d4ac0d\"></span>{usage:>3}%",
+            "format": "<span color=\"#d4ac0d\">󰒔</span>{usage:>3}%",
             "states": {
                 "warning": 70,
                 "critical": 90
@@ -164,7 +163,7 @@
 
         "memory": {
             "interval": 5,
-            "format": "<span color=\"#2e86c1\"></span>{percentage:>3}%",
+            "format": "<span color=\"#2e86c1\">󰞰</span>{percentage:>3}%",
             "states": {
                 "warning": 70,
                 "critical": 90
