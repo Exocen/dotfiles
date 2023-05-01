@@ -148,7 +148,7 @@
 
         "cpu#core": {
             "interval": 5,
-            "format": "<span color=\"#d4ac0d\">󰒔</span>{usage:>3}%",
+            "format": "<span color=\"#d4ac0d\">󰒓</span>{usage:>3}%",
             "states": {
                 "warning": 70,
                 "critical": 90
