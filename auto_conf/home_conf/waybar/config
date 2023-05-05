@@ -13,236 +13,236 @@
 
     "layer": "top",
 
-        "position": "top",
-        "output": ["HDMI-A-1", "DP-2"],
+    "position": "top",
+    "output": ["HDMI-A-1", "DP-2"],
 
-        // If height property would be not present, it'd be calculated dynamically
-        "height": 30,
+    // If height property would be not present, it'd be calculated dynamically
+    "height": 30,
 
-        "modules-left": [
-            "sway/workspaces",
-        "sway/mode",
-        "tray"
-        ],
-        "modules-center": [
-            "mpd",
-        ],
-        "modules-right": [
-            "pulseaudio",
-        "custom/vpn-status",
-        "network",
-        "network#up",
-        "network#down",
-        "disk",
-        "memory",
-        "cpu#core",
-        //"cpu#load",
-        "custom/gpu-temp",
-        "temperature",
-        "clock#date",
-        "clock#time",
-        "custom/capslock-status"
-        ],
+    "modules-left": [
+    "sway/workspaces",
+    "sway/mode",
+    "tray"
+    ],
+    "modules-center": [
+    "mpd",
+    ],
+    "modules-right": [
+    "pulseaudio",
+    "custom/vpn-status",
+    "network",
+    "network#up",
+    "network#down",
+    "disk",
+    "memory",
+    "cpu#core",
+    //"cpu#load",
+    "custom/gpu-temp",
+    "temperature",
+    "clock#date",
+    "clock#time",
+    "custom/capslock-status"
+    ],
 
 
-        // -------------------------------------------------------------------------
-        // Modules
-        // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+    // Modules
+    // -------------------------------------------------------------------------
 
-        "battery": {
-            "interval": 10,
-            "states": {
-                "warning": 30,
-                "critical": 15
-            },
-            // Connected to AC
-            "format": "  {icon}  {capacity}%", // Icon: bolt
-                                                // Not connected to AC
-            "format-discharging": "{icon}  {capacity}%",
-            "format-icons": [
-                "", // Icon: battery-full
-            "", // Icon: battery-three-quarters
-            "", // Icon: battery-half
-            "", // Icon: battery-quarter
-            ""  // Icon: battery-empty
-            ],
-            "tooltip": true
-        },
+    "battery": {
+    "interval": 10,
+    "states": {
+    "warning": 30,
+    "critical": 15
+    },
+    // Connected to AC
+    "format": "  {icon}  {capacity}%", // Icon: bolt
+    // Not connected to AC
+    "format-discharging": "{icon}  {capacity}%",
+    "format-icons": [
+    "", // Icon: battery-full
+    "", // Icon: battery-three-quarters
+    "", // Icon: battery-half
+    "", // Icon: battery-quarter
+    ""  // Icon: battery-empty
+    ],
+    "tooltip": true
+    },
 
-        "clock#time": {
-            "interval": 1,
-            "format": "<span font='14' color=\"#909497\">󱑑</span> {:%T}",
-            "tooltip": false
-        },
+    "clock#time": {
+    "interval": 1,
+    "format": "<span font='14' color=\"#909497\">󱑑</span> {:%T}",
+    "tooltip": false
+    },
 
-        "clock#date": {
-            "interval": 60,
-            "format": "<span font='14' color=\"#909497\"></span> {:%F}",
-            "tooltip-format":"{:%Y %B %A}"
-        },
+    "clock#date": {
+    "interval": 60,
+    "format": "<span font='14' color=\"#909497\"></span> {:%F}",
+    "tooltip-format":"{:%Y %B %A}"
+    },
 
-        "custom/capslock-status": {
-            "exec": "~/.config/waybar/keyboard-state",
-            "restart-interval": 1,
-            "tooltip": false
-        },
+    "custom/capslock-status": {
+    "exec": "~/.config/waybar/keyboard-state",
+    "restart-interval": 1,
+    "tooltip": false
+    },
 
-        "custom/vpn-status": {
-            "exec": "~/.config/waybar/vpn-state",
-            "restart-interval": 5,
-            "tooltip": false
-        },
+    "custom/vpn-status": {
+    "exec": "~/.config/waybar/vpn-state",
+    "restart-interval": 5,
+    "tooltip": false
+    },
 
-        "custom/gpu-temp": {
-            "exec": "~/.config/waybar/gpu-temp amd",
-            "format":"<span font='14' color=\"#138d75\">{icon}</span>{:>3}°C",
-            "format-icons": [
-                "", // Icon: temperature-empty
-            "", // Icon: temperature-quarter
-            "", // Icon: temperature-half
-            "", // Icon: temperature-three-quarters
-            ""  // Icon: temperature-full
-            ],
-            "restart-interval": 5,
-            "tooltip": false
-        },
+    "custom/gpu-temp": {
+    "exec": "~/.config/waybar/gpu-temp amd",
+    "format":"<span font='14' color=\"#138d75\">{icon}</span>{:>3}°C",
+    "format-icons": [
+    "", // Icon: temperature-empty
+    "", // Icon: temperature-quarter
+    "", // Icon: temperature-half
+    "", // Icon: temperature-three-quarters
+    ""  // Icon: temperature-full
+    ],
+    "restart-interval": 5,
+    "tooltip": false
+    },
 
-        "disk": {
-            "interval": 30,
-            "format": "<span font='14' color=\"#05e4fc\">󰋊</span>  {percentage_used}%",
-            "states": {
-                "warning": 80,
-                "critical":90
-            },
-            "path": "/"
-        },
-        "mpd": {
-            "format": "{stateIcon}  {artist} - {title}",
-            "format-disconnected": "Disconnected",
-            "format-stopped": "",
-            "on-click": "mpc toggle",
-            "on-click-middle": "mpc prev",
-            "on-click-right": "mpc next",
-            "interval": 10,
-            "max-length": 150,
-            "consume-icons": {
-                "on": " "
-            },
-            "random-icons": {
-                "off": "<span font='14' color=\"#f53c3c\"></span> ",
-                "on": " "
-            },
-            "repeat-icons": {
-                "on": " "
-            },
-            "single-icons": {
-                "on": "1 "
-            },
-            "state-icons": {
-                "paused": "<span font='14' color=\"#28b463\">󰏤</span>",
-                "playing": "<span font='14' color=\"#28b463\">󰐊</span>"
-            },
-            "tooltip-format": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon} {elapsedTime}/{totalTime} - {songPosition}/{queueLength}",
-            "tooltip-format-disconnected": "MPD (disconnected)"
-        },
+    "disk": {
+    "interval": 30,
+    "format": "<span font='14' color=\"#05e4fc\">󰋊</span>  {percentage_used}%",
+    "states": {
+    "warning": 80,
+    "critical":90
+    },
+    "path": "/"
+    },
+    "mpd": {
+    "format": "{stateIcon}  {artist} - {title}",
+    "format-disconnected": "Disconnected",
+    "format-stopped": "",
+    "on-click": "mpc toggle",
+    "on-click-middle": "mpc prev",
+    "on-click-right": "mpc next",
+    "interval": 10,
+    "max-length": 150,
+    "consume-icons": {
+    "on": " "
+    },
+    "random-icons": {
+    "off": "<span font='14' color=\"#f53c3c\"></span> ",
+    "on": " "
+    },
+    "repeat-icons": {
+    "on": " "
+    },
+    "single-icons": {
+    "on": "1 "
+    },
+    "state-icons": {
+    "paused": "<span font='14' color=\"#28b463\">󰏤</span>",
+    "playing": "<span font='14' color=\"#28b463\">󰐊</span>"
+    },
+    "tooltip-format": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon} {elapsedTime}/{totalTime} - {songPosition}/{queueLength}",
+    "tooltip-format-disconnected": "MPD (disconnected)"
+    },
 
-        "cpu#core": {
-            "interval": 5,
-            "format": "<span font='14' color=\"#d4ac0d\">󰍛</span>{usage:>3}%",
-            "states": {
-                "warning": 70,
-                "critical": 90
-            }
-        },
+    "cpu#core": {
+    "interval": 5,
+    "format": "<span font='14' color=\"#d4ac0d\">󰍛</span>{usage:>3}%",
+    "states": {
+    "warning": 70,
+    "critical": 90
+    }
+    },
 
-        "cpu#load": {
-            "interval": 5,
-            "format": "<span font='14' color=\"#138d75\"></span> {load:<5}",
-            "tooltip": false
-        },
+    "cpu#load": {
+    "interval": 5,
+    "format": "<span font='14' color=\"#138d75\"></span> {load:<5}",
+    "tooltip": false
+    },
 
-        "memory": {
-            "interval": 5,
-            "format": "<span font='14' color=\"#2e86c1\">󰞰</span>{percentage:>3}%",
-            "states": {
-                "warning": 70,
-                "critical": 90
-            }
-        },
+    "memory": {
+    "interval": 5,
+    "format": "<span font='14' color=\"#2e86c1\">󰞰</span>{percentage:>3}%",
+    "states": {
+    "warning": 70,
+    "critical": 90
+    }
+    },
 
-        "network": {
-            "interval": 4,
-            "interface":"wlo1",
-            "format-wifi": "<span font='14' color=\"#9b59b6\"></span> {essid}",
-            "format-ethernet": "  {ifname}: {ipaddr}/{cidr}",
-            "format-disconnected": "⚠  Disconnected",
-            "tooltip-format": "{ifname}: {ipaddr}"
-        },
+    "network": {
+    "interval": 4,
+    "interface":"wlo1",
+    "format-wifi": "<span font='14' color=\"#9b59b6\"></span> {essid}",
+    "format-ethernet": "  {ifname}: {ipaddr}/{cidr}",
+    "format-disconnected": "⚠  Disconnected",
+    "tooltip-format": "{ifname}: {ipaddr}"
+    },
 
-        "network#down": {
-            "interval": 2,
-            "interface":"wlo1",
-            "format-wifi": "<span font='14' color=\"#9b59b6\"> </span>{bandwidthDownOctets:<4}",
-            "format-disconnected": "",
-            "format-linked": "",
-            "tooltip-format": "{bandwidthDownBits}"
-        },
+    "network#down": {
+    "interval": 2,
+    "interface":"wlo1",
+    "format-wifi": "<span font='14' color=\"#9b59b6\"> </span>{bandwidthDownOctets:<4}",
+    "format-disconnected": "",
+    "format-linked": "",
+    "tooltip-format": "{bandwidthDownBits}"
+    },
 
-        "network#up": {
-            "interval": 2,
-            "interface":"wlo1",
-            "format-disconnected": "",
-            "format-wifi": "<span font='14' color=\"#9b59b6\"> </span>{bandwidthUpOctets:<4}",
-            "format-linked": "",
-            "tooltip-format": "{bandwidthUpBits}"
-        },
+    "network#up": {
+    "interval": 2,
+    "interface":"wlo1",
+    "format-disconnected": "",
+    "format-wifi": "<span font='14' color=\"#9b59b6\"> </span>{bandwidthUpOctets:<4}",
+    "format-linked": "",
+    "tooltip-format": "{bandwidthUpBits}"
+    },
 
-        "sway/workspaces": {
-            "all-outputs": false,
-            "disable-scroll": false,
-            "format": "{icon} {name}",
-            "format-icons": {
-                "urgent": "",
-                "focused": "",
-                "default": ""
-            }
-        },
+    "sway/workspaces": {
+    "all-outputs": false,
+    "disable-scroll": false,
+    "format": "{icon} {name}",
+    "format-icons": {
+    "urgent": "",
+    "focused": "",
+    "default": ""
+    }
+    },
 
-        "pulseaudio": {
-            "format": "<span font='14' color=\"#28b463\">{icon}</span>{volume:>3}%",
-            //"format-bluetooth":"{volume}% {icon}",
-            "format-muted": "ﱝ",
-            "format-source-muted":"ﱝ",
-            "format-icons": {
-                "headphone": "",
-                "hands-free": "",
-                "headset": [" ", " "],
-                "phone": "",
-                "portable": "",
-                "car": "",
-                "default": ["", ""]
-            },
-            "scroll-step": 1,
-            "on-click": "pavucontrol"
-        },
+    "pulseaudio": {
+    "format": "<span font='14' color=\"#28b463\">{icon}</span>{volume:>3}%",
+    //"format-bluetooth":"{volume}% {icon}",
+    "format-muted": "ﱝ",
+    "format-source-muted":"ﱝ",
+    "format-icons": {
+    "headphone": "",
+    "hands-free": "",
+    "headset": ["  ", "  "],
+    "phone": "",
+    "portable": "",
+    "car": "",
+    "default": ["", ""]
+    },
+    "scroll-step": 1,
+    "on-click": "pavucontrol"
+    },
 
-        "temperature": {
-            "critical-threshold": 85,
-            "interval": 5,
-            "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-            "format": "<span font='14' color=\"#cd6155\">{icon}</span>{temperatureC:>3}°C",
-            "format-icons": [
-                "", // Icon: temperature-empty
-            "", // Icon: temperature-quarter
-            "", // Icon: temperature-half
-            "", // Icon: temperature-three-quarters
-            ""  // Icon: temperature-full
-            ],
-            "tooltip": true
-        },
+    "temperature": {
+    "critical-threshold": 85,
+    "interval": 5,
+    "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+    "format": "<span font='14' color=\"#cd6155\">{icon}</span>{temperatureC:>3}°C",
+    "format-icons": [
+    "", // Icon: temperature-empty
+    "", // Icon: temperature-quarter
+    "", // Icon: temperature-half
+    "", // Icon: temperature-three-quarters
+    ""  // Icon: temperature-full
+    ],
+    "tooltip": false
+    },
 
-        "tray": {
-            "icon-size": 15,
-            "spacing": 10
-        }
-}
+    "tray": {
+    "icon-size": 15,
+    "spacing": 10
+    }
+    }
