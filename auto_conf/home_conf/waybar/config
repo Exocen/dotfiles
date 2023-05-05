@@ -26,6 +26,7 @@
     ],
     "modules-center": [
     "mpd",
+    "cava"
     ],
     "modules-right": [
     "pulseaudio",
@@ -116,10 +117,11 @@
     },
     "path": "/"
     },
+
     "mpd": {
     "format": "{stateIcon}  {artist} - {title}",
     "format-disconnected": "Disconnected",
-    "format-stopped": "",
+    "format-stopped": "<span font='14' color=\"#28b463\">󰓛</span>",
     "on-click": "mpc toggle",
     "on-click-middle": "mpc prev",
     "on-click-right": "mpc next",
@@ -144,6 +146,16 @@
     },
     "tooltip-format": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon} {elapsedTime}/{totalTime} - {songPosition}/{queueLength}",
     "tooltip-format-disconnected": "MPD (disconnected)"
+    },
+
+    "cava": {
+        "framerate": 60,
+        "bars": 14,
+        "method": "pipewire",
+        "input_delay": 0,
+        "format-icons" : [" ", "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" ],
+        "bar_delimiter": 0,
+        "noise_reduction": 0.50
     },
 
     "cpu#core": {
@@ -211,16 +223,16 @@
     "pulseaudio": {
     "format": "<span font='14' color=\"#28b463\">{icon}</span>{volume:>3}%",
     //"format-bluetooth":"{volume}% {icon}",
-    "format-muted": "ﱝ",
-    "format-source-muted":"ﱝ",
+    "format-muted": "󰝟",
+    "format-source-muted":"󰝟",
     "format-icons": {
     "headphone": "",
     "hands-free": "",
-    "headset": ["  ", "  "],
+    "headset": ["󰕿 ", "  ", "  "],
     "phone": "",
     "portable": "",
     "car": "",
-    "default": ["", ""]
+    "default": ["󰕿", "", ""]
     },
     "scroll-step": 1,
     "on-click": "pavucontrol"

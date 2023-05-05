@@ -39,7 +39,7 @@ piper
 # Bluetooth
 blueman pipewire-pulse pipewire bluez-utils wireplumber
 # Music player
-mpd mpc ncmpcpp
+mpd mpc ncmpcpp cava
 # Vim addons
 vim-youcompleteme-git flake8
 # Sound app control
