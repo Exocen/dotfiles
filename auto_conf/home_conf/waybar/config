@@ -71,13 +71,13 @@
 
         "clock#time": {
             "interval": 1,
-            "format": "<span color=\"#909497\">󱑑</span> {:%T}",
+            "format": "<span font='14' color=\"#909497\">󱑑</span> {:%T}",
             "tooltip": false
         },
 
         "clock#date": {
             "interval": 60,
-            "format": "<span color=\"#909497\"></span> {:%F}",
+            "format": "<span font='14' color=\"#909497\"></span> {:%F}",
             "tooltip-format":"{:%Y %B %A}"
         },
 
@@ -95,7 +95,7 @@
 
         "custom/gpu-temp": {
             "exec": "~/.config/waybar/gpu-temp amd",
-            "format":"<span color=\"#138d75\">{icon}</span>{:>3}°C",
+            "format":"<span font='14' color=\"#138d75\">{icon}</span>{:>3}°C",
             "format-icons": [
                 "", // Icon: temperature-empty
             "", // Icon: temperature-quarter
@@ -109,7 +109,7 @@
 
         "disk": {
             "interval": 30,
-            "format": "<span color=\"#05e4fc\">󰋊 {path}</span> {percentage_used}%",
+            "format": "<span font='14' color=\"#05e4fc\">󰋊</span>  {percentage_used}%",
             "states": {
                 "warning": 80,
                 "critical":90
@@ -129,7 +129,7 @@
                 "on": " "
             },
             "random-icons": {
-                "off": "<span color=\"#f53c3c\"></span> ",
+                "off": "<span font='14' color=\"#f53c3c\"></span> ",
                 "on": " "
             },
             "repeat-icons": {
@@ -139,8 +139,8 @@
                 "on": "1 "
             },
             "state-icons": {
-                "paused": "<span color=\"#28b463\">󰏤</span>",
-                "playing": "<span color=\"#28b463\">󰐊</span>"
+                "paused": "<span font='14' color=\"#28b463\">󰏤</span>",
+                "playing": "<span font='14' color=\"#28b463\">󰐊</span>"
             },
             "tooltip-format": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon} {elapsedTime}/{totalTime} - {songPosition}/{queueLength}",
             "tooltip-format-disconnected": "MPD (disconnected)"
@@ -148,7 +148,7 @@
 
         "cpu#core": {
             "interval": 5,
-            "format": "<span color=\"#d4ac0d\">󰒓</span>{usage:>3}%",
+            "format": "<span font='14' color=\"#d4ac0d\">󰍛</span>{usage:>3}%",
             "states": {
                 "warning": 70,
                 "critical": 90
@@ -157,13 +157,13 @@
 
         "cpu#load": {
             "interval": 5,
-            "format": "<span color=\"#138d75\"></span> {load:<5}",
+            "format": "<span font='14' color=\"#138d75\"></span> {load:<5}",
             "tooltip": false
         },
 
         "memory": {
             "interval": 5,
-            "format": "<span color=\"#2e86c1\">󰞰</span>{percentage:>3}%",
+            "format": "<span font='14' color=\"#2e86c1\">󰞰</span>{percentage:>3}%",
             "states": {
                 "warning": 70,
                 "critical": 90
@@ -173,7 +173,7 @@
         "network": {
             "interval": 4,
             "interface":"wlo1",
-            "format-wifi": "<span color=\"#9b59b6\"></span> {essid}",
+            "format-wifi": "<span font='14' color=\"#9b59b6\"></span> {essid}",
             "format-ethernet": "  {ifname}: {ipaddr}/{cidr}",
             "format-disconnected": "⚠  Disconnected",
             "tooltip-format": "{ifname}: {ipaddr}"
@@ -182,7 +182,7 @@
         "network#down": {
             "interval": 2,
             "interface":"wlo1",
-            "format-wifi": "<span color=\"#9b59b6\"> </span>{bandwidthDownOctets:<4}",
+            "format-wifi": "<span font='14' color=\"#9b59b6\"> </span>{bandwidthDownOctets:<4}",
             "format-disconnected": "",
             "format-linked": "",
             "tooltip-format": "{bandwidthDownBits}"
@@ -192,7 +192,7 @@
             "interval": 2,
             "interface":"wlo1",
             "format-disconnected": "",
-            "format-wifi": "<span color=\"#9b59b6\"> </span>{bandwidthUpOctets:<4}",
+            "format-wifi": "<span font='14' color=\"#9b59b6\"> </span>{bandwidthUpOctets:<4}",
             "format-linked": "",
             "tooltip-format": "{bandwidthUpBits}"
         },
@@ -209,7 +209,7 @@
         },
 
         "pulseaudio": {
-            "format": "<span color=\"#28b463\">{icon}</span>{volume:>3}%",
+            "format": "<span font='14' color=\"#28b463\">{icon}</span>{volume:>3}%",
             //"format-bluetooth":"{volume}% {icon}",
             "format-muted": "ﱝ",
             "format-source-muted":"ﱝ",
@@ -230,7 +230,7 @@
             "critical-threshold": 85,
             "interval": 5,
             "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-            "format": "<span color=\"#cd6155\">{icon}</span>{temperatureC:>3}°C",
+            "format": "<span font='14' color=\"#cd6155\">{icon}</span>{temperatureC:>3}°C",
             "format-icons": [
                 "", // Icon: temperature-empty
             "", // Icon: temperature-quarter
