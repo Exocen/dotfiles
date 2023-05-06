@@ -121,7 +121,8 @@
     "mpd": {
     "format": "{stateIcon}  {artist} - {title}",
     "format-disconnected": "Disconnected",
-    "format-stopped": "<span font='14' color=\"#28b463\">󰓛</span>",
+    "format-stopped": "",
+    //"format-stopped": "<span font='14' color=\"#28b463\">󰓛</span>",
     "on-click": "mpc toggle",
     "on-click-middle": "mpc prev",
     "on-click-right": "mpc next",
@@ -152,7 +153,8 @@
         "framerate": 60,
         "bars": 14,
         "method": "pipewire",
-        "input_delay": 0,
+        "input_delay": 1,
+        "sleep_timer": 2,
         "format-icons" : [" ", "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" ],
         "bar_delimiter": 0,
         "noise_reduction": 0.50
