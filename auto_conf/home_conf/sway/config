@@ -52,12 +52,10 @@ bindsym $mod+Shift+p exec firefox -private-window
 bindsym $mod+n exec thunar
 
 
-# Screenshot a window
-bindsym $mod+Print exec sway-screenshot -m window
-# Screenshot a monitor
-bindsym Print exec sway-screenshot -m output
-# Screenshot a region
-bindsym $mod+Shift+Print exec sway-screenshot -m region
+# Capture a video
+bindsym $mod+Print exec sway-interactive-screenshot --video
+# Capture a screenshot
+bindsym Print exec sway-interactive-screenshot
 
 # Lock
 # bindsym $mod+l exec systemctl suspend
