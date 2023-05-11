@@ -16,6 +16,8 @@ workspace "1" output DP-2
 exec swaync
 # Background
 exec wlr-sunclock -a tblr -o "#4166f5" -n "#282b34"
+# Idle stuff
+exec swayidle
 
 # Hide cursor
 seat seat0 hide_cursor 5000
