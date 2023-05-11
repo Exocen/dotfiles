@@ -7,9 +7,9 @@ mesa
 # WM
 wayland sway xorg-xwayland qt5-wayland
 # Menu, notifications, idle managment, background, screenshot
-tofi swaync-git swayidle wlr-sunclock sway-screenshot
+tofi swaync-git swayidle wlr-sunclock sway-interactive-screenshot wf-recorder
 # Waybar
-waybar noto-fonts ttf-nerd-fonts-symbols
+waybar-git noto-fonts ttf-nerd-fonts-symbols
 # Brightness tool
 # clight
 # Utils
@@ -39,7 +39,7 @@ piper
 # Bluetooth
 blueman pipewire-pulse pipewire bluez-utils wireplumber
 # Music player
-mpd mpc ncmpcpp
+mpd mpc ncmpcpp cava
 # Vim addons
 vim-youcompleteme-git flake8
 # Sound app control

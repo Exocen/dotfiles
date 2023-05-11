@@ -1,4 +1,6 @@
 #!/bin/bash -
+#TODO add enum icons + max via sensors
+#regex :( -> awk | grep | py
 
 if [ $# -eq 0 ]
   then

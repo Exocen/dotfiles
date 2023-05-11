@@ -48,6 +48,7 @@ window#waybar {
 #clock,
 #cpu,
 #mpd,
+#cava,
 #custom-vpn-status,
 #custom-capslock-status,
 #custom-gpu-temp,
@@ -101,6 +102,10 @@ window#waybar {
 
 #cpu.critical {
     animation: blink-critical 2s infinite;
+}
+
+#cava {
+    color: #28b463;
 }
 
 #pulseaudio.muted, #custom-capslock-status {

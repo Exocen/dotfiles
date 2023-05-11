@@ -21,6 +21,8 @@ exec sleep 20 && swaymsg "workspace 1; exec kodi --windowing=x11"
 exec swaync
 # Background
 exec wlr-sunclock -a tblr -o "#4166f5" -n "#282b34"
+# Idle stuff
+exec swayidle
 
 # Hide cursor
 seat seat0 hide_cursor 5000
@@ -58,12 +60,10 @@ bindsym $mod+Shift+p exec firefox -private-window
 bindsym $mod+n exec thunar
 
 
-# Screenshot a window
-bindsym $mod+Print exec sway-screenshot -m window
-# Screenshot a monitor
-bindsym Print exec sway-screenshot -m output
-# Screenshot a region
-bindsym $mod+Shift+Print exec sway-screenshot -m region
+# Capture a video
+bindsym $mod+Print exec sway-interactive-screenshot --video
+# Capture a screenshot
+bindsym Print exec sway-interactive-screenshot
 
 # Lock
 # bindsym $mod+l exec systemctl suspend

@@ -173,10 +173,10 @@ class Main:
 
     def get_video_count(self):
         try:
-            reg_pattern = "playlistBylineRenderer.:{.text.:{.runs.:.{.text.:.(\d*?).}"
+            reg_pattern = "playlistBylineRenderer.:{.text.:{.runs.:.{.text.:.(\d*?)\D*?}"
             url = "https://www.youtube.com/playlist?list=" + self.playlist_id
             found_str = re.findall(reg_pattern, urlopen(url).read().decode("utf-8"))
-            video_count = found_str[0] if len(found_str) > 0 else 0
+            video_count = found_str[0] if len(found_str) > 0 and len(found_str[0]) != 0 else 0
             log.debug(f"{video_count} Videos found in {self.playlist_id} (previous: {self.last_video_count[self.playlist_id]})")
             return video_count
         # check not mandatory, any error : process continue
