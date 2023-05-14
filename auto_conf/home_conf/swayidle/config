@@ -1,1 +1,1 @@
-timeout 1800 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"'
+timeout 7200 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"'
