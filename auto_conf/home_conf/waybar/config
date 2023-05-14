@@ -119,7 +119,7 @@
     },
 
     "mpd": {
-    "format": "{stateIcon}  {artist} - {title}",
+    "format": "{stateIcon} {artist} - {title}",
     "format-disconnected": "Disconnected",
     "format-stopped": "",
     //"format-stopped": "<span font='14' color=\"#28b463\">󰓛</span>",
@@ -152,7 +152,7 @@
     "cava": {
         //Default values doesn't behave, need to init everything
         "framerate": 60,
-        "bars": 14,
+        "bars": 24,
         "method": "pipewire",
         "input_delay": 1,
         "sleep_timer": 2,
