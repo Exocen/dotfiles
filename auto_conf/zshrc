@@ -52,7 +52,7 @@ else
     ZSH_THEME="avit"
 fi
 
-plugins=(git docker sudo systemd lxd archlinux cp dirhistory rsync extract rust screen)
+plugins=(git docker sudo systemd lxd archlinux cp dirhistory rsync extract rust screen dnf yum)
 source $ZSH/oh-my-zsh.sh
 # systemd plug -> sc-cmd
 # sudo plug -> ESC * 2
@@ -92,10 +92,10 @@ alias -s org=$BROWSER
 alias -s php=$BROWSER
 alias -s com=$BROWSER
 alias -s net=$BROWSER
-alias -s png=mcomix
-alias -s jpg=mcomix
-alias -s gif=mcomix
-alias -s svg=mcomix
+alias -s png=$BROWSER
+alias -s jpg=$BROWSER
+alias -s gif=$BROWSER
+alias -s svg=$BROWSER
 alias -s mkv=vlc
 alias -s mp4=vlc
 alias -s avi=vlc
@@ -104,7 +104,6 @@ alias -s sxw=soffice
 alias -s doc=soffice
 alias -s gz=tar xzf
 alias -s bz2=tar xjf
-alias -s zip=unzip
 alias -s java=$EDITOR
 alias -s txt=$EDITOR
 alias -s PKGBUILD=$EDITOR
@@ -155,13 +154,14 @@ alias viewtar='tar -tf'
 alias myip='echo `curl -s ipinfo.io/ip`'
 alias opened_ports='sudo lsof -i -n -P | grep LISTEN'
 alias ip='ip -c'
+alias yolo='git commit -am "$(curl -s https://whatthecommit.com/index.txt)"'
 
 ## Packages managers
+
 # dpkg
 alias dbi='sudo dpkg -i'
 alias dbr='sudo dpkg -r'
 
-# TODO use plugins -> yum, dnf,  apt ? , pacman ? yay ?
 # apt
 alias apu='sudo apt update'
 alias appg='sudo apt upgrade'
@@ -176,7 +176,7 @@ alias aps='apt search'
 alias apse='apt-cache search -t experimental'
 alias apshow='apt-cache showpkg'
 
-# yay
+# yay / aur
 alias auri='yay -S'
 alias aurr='yay -Rsu'
 alias auru='yay -Syu'
@@ -186,24 +186,6 @@ alias aurl='yay -Qe'
 alias aurls='yay -Qi | awk "/^Name/{name=\$3} /^Installed Size/{print \$4\$5, name}" | sort -h'
 # Clean cache + orphan/unneeded packages
 alias aurc='yay -Sc --noconfirm ; yay -Qtdq | yay -Rns --noconfirm - 2>/dev/null ;:'
-
-# yum
-alias yu='yum update --color=always'
-alias ys='yum search --color=always'
-alias yi='yum install --color=always'
-alias yr='yum autoremove --color=always'
-alias yc='yum clean all --color=always'
-
-# dnf
-alias dnfdistclean='dnf clean all'
-alias dnfdistsync='dnf distro-sync'
-alias dnfi='dnf install'
-alias dnfpkgclean='dnf remove $(package-cleanup --leaves)'
-alias dnfr='dnf erase'
-alias dnfs='dnf search'
-alias dnfshow='dnf info'
-alias dnfupd='dnf check-update'
-alias dnfupg='dnf upgrade'
 
 ## Functions
 

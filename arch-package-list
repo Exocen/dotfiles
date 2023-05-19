@@ -13,7 +13,7 @@ waybar-git noto-fonts ttf-nerd-fonts-symbols
 # Brightness tool
 # clight
 # Utils
-acpi otf-ipafont mcomix
+acpi otf-ipafont
 # Archive tools
 7-zip zip unrar unzip xarchiver
 # Power management
