@@ -7,6 +7,7 @@ lockfile="/var/run/user/$UID/$(basename "$0").lock"
 # Time delay sample (if exceeded time -> timeout)
 TIME_DELAY=`date -d "5 minutes" +%s`
 
+sudo systemctl start bluetooth 1>/dev/null
 bluetoothctl power on 1>/dev/null
 while [ `date +%s` -lt $TIME_DELAY ]
 do
