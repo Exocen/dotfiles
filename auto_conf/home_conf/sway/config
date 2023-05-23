@@ -59,9 +59,6 @@ bindsym $mod+Print exec sway-interactive-screenshot --video
 # Capture a screenshot
 bindsym Print exec sway-interactive-screenshot
 
-# Lock
-# bindsym $mod+l exec systemctl suspend
-
 # Kill focused window
 bindsym $mod+Shift+A kill
 
