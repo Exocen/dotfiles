@@ -154,7 +154,7 @@ alias viewtar='tar -tf'
 alias myip='echo `curl -s ipinfo.io/ip`'
 alias opened_ports='sudo lsof -i -n -P | grep LISTEN'
 alias ip='ip -c'
-alias yolo='git commit -am "$(curl -s https://whatthecommit.com/index.txt)"'
+alias yolo='git commit -m "$(curl -s https://whatthecommit.com/index.txt)"'
 
 ## Packages managers
 
