@@ -109,23 +109,6 @@ Install systemd-boot to the EFI system partition:
 
 `bootctl install`
 
-Now we need to create a boot entry. Edit `/boot/loader/loader.conf`:
-
-```
-default  arch
-timeout  4
-editor   0
-```
-
-Create the arch entry by editing `/boot/loader/entries/arch-lvm.conf`:
-
-```
-title          Arch Linux (LVM)
-linux          /vmlinuz-linux
-initrd         /initramfs-linux.img
-options        root=/dev/mapper/lvm-root rw
-```
-
 #### Windows Dual-Boot
 
 ```
