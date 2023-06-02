@@ -10,14 +10,17 @@ then
     volume=$(( $volume + $interval ))
     volume=$(( $volume >= $max_volume ? $max_volume : $volume ))
     pactl set-sink-volume @DEFAULT_SINK@ $volume%
+    notify-send -t 500 "Volume: $(pactl get-sink-volume @DEFAULT_SINK@ | head -n 1 | sed 's/%.*//g' | sed 's/.*\ //g')%"
 elif [ "$1" == "DOWN" ]
 then
     volume=$(( $volume - $interval ))
     volume=$(( $volume <= $min_volume ? $min_volume : $volume ))
     pactl set-sink-volume @DEFAULT_SINK@ $volume%
+    notify-send -t 500 "Volume: $(pactl get-sink-volume @DEFAULT_SINK@ | head -n 1 | sed 's/%.*//g' | sed 's/.*\ //g')%"
 elif [ "$1" == "MUTE"  ]
 then
     pactl set-sink-mute @DEFAULT_SINK@ toggle
+    notify-send -t 1000 "$(pactl get-sink-mute @DEFAULT_SINK@)"
 else
     echo "Usage: ./script UP|DOWN|MUTE"
 fi
