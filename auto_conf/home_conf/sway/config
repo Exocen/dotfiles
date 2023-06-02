@@ -94,10 +94,10 @@ bindsym XF86AudioNext exec mpc next -q
 bindsym XF86AudioStop exec mpc stop -q
 
 # Volume control
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym XF86AudioMute        exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym $mod+F5              exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioLowerVolume exec "$HOME/.config/sway/volume-ctrl DOWN"
+bindsym XF86AudioMute        exec "$HOME/.config/sway/volume-ctrl MUTE"
+bindsym XF86AudioRaiseVolume exec "$HOME/.config/sway/volume-ctrl UP"
+bindsym $mod+F5              exec "$HOME/.config/sway/volume-ctrl MUTE"
 
 # Screen brightness controls
 bindsym XF86MonBrightnessUp   exec light -A 10
