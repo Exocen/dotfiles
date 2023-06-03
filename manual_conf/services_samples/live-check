@@ -1,7 +1,13 @@
 #!/bin/bash
-# Simple reverse live check script
-# Client : Call the script on server via ssh to save (arg -> hostname)
-# Server : Call the script
+# Simple live check script
+#
+# Set timestamps -> 2 ways:
+#
+# 1 : Client use '/usr/bin/bash -c "ssh SERVER /usr/bin/live-check %H"'
+# 2 : Server use '/usr/bin/bash -c "ping -c 2 CLIENT && /usr/bin/live-check CLIENT || :"'
+#
+# Check timestamps:
+# Server : /usr/bin/live-check
 # Server needs postfix/sendmail
 
 TIMESTAMP_FILEPATH=$HOME/live-check-timestamps
