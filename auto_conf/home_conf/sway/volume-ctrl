@@ -1,22 +1,22 @@
 #!/bin/bash
 
-interval=1
+interval=2
 min_volume=0
 max_volume=100
-volume=`pactl get-sink-volume @DEFAULT_SINK@ | grep -i Volume | cut -d '/' -f 2 | tr -d -c 0-9`
+volume=`pactl get-sink-volume @DEFAULT_SINK@ | grep -oP '\d+(?=%)(?!.*,)'`
 
 if [ "$1" == "UP" ]
 then
     volume=$(( $volume + $interval ))
-    volume=$(( $volume >= $max_volume ? $max_volume : $volume ))
+    volume=$(( $volume > $max_volume ? $max_volume : $volume ))
     pactl set-sink-volume @DEFAULT_SINK@ $volume%
-    notify-send -t 500 "Volume: $(pactl get-sink-volume @DEFAULT_SINK@ | head -n 1 | sed 's/%.*//g' | sed 's/.*\ //g')%"
+    notify-send -t 500 "Volume: $volume%"
 elif [ "$1" == "DOWN" ]
 then
     volume=$(( $volume - $interval ))
-    volume=$(( $volume <= $min_volume ? $min_volume : $volume ))
+    volume=$(( $volume < $min_volume ? $min_volume : $volume ))
     pactl set-sink-volume @DEFAULT_SINK@ $volume%
-    notify-send -t 500 "Volume: $(pactl get-sink-volume @DEFAULT_SINK@ | head -n 1 | sed 's/%.*//g' | sed 's/.*\ //g')%"
+    notify-send -t 500 "Volume: $volume%"
 elif [ "$1" == "MUTE"  ]
 then
     pactl set-sink-mute @DEFAULT_SINK@ toggle
