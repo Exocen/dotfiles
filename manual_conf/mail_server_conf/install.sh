@@ -25,9 +25,11 @@ function generate_conf() {
 
 function detectOS() {
     if [ -f /etc/lsb-release ]; then
-        WOS=$(cat /etc/lsb-release | grep DISTRIB_ID | sed 's/^.*=//' | tr -dc '[:alnum:]\n\r' | tr '[:upper:]' '[:lower:]')
+        WOS=$(cat /etc/lsb-release | grep -oP 'DISTRIB_ID=\"\K.*(?=\")')
+        WOS=${WOS,,} #lower case
     elif [ -f /etc/os-release ]; then
-        WOS=$(cat /etc/os-release | grep '^ID=.*' | sed 's/^.*=//'  | tr -dc '[:alnum:]\n\r' | tr '[:upper:]' '[:lower:]')
+        WOS=$(cat /etc/os-release | grep -oP '^ID=\K.*')
+        WOS=${WOS,,} #lower case
     elif [ -f /etc/redhat-release ]; then
         WOS="fedora"
     elif [ -f /etc/centos-release ]; then
