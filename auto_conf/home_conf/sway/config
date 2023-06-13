@@ -23,8 +23,6 @@ exec swaync
 exec wlr-sunclock -a tblr -o "#4166f5" -n "#282b34"
 # Idle stuff
 exec swayidle
-# Bluetooth
-exec_always plt_connect
 
 # Hide cursor
 seat seat0 hide_cursor 5000
@@ -52,6 +50,9 @@ floating_modifier $mod
 set $TERMINAL "/sbin/alacritty"
 bindsym $mod+Return exec $TERMINAL
 # bindcode control+62 exec $TERMINAL
+
+# Bluetooth devices
+bindsym $mod+b exec plt_connect
 
 # Internet browser
 bindsym $mod+g exec firefox
