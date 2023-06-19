@@ -14,7 +14,7 @@
     "layer": "top",
 
     "position": "top",
-    "output": ["HDMI-A-1", "DP-2"],
+    "output": ["DP-1", "DP-2"],
 
     // If height property would be not present, it'd be calculated dynamically
     "height": 30,
@@ -230,6 +230,12 @@
     "focused": "",
     "default": ""
     }
+    },
+
+    "sway/mode":{
+        "format": " {}",
+    "max-length": 50,
+    "tooltip": false
     },
 
     "pulseaudio": {

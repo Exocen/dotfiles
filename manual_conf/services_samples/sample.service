@@ -1,19 +1,20 @@
 [Unit]
 Description=
-Requires=
-Wants=
+# Requires=
+# Wants=
 After=network.target
 OnFailure=notify-email@%i.service
 
 [Service]
-# simple exec oneshot notify
-Type=oneshot
-RemainAfterExit=yes
+# Type :simple exec oneshot notify
+Type=simple
+# User=
+# RemainAfterExit=yes
 
 ExecStart=/path/
 # ExecStop, ExecReload
-Restart=always
-RestartSec=30
+# Restart=always
+# RestartSec=30
 
 [Install]
 WantedBy=default.target

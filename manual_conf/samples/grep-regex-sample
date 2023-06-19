@@ -1,0 +1,40 @@
+#!/bin/bash
+#grep -oP -> only output
+
+# ^ start line
+# $ end line
+# . any char
+# /d | [0-9] digits
+# a? -> 0 or 1 a
+# a+ -> at least 1 a or more
+# a* -> 0 or more
+# a{2,3} - > 2 or 3 a
+# a{,3} -> max 3 a
+# a*? -> lazy quantifier
+# a*+ -> possesive quantifier
+#
+#(?!pattern)	Negative lookahead
+#(?<!pattern)	Negative lookbehind
+#(?=pattern)	Positive lookahead
+#(?<=pattern)	Positive lookbehind
+#
+#
+# Full sample:
+sample=`pactl get-sink-volume @DEFAULT_SINK@`
+echo $sample
+# "Volume: front-left: 32768 /  50% / -18.06 dB,   front-right: 32768 /  60% / -18.06 dB"
+#       balance 0.00
+
+
+# 1+ digits followed by '%', but not followed by ','
+echo $sample | grep --color=auto -P '\d+(?=%)(?!.*,)'
+
+# 1+ digits followed by '%', but not followed by two '%'
+echo $sample | grep --color=auto -P '\d+(?=%)(?!%.*%)'
+
+# ^.+?\K start line, at least one char, lazy quantifier -> every char from start until next regex
+# \K - a match reset operator that omits all text matched so far from the memory buffer
+# \d+ at least 1 digit or more
+# followed by %
+echo $sample | grep --color=auto -P '^.+?\K\d+(?=%)'
+

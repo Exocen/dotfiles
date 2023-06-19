@@ -1,6 +1,5 @@
 #!/bin/bash -
 #TODO add enum icons + max via sensors
-#regex :( -> awk | grep | py
 
 if [ $# -eq 0 ]
   then
@@ -9,7 +8,7 @@ if [ $# -eq 0 ]
 fi
 
 if [ $1 == "amd" ]; then
-    echo `sensors amdgpu-pci-0b00 -u | grep temp1_input | cut -b 16-17`
+    echo `sensors amdgpu-pci-0b00 -u | grep -oP 'temp1_input:\ *\K\d+'`
 elif [ $1 == "nvidia" ]; then
     echo `nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader`
 fi
