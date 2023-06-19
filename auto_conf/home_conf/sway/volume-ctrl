@@ -7,20 +7,25 @@ volume=`pactl get-sink-volume @DEFAULT_SINK@ | grep -oP '\d+(?=%)(?!.*,)'`
 
 if [ "$1" == "UP" ]
 then
+    # New volume
     volume=$(( $volume + $interval ))
+    # Not above max
     volume=$(( $volume > $max_volume ? $max_volume : $volume ))
+    # Must be pair :P
+    volume=$(( $(($volume%2)) == 0 ? $volume : $volume - 1 ))
     pactl set-sink-volume @DEFAULT_SINK@ $volume%
-    notify-send -t 500 "Volume: $volume%"
+    notify-send -t 1000 -r 20 "Volume" "$volume%"
 elif [ "$1" == "DOWN" ]
 then
     volume=$(( $volume - $interval ))
     volume=$(( $volume < $min_volume ? $min_volume : $volume ))
+    volume=$(( $(($volume%2)) == 0 ? $volume : $volume - 1 ))
     pactl set-sink-volume @DEFAULT_SINK@ $volume%
-    notify-send -t 500 "Volume: $volume%"
+    notify-send -t 1000 -r 20 "Volume" "$volume%"
 elif [ "$1" == "MUTE"  ]
 then
     pactl set-sink-mute @DEFAULT_SINK@ toggle
-    notify-send -t 1000 "$(pactl get-sink-mute @DEFAULT_SINK@)"
+    notify-send -t 1000 -r 20 "Volume" "$(pactl get-sink-mute @DEFAULT_SINK@)"
 else
     echo "Usage: ./script UP|DOWN|MUTE"
 fi
