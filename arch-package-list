@@ -11,14 +11,13 @@ tofi swaync-git swayidle wlr-sunclock sway-interactive-screenshot wf-recorder
 # Waybar
 waybar-git noto-fonts ttf-nerd-fonts-symbols
 # Brightness tool
-# clight
+#clight
 # Utils
-acpi otf-ipafont
+acpi
 # Archive tools
 7-zip zip unrar unzip xarchiver
 # Power management
-# tlp
-acpi
+#tlp
 # Git Browser
 tig
 # diff + git diff addon
@@ -29,7 +28,9 @@ nethogs
 # File Browser
 thunar
 # Terminal
-ttf-fira-code ttf-dejavu alacritty
+alacritty
+# Fonts
+ttf-fira-code ttf-dejavu otf-ipafont
 # Web Browser
 firefox
 # Media tool
@@ -45,6 +46,6 @@ vim-youcompleteme-git flake8
 # Sound app control
 pavucontrol
 # Windows usb installer
-# woeusb
+#woeusb
 # Arch wiki offline doc
 arch-wiki-docs wikiman
