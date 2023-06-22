@@ -1,6 +1,6 @@
 #!/bin/bash
 
-interval=2
+interval=1
 min_volume=0
 max_volume=100
 volume=`pactl get-sink-volume @DEFAULT_SINK@ | grep -oP '\d+(?=%)(?!.*,)'`
@@ -11,15 +11,12 @@ then
     volume=$(( $volume + $interval ))
     # Not above max
     volume=$(( $volume > $max_volume ? $max_volume : $volume ))
-    # Must be pair :P
-    volume=$(( $(($volume%2)) == 0 ? $volume : $volume - 1 ))
     pactl set-sink-volume @DEFAULT_SINK@ $volume%
     notify-send -t 1000 -r 1 "Volume" "$volume%"
 elif [ "$1" == "DOWN" ]
 then
     volume=$(( $volume - $interval ))
     volume=$(( $volume < $min_volume ? $min_volume : $volume ))
-    volume=$(( $(($volume%2)) == 0 ? $volume : $volume - 1 ))
     pactl set-sink-volume @DEFAULT_SINK@ $volume%
     notify-send -t 1000 -r 1 "Volume" "$volume%"
 elif [ "$1" == "MUTE"  ]
