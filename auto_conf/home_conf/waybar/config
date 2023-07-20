@@ -24,13 +24,13 @@
     "sway/mode",
     "tray"
     ],
-    "modules-center": [
-    "mpd",
-    "cava"
-    ],
+   // "modules-center": [
+  //  "mpd",
+  //  "cava"
+  //  ],
     "modules-right": [
     "pulseaudio",
-    "custom/vpn-status",
+//    "custom/vpn-status",
     "network",
     "network#up",
     "network#down",
@@ -38,8 +38,8 @@
     "memory",
     "cpu#core",
     //"cpu#load",
-    "custom/gpu-temp",
-    "temperature",
+//    "custom/gpu-temp",
+//    "temperature",
     "clock#date",
     "clock#time",
     "custom/capslock-status"
