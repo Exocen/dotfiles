@@ -22,7 +22,7 @@ workspace "10" output DP-2
 # App Assignment (use swaymsg -t get-tree)
 assign [class="steam"] 9
 assign [class="discord"] 8
-assign [class="steam_app_*"] 10
+# assign [class="steam_app_*"] 10
 
 # Startup apps
 
