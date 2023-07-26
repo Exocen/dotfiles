@@ -101,7 +101,7 @@ Edit the file and insert lvm2 between block and filesystems like so:
 
 Generate the initramfs image:
 
-`mkinitcpio -p`
+`mkinitcpio -P`
 
 ### Install a boot loader
 
