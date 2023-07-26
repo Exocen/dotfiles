@@ -20,9 +20,9 @@ workspace "10" output DP-2
 #for_window [app_id="Alacritty"] opacity $opacity
 
 # App Assignment (use swaymsg -t get-tree)
-assign [class="steam"] 9
+assign [class="steam_app_*"] 5
 assign [class="discord"] 8
-# assign [class="steam_app_*"] 10
+assign [class="steam"] 9
 
 # Startup apps
 

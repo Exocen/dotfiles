@@ -38,7 +38,7 @@ Create logical volumes, for a basic setup we'd need one for root, swap and home.
 ```
 lvcreate -L 30G lvm -n root
 lvcreate -L 8G lvm -n swap
-lvcreate -l 100% lvm -n home
+lvcreate -l 100%FREE lvm -n home
 ```
 
 ### Format the file systems and enable swap
