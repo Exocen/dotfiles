@@ -3,7 +3,7 @@ mesa
 # Video Driver (nvidia)
 # nvidia
 # Amd CPU
-amd-ucode
+#amd-ucode
 # WM
 wayland sway xorg-xwayland qt5-wayland
 # Menu, notifications, idle managment, background, screenshot
