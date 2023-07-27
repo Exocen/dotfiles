@@ -1,5 +1,7 @@
 # Outputs
 output * bg #000000 solid_color
+output eDP-1 res 1366x768 pos 0,0
+
 
 # Opacity
 #set $opacity 0.9
@@ -7,9 +9,10 @@ output * bg #000000 solid_color
 #for_window [app_id="Alacritty"] opacity $opacity
 
 # App Assignment (use swaymsg -t get-tree)
-assign [class="steam_app_*"] 5
-assign [class="discord"] 8
-assign [class="steam"] 9
+assign [class="steam_app_"] 5
+assign [class="discord"] 9
+assign [class="steam"] 10
+
 
 # Startup apps
 
