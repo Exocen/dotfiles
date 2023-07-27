@@ -37,7 +37,7 @@
     "disk",
     "memory",
     "cpu#core",
-    //"cpu#load",
+    "cpu#load",
 //    "custom/gpu-temp",
 //    "temperature",
     "clock#date",
