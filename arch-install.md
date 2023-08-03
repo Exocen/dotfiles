@@ -109,6 +109,22 @@ Install systemd-boot to the EFI system partition:
 
 `bootctl install`
 
+```
+/boot/loader.conf
+default arch
+timeout 4
+editor 0
+```
+
+```
+/boot/loader/arch.conf
+title	Arch
+linux	/vmlinuz-linux
+initrd	/initramfs-linux.img
+# initrd  /intel-ucode.img
+options	UUID=XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX:lvm2 root=/dev/lvm/root rw
+```
+
 #### Windows Dual-Boot
 
 ```
@@ -140,6 +156,8 @@ reboot
 ```
 hostnamectl
 timedatectl
+/etc/locale.gen
+locale-gen
 localectl
 resolvctl
 ln -rsf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
