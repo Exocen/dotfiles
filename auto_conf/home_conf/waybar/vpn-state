@@ -1,6 +1,6 @@
 #!/bin/bash
 
-status=`find /sys/class/net/ -iname '*wg*' | grep . &>/dev/null ; echo $?`
+status=`ls /sys/class/net/*wg* &>/dev/null || ls /sys/class/net/*tun* &>/dev/null ; echo $?`
 
 if [ $status == 0 ]; then
     echo '󰌾'
