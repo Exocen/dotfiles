@@ -28,6 +28,10 @@ iwctl station $device connect SSID
 cfdisk /dev/sdX
 ```
 
+# cryptsetup luksFormat /dev/<your-disk-luks>
+# cryptsetup luksOpen /dev/<your-disk-luks> cryptlvm
+
+
 #### LVM
 
 `pvcreate /dev/sdXx`
@@ -77,7 +81,7 @@ mount /dev/sda1 /mnt/boot
 
 Install the base packages using _pacstrap_:
 
-`pacstrap -K /mnt base linux linux-firmware openssh git vim dhcpcd wpa_supplicant dialog netctl`
+`pacstrap -K /mnt base linux linux-firmware lvm2 git dhcpcd wpa_supplicant dialog netctl`
 
 ### Configuration
 
@@ -97,7 +101,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 First we need to edit `/etc/mkinitcpio.conf` to provide support for lvm2.
 Edit the file and insert lvm2 between block and filesystems like so:
 
-`HOOKS="base udev ... block lvm2 filesystems"`
+`HOOKS="base udev ... block lvm2 encrypt filesystems"`
 
 Generate the initramfs image:
 
@@ -121,8 +125,10 @@ editor 0
 title	Arch
 linux	/vmlinuz-linux
 initrd	/initramfs-linux.img
-# initrd  /intel-ucode.img
-options	UUID=XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX:lvm2 root=/dev/lvm/root rw
+# initrd  /intel|amd-ucode.img
+options	UUID={UUID}:lvm2 root=/dev/lvm/root rw
+# options cryptdevice=UUID={UUID}:cryptlvm root=/dev/volume/root quiet rw
+
 ```
 
 #### Windows Dual-Boot
@@ -154,13 +160,12 @@ reboot
 #### Set Config
 
 ```
-hostnamectl
-timedatectl
-/etc/locale.gen
-locale-gen
-localectl
-resolvctl
-ln -rsf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+hostnamectl hostname {}
+timedatectl set-ntp 1
+timedatectl set-timezone {}
+localectl set-locale en_US.UTF-8
+systemctl enable systemd-resoled.service
+
 ```
 
 #### Network
