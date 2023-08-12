@@ -1,0 +1,4 @@
+mail-server -> full auto -> docker/other container solution
+backup vw db
+rotate -> fail2ban -> auto
+nginx https redirect ?
