@@ -36,4 +36,4 @@ RUN chmod +x docker_entrypoint.sh
 RUN cp -fr docker_entrypoint.sh /root
 WORKDIR /root/
 RUN rm -rf /tmp/tmp_conf
-ENTRYPOINT ["./root/docker_entrypoint.sh"]
+ENTRYPOINT ["/root/docker_entrypoint.sh"]
