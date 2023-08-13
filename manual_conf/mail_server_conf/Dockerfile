@@ -13,11 +13,13 @@ RUN apt-get install -y --no-install-recommends sudo postfix dovecot-core dovecot
 
 WORKDIR /tmp
 RUN mkdir tmp_conf
-COPY dovecot.conf opendkim/ postfix/ opendkim.conf tmp_conf/
+COPY dovecot.conf opendkim.conf tmp_conf/
+COPY opendkim/ tmp_conf/
+COPY postfix/  tmp_conf/
 WORKDIR /tmp/tmp_conf
 
 RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
-
+RUn
 
 RUN cp -fr postfix/* /etc/postfix/
 RUN chmod -R o-rwx /etc/postfix
