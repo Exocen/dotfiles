@@ -46,7 +46,7 @@ function detectOS() {
 function pack_install() {
     sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
     sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
-    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y postfix dovecot-core dovecot-imapd dovecot-lmtpd opendkim opendkim-tools certbot
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends postfix dovecot-core dovecot-imapd dovecot-lmtpd opendkim opendkim-tools certbot
 }
 
 function put_conf() {

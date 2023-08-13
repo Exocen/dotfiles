@@ -11,7 +11,7 @@ WORKDIR /home/nuser
 RUN git clone https://github.com/exocen/dotfiles.git
 RUN ~/dotfiles/install.sh -y
 
-VOLUME /etc/letsencrypt/archive/$DOMAIN/
+VOLUME /etc/letsencrypt/archive/
 VOLUME /post_base/
 VOLUME /var/mail/vhosts/
 EXPOSE 25/TCP 587/TCP 465/TCP 143/TCP 993/TCP
