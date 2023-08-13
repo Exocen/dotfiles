@@ -1,7 +1,7 @@
 FROM debian:latest
 ARG DOMAIN
 
-VOLUME /etc/letsencrypt/archive/
+VOLUME /etc/letsencrypt/
 VOLUME /post_base/
 VOLUME /var/mail/vhosts/
 EXPOSE 25/TCP 587/TCP 465/TCP 143/TCP 993/TCP 80/TCP
