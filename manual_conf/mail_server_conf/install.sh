@@ -55,10 +55,10 @@ function put_conf() {
     cp -fr $TMP_CONF/postfix/* /etc/postfix/
     chmod -R o-rwx /etc/postfix
 
-    touch /etc/postfix/vmailbox
-    postmap /etc/postfix/vmailbox
-    touch /etc/postfix/virtual_alias
-    postmap /etc/postfix/virtual_alias
+    touch /post_base/vmailbox
+    postmap /post_base/vmailbox
+    touch /post_base/virtual_alias
+    postmap /post_base/virtual_alias
     newaliases
 
     cp -fr $TMP_CONF/dovecot.conf /etc/dovecot/
