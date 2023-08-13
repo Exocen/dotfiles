@@ -13,8 +13,9 @@ RUN apt-get install -y --no-install-recommends sudo postfix dovecot-core dovecot
 
 WORKDIR /tmp
 RUN mkdir tmp_conf
+COPY dovecot.conf opendkim postfix opendkim.conf tmp_conf/
 WORKDIR /tmp/tmp_conf
-COPY dovecot.conf opendkim postfix opendkim.conf .
+
 RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
 RUN certbot certonly -n --keep --standalone --register-unsafely-without-        >  \email --agree-tos -d $DOMAIN
 
