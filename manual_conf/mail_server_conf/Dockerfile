@@ -16,20 +16,12 @@ COPY . /tmp/tmp_conf
 
 RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
 
-RUN cp -fr postfix/* /etc/postfix/
-RUN chmod -R o-rwx /etc/postfix
-
+RUN cp -fr postfix/* /etc/postfix/ && chmod -R o-rwx /etc/postfix
 RUN touch /post_base/vmailbox && postmap /post_base/vmailbox
 RUN touch /post_base/virtual_alias && postmap /post_base/virtual_alias
 RUN newaliases
 
-RUN cp -fr dovecot.conf /etc/dovecot/
-RUN mkdir -p /var/mail/vhosts/$DOMAIN
-RUN groupadd -g 5000 vmail
-RUN useradd -g vmail -u 5000 vmail -d /var/mail
-RUN chown -R vmail:vmail /var/mail
-RUN chown -R vmail:dovecot /etc/dovecot
-RUN chmod -R o-rwx /etc/dovecot
+RUN cp -fr dovecot.conf /etc/dovecot/ && mkdir -p /var/mail/vhosts/$DOMAIN && groupadd -g 5000 vmail && useradd -g vmail -u 5000 vmail -d /var/mail && chown -R vmail:vmail /var/mail && chown -R vmail:dovecot /etc/dovecot && chmod -R o-rwx /etc/dovecot
 
 RUN cp -fr opendkim.conf /etc/
 
@@ -44,4 +36,4 @@ WORKDIR /root/
 RUN rm -rf /tmp/tmp_conf
 COPY docker_entrypoint.sh /root/
 RUN chmod +x docker_entrypoint.sh
-ENTRYPOINT bash ./root/docker_entrypoint.sh $DOMAIN
+ENTRYPOINT ["./root/docker_entrypoint.sh","$DOMAIN"]
