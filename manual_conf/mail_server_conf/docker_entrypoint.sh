@@ -1,4 +1,6 @@
 #!/bin/bash
+
+cp -rn /pre_base/* /post_base/
 certbot certonly -n --keep --standalone --register-unsafely-without-email --agree-tos -d [DOMAIN]
 
 service syslog-ng restart
