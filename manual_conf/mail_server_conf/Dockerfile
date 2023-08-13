@@ -11,14 +11,8 @@ RUN apt-get -y update
 RUN apt-get -y upgrade
 RUN apt-get install -y --no-install-recommends sudo postfix dovecot-core dovecot-imapd dovecot-lmtpd opendkim opendkim-tools certbot
 
-WORKDIR /tmp
-RUN mkdir tmp_conf
-COPY dovecot.conf opendkim.conf tmp_conf/
 WORKDIR /tmp/tmp_conf
-RUN mkdir opendkim
-COPY opendkim/ tmp_conf/opendkim/
-RUN mkdir postfix
-COPY postfix/  tmp_conf/postfix/
+COPY . /tmp/tmp_conf
 
 RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
 
