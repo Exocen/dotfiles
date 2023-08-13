@@ -17,7 +17,7 @@ COPY . /tmp/tmp_conf
 
 RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g' \
 \
-&& mkdir /pre-base && cp -fr postfix/* /etc/postfix/ && chmod -R o-rwx /etc/postfix && touch /pre_base/vmailbox && postmap /pre_base/vmailbox && touch /pre_base/virtual_alias && postmap /pre_base/virtual_alias && newaliases \
+&& mkdir /pre_base && cp -fr postfix/* /etc/postfix/ && chmod -R o-rwx /etc/postfix && touch /pre_base/vmailbox && postmap /pre_base/vmailbox && touch /pre_base/virtual_alias && postmap /pre_base/virtual_alias && newaliases \
 \
 && cp -fr dovecot.conf /etc/dovecot/ && mkdir -p /var/mail/vhosts/$DOMAIN && groupadd -g 5000 vmail && useradd -g vmail -u 5000 vmail -d /var/mail && chown -R vmail:vmail /var/mail && chown -R vmail:dovecot /etc/dovecot && chmod -R o-rwx /etc/dovecot \
 \
