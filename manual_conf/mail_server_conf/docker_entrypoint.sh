@@ -1,5 +1,5 @@
 #!/bin/bash
-certbot certonly -n --keep --standalone --register-unsafely-without-email --agree-tos -d $1
+certbot certonly -n --keep --standalone --register-unsafely-without-email --agree-tos -d [DOMAIN]
 
 service rsyslog restart
 service postfix restart
