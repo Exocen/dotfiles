@@ -1,8 +1,9 @@
 #!/bin/bash
 certbot certonly -n --keep --standalone --register-unsafely-without-email --agree-tos -d [DOMAIN]
 
-service postfix restart
+service postfix stop
 service dovecot restart
 service opendkim restart
+service crond restart
 
-crond -f
+postfix start-fg
