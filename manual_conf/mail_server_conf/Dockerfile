@@ -24,7 +24,7 @@ RUN touch /post_base/virtual_alias && postmap /post_base/virtual_alias
 RUN newaliases
 
 RUN cp -fr dovecot.conf /etc/dovecot/
-RUN  mkdir -p /var/mail/vhosts/$DOMAIN
+RUN mkdir -p /var/mail/vhosts/$DOMAIN
 RUN groupadd -g 5000 vmail
 RUN useradd -g vmail -u 5000 vmail -d /var/mail
 RUN chown -R vmail:vmail /var/mail
@@ -38,10 +38,7 @@ RUN cp -fr opendkim/* /etc/opendkim/
 RUN  opendkim-genkey -s mail -d $DOMAIN -D /etc/opendkim/keys/$DOMAIN
 RUN  chown opendkim:opendkim /etc/opendkim/keys/$DOMAIN/mail.private
 RUN  chmod 0400 /etc/opendkim/keys/$DOMAIN/mail.private
-
-RUN service postfix restart
-RUN service dovecot restart
-RUN service opendkim restart
 RUN cp -fr /etc/opendkim/keys/$DOMAIN/*.txt /post_base/
 
-ENTRYPOINT certbot certonly -n --keep --standalone --register-unsafely-without-        >  \email --agree-tos -d $DOMAIN
+RUN cp -fr docker_entrypoint.sh /root
+ENTRYPOINT /root/docker_entrypoint.sh
