@@ -21,7 +21,7 @@ RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g' \
 \
 && cp -fr dovecot.conf /etc/dovecot/ && mkdir -p /var/mail/vhosts/$DOMAIN && groupadd -g 5000 vmail && useradd -g vmail -u 5000 vmail -d /var/mail && chown -R vmail:vmail /var/mail && chown -R vmail:dovecot /etc/dovecot && chmod -R o-rwx /etc/dovecot \
 \
-&& cp -fr opendkim.conf /etc/ && cp -fr opendkim/* /etc/opendkim/ && opendkim-genkey -s mail -d $DOMAIN -D /post_base && chown opendkim:opendkim /post_base/mail.private && chmod 0400 /post_base/mail.private
+&& cp -fr opendkim.conf /etc/ && mkdir /etc/opendkim && cp -fr opendkim/* /etc/opendkim/ && opendkim-genkey -s mail -d $DOMAIN -D /post_base && chown opendkim:opendkim /post_base/mail.private && chmod 0400 /post_base/mail.private
 
 WORKDIR /root/
 RUN chmod +x /tmp/tmp_conf/docker_entrypoint.sh && cp -fr /tmp/tmp_conf/docker_entrypoint.sh /root && rm -rf /tmp/tmp_conf
