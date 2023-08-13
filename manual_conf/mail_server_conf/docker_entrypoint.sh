@@ -5,3 +5,4 @@ service postfix restart
 service dovecot restart
 service opendkim restart
 
+tail -F /var/log/mail.log
