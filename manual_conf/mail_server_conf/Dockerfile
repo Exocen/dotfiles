@@ -13,7 +13,7 @@ RUN apt-get -y update \
 && apt-get install -y --no-install-recommends sudo syslog-ng cron postfix dovecot-core dovecot-imapd dovecot-lmtpd opendkim opendkim-tools certbot procps
 
 WORKDIR /tmp/tmp_conf
-COPY confs* /tmp/tmp_conf/
+COPY confs/* confs_install.sh /tmp/tmp_conf/
 
 RUN confs_install.sh $DOMAIN
 
