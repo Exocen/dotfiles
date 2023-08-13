@@ -1,4 +1,5 @@
 FROM debian:latest
+ARG DOMAIN
 
 RUN apt-get -y update
 RUN apt-get -y upgrade
