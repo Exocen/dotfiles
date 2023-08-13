@@ -19,10 +19,8 @@ RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
 RUN cp -fr postfix/* /etc/postfix/
 RUN chmod -R o-rwx /etc/postfix
 
-RUN touch /post_base/vmailbox
-RUN postmap /post_base/vmailbox
-RUN touch /post_base/virtual_alias
-RUN postmap /post_base/virtual_alias
+RUN touch /post_base/vmailbox && postmap /post_base/vmailbox
+RUN touch /post_base/virtual_alias && postmap /post_base/virtual_alias
 RUN newaliases
 
 RUN cp -fr dovecot.conf /etc/dovecot/
