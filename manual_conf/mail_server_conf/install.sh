@@ -79,7 +79,7 @@ function put_conf() {
     systemctl restart postfix dovecot opendkim
     echo "Opendkim key:"
     cat /etc/opendkim/keys/$DOMAIN/*.txt
-    cp -fr /etc/opendkim/keys/$DOMAIN/*.txt /post_base/opendkim/
+    cp -fr /etc/opendkim/keys/$DOMAIN/*.txt /post_base/
 }
 
 if [ `id -u` -ne 0 ]; then
