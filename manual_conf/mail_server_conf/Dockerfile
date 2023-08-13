@@ -17,7 +17,6 @@ COPY dovecot.conf opendkim postfix opendkim.conf tmp_conf/
 WORKDIR /tmp/tmp_conf
 
 RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
-RUN certbot certonly -n --keep --standalone --register-unsafely-without-        >  \email --agree-tos -d $DOMAIN
 
 
 RUN cp -fr postfix/* /etc/postfix/
@@ -50,3 +49,4 @@ RUN service dovecot restart
 RUN service opendkim restart
 RUN cp -fr /etc/opendkim/keys/$DOMAIN/*.txt /post_base/
 
+ENTRYPOINT certbot certonly -n --keep --standalone --register-unsafely-without-        >  \email --agree-tos -d $DOMAIN
