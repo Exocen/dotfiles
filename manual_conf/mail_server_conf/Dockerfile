@@ -13,7 +13,7 @@ RUN apt-get install -y --no-install-recommends sudo postfix dovecot-core dovecot
 
 WORKDIR /tmp
 RUN mkdir tmp_conf
-COPY dovecot.conf opendkim postfix opendkim.conf tmp_conf/
+COPY dovecot.conf opendkim/ postfix/ opendkim.conf tmp_conf/
 WORKDIR /tmp/tmp_conf
 
 RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
@@ -28,7 +28,7 @@ RUN touch /post_base/virtual_alias
 RUN postmap /post_base/virtual_alias
 RUN newaliases
 
-RUN cp -fr $TMP_CONF/dovecot.conf /etc/dovecot/
+RUN cp -fr dovecot.conf /etc/dovecot/
 RUN  mkdir -p /var/mail/vhosts/$DOMAIN
 RUN groupadd -g 5000 vmail
 RUN useradd -g vmail -u 5000 vmail -d /var/mail
