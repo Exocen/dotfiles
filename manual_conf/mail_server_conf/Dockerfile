@@ -40,5 +40,5 @@ RUN  chown opendkim:opendkim /etc/opendkim/keys/$DOMAIN/mail.private
 RUN  chmod 0400 /etc/opendkim/keys/$DOMAIN/mail.private
 RUN cp -fr /etc/opendkim/keys/$DOMAIN/*.txt /post_base/
 
-RUN cp -fr docker_entrypoint.sh /root
+ADD docker_entrypoint.sh /root/
 ENTRYPOINT bash ./root/docker_entrypoint.sh $DOMAIN
