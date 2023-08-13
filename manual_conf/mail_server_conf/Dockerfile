@@ -14,9 +14,11 @@ RUN apt-get install -y --no-install-recommends sudo postfix dovecot-core dovecot
 WORKDIR /tmp
 RUN mkdir tmp_conf
 COPY dovecot.conf opendkim.conf tmp_conf/
-COPY opendkim/ tmp_conf/
-COPY postfix/  tmp_conf/
 WORKDIR /tmp/tmp_conf
+RUN mkdir opendkim
+COPY opendkim/ tmp_conf/opendkim/
+RUN mkdir postfix
+COPY postfix/  tmp_conf/postfix/
 
 RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
 
