@@ -17,7 +17,7 @@ function main() {
 }
 
 function generate_conf() {
-    hostnamectl set-hostname $DOMAIN
+    hostnamectl set-hostname $DOMAIN || echo "No domain change needed"
     cp -r dovecot.conf opendkim postfix opendkim.conf $TMP_CONF
     cd $TMP_CONF
     find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
@@ -76,7 +76,9 @@ function put_conf() {
     chown opendkim:opendkim /etc/opendkim/keys/$DOMAIN/mail.private
     chmod 0400 /etc/opendkim/keys/$DOMAIN/mail.private
 
-    systemctl restart postfix dovecot opendkim
+    systemctl restart postfix || service postfix restart
+    systemctl restart dovecot || service dovecot restart
+    systemctl restart opendkim || service opendkim restart
     echo "Opendkim key:"
     cat /etc/opendkim/keys/$DOMAIN/*.txt
     cp -fr /etc/opendkim/keys/$DOMAIN/*.txt /post_base/

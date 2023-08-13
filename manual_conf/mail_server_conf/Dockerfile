@@ -22,7 +22,6 @@ RUN service postfix start
 RUN service dovecot start
 RUN service opendkim start
 
-
 EXPOSE 25/TCP 587/TCP 465/TCP 143/TCP 993/TCP
 
 RUN tail -f /et
