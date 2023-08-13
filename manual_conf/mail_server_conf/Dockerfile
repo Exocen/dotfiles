@@ -11,17 +11,9 @@ RUN git clone https://github.com/exocen/dotfiles.git
 RUN ~/dotfiles/install.sh -y
 
 VOLUME /etc/letsencrypt/archive/$DOMAIN/
-WORKDIR /home/nuser/dotfiles/manual_conf/mail_server_conf/
-RUN sudo ./install.sh $DOMAIN
-
 VOLUME /post_base/
 VOLUME /var/mail/vhosts/
-
-RUN service rsyslog start
-RUN service postfix start
-RUN service dovecot start
-RUN service opendkim start
-
 EXPOSE 25/TCP 587/TCP 465/TCP 143/TCP 993/TCP
 
-RUN tail -f /et
+WORKDIR /home/nuser/dotfiles/manual_conf/mail_server_conf/
+ENTRYPOINT sudo ./install.sh $DOMAIN
