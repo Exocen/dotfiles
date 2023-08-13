@@ -9,7 +9,7 @@ EXPOSE 25/TCP 587/TCP 465/TCP 143/TCP 993/TCP 80/TCP
 ENV DEBIAN_FRONTEND="noninteractive"
 RUN apt-get -y update
 RUN apt-get -y upgrade
-RUN apt-get install -y --no-install-recommends sudo cron postfix dovecot-core dovecot-imapd dovecot-lmtpd opendkim opendkim-tools certbot
+RUN apt-get install -y --no-install-recommends sudo syslog-ng cron postfix dovecot-core dovecot-imapd dovecot-lmtpd opendkim opendkim-tools certbot
 
 WORKDIR /tmp/tmp_conf
 COPY . /tmp/tmp_conf
