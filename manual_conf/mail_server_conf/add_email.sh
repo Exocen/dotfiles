@@ -16,8 +16,8 @@ PASSWD=$2
 BASEDIR=/var/mail/vhosts
 
 echo "Adding Postfix user configuration..."
-echo $ADDRESS $DOMAIN/$USERNAME/ >> /etc/postfix/vmailbox
-postmap /etc/postfix/vmailbox
+echo $ADDRESS $DOMAIN/$USERNAME/ >> /post_base/vmailbox
+postmap /post_base/vmailbox
 
 if [ $? -eq 0 ]
 then

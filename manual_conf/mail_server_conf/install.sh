@@ -50,6 +50,7 @@ function pack_install() {
 }
 
 function put_conf() {
+    mkdir /post_base
     # Post-generate_conf
     cp -fr $TMP_CONF/postfix/* /etc/postfix/
     chmod -R o-rwx /etc/postfix

@@ -9,7 +9,7 @@ then
     exit 1
 fi
 
-echo "$1 $2" >> /etc/postfix/virtual_alias
-postmap /etc/postfix/virtual_alias
+echo "$1 $2" >> /post_base/virtual_alias
+postmap /post_base/virtual_alias
 systemctl reload postfix
 echo "$1 to $2 added"
