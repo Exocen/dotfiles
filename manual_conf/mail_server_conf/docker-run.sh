@@ -1,7 +1,5 @@
 #!/bin/bash
 
-DOMAIN=$1
-
 function main(){
 
     docker build --build-arg DOMAIN=$1 -t mailserv . \
@@ -16,7 +14,7 @@ else
     if [ -z "$1" ]; then
         echo "No domain supplied"
     else
-        main
+        main $1
     fi
 fi
 
