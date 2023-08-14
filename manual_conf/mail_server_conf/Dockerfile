@@ -12,9 +12,9 @@ RUN apt-get -y update
 RUN apt-get -y upgrade
 RUN apt-get install -y --no-install-recommends sudo syslog-ng cron postfix dovecot-core dovecot-imapd dovecot-lmtpd opendkim opendkim-tools certbot
 
-COPY confs* docker_entrypoint.sh /root/
 WORKDIR /root/
-CMD chmod +x /root/*.sh
+COPY confs* docker_entrypoint.sh /root/
+CMD chmod +x /root/docker_entrypoint.sh && chmod +x /root/confs_install.sh
 CMD /root/confs_install.sh $DOMAIN
 
 ENTRYPOINT ["/root/docker_entrypoint.sh"]
