@@ -12,10 +12,10 @@ RUN apt-get -y update
 RUN apt-get -y upgrade
 RUN apt-get install -y --no-install-recommends sudo syslog-ng cron postfix dovecot-core dovecot-imapd dovecot-lmtpd opendkim opendkim-tools certbot
 
-WORKDIR /tmp/tmp_conf
-COPY confs* docker_entrypoint.sh /tmp/tmp_conf/
-CMD chmod +x confs_install.sh && confs_install.sh $DOMAIN
+WORKDIR /root/
+COPY confs* docker_entrypoint.sh .
+CMD chmod +x ./confs_install.sh && ./confs_install.sh $DOMAIN
 
 WORKDIR /root/
-RUN chmod +x /tmp/tmp_conf/docker_entrypoint.sh && cp -fr /tmp/tmp_conf/docker_entrypoint.sh /root && rm -rf /tmp/tmp_conf
+RUN chmod +x ./docker_entrypoint.sh
 ENTRYPOINT ["/root/docker_entrypoint.sh"]
