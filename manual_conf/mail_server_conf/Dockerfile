@@ -9,7 +9,7 @@ VOLUME /var/mail/vhosts/
 ENV DEBIAN_FRONTEND="noninteractive"
 RUN apt-get -y update
 RUN apt-get -y upgrade
-RUN apt-get install -y --no-install-recommends sudo syslog-ng cron postfix dovecot-core dovecot-imapd dovecot-lmtpd opendkim opendkim-tools
+RUN apt-get install -y --no-install-recommends syslog-ng postfix dovecot-core dovecot-imapd dovecot-lmtpd opendkim opendkim-tools
 
 WORKDIR /root/
 COPY config_files/ /root/
