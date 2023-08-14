@@ -14,8 +14,7 @@ RUN apt-get install -y --no-install-recommends sudo syslog-ng cron postfix dovec
 
 WORKDIR /tmp/tmp_conf
 COPY confs* docker_entrypoint.sh /tmp/tmp_conf/
-
-CMD ["/bin/bash","confs_install.sh","$DOMAIN"]
+CMD chmod +x ./confs_install.sh && ./confs_install.sh $DOMAIN
 
 WORKDIR /root/
 RUN chmod +x /tmp/tmp_conf/docker_entrypoint.sh && cp -fr /tmp/tmp_conf/docker_entrypoint.sh /root && rm -rf /tmp/tmp_conf
