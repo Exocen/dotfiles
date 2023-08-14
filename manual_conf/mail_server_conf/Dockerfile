@@ -8,14 +8,14 @@ VOLUME /var/mail/vhosts/
 EXPOSE 25/TCP 587/TCP 465/TCP 143/TCP 993/TCP 80/TCP
 
 ENV DEBIAN_FRONTEND="noninteractive"
+USER root
 RUN apt-get -y update
 RUN apt-get -y upgrade
 RUN apt-get install -y --no-install-recommends sudo syslog-ng cron postfix dovecot-core dovecot-imapd dovecot-lmtpd opendkim opendkim-tools certbot
 
-WORKDIR /root/run/
-COPY confs* docker_entrypoint.sh /root/run/
-CMD chmod +x /root/run/docker_entrypoint.sh
-CMD chmod +x /root/run/confs_install.sh
-CMD /root/run/confs_install.sh $DOMAIN
+WORKDIR /root/
+COPY confs* docker_entrypoint.sh /root/
+CMD chmod +x /root/*.sh
+CMD /root/confs_install.sh $DOMAIN
 
-ENTRYPOINT ["/root/run/docker_entrypoint.sh"]
+ENTRYPOINT ["/root/docker_entrypoint.sh"]
