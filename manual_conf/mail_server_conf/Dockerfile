@@ -12,7 +12,7 @@ RUN apt-get -y upgrade
 RUN apt-get install -y --no-install-recommends sudo syslog-ng cron postfix dovecot-core dovecot-imapd dovecot-lmtpd opendkim opendkim-tools
 
 WORKDIR /root/
-COPY config_files/ docker_entrypoint.sh /root/
+COPY config_files/ /root/
 RUN /bin/bash -c 'chmod +x /root/*.sh'
 RUN /root/confs_install.sh $DOMAIN
 
