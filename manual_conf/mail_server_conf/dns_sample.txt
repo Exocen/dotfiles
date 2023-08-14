@@ -1,7 +1,7 @@
 $TTL 3600
-@	IN SOA dns200.anycast.me. tech.ovh.net. (2021082202 3600 600 1209600 3600)
-                       IN NS     ns200.anycast.me.
-                       IN NS     dns200.anycast.me.
+@	IN SOA xxxxxxxxxx
+                       IN NS     nsxxxxx
+                       IN NS     dnsxxxx
                        IN MX     1 $DOMAIN.
                        IN A      $IP
                    600 IN TXT    "v=spf1 mx ~all"

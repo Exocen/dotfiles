@@ -4,7 +4,7 @@ ARG DOMAIN
 VOLUME /etc/letsencrypt/
 VOLUME /post_base/
 VOLUME /var/mail/vhosts/
-#TODO var log
+VOLUME /var/log/
 
 ENV DEBIAN_FRONTEND="noninteractive"
 RUN apt-get -y update
