@@ -1,2 +1,0 @@
-
- certbot certonly -n --keep --standalone --register-unsafely-without-email --agree-  >  \tos -d [DOMAIN]
