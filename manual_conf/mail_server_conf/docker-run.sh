@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DOMAIN=$1
+
 function main(){
 
     docker build --build-arg DOMAIN=$1 -t mailserv . \
