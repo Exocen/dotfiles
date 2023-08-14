@@ -2,8 +2,7 @@ FROM debian:latest
 ARG DOMAIN
 
 VOLUME /etc/letsencrypt/
-
-Compressing objects: 100% (5/5), done.VOLUME /post_base/
+VOLUME /post_base/
 VOLUME /var/mail/vhosts/
 #TODO var log
 EXPOSE 25/TCP 587/TCP 465/TCP 143/TCP 993/TCP 80/TCP
