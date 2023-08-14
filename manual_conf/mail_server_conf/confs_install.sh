@@ -6,7 +6,7 @@ function main(){
     find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
 
     mkdir /pre_base
-    cp -fr postfix/* /etc/postfix/
+    mv -f postfix/* /etc/postfix/
     chmod -R o-rwx /etc/postfix
     touch /pre_base/vmailbox
     postmap /pre_base/vmailbox
@@ -14,7 +14,7 @@ function main(){
     postmap /pre_base/virtual_alias
     newaliases
 
-    cp -fr dovecot.conf /etc/dovecot/
+    mv -f dovecot.conf /etc/dovecot/
     mkdir -p /var/mail/vhosts/$DOMAIN
     groupadd -g 5000 vmail
     useradd -g vmail -u 5000 vmail -d /var/mail
@@ -22,9 +22,9 @@ function main(){
     chown -R vmail:dovecot /etc/dovecot
     chmod -R o-rwx /etc/dovecot
 
-    cp -fr opendkim.conf /etc/
+    mv -f opendkim.conf /etc/
     mkdir -p /etc/opendkim
-    cp -fr opendkim/* /etc/opendkim/
+    mv -f opendkim/* /etc/opendkim/
     opendkim-genkey -s mail -d $DOMAIN -D /pre_base
     chown opendkim:opendkim /pre_base/mail.private
     chmod 0400 /pre_base/mail.private
