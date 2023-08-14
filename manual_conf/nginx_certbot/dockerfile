@@ -6,7 +6,7 @@ VOLUME /etc/letsencrypt/
 ENV DEBIAN_FRONTEND="noninteractive"
 RUN apt-get -y update
 RUN apt-get -y upgrade
-RUN apt-get install -y --no-install-recommends nginx certbot python-certbot-nginx
+RUN apt-get install -y --no-install-recommends nginx certbot python3-certbot-nginx
 
 WORKDIR /root/
 COPY config_files/ /root/
