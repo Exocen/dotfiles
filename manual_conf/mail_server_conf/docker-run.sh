@@ -9,7 +9,7 @@ else
         exit 1
     fi
 fi
-docher stop mail_server
+docker stop mail_server
 docker rm mail_server
 docker build --build-arg DOMAIN=$1 -t mail_server_img . && \
     \
