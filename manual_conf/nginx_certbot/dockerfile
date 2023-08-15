@@ -14,7 +14,7 @@ WORKDIR /etc/nginx
 COPY nginx.conf .
 RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
 
-RUN certbot --nginx --keep --quiet --register-unsafely-without-email --agree-tos  -d $DOMAIN
+RUN certbot --nginx --keep --quiet --register-unsafely-without-email --agree-tos  -d $DOMAIN &>/var/log/certbot.log
 
 WORKDIR /root/
 COPY docker_entrypoint.sh .
