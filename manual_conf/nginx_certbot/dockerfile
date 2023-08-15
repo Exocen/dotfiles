@@ -18,5 +18,5 @@ RUN certbot --nginx --keep --quiet --register-unsafely-without-email --agree-tos
 
 WORKDIR /root/
 COPY docker-entrypoint.sh .
-CMD /bin/bash -c "chmod +x docker-entrypoint.sh"
+RUN /bin/bash -c "chmod +x docker-entrypoint.sh"
 ENTRYPOINT ["/root/docker-entrypoint.sh"]
