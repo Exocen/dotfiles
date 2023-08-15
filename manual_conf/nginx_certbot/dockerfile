@@ -2,15 +2,21 @@ FROM debian:latest
 ARG DOMAIN
 
 VOLUME /etc/letsencrypt/
+VOLUME /var/log/
+EXPOSE 80/TCP 443/TCP
 
 ENV DEBIAN_FRONTEND="noninteractive"
 RUN apt-get -y update
 RUN apt-get -y upgrade
-RUN apt-get install -y --no-install-recommends nginx certbot python3-certbot-nginx
+RUN apt-get install -y --no-install-recommends syslog-ng nginx certbot python3-certbot-nginx
+
+WORKDIR /etc/nginx
+COPY nginx.conf .
+RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
+
+RUN certbot --nginx --keep --quiet --register-unsafely-without-email --agree-tos  -d $DOMAIN
 
 WORKDIR /root/
-COPY config_files/ /root/
-RUN /bin/bash -c 'chmod +x /root/*.sh'
-RUN /root/confs_install.sh $DOMAIN
-
+COPY docker_entrypoint.sh .
+CMD /bin/bash -c "chmod +x docker_entrypoint.sh"
 ENTRYPOINT ["/root/docker_entrypoint.sh"]
