@@ -10,11 +10,12 @@ RUN apt-get -y update
 RUN apt-get -y upgrade
 RUN apt-get install -y --no-install-recommends syslog-ng nginx certbot python3-certbot-nginx cron
 
+RUN certbot --nginx --keep --quiet --register-unsafely-without-email --agree-tos  -d $DOMAIN &>/var/log/certbot.log
+
 WORKDIR /etc/nginx
 COPY nginx.conf .
 RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
 
-RUN certbot --nginx --keep --quiet --register-unsafely-without-email --agree-tos  -d $DOMAIN &>/var/log/certbot.log
 
 WORKDIR /root/
 COPY docker-entrypoint.sh .
