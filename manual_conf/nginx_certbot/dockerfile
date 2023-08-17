@@ -11,7 +11,7 @@ RUN apt-get -y upgrade
 RUN apt-get install -y --no-install-recommends syslog-ng nginx certbot python3-certbot-nginx cron
 
 WORKDIR /root/
-COPY docker-entrypoint.sh nginx.conf .
+COPY docker-entrypoint.sh nginx.conf /root/
 RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
 RUN /bin/bash -c "chmod +x docker-entrypoint.sh"
 ENTRYPOINT ["/root/docker-entrypoint.sh"]
