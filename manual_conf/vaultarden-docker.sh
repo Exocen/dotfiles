@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ `id -u` -ne 0 ]; then
+    echo "Must be run as root"
+    exit 1
+fi
+
 PASS_ENABLED=0
 while true; do
     read -p "Do you want to activate Admin pass? " yn
@@ -17,7 +22,7 @@ docker network create --subnet 10.0.0.0/8 user_network
 
 PASS=`openssl rand -base64 48`
 if [ $PASS_ENABLED -eq 1 ]; then
-docker run -d --name vaultwarden -v /vw-data/:/data/ -e ADMIN_TOKEN=$PASS --restart unless-stopped --net user_work --ip 10.0.0.80 vaultwarden/server:latest
+    docker run -d --name vaultwarden -v /vw-data/:/data/ -e ADMIN_TOKEN=$PASS --restart unless-stopped --net user_work --ip 10.0.0.80 vaultwarden/server:latest
 else
     docker run -d --name vaultwarden -v /vw-data/:/data/ -e DISABLE_ADMIN_TOKEN=true --restart unless-stopped --net user_work --ip 10.0.0.80 vaultwarden/server:latest
 fi
