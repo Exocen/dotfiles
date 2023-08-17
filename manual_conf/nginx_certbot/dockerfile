@@ -10,7 +10,7 @@ RUN apt-get -y update
 RUN apt-get -y upgrade
 RUN apt-get install -y --no-install-recommends syslog-ng nginx certbot python3-certbot-nginx cron
 
-RUN certbot --nginx --keep --quiet --register-unsafely-without-email --agree-tos  -d $DOMAIN &>/var/log/certbot.log
+RUN certbot --nginx --keep --quiet --register-unsafely-without-email --agree-tos  -d $DOMAIN -d vw.$DOMAIN -d www.$DOMAIN &>/var/log/certbot.log
 
 WORKDIR /etc/nginx
 COPY nginx.conf .
