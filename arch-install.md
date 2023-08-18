@@ -27,6 +27,11 @@ iwctl station $device connect SSID
 # 2 partitions : 512M boot & 100%FREE filesystem
 cfdisk /dev/sdX
 ```
+#### Crypt
+
+`modprobe dm-crypt`
+`cryptsetup luksFormat /dev/lvm_disk`
+`cryptsetup open --type luks /dev/lvm_disk cryptlvm`
 
 #### LVM
 
@@ -77,7 +82,7 @@ mount /dev/sda1 /mnt/boot
 
 Install the base packages using _pacstrap_:
 
-`pacstrap -K /mnt base linux linux-firmware openssh git vim dhcpcd wpa_supplicant dialog netctl`
+`pacstrap -K /mnt base linux linux-firmware openssh git vim dhcpcd wpa_supplicant dialog netctl lvm2`
 
 ### Configuration
 
@@ -97,7 +102,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 First we need to edit `/etc/mkinitcpio.conf` to provide support for lvm2.
 Edit the file and insert lvm2 between block and filesystems like so:
 
-`HOOKS="base udev ... block lvm2 filesystems"`
+`HOOKS="base udev ... block encrypt lvm2 filesystems"`
 
 Generate the initramfs image:
 
