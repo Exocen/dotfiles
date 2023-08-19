@@ -9,7 +9,7 @@ function main() {
     if [ "$WOS" == "debian" ]; then
         pack_install
         generate_conf
-        certbot certonly --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
+        certbot certonly -n --keep --standalone --register-unsafely-without-email --agree-tos -d $DOMAIN
         put_conf
     else
         echo "Must be run on Debian"
@@ -17,7 +17,7 @@ function main() {
 }
 
 function generate_conf() {
-    hostnamectl set-hostname $DOMAIN
+    hostnamectl set-hostname $DOMAIN || echo "No domain change needed"
     cp -r dovecot.conf opendkim postfix opendkim.conf $TMP_CONF
     cd $TMP_CONF
     find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
@@ -44,19 +44,21 @@ function detectOS() {
 }
 
 function pack_install() {
-    sudo apt-get update -y && sudo apt-get upgrade -y
-    sudo apt-get install -y postfix dovecot-core dovecot-imapd dovecot-lmtpd opendkim opendkim-tools certbot
+    sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
+    sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends postfix dovecot-core dovecot-imapd dovecot-lmtpd opendkim opendkim-tools certbot
 }
 
 function put_conf() {
+    mkdir /post_base
     # Post-generate_conf
     cp -fr $TMP_CONF/postfix/* /etc/postfix/
     chmod -R o-rwx /etc/postfix
 
-    touch /etc/postfix/vmailbox
-    postmap /etc/postfix/vmailbox
-    touch /etc/postfix/virtual_alias
-    postmap /etc/postfix/virtual_alias
+    touch /post_base/vmailbox
+    postmap /post_base/vmailbox
+    touch /post_base/virtual_alias
+    postmap /post_base/virtual_alias
     newaliases
 
     cp -fr $TMP_CONF/dovecot.conf /etc/dovecot/
@@ -74,9 +76,13 @@ function put_conf() {
     chown opendkim:opendkim /etc/opendkim/keys/$DOMAIN/mail.private
     chmod 0400 /etc/opendkim/keys/$DOMAIN/mail.private
 
-    systemctl restart postfix dovecot opendkim
+    #TODO update that
+    systemctl restart postfix
+    systemctl restart dovecot
+    systemctl restart opendkim
     echo "Opendkim key:"
     cat /etc/opendkim/keys/$DOMAIN/*.txt
+    cp -fr /etc/opendkim/keys/$DOMAIN/*.txt /post_base/
 }
 
 if [ `id -u` -ne 0 ]; then

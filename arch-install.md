@@ -102,7 +102,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 First we need to edit `/etc/mkinitcpio.conf` to provide support for lvm2.
 Edit the file and insert lvm2 between block and filesystems like so:
 
-`HOOKS="base udev ... block encrypt lvm2 filesystems"`
+`HOOKS="base udev ... block lvm2 encrypt filesystems"`
 
 Generate the initramfs image:
 
@@ -113,6 +113,24 @@ Generate the initramfs image:
 Install systemd-boot to the EFI system partition:
 
 `bootctl install`
+
+```
+/boot/loader.conf
+default arch
+timeout 4
+editor 0
+```
+
+```
+/boot/loader/arch.conf
+title	Arch
+linux	/vmlinuz-linux
+initrd	/initramfs-linux.img
+# initrd  /intel|amd-ucode.img
+options	UUID={UUID}:lvm2 root=/dev/lvm/root rw
+# options cryptdevice=UUID={UUID}:cryptlvm root=/dev/volume/root quiet rw
+
+```
 
 #### Windows Dual-Boot
 
@@ -143,11 +161,12 @@ reboot
 #### Set Config
 
 ```
-hostnamectl
-timedatectl
-localectl
-resolvctl
-ln -rsf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+hostnamectl hostname {}
+timedatectl set-ntp 1
+timedatectl set-timezone {}
+localectl set-locale en_US.UTF-8
+systemctl enable systemd-resoled.service
+
 ```
 
 #### Network

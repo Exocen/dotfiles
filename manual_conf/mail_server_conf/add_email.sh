@@ -16,8 +16,8 @@ PASSWD=$2
 BASEDIR=/var/mail/vhosts
 
 echo "Adding Postfix user configuration..."
-echo $ADDRESS $DOMAIN/$USERNAME/ >> /etc/postfix/vmailbox
-postmap /etc/postfix/vmailbox
+echo $ADDRESS $DOMAIN/$USERNAME/ >> /post_base/vmailbox
+postmap /post_base/vmailbox
 
 if [ $? -eq 0 ]
 then
@@ -26,6 +26,5 @@ then
     echo $ADDRESS":"$(doveadm pw -p $PASSWD) >> $BASEDIR/$DOMAIN/shadow
     chown vmail:vmail $BASEDIR/$DOMAIN/passwd && chmod 775 $BASEDIR/$DOMAIN/passwd
     chown vmail:vmail $BASEDIR/$DOMAIN/shadow && chmod 775 $BASEDIR/$DOMAIN/shadow
-    systemctl reload postfix
     echo "$1 added"
 fi
