@@ -3,7 +3,7 @@ if [ `id -u` -ne 0 ]; then
     echo "Must be run as root"
     exit 1
 fi
-if [ ! -n "$2" ]
+if [ "$#" -ne 2 ]
 then
     echo "Usage: $0 ALIAS EMAIL"
     exit 1

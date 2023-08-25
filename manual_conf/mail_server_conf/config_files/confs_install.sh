@@ -15,7 +15,7 @@ function main(){
     newaliases
 
     mv -f dovecot.conf /etc/dovecot/
-    mkdir -p /var/mail/vhosts/$DOMAIN
+    mkdir -p /post_base/vhosts/$DOMAIN
     groupadd -g 5000 vmail
     useradd -g vmail -u 5000 vmail -d /var/mail
     chown -R vmail:vmail /var/mail

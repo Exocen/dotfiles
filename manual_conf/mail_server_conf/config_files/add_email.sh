@@ -3,28 +3,28 @@ if [ `id -u` -ne 0 ]; then
     echo "Must be run as root"
     exit 1
 fi
-if [ ! -n "$2" ]
-then
-    echo "Usage: $0 EMAIL PASSWORD"
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 USERNAME"
     exit 1
 fi
 
-USERNAME=$(echo "$1" | cut -f1 -d@)
-DOMAIN=$(echo "$1" | cut -f2 -d@)
-ADDRESS=$1
+USERNAME=$1
+ADDRESS="$USERNAME@[DOMAIN]"
 PASSWD=$2
-BASEDIR=/var/mail/vhosts
+BASEDIR=/post_base/vhosts
 
-echo "Adding Postfix user configuration..."
-echo $ADDRESS $DOMAIN/$USERNAME/ >> /post_base/vmailbox
-postmap /post_base/vmailbox
+echo $ADDRESS":"$(doveadm pw) >> $BASEDIR/[DOMAIN]/shadow
 
 if [ $? -eq 0 ]
 then
-    echo "Adding Dovecot user configuration..."
-    echo $ADDRESS::5000:5000::$BASEDIR/$DOMAIN/$ADDRESS>> $BASEDIR/$DOMAIN/passwd
-    echo $ADDRESS":"$(doveadm pw -p $PASSWD) >> $BASEDIR/$DOMAIN/shadow
-    chown vmail:vmail $BASEDIR/$DOMAIN/passwd && chmod 775 $BASEDIR/$DOMAIN/passwd
-    chown vmail:vmail $BASEDIR/$DOMAIN/shadow && chmod 775 $BASEDIR/$DOMAIN/shadow
-    echo "$1 added"
+    echo "Adding Dovecot $USERNAME configuration..."
+    echo $ADDRESS::5000:5000::$BASEDIR/[DOMAIN]/$ADDRESS>> $BASEDIR/[DOMAIN]/passwd
+    chown vmail:vmail $BASEDIR/[DOMAIN]/passwd && chmod 775 $BASEDIR/[DOMAIN]/passwd
+    chown vmail:vmail $BASEDIR/[DOMAIN]/shadow && chmod 775 $BASEDIR/[DOMAIN]/shadow
+
+    echo "Adding Postfix $USERNAME configuration..."
+    echo $ADDRESS [DOMAIN]/$USERNAME/ >> /post_base/vmailbox
+    postmap /post_base/vmailbox
+
+    echo "$ADRESS added"
 fi
