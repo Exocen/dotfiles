@@ -26,5 +26,7 @@ then
     echo $ADDRESS [DOMAIN]/$USERNAME/ >> /post_base/vmailbox
     postmap /post_base/vmailbox
 
-    echo "$ADRESS added"
+    echo "$ADDRESS added"
+else
+    echo "No user created, exiting..."
 fi
