@@ -23,7 +23,7 @@ docker network create --subnet 10.0.0.0/8 user_network
 if [ $PASS_ENABLED -eq 1 ]; then
     PASS=`openssl rand -base64 48`
     docker run -d --name vaultwarden -v /vw-data/:/data/ -e ADMIN_TOKEN=$PASS --restart unless-stopped --net user_network --ip 10.0.0.80 vaultwarden/server:latest
-    echo -e "admin pass:\n$PASS\n"
+    echo -e "admin pass:\n$PASS\nUse it on https://VW-DOMAIN/admin"
 else
     sed -i '/admin_token/d' /vw-data/config.json
     docker run -d --name vaultwarden -v /vw-data/:/data/ --restart unless-stopped --net user_network --ip 10.0.0.80 vaultwarden/server:latest
