@@ -1,4 +1,4 @@
-/var/log/docker/*/*.log {
+/var/log/docker/*/* {
     # Rotate daily
     daily
     # Rotate when the size is bigger than 5MB
