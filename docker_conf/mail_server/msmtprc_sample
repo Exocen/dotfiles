@@ -1,0 +1,15 @@
+defaults
+auth on
+tls on
+tls_starttls off
+port 465
+logfile ~/.msmtp.log
+
+account me
+host [HOST]
+from [USER]@[HOST]
+user [USER]@[HOST]
+password [PASS]
+
+
+account default: me
