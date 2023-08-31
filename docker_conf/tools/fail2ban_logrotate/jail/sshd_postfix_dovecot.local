@@ -1,0 +1,43 @@
+[sshd]
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 3
+findtime = 300
+bantime = 3600
+ignoreip = 127.0.0.1
+
+[postfix]
+enabled = true
+chain = DOCKER-USER
+mode    = more
+port    = smtp,465,submission
+logpath = /var/log/docker/mail_server/mail.log
+backend = %(postfix_backend)s
+
+[postfix-rbl]
+enabled = true
+chain = DOCKER-USER
+filter   = postfix[mode=rbl]
+port     = smtp,465,submission
+logpath = /var/log/docker/mail_server/mail.log
+backend  = %(postfix_backend)s
+maxretry = 1
+
+[dovecot]
+enabled = true
+chain = DOCKER-USER
+port    = pop3,pop3s,imap,imaps,submission,465,sieve
+logpath = /var/log/docker/mail_server/dovecot.log
+backend = %(dovecot_backend)s
+
+[postfix-sasl]
+enabled = true
+chain = DOCKER-USER
+filter   = postfix[mode=auth]
+port     = smtp,465,submission,imap,imaps,pop3,pop3s
+logpath = /var/log/docker/mail_server/mail.log
+backend  = %(postfix_backend)s
+maxretry = 3
+ignoreip = 127.0.0.1
