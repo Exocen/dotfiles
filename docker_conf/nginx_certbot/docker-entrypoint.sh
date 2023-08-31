@@ -1,5 +1,6 @@
 #!/bin/bash
 
+mkdir -p /var/log/nginx
 /usr/bin/certbot certificates --max-log-backups 0 | grep 'vw.[DOMAIN]\|www.[DOMAIN]'
 RESULT=$?
 if [ $RESULT -eq 1 ]; then
@@ -10,5 +11,4 @@ echo "@daily /usr/bin/certbot renew --nginx --max-log-backups 0" > /etc/cron.d/c
 service cron restart
 
 cp -fr /root/nginx.conf /etc/nginx/
-mkdir -p /var/log/nginx
 nginx -g 'daemon off;'
