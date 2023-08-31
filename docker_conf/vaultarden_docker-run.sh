@@ -25,6 +25,6 @@ if [ $PASS_ENABLED -eq 1 ]; then
     docker run -d --name vaultwarden -v /docker-data/vaultwarden-data/:/data/ -v /var/log/docker/vaultwarden:/var/log -e ADMIN_TOKEN=$PASS -e LOG_FILE=/var/log/vaultwarden.log  --restart unless-stopped --net user_network --ip 10.0.0.80 vaultwarden/server:latest
     echo -e "admin pass:\n$PASS\nUse it on https://VW-DOMAIN/admin"
 else
-    sed -i '/admin_token/d' /vw-data/config.json
+ [[ -f /docker-data/vaultwarden-data/config.json ]] &&  sed -i '/admin_token/d' /docker-data/vaultwarden-data/config.json
     docker run -d --name vaultwarden -v /docker-data/vaultwarden-data/:/data/ -v /var/log/docker/vaultwarden:/var/log -e LOG_FILE=/var/log/vaultwarden.log  --restart unless-stopped --net user_network --ip 10.0.0.80 vaultwarden/server:latest
 fi
