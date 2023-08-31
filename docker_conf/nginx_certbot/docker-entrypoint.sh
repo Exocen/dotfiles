@@ -8,7 +8,8 @@ fi
 
 cp -fr /root/nginx.conf /etc/nginx/
 service syslog-ng restart
-# certbot renew cron should be created in /etc/cron.d/certbot
+
+echo "@daily /usr/bin/certbot renew --nginx --max-log-backups 0" > /etc/cron.d/certbot
 service cron restart
 
 mkdir -p /var/log/nginx
