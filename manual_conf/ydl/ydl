@@ -125,7 +125,7 @@ class Main:
         elif self.retry_counter < retry_counter_max:
             log.debug(dl_error)
             log.info(f"Vpn reloading, {retry_counter_max - self.retry_counter} tries left")
-            Main.run_process(["/usr/bin/mullvad", "reconnect"])
+            Main.run_process(["/usr/bin/mullvad", "reconnect", "-w"])
             log.debug("Vpn reloaded")
             Main.let_sleep(loop_cooldown)
         else:
@@ -167,6 +167,7 @@ class Main:
                 meta.save()
 
         # TODO add rsync checker
+        # TODO check ssh/filepath destination before execution
         cmd = ['/bin/bash', '-c', f"rsync -a -s --no-perms {quote(filepath)} {quote(dest_path)}"]
         log.info(f'Running {cmd}')
         Main.run_process(cmd)
