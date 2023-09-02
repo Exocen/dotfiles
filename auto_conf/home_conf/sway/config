@@ -23,6 +23,7 @@ workspace "10" output DP-2
 assign [class="steam_app_*"] 5
 assign [class="discord"] 8
 assign [class="steam"] 9
+assign [title="Steam"] 9
 
 # Startup apps
 
