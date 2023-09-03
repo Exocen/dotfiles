@@ -5,7 +5,7 @@ certbot_renew(){
     echo "Starting Certbot renew..."
     /usr/bin/certbot renew --nginx
     echo "Will restart at $CERTBOT_RENEW_DATE"
-    sleep $(( $(date -d $CERTBOT_RENEW_DATE +%s) - $(date +%s) ))
+    sleep $(( $(date -d '$CERTBOT_RENEW_DATE' +%s) - $(date +%s) ))
 }
 
 mkdir -p /var/log/nginx
