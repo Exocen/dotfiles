@@ -6,10 +6,10 @@ cp -rn /pre_base/* /post_base/
 chown -R vmail:vmail /post_base/vhosts
 chown opendkim:opendkim /post_base/mail.private
 
-service syslog-ng restart
-service dovecot restart
-service opendkim restart
-service postfix restart
+service syslog-ng start
+service dovecot start
+service opendkim start
+service postfix start
 
 tail -F /var/log/dovecot.log &
 tail -F /var/log/mail.log
