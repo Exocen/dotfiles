@@ -4,7 +4,7 @@
 biff = no
 append_dot_mydomain = no
 readme_directory = no
-compatibility_level = 2
+compatibility_level = 3.6
 maillog_file = /dev/stdout
 
 # TLS parameters
