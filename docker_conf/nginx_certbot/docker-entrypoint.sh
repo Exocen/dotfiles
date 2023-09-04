@@ -1,18 +1,16 @@
 #!/bin/bash
-CERTBOT_RENEW_DATE='03:14 tomorrow'
+CERTBOT_RENEW_DATE='1 week'
 
 certbot_renew(){
     while true; do
         echo "Starting Certbot renew..."
-        /usr/bin/certbot renew --nginx
-        echo "Will restart at $CERTBOT_RENEW_DATE"
+        /usr/bin/certbot renew --nginx && echo "Certbot renew succeded"
         sleep $(( $(date -d "$CERTBOT_RENEW_DATE" +%s) - $(date +%s) ))
     done
 }
 
 mkdir -p /var/log/nginx
 mkdir -p /var/log/letsencrypt
-ln -s /dev/null /var/log/letsencrypt/letsencrypt.log
 
 /usr/bin/certbot certificates | grep 'vw.[DOMAIN]\|www.[DOMAIN]' &>/dev/null
 RESULT=$?
