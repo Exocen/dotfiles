@@ -1,4 +1,4 @@
 #!/bin/bash
 #TODO send email and check ?
-#check processes ?
-#check services ?
+pidof opendkim || exit 1
+service dovecot status && service postfix status || exit 1
