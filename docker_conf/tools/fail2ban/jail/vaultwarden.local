@@ -5,5 +5,6 @@ filter = vaultwarden
 banaction = %(banaction_allports)s
 maxretry = 3
 backend = systemd
+chain = DOCKER-USER
 bantime = 14400
 findtime = 14400
