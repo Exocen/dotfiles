@@ -11,4 +11,5 @@ service dovecot restart
 service opendkim restart
 service postfix restart
 
+tail -F /var/log/dovecot.log &
 tail -F /var/log/mail.log
