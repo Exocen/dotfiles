@@ -40,6 +40,7 @@ virtual   unix  -       n       n       -       -       virtual
 lmtp      unix  -       -       y       -       -       lmtp
 anvil     unix  -       -       y       -       1       anvil
 scache    unix  -       -       y       -       1       scache
+postlog   unix-dgram n  -       n       -       1       postlogd
 
 maildrop  unix  -       n       n       -       -       pipe
   flags=DRXhu user=vmail argv=/usr/bin/maildrop -d ${recipient}
