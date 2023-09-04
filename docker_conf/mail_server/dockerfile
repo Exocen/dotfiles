@@ -15,4 +15,6 @@ COPY config_files/ /root/
 RUN /bin/bash -c 'chmod +x /root/*.sh'
 RUN /root/confs_install.sh $DOMAIN
 
+HEALTHCHECK --interval=5m --timeout=30s CMD Healthcheck.sh || exit 1
+
 ENTRYPOINT ["/root/docker_entrypoint.sh"]
