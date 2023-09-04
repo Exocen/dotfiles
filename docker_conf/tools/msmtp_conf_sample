@@ -1,4 +1,5 @@
 # ~/.msmtprc
+# printf "Subject: Test\n\nhello there username." | msmtp [DESTINATION]
 
 defaults
 auth on
