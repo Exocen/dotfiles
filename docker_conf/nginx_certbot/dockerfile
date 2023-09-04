@@ -2,7 +2,6 @@ FROM debian:latest
 ARG DOMAIN
 
 VOLUME /etc/letsencrypt/
-VOLUME /var/log/
 EXPOSE 80/TCP 443/TCP
 
 ENV DEBIAN_FRONTEND="noninteractive"
