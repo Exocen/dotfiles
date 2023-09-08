@@ -1,0 +1,7 @@
+should be called at start
+should start containers
+check every container status (+ healthcheck)
+no more container with restart
+ydl + glueten controller : ydl must restart WITH glueten (new relay every up)
+mail -> container error
+auto-restart ?
