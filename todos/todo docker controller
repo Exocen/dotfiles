@@ -1,3 +1,5 @@
+should be in a service
+associated with mail error (msmtp or direct container) INTERNAL AND SYSTEMD
 should be called at start
 should start containers
 check every container status (+ healthcheck)
