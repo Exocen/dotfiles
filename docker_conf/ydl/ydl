@@ -5,7 +5,6 @@ import youtube_dl
 
 import re
 import csv
-import shutil
 import subprocess
 import logging
 from shlex import quote
@@ -23,7 +22,7 @@ audio_format = "flac"
 video_format = "mkv"
 post_dl_cooldown = 15
 loop_cooldown = 600
-params_location = path.join(path.dirname(path.realpath(__file__)), "ydl_param.csv")
+params_location = path.join("/ydl/", "ydl_param.csv")
 DEFAULT_USAGE = f"multiline csv file usage -> output_dir (can use host:/), playlist_id, audio_transform(true/false) to {params_location}"
 safe_fail_count = 2
 retry_counter_max = 2

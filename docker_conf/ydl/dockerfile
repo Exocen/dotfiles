@@ -1,12 +1,14 @@
 FROM debian:latest
 ARG DOMAIN
 
+VOLUME /ydl
+
 ENV DEBIAN_FRONTEND="noninteractive"
 RUN apt-get -y update
 RUN apt-get -y upgrade
-#RUN apt-get install -y --no-install-recommends
+RUN apt-get install -y --no-install-recommends python3 rsync
 
 WORKDIR /root/
-COPY docker-entrypoint.sh nginx.conf /root/
+COPY docker-entrypoint.sh ydl /root/
 RUN /bin/bash -c "chmod +x docker-entrypoint.sh"
 ENTRYPOINT ["/root/docker-entrypoint.sh"]
