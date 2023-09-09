@@ -1,17 +1,29 @@
 #!/bin/bash
 
+if [ "$#" -ne 1 ]; then
+    echo "USAGE: script device_name"
+    exit 1
+fi
+
 # lockfile sample (block multiple instances)
 lockfile="/var/run/user/$UID/$(basename "$0").lock"
 [ -f "$lockfile" ] && ps -p $(cat $lockfile) > /dev/null && echo "$(basename "$0") is already running." && exit 1 || echo $$ > $lockfile
 
+DEVICE_NAME=$1
+DEVICE_MAC=`bluetoothctl devices | grep -oP "(?<=Device ).*(?= $DEVICE_NAME)"`
+if [ $? -ne 0 ]; then
+    echo "Device \"$DEVICE_NAME\" not paired"
+    exit 1
+fi
+
 # Time delay sample (if exceeded time -> timeout)
-TIME_DELAY=`date -d "5 minutes" +%s`
+TIME_DELAY="5 minutes"
 
 sudo systemctl start bluetooth 1>/dev/null
 bluetoothctl power on 1>/dev/null
-while [ `date +%s` -lt $TIME_DELAY ]
+while [ `date +%s` -lt `date -d "$TIME_DELAY" +%s` ]
 do
-    bluetoothctl connect E4:22:A5:BE:4E:E5 1>/dev/null
+    bluetoothctl connect $DEVICE_MAC 1>/dev/null
     if [[ $? == 0 ]]; then
         echo "PLT connected"
         rm $lockfile
