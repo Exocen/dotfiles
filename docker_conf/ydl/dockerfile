@@ -1,0 +1,12 @@
+FROM debian:latest
+ARG DOMAIN
+
+ENV DEBIAN_FRONTEND="noninteractive"
+RUN apt-get -y update
+RUN apt-get -y upgrade
+#RUN apt-get install -y --no-install-recommends
+
+WORKDIR /root/
+COPY docker-entrypoint.sh nginx.conf /root/
+RUN /bin/bash -c "chmod +x docker-entrypoint.sh"
+ENTRYPOINT ["/root/docker-entrypoint.sh"]
