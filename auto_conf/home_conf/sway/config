@@ -30,9 +30,7 @@ assign [title="Steam"] 9
 # Notifications
 exec swaync
 # Background
-# TODO
-# exec wlr-sunclock -a tblr -o "#4166f5" -n "#282b34" -i 0
-# exec wlr-sunclock -a tblr -o "#03fc9d" -n "#282b34" -i 1
+
 # Idle stuff
 exec swayidle
 
@@ -64,7 +62,7 @@ bindsym $mod+Return exec $TERMINAL
 # bindcode control+62 exec $TERMINAL
 
 # Bluetooth devices
-bindsym $mod+b exec $HOME/.config/sway/plt_connect "PLT BB PRO"
+bindsym $mod+b exec $HOME/.config/sway/bluetooth-connect "PLT BB PRO 2"
 
 # Internet browser
 bindsym $mod+g exec firefox
