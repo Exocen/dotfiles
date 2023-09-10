@@ -16,6 +16,10 @@ smtpd_tls_security_level = may
 smtpd_sasl_security_options = noanonymous, noplaintext
 smtpd_sasl_tls_security_options = noanonymous
 
+# Anvil
+anvil_rate_time_unit = 60s
+anvil_status_update_time =  2h
+
 # Authentication
 smtpd_sasl_type = dovecot
 smtpd_sasl_path = private/auth
