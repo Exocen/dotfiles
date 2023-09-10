@@ -9,7 +9,5 @@ chown opendkim:opendkim /post_base/mail.private
 service syslog-ng start
 service dovecot start
 service opendkim start
-service postfix start
 
-tail -F /var/log/dovecot.log &
-tail -F /var/log/mail.log
+postfix start-fg
