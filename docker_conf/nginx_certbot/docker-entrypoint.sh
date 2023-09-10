@@ -1,5 +1,5 @@
 #!/bin/bash
-CERTBOT_RENEW_DATE='1 week'
+CERTBOT_RENEW_DATE='1 day'
 
 certbot_renew(){
     while true; do
