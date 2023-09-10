@@ -17,10 +17,10 @@ fi
  main() {
      TIME_DELAY="5 minutes" # Time delay sample (if exceeded time -> timeout)
      DEVICE_NAME=$1
-     DEVICE_MAC=$(bluetoothctl devices | grep -oP "(?<=\s)..:..:..:..:..:..(?=\s*$DEVICE_NAME\$)") || safe_exit "\"$DEVICE_NAME\" not paired" 1
 
      systemctl status bluetooth.service | grep "^\s*Status: \"Running\"$" 1>/dev/null || sudo systemctl start bluetooth 1>/dev/null
      bluetoothctl power on 1>/dev/null
+     DEVICE_MAC=$(bluetoothctl devices | grep -oP "(?<=\s)..:..:..:..:..:..(?=\s*$DEVICE_NAME\$)") || safe_exit "\"$DEVICE_NAME\" not paired" 1
      while [ $(date +%s) -lt $(date -d "$TIME_DELAY" +%s) ]; do
          bluetoothctl connect "$DEVICE_MAC" 1>/dev/null && safe_exit "\"$DEVICE_NAME\" connected" 0 || sleep 1
      done
