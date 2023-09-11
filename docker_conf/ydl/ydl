@@ -15,7 +15,7 @@ from os import path, listdir
 from tempfile import TemporaryDirectory
 from urllib.request import urlopen
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger('YDL')
 tmp_dir = "/var/tmp"
 audio_format = "flac"
