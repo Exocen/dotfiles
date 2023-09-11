@@ -14,6 +14,8 @@ WORKDIR /root/
 COPY config_files/ /root/
 RUN /bin/bash -c 'chmod +x /root/*.sh'
 RUN /root/confs_install.sh $DOMAIN
+
+# Fix syslog error
 RUN /bin/bash -c 'echo "SYSLOGNG_OPTS=\"--no-caps\"" >> /etc/default/syslog-ng'
 
 HEALTHCHECK --interval=5m --timeout=30s CMD ./Healthcheck.sh
