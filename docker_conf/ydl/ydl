@@ -264,7 +264,7 @@ class Main:
             exit(1)
 
     def run(self):
-        log.debug("YDL Starting...")
+        log.info("YDL Starting...")
         Main.check_ffmpeg()
         seed()
         while (self.loop):
