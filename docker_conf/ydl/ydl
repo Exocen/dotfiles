@@ -7,6 +7,7 @@ import re
 import csv
 import subprocess
 import logging
+import sys
 from shlex import quote
 from random import seed, randint
 from time import sleep
@@ -15,21 +16,14 @@ from os import path, listdir
 from tempfile import TemporaryDirectory
 from urllib.request import urlopen
 
-logging.basicConfig(level=logging.DEBUG)
-log = logging.getLogger('YDL')
-tmp_dir = "/var/tmp"
-audio_format = "flac"
-video_format = "mkv"
-post_dl_cooldown = 15
-loop_cooldown = 600
-params_location = path.join("/ydl/", "ydl_param.csv")
-DEFAULT_USAGE = f"multiline csv file usage -> output_dir (can use host:/), playlist_id, audio_transform(true/false) to {params_location}"
-safe_fail_count = 2
-retry_counter_max = 2
-
 
 class CmdException(Exception):
     pass
+
+
+class InfoFilter(logging.Filter):
+    def filter(self, rec):
+        return rec.levelno in (logging.DEBUG, logging.INFO)
 
 
 class YDL_Logger:
@@ -41,6 +35,27 @@ class YDL_Logger:
 
     def debug(msg):
         log.debug(msg)
+
+
+log = logging.getLogger('YDL')
+h1 = logging.StreamHandler(sys.stdout)
+h1.setLevel(logging.INFO)
+h1.addFilter(InfoFilter())
+h2 = logging.StreamHandler()
+h2.setLevel(logging.DEBUG)
+
+log.addHandler(h1)
+log.addHandler(h2)
+
+tmp_dir = "/var/tmp"
+audio_format = "flac"
+video_format = "mkv"
+post_dl_cooldown = 15
+loop_cooldown = 600
+params_location = path.join("/ydl/", "ydl_param.csv")
+DEFAULT_USAGE = f"multiline csv file usage -> output_dir (can use host:/), playlist_id, audio_transform(true/false) to {params_location}"
+safe_fail_count = 2
+retry_counter_max = 2
 
 
 class Main:
