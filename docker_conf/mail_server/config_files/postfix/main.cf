@@ -4,7 +4,7 @@
 biff = no
 append_dot_mydomain = no
 readme_directory = no
-compatibility_level = 3.6
+compatibility_level = 3.7
 
 # TLS parameters
 smtpd_tls_cert_file=/etc/letsencrypt/live/[DOMAIN]/fullchain.pem
