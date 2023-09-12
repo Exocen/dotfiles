@@ -70,6 +70,7 @@ virtual_mailbox_domains = $mydomain
 virtual_mailbox_base = /post_base/vhosts
 virtual_mailbox_maps = hash:/post_base/vmailbox
 virtual_alias_maps = hash:/post_base/virtual_alias
+alias_maps = hash:/etc/aliases
 
 # Even more Restrictions and MTA params
 disable_vrfy_command = yes
