@@ -73,13 +73,13 @@ main_loop() {
         [ $TMP -gt $MAIL_SERVER_FAIL_SCORE ] && error_handler "mail_server" $TMP
         MAIL_SERVER_FAIL_SCORE=$TMP
 
-        TMP=`refresh_score "nginx_certbot" $NGINX_CERTBOT_FAIL_SCORE`
-        [ $TMP -gt $MAIL_SERVER_FAIL_SCORE ] && error_handler "nginx_certbot" $TMP
-        NGINX_CERTBOT_FAIL_SCORE=$TMP
+        local TMP2=`refresh_score "nginx_certbot" $NGINX_CERTBOT_FAIL_SCORE`
+        [ $TMP2 -gt $NGINX_CERTBOT_FAIL_SCORE ] && error_handler "nginx_certbot" $TMP2
+        NGINX_CERTBOT_FAIL_SCORE=$TMP2
 
-        TMP=`refresh_score "vaultwarden" $VAULTWARDEN_FAIL_SCORE`
-        [ $TMP -gt $MAIL_SERVER_FAIL_SCORE ] && error_handler "vaultwarden" $TMP
-        VAULTWARDEN_FAIL_SCORE=$TMP
+        local TMP3=`refresh_score "vaultwarden" $VAULTWARDEN_FAIL_SCORE`
+        [ $TMP3 -gt $VAULTWARDEN_FAIL_SCORE ] && error_handler "vaultwarden" $TMP3
+        VAULTWARDEN_FAIL_SCORE=$TMP3
 
         sleep $CHECK_INTERVAL
     done
