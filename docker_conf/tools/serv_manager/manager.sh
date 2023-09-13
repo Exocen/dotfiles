@@ -20,7 +20,7 @@ safe_exit() {
 }
 
 inspect() {
-    docker inspect -f '{{.State.Status}}' $1 | grep -P "^running$" 1>/dev/null && docker inspect -f '{{.State.Health.Status}}' $1 | grep -P "^healthy$"
+    docker inspect -f '{{.State.Status}}' $1 | grep -P "^running$" 1>/dev/null && docker inspect -f '{{.State.Health.Status}}' $1 | grep -P "(^healthy$)|(^starting$)"
 }
 
 sendmail() {
@@ -54,7 +54,7 @@ term_handler() {
 
 terminator() {
     kill $1 1>/dev/null || kill -9 $1
-    wait PID ? || safe_exit "Can't kill $1, exiting." 1
+    [ -f "$LOCKFILE" ] && ps -p $(cat "$LOCKFILE") > /dev/null && echo "Can't kill $1, exiting." && exit 1
 }
 
 check_lock()  {
