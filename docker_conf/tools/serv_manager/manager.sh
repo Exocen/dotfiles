@@ -40,6 +40,7 @@ refresh_score() {
         [ $MAIL_SERV_BOOTED = false ] && [ $1 = "mail_server" ] && MAIL_SERV_BOOTED=true
         echo 0
     elif [ $2 -lt $MAX_FAIL_SCORE ] ; then
+        echo "$1 has failed ($2), restarting."
         sendmail $1
         docker restart $1
         echo $(( $2 + 1 ))
@@ -72,21 +73,28 @@ checker() {
     done
 }
 
-start() {
-    docker start mail_server
-    docker start nginx_certbot
-    docker start vaultwarden
+docker_start() {
+    for cont in "$@"
+    do
+        docker start $cont 1>/dev/null && echo "$cont started."
+    done
+}
 
+docker_stop() {
+    for cont in "$@"
+    do
+        docker stop $cont 1>/dev/null && echo "$cont stopped."
+    done
+}
+start() {
+    docker_start mail_server nginx_certbot vaultwarden
     # Healthcheck need 30s to start
     sleep 2m
     checker
 }
 
 stop() {
-    #TODO better log messages for docker cmds
-    docker stop mail_server
-    docker stop nginx_certbot
-    docker stop vaultwarden
+    docker_stop mail_server nginx_certbot vaultwarden
 }
 
 reload() {
