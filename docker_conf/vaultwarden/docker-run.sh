@@ -27,7 +27,7 @@ if [ $PASS_ENABLED -eq 1 ]; then
         -v /docker-data/vaultwarden-data/:/data/ \
         -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
         --log-driver=journald -e ADMIN_TOKEN=$PASS \
-        --restart unless-stopped --net user_network --ip 10.0.0.80 vaultwarden/server:latest
+        --net user_network --ip 10.0.0.80 vaultwarden/server:latest
             echo -e "admin pass:\n$PASS\nUse it on https://VW-DOMAIN/admin"
         else
             [[ -f /docker-data/vaultwarden-data/config.json ]] &&  sed -i '/admin_token/d' /docker-data/vaultwarden-data/config.json
@@ -36,5 +36,5 @@ if [ $PASS_ENABLED -eq 1 ]; then
                 -v /docker-data/vaultwarden-data/:/data/ \
                 -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
                 --log-driver=journald \
-                --restart unless-stopped --net user_network --ip 10.0.0.80 vaultwarden/server:latest
+                --net user_network --ip 10.0.0.80 vaultwarden/server:latest
 fi

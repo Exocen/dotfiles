@@ -63,6 +63,7 @@ check_lock()  {
 error_handler() {
     echo "$1 failed ($2)."
     sendmail $1
+    #TODO add --rm + call docker-run.sh
     docker restart $1 1>/dev/null && echo "Restarting $1."
 }
 
@@ -98,7 +99,9 @@ docker_stop() {
         docker stop $cont 1>/dev/null && echo "$cont stopped."
     done
 }
+
 start() {
+    #TODO run docker-run.sh
     docker_start mail_server nginx_certbot vaultwarden
     # Healthcheck need 30s to start
     sleep 2m

@@ -20,5 +20,5 @@ docker build --build-arg DOMAIN=$1 -t nginx_certbot_img . && \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     --log-driver=journald \
     -p 80:80 -p 443:443 \
-    --name nginx_certbot --net user_network --ip 10.0.0.42 -d --restart unless-stopped \
+    --name nginx_certbot --net user_network --ip 10.0.0.42 -d \
     nginx_certbot_img:latest
