@@ -61,6 +61,7 @@ check_lock()  {
 }
 
 error_handler() {
+    echo "$1 failed ($2)."
     sendmail $1
     docker restart $1 1>/dev/null && echo "Restarting $1."
 }
@@ -69,15 +70,15 @@ main_loop() {
     while true;
     do
         local TMP=`refresh_score "mail_server" $MAIL_SERVER_FAIL_SCORE`
-        [ $TMP -gt $MAIL_SERVER_FAIL_SCORE ] && error_handler "mail_server"
+        [ $TMP -gt $MAIL_SERVER_FAIL_SCORE ] && error_handler "mail_server" $TMP
         MAIL_SERVER_FAIL_SCORE=$TMP
 
         TMP=`refresh_score "nginx_certbot" $NGINX_CERTBOT_FAIL_SCORE`
-        [ $TMP -gt $MAIL_SERVER_FAIL_SCORE ] && error_handler "nginx_certbot"
+        [ $TMP -gt $MAIL_SERVER_FAIL_SCORE ] && error_handler "nginx_certbot" $TMP
         NGINX_CERTBOT_FAIL_SCORE=$TMP
 
         TMP=`refresh_score "vaultwarden" $VAULTWARDEN_FAIL_SCORE`
-        [ $TMP -gt $MAIL_SERVER_FAIL_SCORE ] && error_handler "vaultwarden"
+        [ $TMP -gt $MAIL_SERVER_FAIL_SCORE ] && error_handler "vaultwarden" $TMP
         VAULTWARDEN_FAIL_SCORE=$TMP
 
         sleep $CHECK_INTERVAL
