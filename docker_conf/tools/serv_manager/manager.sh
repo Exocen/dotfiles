@@ -54,7 +54,7 @@ term_handler() {
 
 terminator() {
     kill $1 1>/dev/null || kill -9 $1
-    [ -f "$LOCKFILE" ] && ps -p $(cat "$LOCKFILE") > /dev/null && echo "Can't kill $1, exiting." && exit 1
+    wait $1 && echo "Can't kill $1, exiting." && exit 1
 }
 
 check_lock()  {
