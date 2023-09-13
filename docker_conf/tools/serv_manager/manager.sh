@@ -1,7 +1,7 @@
 #!/bin/bash
 # Should be runned by systemd with network dependency and fail to mail
 
-LOCKFILE="/var/run/user/$UID/$(basename "$0").lock"
+LOCKFILE="/var/run/$(basename "$0").lock"
 INTERVAL="15 minutes"
 CHECK_INTERVAL=$((`date -d "$INTERVAL" +%s` - `date +%s`))
 MAX_FAIL_SCORE=2
@@ -100,9 +100,9 @@ main() {
     trap term_handler SIGTERM
     [ `id -u` -ne 0 ] && safe_exit "Must be run as root" 1
     case $1 in
-        start)  start;  break;;
-        reload) reload; break;;
-        stop) stop; break;;
+        start)  start;;
+        reload) reload;;
+        stop) stop;;
         * ) echo "USAGE: script start|stop|reload";;
     esac
     safe_exit "$(basename "$0") exiting." 0
