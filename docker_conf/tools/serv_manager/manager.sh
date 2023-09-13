@@ -129,7 +129,7 @@ main() {
         start)  start;;
         reload) reload;;
         stop) stop;;
-        * ) echo "USAGE: script start|stop|reload";;
+        * ) echo "USAGE: $(basename "$0") start|stop|reload";;
     esac
     safe_exit "$(basename "$0") exiting." 0
 }
