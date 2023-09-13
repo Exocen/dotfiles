@@ -15,7 +15,7 @@ MAIL_SERV_BOOTED=false
 
 safe_exit() {
     echo "$1"
-    rm "$LOCKFILE"
+    rm -f "$LOCKFILE"
     exit "$2"
 }
 
@@ -49,9 +49,7 @@ refresh_score() {
 }
 
 term_handler() {
-    echo "TERM catched, exiting."
-    rm "$LOCKFILE"
-    exit 0
+    safe_exit "TERM catched, exiting." 0
 }
 
 terminator() {
