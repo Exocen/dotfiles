@@ -103,7 +103,7 @@ reload() {
 }
 
 main() {
-    [ `id -u` -ne 0 ] && safe_exit "Must be run as root" 1
+    [ `id -u` -ne 0 ] && echo "Must be run as root" && exit 1
     check_lock
     trap term_handler SIGTERM
     case $1 in
