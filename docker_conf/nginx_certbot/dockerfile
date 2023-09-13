@@ -15,6 +15,6 @@ COPY docker-entrypoint.sh nginx.conf healthcheck.sh /root/
 RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
 RUN /bin/bash -c "chmod +x *.sh"
 
-HEALTHCHECK --interval=5m --timeout=30s CMD ./healthcheck.sh
+HEALTHCHECK CMD ./healthcheck.sh
 
 ENTRYPOINT ["/root/docker-entrypoint.sh"]
