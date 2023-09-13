@@ -27,9 +27,10 @@ sendmail() {
     # MAIL_SERV need to get a positive check (at least once)
     if [ $MAIL_SERVER_FAIL_SCORE -eq 0 ] && [ $MAIL_SERV_BOOTED = true ] ; then
         #TODO get $1 logs
-        use mail_server smtp
+        # use mail_server smtp
+        echo "mail"
     else
-        use main smtp
+        echo "main mail"
     fi
 }
 
@@ -48,9 +49,9 @@ refresh_score() {
 }
 
 term_handler() {
-  echo "TERM catched, exiting."
-  rm "$LOCKFILE"
-  exit 0
+    echo "TERM catched, exiting."
+    rm "$LOCKFILE"
+    exit 0
 }
 
 terminator() {
@@ -77,6 +78,9 @@ start() {
     docker start mail_server
     docker start nginx_certbot
     docker start vaultwarden
+
+    # Healthcheck need 30s to start
+    sleep 1m
     checker
 }
 
@@ -94,9 +98,15 @@ reload() {
 main() {
     check_lock
     trap term_handler SIGTERM
-    #TODO
-    args -> start|stop|reload
+    while true; do
+        case $1 in
+            start)  start;  break;;
+            reload) reload; break;;
+            stop) stop; break;;
+            * ) echo "USAGE: script start|stop|reload";;
+        esac
+    done
     safe_exit "$(basename "$0") exiting." 0
 }
 
-main
+main $1
