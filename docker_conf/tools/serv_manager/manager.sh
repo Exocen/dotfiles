@@ -20,7 +20,7 @@ safe_exit() {
 }
 
 inspect() {
-    docker inspect -f '{{.State.Status}}' $1 | grep -P "^running$" 1>/dev/null && docker inspect -f '{{.State.Health.Status}}' $1 | grep -P "(^healthy$)"
+    docker inspect -f '{{.State.Status}}' $1 | grep -P "^running$" &>/dev/null && docker inspect -f '{{.State.Health.Status}}' $1 | grep -P "(^healthy$)" &>/dev/null
 }
 
 sendmail() {
@@ -40,9 +40,6 @@ refresh_score() {
         [ $MAIL_SERV_BOOTED = false ] && [ $1 = "mail_server" ] && MAIL_SERV_BOOTED=true
         echo 0
     elif [ $2 -lt $MAX_FAIL_SCORE ] ; then
-        echo "$1 has failed ($2), restarting."
-        sendmail $1
-        docker restart $1 1>/dev/null
         echo $(( $2 + 1 ))
     else
         echo $2
@@ -63,12 +60,26 @@ check_lock()  {
     echo $$ > "$LOCKFILE"
 }
 
-checker() {
+error_handler() {
+    sendmail $1
+    docker restart $1 1>/dev/null && echo "Restarting $1."
+}
+
+main_loop() {
     while true;
     do
-        MAIL_SERVER_FAIL_SCORE=`refresh_score "mail_server" $MAIL_SERVER_FAIL_SCORE`
-        NGINX_CERTBOT_FAIL_SCORE=`refresh_score "nginx_certbot" $NGINX_CERTBOT_FAIL_SCORE`
-        VAULTWARDEN_FAIL_SCORE=`refresh_score "vaultwarden" $VAULTWARDEN_FAIL_SCORE`
+        local TMP=`refresh_score "mail_server" $MAIL_SERVER_FAIL_SCORE`
+        [ $TMP -gt $MAIL_SERVER_FAIL_SCORE ] && error_handler "mail_server"
+        MAIL_SERVER_FAIL_SCORE=$TMP
+
+        TMP=`refresh_score "nginx_certbot" $NGINX_CERTBOT_FAIL_SCORE`
+        [ $TMP -gt $MAIL_SERVER_FAIL_SCORE ] && error_handler "nginx_certbot"
+        NGINX_CERTBOT_FAIL_SCORE=$TMP
+
+        TMP=`refresh_score "vaultwarden" $VAULTWARDEN_FAIL_SCORE`
+        [ $TMP -gt $MAIL_SERVER_FAIL_SCORE ] && error_handler "vaultwarden"
+        VAULTWARDEN_FAIL_SCORE=$TMP
+
         sleep $CHECK_INTERVAL
     done
 }
@@ -90,7 +101,7 @@ start() {
     docker_start mail_server nginx_certbot vaultwarden
     # Healthcheck need 30s to start
     sleep 2m
-    checker
+    main_loop
 }
 
 stop() {
