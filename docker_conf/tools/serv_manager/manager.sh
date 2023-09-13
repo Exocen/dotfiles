@@ -1,10 +1,14 @@
 #!/bin/bash
 # Should be runned by systemd with network dependency and fail to mail
 
+FAIL_MAIL=[address@here.com]
+FAIL_MAIL_ACCOUNT=[accounthere]
+FAILMAIL_BACKUP=[address@here.com]
+FAIL_MAIL_ACCOUNT_BACKUP=[accounthere]
 LOCKFILE="/var/run/$(basename "$0").lock"
-INTERVAL="15 minutes"
-CHECK_INTERVAL=$((`date -d "$INTERVAL" +%s` - `date +%s`))
+INTERVAL="15m"
 MAX_FAIL_SCORE=2
+HEALTHCHECK_SAFE_TIME="2m"
 
 MAIL_SERVER_FAIL_SCORE=0
 NGINX_CERTBOT_FAIL_SCORE=0
@@ -23,19 +27,18 @@ inspect() {
     docker inspect -f '{{.State.Status}}' $1 | grep -P "^running$" &>/dev/null && docker inspect -f '{{.State.Health.Status}}' $1 | grep -P "(^healthy$)" &>/dev/null
 }
 
-sendmail() {
+send_mail() {
+    local message=`journalctl -eb CONTAINER_NAME=$1`
     # MAIL_SERV need to get a positive check (at least once)
     if [ "$MAIL_SERVER_FAIL_SCORE" -eq 0 ] && [ "$MAIL_SERV_BOOTED" = true ] ; then
-        #TODO get $1 logs
-        # use mail_server smtp
-        echo "mail"
+        echo -e "Subject:$1 Failure $2\n$message" | msmtp -a $FAIL_MAIL_ACCOUNT $FAIL_MAIL
     else
-        echo "main mail"
+        echo -e "Subject:$1 Failure $2\n$message" | msmtp -a $FAIL_MAIL_ACCOUNT_BACKUP $FAILMAIL_BACKUP
     fi
 }
 
-# $1 cont name / $2 score
 refresh_score() {
+    # $1 cont name / $2 score
     if inspect $1; then
         [ $MAIL_SERV_BOOTED = false ] && [ $1 = "mail_server" ] && MAIL_SERV_BOOTED=true
         echo 0
@@ -62,12 +65,12 @@ check_lock()  {
 
 error_handler() {
     echo "$1 failed ($2)."
-    sendmail $1
+    send_mail $1 $2
     #TODO add --rm + call docker-run.sh
     docker restart $1 1>/dev/null && echo "Restarting $1."
 }
 
-main_loop() {
+check_loop() {
     while true;
     do
         local TMP=`refresh_score "mail_server" $MAIL_SERVER_FAIL_SCORE`
@@ -82,7 +85,7 @@ main_loop() {
         [ $TMP3 -gt $VAULTWARDEN_FAIL_SCORE ] && error_handler "vaultwarden" $TMP3
         VAULTWARDEN_FAIL_SCORE=$TMP3
 
-        sleep $CHECK_INTERVAL
+        sleep $INTERVAL
     done
 }
 
@@ -103,9 +106,10 @@ docker_stop() {
 start() {
     #TODO run docker-run.sh
     docker_start mail_server nginx_certbot vaultwarden
-    # Healthcheck need 30s to start
-    sleep 2m
-    main_loop
+
+    # Healthcheck need time to start
+    sleep $HEALTHCHECK_SAFE_TIME
+    check_loop
 }
 
 stop() {
@@ -120,7 +124,7 @@ reload() {
 main() {
     [ `id -u` -ne 0 ] && echo "Must be run as root" && exit 1
     check_lock
-    trap term_handler SIGTERM
+    trap term_handler SIGKILL
     case $1 in
         start)  start;;
         reload) reload;;
