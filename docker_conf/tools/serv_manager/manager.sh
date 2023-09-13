@@ -48,13 +48,13 @@ refresh_score() {
     fi
 }
 
-term_handler() {
-    safe_exit "TERM catched, exiting." 0
+kill_handler() {
+    safe_exit "KILL catched, exiting." 0
 }
 
 terminator() {
-    kill $1 1>/dev/null || kill -9 $1
-    wait $1 && echo "Can't kill $1, exiting." && exit 1
+    kill -9 $1 1>/dev/null
+    [ -f "$LOCKFILE" ] && ps -p $(cat "$LOCKFILE") > /dev/null && echo "Can't kill $1, exiting." && exit 1
 }
 
 check_lock()  {
