@@ -20,8 +20,7 @@ safe_exit() {
 }
 
 inspect() {
-    #TODO
-    docker inspect -f '{{.State.Status}}' $1 | grep "" && docker inspect -f '{{.State.Health.Status}}' $1 | grep ""
+    docker inspect -f '{{.State.Status}}' $1 | grep -P "^running$" 1>/dev/null && docker inspect -f '{{.State.Health.Status}}' $1 | grep -P "^healthy$"
 }
 
 sendmail() {
@@ -46,6 +45,12 @@ refresh_score() {
     else
         echo $2
     fi
+}
+
+term_handler() {
+  echo "TERM catched, exiting."
+  rm "$LOCKFILE"
+  exit 0
 }
 
 terminator() {
@@ -88,6 +93,8 @@ reload() {
 
 main() {
     check_lock
+    trap term_handler SIGTERM
+    #TODO
     args -> start|stop|reload
     safe_exit "$(basename "$0") exiting." 0
 }
