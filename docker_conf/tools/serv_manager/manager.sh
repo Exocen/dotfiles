@@ -42,7 +42,7 @@ refresh_score() {
     elif [ $2 -lt $MAX_FAIL_SCORE ] ; then
         echo "$1 has failed ($2), restarting."
         sendmail $1
-        docker restart $1
+        docker restart $1 1>/dev/null
         echo $(( $2 + 1 ))
     else
         echo $2
