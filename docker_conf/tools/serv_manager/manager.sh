@@ -96,9 +96,9 @@ reload() {
 }
 
 main() {
+    [ `id -u` -ne 0 ] && safe_exit "Must be run as root" 1
     check_lock
     trap term_handler SIGTERM
-    [ `id -u` -ne 0 ] && safe_exit "Must be run as root" 1
     case $1 in
         start)  start;;
         reload) reload;;
