@@ -98,14 +98,12 @@ reload() {
 main() {
     check_lock
     trap term_handler SIGTERM
-    while true; do
-        case $1 in
-            start)  start;  break;;
-            reload) reload; break;;
-            stop) stop; break;;
-            * ) echo "USAGE: script start|stop|reload";;
-        esac
-    done
+    case $1 in
+        start)  start;  break;;
+        reload) reload; break;;
+        stop) stop; break;;
+        * ) echo "USAGE: script start|stop|reload";;
+    esac
     safe_exit "$(basename "$0") exiting." 0
 }
 
