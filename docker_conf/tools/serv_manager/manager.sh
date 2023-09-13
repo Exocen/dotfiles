@@ -20,12 +20,12 @@ safe_exit() {
 }
 
 inspect() {
-    docker inspect -f '{{.State.Status}}' $1 | grep -P "^running$" 1>/dev/null && docker inspect -f '{{.State.Health.Status}}' $1 | grep -P "(^healthy$)|(^starting$)"
+    docker inspect -f '{{.State.Status}}' $1 | grep -P "^running$" 1>/dev/null && docker inspect -f '{{.State.Health.Status}}' $1 | grep -P "(^healthy$)"
 }
 
 sendmail() {
     # MAIL_SERV need to get a positive check (at least once)
-    if [ $MAIL_SERVER_FAIL_SCORE -eq 0 ] && [ $MAIL_SERV_BOOTED = true ] ; then
+    if [ "$MAIL_SERVER_FAIL_SCORE" -eq 0 ] && [ "$MAIL_SERV_BOOTED" = true ] ; then
         #TODO get $1 logs
         # use mail_server smtp
         echo "mail"
@@ -78,11 +78,12 @@ start() {
     docker start vaultwarden
 
     # Healthcheck need 30s to start
-    sleep 1m
+    sleep 2m
     checker
 }
 
 stop() {
+    #TODO better log messages for docker cmds
     docker stop mail_server
     docker stop nginx_certbot
     docker stop vaultwarden
