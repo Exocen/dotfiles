@@ -9,6 +9,7 @@ LOCKFILE="/var/run/$(basename "$0").lock"
 INTERVAL="15m"
 MAX_FAIL_SCORE=2
 HEALTHCHECK_SAFE_TIME="2m"
+LOCAL=$(dirname "$(readlink -f "$0")")
 
 MAIL_SERVER_FAIL_SCORE=0
 NGINX_CERTBOT_FAIL_SCORE=0
@@ -90,10 +91,10 @@ check_loop() {
 }
 
 docker_start() {
-    for cont in "$@"
-    do
-        docker start $cont 1>/dev/null && echo "$cont started."
-    done
+    cd $LOCAL && cd ..
+    mail_server/docker-run.sh `hostname`
+    nginx_certbot/docker-run.sh `hostname`
+    vaultwarden/docker-run.sh n
 }
 
 docker_stop() {

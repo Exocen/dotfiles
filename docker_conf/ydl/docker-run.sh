@@ -12,4 +12,4 @@ docker run \
     -v /docker-data/ydl/:/ydl \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     --name ydl -d --network=container:gluetun \
-    ydl_img:latest
+    ydl_img:latest && echo "ydl started."

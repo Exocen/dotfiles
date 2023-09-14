@@ -11,7 +11,7 @@ else
 fi
 
 docker network create --subnet 10.0.0.0/8 user_network 2>/dev/null
-docker images | grep "nginx_certbot" || docker build --build-arg DOMAIN=$1 -t nginx_certbot_img .
+docker images | grep "nginx_certbot_img" || docker build --build-arg DOMAIN=$1 -t nginx_certbot_img .
 
 docker run \
     -v /docker-data/letsencrypt:/etc/letsencrypt/ \
@@ -19,4 +19,4 @@ docker run \
     --log-driver=journald --rm \
     -p 80:80 -p 443:443 \
     --name nginx_certbot --net user_network --ip 10.0.0.42 -d \
-    nginx_certbot_img:latest
+    nginx_certbot_img:latest && echo "nginx_certbot started."
