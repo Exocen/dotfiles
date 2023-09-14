@@ -67,7 +67,9 @@ check_lock()  {
 error_handler() {
     echo "$1 failed ($2)."
     send_mail $1 $2
-    #TODO add --rm + call docker-run.sh
+    #TODO
+    cd $LOCAL && cd ..
+    $1
     docker restart $1 1>/dev/null && echo "Restarting $1."
 }
 
@@ -92,8 +94,8 @@ check_loop() {
 
 docker_start() {
     cd $LOCAL && cd ..
-    mail_server/docker-run.sh `hostname`
-    nginx_certbot/docker-run.sh `hostname`
+    mail_server/docker-run.sh `hostnamectl --static`
+    nginx_certbot/docker-run.sh `hostnamectl --static`
     vaultwarden/docker-run.sh n
 }
 
@@ -105,9 +107,7 @@ docker_stop() {
 }
 
 start() {
-    #TODO run docker-run.sh
-    docker_start mail_server nginx_certbot vaultwarden
-
+    docker_start
     # Healthcheck need time to start
     sleep $HEALTHCHECK_SAFE_TIME
     check_loop
