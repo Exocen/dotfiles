@@ -60,7 +60,7 @@ terminator() {
 }
 
 check_lock()  {
-    [ -f "$LOCKFILE" ] && ps -p $(cat "$LOCKFILE") > /dev/null && echo "$(basename "$0") is already running, restarting..." && terminator $(cat "$LOCKFILE")
+    [ -f "$LOCKFILE" ] && ps -p $(cat "$LOCKFILE") > /dev/null && echo "$(basename "$0") is already running, restarting." && terminator $(cat "$LOCKFILE")
     echo $$ > "$LOCKFILE"
 }
 
@@ -94,6 +94,7 @@ check_loop() {
 
 docker_start() {
     cd $LOCAL && cd ..
+    #TODO default behavior or arg
     mail_server/docker-run.sh `hostnamectl --static`
     nginx_certbot/docker-run.sh `hostnamectl --static`
     vaultwarden/docker-run.sh n
