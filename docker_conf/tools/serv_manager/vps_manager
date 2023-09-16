@@ -66,6 +66,7 @@ error_handler() {
     echo "$1 failed ($2)."
     send_mail $1 $2
     cd $LOCAL && cd ../..
+    docker stop $cont &>/dev/null && echo "$cont stopped."
     $1/docker-run.sh default
 }
 
