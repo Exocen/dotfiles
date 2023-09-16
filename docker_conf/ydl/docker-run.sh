@@ -5,7 +5,13 @@ if [ `id -u` -ne 0 ]; then
     exit 1
 fi
 
-docker images | grep "ydl_img" || docker build -t ydl_img .
+if docker images | grep "ydl_img" ; then
+     echo "img already created"
+ else
+     cd $(dirname "$(readlink -f "$0")")
+     docker build --build-arg $DOMAIN -t ydl_img .
+ fi
+nginx_certbot_img
 
 docker run \
     --log-driver=journald --rm \
