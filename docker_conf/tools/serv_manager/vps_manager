@@ -65,7 +65,7 @@ check_lock()  {
 error_handler() {
     echo "$1 failed ($2)."
     send_mail $1 $2
-    cd $LOCAL && cd ..
+    cd $LOCAL && cd ../..
     $1/docker-run.sh default
 }
 
@@ -89,7 +89,7 @@ check_loop() {
 }
 
 docker_start() {
-    cd $LOCAL && cd ..
+    cd $LOCAL && cd ../..
     for cont in "$@"
     do
         $cont/docker-run.sh default
