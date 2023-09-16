@@ -9,7 +9,7 @@ if docker images | grep "ydl_img" ; then
      echo "img already created"
  else
      cd $(dirname "$(readlink -f "$0")")
-     docker build --build-arg $DOMAIN -t ydl_img .
+     docker build --build-arg DOMAIN=$DOMAIN -t ydl_img .
  fi
 nginx_certbot_img
 

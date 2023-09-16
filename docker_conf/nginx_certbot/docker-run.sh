@@ -20,7 +20,7 @@ if docker images | grep "nginx_certbot_img" ; then
     echo "img already created"
 else
     cd $(dirname "$(readlink -f "$0")")
-    docker build --build-arg $DOMAIN -t nginx_certbot_img .
+    docker build --build-arg DOMAIN=$DOMAIN -t nginx_certbot_img .
 fi
 
 docker run \

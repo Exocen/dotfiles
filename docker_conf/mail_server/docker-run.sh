@@ -18,7 +18,7 @@ if docker images | grep "mail_server_img" ; then
     echo "img already created"
 else
     cd $(dirname "$(readlink -f "$0")")
-    docker build --build-arg $DOMAIN -t mail_server_img .
+    docker build --build-arg DOMAIN=$DOMAIN -t mail_server_img .
 fi
 
 docker run \
