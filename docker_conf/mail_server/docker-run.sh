@@ -7,10 +7,14 @@ else
     if [ -z "$1" ]; then
         echo "No domain supplied"
         exit 1
+    elif [ "$1" == "default" ]; then
+        DOMAIN=`hostnamectl --static`
+    else
+        DOMAIN=$1
     fi
 fi
 
-docker images | grep "mail_server_img" || docker build --build-arg DOMAIN=$1 -t mail_server_img .
+docker images | grep "mail_server_img" || docker build --build-arg $DOMAIN -t mail_server_img .
 
 docker run \
     -v /docker-data/letsencrypt/:/etc/letsencrypt/ -v /docker-data/mail_server-data:/post_base \

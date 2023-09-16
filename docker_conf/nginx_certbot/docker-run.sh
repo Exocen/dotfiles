@@ -7,11 +7,15 @@ else
     if [ -z "$1" ]; then
         echo "No domain supplied"
         exit 1
+    elif [ "$1" == "default" ]; then
+        DOMAIN=`hostnamectl --static`
+    else
+        DOMAIN=$1
     fi
 fi
 
 docker network create --subnet 10.0.0.0/8 user_network 2>/dev/null
-docker images | grep "nginx_certbot_img" || docker build --build-arg DOMAIN=$1 -t nginx_certbot_img .
+docker images | grep "nginx_certbot_img" || docker build --build-arg $DOMAIN -t nginx_certbot_img .
 
 docker run \
     -v /docker-data/letsencrypt:/etc/letsencrypt/ \

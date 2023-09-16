@@ -7,14 +7,17 @@ else
     if [ -z "$1" ]; then
         echo "Usage: script y/n (admin pass)."
         exit 1
+    elif [ "$1" == "default" ]; then
+        PASS_ENABLED=1
+    else
+        case $1 in
+            [Yy]* ) PASS_ENABLED=1;;
+            [Nn]* ) PASS_ENABLED=0;;
+            * ) echo "Usage: script y/n (admin pass)."; exit 1;;
+        esac
+
     fi
 fi
-
-case $1 in
-    [Yy]* ) PASS_ENABLED=1;;
-    [Nn]* ) PASS_ENABLED=0;;
-    * ) echo "Usage: script y/n (admin pass)."; exit 1;;
-esac
 
 docker network create --subnet 10.0.0.0/8 user_network 2>/dev/null
 

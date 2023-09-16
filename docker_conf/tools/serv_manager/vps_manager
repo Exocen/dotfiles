@@ -2,9 +2,7 @@
 # Should be runned by systemd with network dependency and fail to mail
 
 FAIL_MAIL=[address@here.com]
-FAIL_MAIL_ACCOUNT=[accounthere]
 FAILMAIL_BACKUP=[address@here.com]
-FAIL_MAIL_ACCOUNT_BACKUP=[accounthere]
 LOCKFILE="/var/run/$(basename "$0").lock"
 INTERVAL="15m"
 MAX_FAIL_SCORE=2
@@ -32,9 +30,9 @@ send_mail() {
     local message=`journalctl -eb CONTAINER_NAME=$1`
     # MAIL_SERV need to get a positive check (at least once)
     if [ "$MAIL_SERVER_FAIL_SCORE" -eq 0 ] && [ "$MAIL_SERV_BOOTED" = true ] ; then
-        echo -e "Subject:$1 Failure $2\n$message" | msmtp -a $FAIL_MAIL_ACCOUNT $FAIL_MAIL
+        echo -e "Subject:$1 Failure $2\n$message" | msmtp -a main $FAIL_MAIL
     else
-        echo -e "Subject:$1 Failure $2\n$message" | msmtp -a $FAIL_MAIL_ACCOUNT_BACKUP $FAILMAIL_BACKUP
+        echo -e "Subject:$1 Failure $2\n$message" | msmtp -a backup $FAILMAIL_BACKUP
     fi
 }
 
@@ -67,10 +65,8 @@ check_lock()  {
 error_handler() {
     echo "$1 failed ($2)."
     send_mail $1 $2
-    #TODO
     cd $LOCAL && cd ..
-    $1
-    docker restart $1 1>/dev/null && echo "Restarting $1."
+    $1/docker-run.sh default
 }
 
 check_loop() {
@@ -94,10 +90,10 @@ check_loop() {
 
 docker_start() {
     cd $LOCAL && cd ..
-    #TODO default behavior or arg
-    mail_server/docker-run.sh `hostnamectl --static`
-    nginx_certbot/docker-run.sh `hostnamectl --static`
-    vaultwarden/docker-run.sh n
+    for cont in "$@"
+    do
+        $cont/docker-run.sh default
+    done
 }
 
 docker_stop() {
@@ -108,7 +104,7 @@ docker_stop() {
 }
 
 start() {
-    docker_start
+    docker_start mail_server nginx_certbot vaultwarden
     # Healthcheck need time to start
     sleep $HEALTHCHECK_SAFE_TIME
     check_loop
