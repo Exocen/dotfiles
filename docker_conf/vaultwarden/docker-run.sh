@@ -8,7 +8,7 @@ else
         echo "Usage: script y/n (admin pass)."
         exit 1
     elif [ "$1" == "default" ]; then
-        PASS_ENABLED=1
+        PASS_ENABLED=0
     else
         case $1 in
             [Yy]* ) PASS_ENABLED=1;;
