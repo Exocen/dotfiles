@@ -1,20 +1,18 @@
 #!/bin/bash
 # Should be runned by systemd with network dependency and fail to mail
 
+#TODO user external conf file ($1) to  get those values
 FAIL_MAIL=[address@here.com]
-FAILMAIL_BACKUP=[address@here.com]
 LOCKFILE="/var/run/$(basename "$0").lock"
 INTERVAL="15m"
 MAX_FAIL_SCORE=2
 HEALTHCHECK_SAFE_TIME="2m"
-LOCAL=$(dirname "$(readlink -f "$0")")
+LOCAL_DIR=$(dirname "$(readlink -f "$0")")
 
 MAIL_SERVER_FAIL_SCORE=0
 NGINX_CERTBOT_FAIL_SCORE=0
 VAULTWARDEN_FAIL_SCORE=0
 GITEA_FAIL_SCORE=0
-
-MAIL_SERV_BOOTED=false
 
 safe_exit() {
     echo "$1"
@@ -28,18 +26,18 @@ inspect() {
 
 send_mail() {
     local message=`journalctl -eb CONTAINER_NAME=$1`
-    # MAIL_SERV need to get a positive check (at least once)
-    if [ "$MAIL_SERVER_FAIL_SCORE" -eq 0 ] && [ "$MAIL_SERV_BOOTED" = true ] ; then
-        echo -e "Subject:$1 Failure $2\n$message" | msmtp -a main $FAIL_MAIL
+    echo -e "Subject:$1 Failure $2\n$message" | msmtp -a main $FAIL_MAIL
+    if [ $? -ne 0 ]; then
+        echo "Mail to $FAIL_MAIL failed, relaying on backup."
+        echo -e "Subject:$1 Failure $2\n$message" | msmtp -a backup $FAIL_MAIL
     else
-        echo -e "Subject:$1 Failure $2\n$message" | msmtp -a backup $FAILMAIL_BACKUP
+        echo "Mail sended to $FAIL_MAIL"
     fi
 }
 
 refresh_score() {
     # $1 cont name / $2 score
     if inspect $1; then
-        [ $MAIL_SERV_BOOTED = false ] && [ $1 = "mail_server" ] && MAIL_SERV_BOOTED=true
         echo 0
     elif [ $2 -lt $MAX_FAIL_SCORE ] ; then
         echo $(( $2 + 1 ))
@@ -65,7 +63,7 @@ check_lock()  {
 error_handler() {
     echo "$1 failed ($2)."
     send_mail $1 $2
-    cd $LOCAL && cd ../..
+    cd $LOCAL_DIR && cd ../..
     docker stop $1 &>/dev/null && echo "$1 stopped."
     $1/docker-run.sh default
 }
@@ -73,6 +71,8 @@ error_handler() {
 check_loop() {
     while true;
     do
+        sleep $INTERVAL
+
         local TMP=`refresh_score "mail_server" $MAIL_SERVER_FAIL_SCORE`
         [ $TMP -gt $MAIL_SERVER_FAIL_SCORE ] && error_handler "mail_server" $TMP
         MAIL_SERVER_FAIL_SCORE=$TMP
@@ -84,13 +84,11 @@ check_loop() {
         local TMP3=`refresh_score "vaultwarden" $VAULTWARDEN_FAIL_SCORE`
         [ $TMP3 -gt $VAULTWARDEN_FAIL_SCORE ] && error_handler "vaultwarden" $TMP3
         VAULTWARDEN_FAIL_SCORE=$TMP3
-
-        sleep $INTERVAL
     done
 }
 
 docker_start() {
-    cd $LOCAL && cd ../..
+    cd $LOCAL_DIR && cd ../..
     for cont in "$@"
     do
         $cont/docker-run.sh default
@@ -105,13 +103,13 @@ docker_stop() {
 }
 
 start() {
+    #TODO user external conf file ($1) to  get those values
     docker_start mail_server nginx_certbot vaultwarden
-    # Healthcheck need time to start
-    sleep $HEALTHCHECK_SAFE_TIME
     check_loop
 }
 
 stop() {
+    #TODO user external conf file ($1) to  get those values
     docker_stop mail_server nginx_certbot vaultwarden
 }
 
