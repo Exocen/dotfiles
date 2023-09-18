@@ -6,7 +6,6 @@ FAIL_MAIL=[address@here.com]
 LOCKFILE="/var/run/$(basename "$0").lock"
 INTERVAL="15m"
 MAX_FAIL_SCORE=2
-HEALTHCHECK_SAFE_TIME="2m"
 LOCAL_DIR=$(dirname "$(readlink -f "$0")")
 
 MAIL_SERVER_FAIL_SCORE=0
