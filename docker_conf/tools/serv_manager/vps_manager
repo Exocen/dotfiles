@@ -63,8 +63,7 @@ error_handler() {
 }
 
 build_container_fails() {
-    for cont in "$CONTAINERS"
-    do
+    for cont in $CONTAINERS; do
         CONTAINERS_FAIL["$cont"]=0
     done
 }
@@ -72,8 +71,7 @@ build_container_fails() {
 check_loop() {
     while true; do
         sleep $INTERVAL
-        for cont in "$CONTAINERS"
-        do
+        for cont in $CONTAINERS; do
             local TMP=`refresh_score "$CONT" ${CONTAINERS_FAIL[$CONT]}`
             [ $TMP -gt ${CONTAINERS_FAIL[$CONT]} ] && error_handler "$cont" $TMP
             CONTAINERS_FAIL[$cont]=$TMP
@@ -83,15 +81,13 @@ check_loop() {
 
 docker_start() {
     cd $LOCAL_DIR && cd ../..
-    for cont in "$CONTAINERS"
-    do
+    for cont in $CONTAINERS; do
         $cont/docker-run.sh default
     done
 }
 
 docker_stop() {
-    for cont in "$CONTAINERS"
-    do
+    for cont in $CONTAINERS; do
         docker stop $cont 1>/dev/null && echo "$cont stopped."
     done
 }
