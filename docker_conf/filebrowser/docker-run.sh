@@ -6,15 +6,11 @@ if [ `id -u` -ne 0 ]; then
 fi
 
 mkdir -p /docker-data/filebrowser/
-cd $(dirname "$(readlink -f "$0")")
-cp -f default_settings.json /docker-data/filebrowser/.filebrowser.json
 touch /docker-data/filebrowser/filebrowser.db
 docker run \
     --name filebrowser --log-driver=journald --rm -d \
     -e FB_NOAUTH=noauth
     -v /SSD_2T:/srv \
-    -v /docker-data/filebrowser/filebrowser.db:/database.db \
-    -v /docker-data/filebrowser/.filebrowser.json:/.filebrowser.json \
     -u $(id -u):$(id -g) \
-    -p 8080:80 \
+    -p 80:80 \
     filebrowser/filebrowser
