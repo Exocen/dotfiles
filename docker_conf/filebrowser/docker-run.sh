@@ -5,11 +5,11 @@ if [ `id -u` -ne 0 ]; then
      exit 1
  fi
 
-docker run -d \
-    --name filebrowser --log-driver=journald --rm \
-    --user $(id -u):$(id -g) \
+docker run \
+    --name filebrowser --log-driver=journald --rm -d \
+    -v /SSD_2T:/srv \
+    -v /docker-data/filebrowser/filebrowser.db:/database.db \
+    -v /docker-data/filebrowser/filebrowser.json:/.filebrowser.json \
+    -u $(id -u):$(id -g) \
     -p 8080:8080 \
-    -v /docker-data/filebrowser/data:/data \
-    -v /docker-data/filebrowser/config/:/config \
-    -e FB_BASEURL=/data-path \
-    hurlenko/filebrowser
+    filebrowser/filebrowser
