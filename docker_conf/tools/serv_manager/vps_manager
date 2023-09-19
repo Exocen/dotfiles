@@ -112,7 +112,7 @@ reload() {
 
 main() {
     [ `id -u` -ne 0 ] && echo "Must be run as root" && exit 1
-    [ "$@" -ne 2 ] && echo "USAGE: $(basename "$0") start|stop|reload conf_file" && exit 1
+    [ "$#" -ne 2 ] && echo "USAGE: $(basename "$0") start|stop|reload conf_file" && exit 1
     check_lock
     source $2
     build_container_fails
