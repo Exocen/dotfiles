@@ -11,6 +11,7 @@ cp -f default_settings.json /docker-data/filebrowser/.filebrowser.json
 touch /docker-data/filebrowser/filebrowser.db
 docker run \
     --name filebrowser --log-driver=journald --rm -d \
+    -e FB_NOAUTH=noauth
     -v /SSD_2T:/srv \
     -v /docker-data/filebrowser/filebrowser.db:/database.db \
     -v /docker-data/filebrowser/.filebrowser.json:/.filebrowser.json \
