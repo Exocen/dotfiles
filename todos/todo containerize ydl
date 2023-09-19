@@ -1,6 +1,0 @@
-move ydl to docker
-add vpn container (see gluetun)
-no more vpn control
-if no connection -> exit
-
-check destination BEFORE (ssh included)
