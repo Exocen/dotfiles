@@ -10,5 +10,5 @@ docker run \
     -v /SSD_2T:/srv \
     -v /docker-data/filebrowser/:/root/ \
     -u $(id -u):$(id -g) \
-    -p 8080:8080 \
+    -p 8080:80 \
     filebrowser/filebrowser -c /root/.filebrowser.json -d /root/filebrowser.db -r /root/data
