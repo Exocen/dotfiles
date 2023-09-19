@@ -8,8 +8,8 @@ if [ `id -u` -ne 0 ]; then
 docker run \
     --name filebrowser --log-driver=journald --rm -d \
     -v /SSD_2T:/srv \
-    -v /docker-data/filebrowser/filebrowser.db:/database.db \
     -v /docker-data/filebrowser/.filebrowser.json:/.filebrowser.json \
+    -v /docker-data/filebrowser/filebrowser.db:/database.db \
     -u $(id -u):$(id -g) \
     -p 8080:8080 \
     filebrowser/filebrowser
