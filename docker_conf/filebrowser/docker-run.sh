@@ -7,7 +7,7 @@ fi
 
 mkdir -p /docker-data/filebrowser/
 cd $(dirname "$(readlink -f "$0")")
-cp default_settings.json /docker-data/filebrowser/.filebrowser.json
+cp -f default_settings.json /docker-data/filebrowser/.filebrowser.json
 touch /docker-data/filebrowser/filebrowser.db
 docker run \
     --name filebrowser --log-driver=journald --rm -d \
