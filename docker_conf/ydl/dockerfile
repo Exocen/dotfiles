@@ -1,7 +1,4 @@
 FROM debian:latest
-ARG DOMAIN
-
-VOLUME /ydl
 
 ENV DEBIAN_FRONTEND="noninteractive"
 RUN apt-get -y update
