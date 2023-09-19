@@ -5,12 +5,12 @@ if [ `id -u` -ne 0 ]; then
     exit 1
 fi
 
-PATH=/root/mkey
+KEY_PATH="/root/mkey"
 
-if [ -f "$PATH" ]; then
-    KEY=`cat $PATH`
+if [ -f "$KEY_PATH" ]; then
+    KEY=`cat $KEY_PATH`
 else
-    echo "No file found in $PATH"
+    echo "No file found in $KEY_PATH"
     exit 1
 fi
 
