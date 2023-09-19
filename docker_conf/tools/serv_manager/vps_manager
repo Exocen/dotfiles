@@ -1,17 +1,12 @@
 #!/bin/bash
 # Should be runned by systemd with network dependency and fail to mail
 
-#TODO user external conf file ($1) to  get those values
-FAIL_MAIL=[address@here.com]
+declare -A CONTAINERS_FAIL
+
 LOCKFILE="/var/run/$(basename "$0").lock"
 INTERVAL="15m"
 MAX_FAIL_SCORE=2
 LOCAL_DIR=$(dirname "$(readlink -f "$0")")
-
-MAIL_SERVER_FAIL_SCORE=0
-NGINX_CERTBOT_FAIL_SCORE=0
-VAULTWARDEN_FAIL_SCORE=0
-GITEA_FAIL_SCORE=0
 
 safe_exit() {
     echo "$1"
@@ -67,49 +62,47 @@ error_handler() {
     $1/docker-run.sh default
 }
 
-check_loop() {
-    while true;
+build_container_fails() {
+    for cont in "$CONTAINERS"
     do
+        CONTAINERS_FAIL["$cont"]=0
+    done
+}
+
+check_loop() {
+    while true; do
         sleep $INTERVAL
-
-        local TMP=`refresh_score "mail_server" $MAIL_SERVER_FAIL_SCORE`
-        [ $TMP -gt $MAIL_SERVER_FAIL_SCORE ] && error_handler "mail_server" $TMP
-        MAIL_SERVER_FAIL_SCORE=$TMP
-
-        local TMP2=`refresh_score "nginx_certbot" $NGINX_CERTBOT_FAIL_SCORE`
-        [ $TMP2 -gt $NGINX_CERTBOT_FAIL_SCORE ] && error_handler "nginx_certbot" $TMP2
-        NGINX_CERTBOT_FAIL_SCORE=$TMP2
-
-        local TMP3=`refresh_score "vaultwarden" $VAULTWARDEN_FAIL_SCORE`
-        [ $TMP3 -gt $VAULTWARDEN_FAIL_SCORE ] && error_handler "vaultwarden" $TMP3
-        VAULTWARDEN_FAIL_SCORE=$TMP3
+        for cont in "$CONTAINERS"
+        do
+            local TMP=`refresh_score "$CONT" ${CONTAINERS_FAIL[$CONT]}`
+            [ $TMP -gt ${CONTAINERS_FAIL[$CONT]} ] && error_handler "$cont" $TMP
+            CONTAINERS_FAIL[$cont]=$TMP
+        done
     done
 }
 
 docker_start() {
     cd $LOCAL_DIR && cd ../..
-    for cont in "$@"
+    for cont in "$CONTAINERS"
     do
         $cont/docker-run.sh default
     done
 }
 
 docker_stop() {
-    for cont in "$@"
+    for cont in "$CONTAINERS"
     do
         docker stop $cont 1>/dev/null && echo "$cont stopped."
     done
 }
 
 start() {
-    #TODO user external conf file ($1) to  get those values
-    docker_start mail_server nginx_certbot vaultwarden
+    docker_start
     check_loop
 }
 
 stop() {
-    #TODO user external conf file ($1) to  get those values
-    docker_stop mail_server nginx_certbot vaultwarden
+    docker_stop
 }
 
 reload() {
@@ -119,7 +112,10 @@ reload() {
 
 main() {
     [ `id -u` -ne 0 ] && echo "Must be run as root" && exit 1
+    [ "$@" -ne 2 ] && echo "USAGE: $(basename "$0") start|stop|reload conf_file" && exit 1
     check_lock
+    source $2
+    build_container_fails
     trap term_handler SIGKILL
     case $1 in
         start)  start;;
