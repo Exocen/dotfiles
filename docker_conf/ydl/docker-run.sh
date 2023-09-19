@@ -12,10 +12,11 @@ else
     docker build -t ydl_img .
 fi
 
+#TODO $1 or source arg for data_path
 docker run \
     --log-driver=journald --rm \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     -v /docker-data/ydl/:/ydl \
-    -v /Music/:/Music \
+    -v /data-path:/data \
     --name ydl -d --network=container:gluetun \
     ydl_img:latest && echo "ydl started."
