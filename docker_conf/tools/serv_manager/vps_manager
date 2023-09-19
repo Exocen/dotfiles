@@ -126,4 +126,4 @@ main() {
     safe_exit "$(basename "$0") exiting." 0
 }
 
-main $1
+main $@
