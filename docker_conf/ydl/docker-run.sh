@@ -12,6 +12,7 @@ else
     docker build -t ydl_img .
 fi
 
+docker restart gluetun &>/dev/null
 #TODO $1 or source arg for data_path
 docker run \
     --log-driver=journald --rm \
