@@ -22,7 +22,8 @@ audio_format = "flac"
 video_format = "mkv"
 post_dl_cooldown = 15
 loop_cooldown = 600
-params_location = path.join("/ydl/", "ydl_param.csv")
+docker_data_path = "/ydl/"
+params_location = path.join(docker_data_path, "ydl_param.csv")
 DEFAULT_USAGE = f"multiline csv file usage -> output_dir (can use host:/), playlist_id, audio_transform(true/false) to {params_location}"
 safe_fail_count = 2
 retry_counter_max = 2
@@ -195,7 +196,7 @@ class Main:
             self.downloader()
             return
         playlist_title = infos["title"]
-        file_list_path = path.join(path.dirname(path.realpath(__file__)), playlist_title + ".cvs")
+        file_list_path = path.join(docker_data_path, playlist_title + ".cvs")
 
         # Check existing
         audio_data_list = []
