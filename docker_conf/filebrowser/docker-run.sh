@@ -5,6 +5,7 @@ if [ `id -u` -ne 0 ]; then
     exit 1
 fi
 
+mkdir -P /docker-data/filebrowser/
 touch /docker-data/filebrowser/filebrowser.db
 docker run \
     --name filebrowser --log-driver=journald --rm -d \
