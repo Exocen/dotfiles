@@ -16,6 +16,7 @@ fi
 
 docker run -d --rm --cap-add=NET_ADMIN --name gluetun --log-driver=journald -e VPN_SERVICE_PROVIDER=mullvad -e VPN_TYPE=openvpn \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
+    -p 9091:9091 \
     -e SERVER_COUNTRIES="USA" -e OPENVPN_USER=$KEY qmcgaw/gluetun && echo "gluetun started."
 
 # Optional environment variables

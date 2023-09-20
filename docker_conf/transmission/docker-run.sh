@@ -11,9 +11,6 @@ docker run -d --rm \
     -e PGID=1000 \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     --network=container:gluetun \
-    -p 9091:9091 \
-    -p 51413:51413 \
-    -p 51413:51413/udp \
     -v /docker-data/transmission/config/:/config \
     -v /docker-data/transmission/dl/:/downloads \
     lscr.io/linuxserver/transmission:latest
