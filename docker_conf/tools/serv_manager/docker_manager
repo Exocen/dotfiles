@@ -72,8 +72,8 @@ check_loop() {
     while true; do
         sleep $INTERVAL
         for cont in $CONTAINERS; do
-            local TMP=`refresh_score "$CONT" ${CONTAINERS_FAIL[$CONT]}`
-            [ $TMP -gt ${CONTAINERS_FAIL[$CONT]} ] && error_handler "$cont" $TMP
+            local TMP=`refresh_score "$cont" ${CONTAINERS_FAIL[$cont]}`
+            [ $TMP -gt ${CONTAINERS_FAIL[$cont]} ] && error_handler "$cont" $TMP
             CONTAINERS_FAIL[$cont]=$TMP
         done
     done
