@@ -9,6 +9,7 @@ RUN /root/ydl_env/bin/pip3 install mutagen
 RUN /root/ydl_env/bin/pip3 install "git+https://github.com/ytdl-org/youtube-dl.git"
 
 WORKDIR /root/
-COPY docker-entrypoint.sh ydl /root/
-RUN /bin/bash -c "chmod +x docker-entrypoint.sh"
+COPY docker-entrypoint.sh healthcheck.sh ydl /root/
+RUN /bin/bash -c "chmod +x *.sh"
+HEALTHCHECK CMD /root/healthcheck.sh
 ENTRYPOINT ["/root/docker-entrypoint.sh"]
