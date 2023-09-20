@@ -1,2 +1,2 @@
 FAIL_MAIL="change@me.com"
-CONTAINERS="gluetun ydl transmission filebrowser"
+CONTAINERS="gluetun ydl filebrowser"
