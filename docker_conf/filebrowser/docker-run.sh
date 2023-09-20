@@ -21,4 +21,4 @@ docker run \
     -v /SSD_2T:/srv \
     -u $(id -u):$(id -g) \
     -p 80:80 \
-    filebrowser/filebrowser
+    filebrowser/filebrowser:v2.24.2
