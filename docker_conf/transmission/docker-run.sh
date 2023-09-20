@@ -5,7 +5,7 @@ if [ `id -u` -ne 0 ]; then
     exit 1
 fi
 
-docker run -d \
+docker run -d --rm \
     --name=transmission \
     -e PUID=1000 \
     -e PGID=1000 \
@@ -16,4 +16,4 @@ docker run -d \
     -p 51413:51413/udp \
     -v /docker-data/transmission/config/:/config \
     -v /docker-data/transmission/dl/:/downloads \
-    --rm lscr.io/linuxserver/transmission:latest
+    lscr.io/linuxserver/transmission:latest
