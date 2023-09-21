@@ -196,7 +196,7 @@ class Main:
             self.downloader()
             return
         playlist_title = infos["title"]
-        file_list_path = path.join(docker_data_path, playlist_title + ".cvs")
+        file_list_path = path.join(docker_data_path, playlist_title + ".csv")
 
         # Check existing
         audio_data_list = []
