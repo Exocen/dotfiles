@@ -1,12 +1,13 @@
 #!/bin/bash
 # Should be runned by systemd with network dependency and fail to mail
 
-declare -A CONTAINERS_FAIL
-
 LOCKFILE="/var/run/$(basename "$0").lock"
 INTERVAL="15m"
 MAX_FAIL_SCORE=2
 LOCAL_DIR=$(dirname "$(readlink -f "$0")")
+USAGE="USAGE: $(basename "$0") start|stop|reload conf_file."
+
+declare -A CONTAINERS_FAIL
 
 safe_exit() {
     echo "$1"
@@ -25,7 +26,7 @@ send_mail() {
         echo "Mail to $FAIL_MAIL failed, relaying on backup."
         echo -e "Subject:$1 Failure $2\n$message" | msmtp -a backup $FAIL_MAIL
     else
-        echo "Mail sended to $FAIL_MAIL"
+        echo "Mail sended to $FAIL_MAIL."
     fi
 }
 
@@ -49,12 +50,8 @@ terminator() {
     [ -f "$LOCKFILE" ] && ps -p $(cat "$LOCKFILE") > /dev/null && echo "Can't kill $1, exiting." && exit 1
 }
 
-check_lock()  {
-    [ -f "$LOCKFILE" ] && ps -p $(cat "$LOCKFILE") > /dev/null && echo "$(basename "$0") is already running, restarting." && terminator $(cat "$LOCKFILE")
-    echo $$ > "$LOCKFILE"
-}
-
 error_handler() {
+    # $1 cont name / $2 score
     echo "$1 failed ($2)."
     send_mail $1 $2
     cd $LOCAL_DIR && cd ../..
@@ -106,21 +103,30 @@ reload() {
     start
 }
 
+boot_check() {
+    [ `id -u` -ne 0 ] && echo "Must be run as root." && exit 1
+    if ! msmtp --version ; then
+        echo "msmtp must be installed."
+        exit 1
+    fi
+    [ "$#" -ne 2 ] && echo "$USAGE" && exit 1
+    [ -f "$LOCKFILE" ] && ps -p $(cat "$LOCKFILE") > /dev/null && echo "$(basename "$0") is already running, restarting." && terminator $(cat "$LOCKFILE")
+    echo $$ > "$LOCKFILE"
+}
+
 main() {
-    [ `id -u` -ne 0 ] && echo "Must be run as root" && exit 1
-    [ "$#" -ne 2 ] && echo "USAGE: $(basename "$0") start|stop|reload conf_file" && exit 1
-    check_lock
     cd $LOCAL_DIR
     source $2
     build_container_fails
-    trap term_handler SIGKILL
     case $1 in
         start)  start;;
         reload) reload;;
         stop) stop;;
-        * ) echo "USAGE: $(basename "$0") start|stop|reload";;
+        * ) echo "$USAGE";;
     esac
-    safe_exit "$(basename "$0") exiting." 0
 }
 
+trap term_handler SIGKILL
+boot_check $@
 main $@
+safe_exit "$(basename "$0") exiting." 0
