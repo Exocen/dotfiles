@@ -1,4 +1,0 @@
-#!/bin/sh
-# Git hook sample
-git push --all origin && echo "Success : pushed to Github"
-cd ~/dotfiles && unset GIT_DIR && git pull --all >/dev/null
