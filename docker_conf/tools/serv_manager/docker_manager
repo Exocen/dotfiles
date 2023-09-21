@@ -105,8 +105,8 @@ reload() {
 
 boot_check() {
     [ `id -u` -ne 0 ] && echo "Must be run as root." && exit 1
-    if ! msmtp --version ; then
-        echo "msmtp must be installed."
+    if ! msmtp --version &>/dev/null ; then
+        echo "msmtp not found, exiting."
         exit 1
     fi
     [ "$#" -ne 2 ] && echo "$USAGE" && exit 1
