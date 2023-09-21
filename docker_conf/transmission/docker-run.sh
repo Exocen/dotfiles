@@ -5,6 +5,7 @@ if [ `id -u` -ne 0 ]; then
     exit 1
 fi
 
+# TODO need to arg or source paths
 docker run -d --rm \
     --name=transmission \
     -e PUID=1000 \
