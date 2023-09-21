@@ -6,7 +6,7 @@ if [ `id -u` -ne 0 ]; then
 fi
 
 # TODO need to arg or source paths
-docker run -d --rm \
+docker run -d --rm --log-driver=journald \
     --name=transmission \
     -e PUID=1000 \
     -e PGID=1000 \
