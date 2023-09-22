@@ -4,18 +4,17 @@ if [ `id -u` -ne 0 ]; then
     echo "Must be run as root."
     exit 1
 else
-    if [ -z "$1" ]; then
-        echo "Usage: script y/n (admin pass)."
-        exit 1
-    elif [ "$1" == "default" ]; then
-        PASS_ENABLED=0
-    else
-        case $1 in
-            [Yy]* ) PASS_ENABLED=1;;
-            [Nn]* ) PASS_ENABLED=0;;
-            * ) echo "Usage: script y/n (admin pass)."; exit 1;;
-        esac
-
+    if [ -z ${PASS_ENABLED+x} ] ; then
+        if [ -z "$1" ]; then
+            echo "Usage: script y/n (admin pass)."
+            exit 1
+        else
+            case $1 in
+                [Yy]* ) PASS_ENABLED=1;;
+                [Nn]* ) PASS_ENABLED=0;;
+                * ) echo "Usage: script y/n (admin pass)."; exit 1;;
+            esac
+        fi
     fi
 fi
 

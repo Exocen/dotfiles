@@ -4,13 +4,13 @@ if [ `id -u` -ne 0 ]; then
     echo "Must be run as root"
     exit 1
 else
-    if [ -z "$1" ]; then
-        echo "No domain supplied"
-        exit 1
-    elif [ "$1" == "default" ]; then
-        DOMAIN=`hostnamectl --static`
-    else
-        DOMAIN=$1
+    if [ -z ${DOMAIN+x} ] ; then
+        if [ -z "$1" ]; then
+            echo "No domain supplied"
+            exit 1
+        else
+            DOMAIN=$1
+        fi
     fi
 fi
 
