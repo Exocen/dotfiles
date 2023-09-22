@@ -21,10 +21,10 @@ inspect() {
 
 send_mail() {
     local message=`journalctl -eb CONTAINER_NAME=$1`
-    echo -e "Subject:$1 Failure $2\n$message" | msmtp -a main $FAIL_MAIL
+    echo -e "Subject:$1 Failure $2\n$message" | msmtp --auth=on --tls=on --tls-starttls=off --port 465 --host="$FAIL_MAIL" --from="$FAIL_MAIL" --user="$FAIL_MAIL" --passwordeval="echo \"$MAIL_PASS\"" $FAIL_MAIL
     if [ $? -ne 0 ]; then
         echo "Mail to $FAIL_MAIL failed, relaying on backup."
-        echo -e "Subject:$1 Failure $2\n$message" | msmtp -a backup $FAIL_MAIL
+        echo -e "Subject:$1 Failure $2\n$message" | msmtp --auth=on --tls=on --tls-starttls=off --port 465 --host="$BACKUP_FAIL_MAIL" --from="$BACKUP_FAIL_MAIL" --user="$BACKUP_FAIL_MAIL" --passwordeval="echo \"$BACKUP_MAIL_PASS\"" $BACKUP_FAIL_MAIL
     else
         echo "Mail sended to $FAIL_MAIL."
     fi
