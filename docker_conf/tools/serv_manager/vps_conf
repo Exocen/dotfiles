@@ -1,2 +1,4 @@
 FAIL_MAIL="change@me.com"
 CONTAINERS="mail_server nginx_certbot vaultwarden"
+DOMAIN="domain.com"
+PASS_ENABLED=0
