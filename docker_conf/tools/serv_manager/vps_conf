@@ -1,4 +1,4 @@
-FAIL_MAIL="change@me.com"
-CONTAINERS="mail_server nginx_certbot vaultwarden"
-DOMAIN="domain.com"
-PASS_ENABLED=0
+export FAIL_MAIL="change@me.com"
+export CONTAINERS="mail_server nginx_certbot vaultwarden"
+export DOMAIN="domain.com"
+export PASS_ENABLED=0
