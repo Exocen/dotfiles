@@ -1,5 +1,5 @@
 #!/bin/bash
-HOST=[DOMAIN]
+HOST=$1
 OUTPUT=$HOST-docker-backup.tgz
 
 ssh $HOST "cd / && tar cz docker-data" > $OUTPUT
