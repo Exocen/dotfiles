@@ -15,7 +15,7 @@ mkdir -p /var/log/letsencrypt
 /usr/bin/certbot certificates | grep 'vw.[DOMAIN]\|www.[DOMAIN]' &>/dev/null
 RESULT=$?
 if [ $RESULT -eq 1 ]; then
-    /usr/bin/certbot --nginx --keep-until-expiring --expand --register-unsafely-without-email --agree-tos -d [DOMAIN] -d vw.[DOMAIN] -d www.[DOMAIN] || (echo "certbot failed exiting..." && exit 1)
+    /usr/bin/certbot --nginx --keep-until-expiring --expand --register-unsafely-without-email --agree-tos -d [DOMAIN] -d vw.[DOMAIN] -d git.[DOMAIN] -d www.[DOMAIN] || (echo "certbot failed exiting..." && exit 1)
 fi
 
 cp -fr /root/nginx.conf /etc/nginx/

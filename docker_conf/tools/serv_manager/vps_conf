@@ -4,6 +4,6 @@ export BACKUP_FAIL_MAIL="change@me.com"
 export MAIL_PASS="pass"
 export BACKUP_MAIL_PASS="pass"
 
-export CONTAINERS="mail_server nginx_certbot vaultwarden"
+export CONTAINERS="nginx_certbot mail_server vaultwarden gitea"
 export DOMAIN="domain.com"
 export PASS_ENABLED=0
