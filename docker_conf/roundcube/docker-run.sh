@@ -18,4 +18,5 @@ docker run -d --rm --log-driver=journald \
     -e ROUNDCUBEMAIL_SMTP_PORT=465 -e ROUNDCUBEMAIL_DEFAULT_PORT=993 \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     --net user_network --ip 10.0.0.82 \
+    --name=roundcube \
     roundcube/roundcubemail && echo "Roundcube started."
