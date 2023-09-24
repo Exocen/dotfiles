@@ -12,10 +12,10 @@ certbot_renew(){
 mkdir -p /var/log/nginx
 mkdir -p /var/log/letsencrypt
 
-/usr/bin/certbot certificates | grep 'vw.[DOMAIN]\|www.[DOMAIN]\|git.[DOMAIN]' &>/dev/null
+/usr/bin/certbot certificates | grep 'vw.[DOMAIN]\|www.[DOMAIN]\|git.[DOMAIN]\|mail.[DOMAIN]' &>/dev/null
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
-    /usr/bin/certbot --nginx --keep-until-expiring --expand --register-unsafely-without-email --agree-tos -d [DOMAIN] -d vw.[DOMAIN] -d git.[DOMAIN] -d www.[DOMAIN]
+    /usr/bin/certbot --nginx --keep-until-expiring --expand --register-unsafely-without-email --agree-tos -d [DOMAIN] -d vw.[DOMAIN] -d git.[DOMAIN] -d www.[DOMAIN] -d mail.[DOMAIN]
     if [ $? -ne 0 ]; then
         echo "certbot failed exiting..."
         exit 1
