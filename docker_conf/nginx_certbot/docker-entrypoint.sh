@@ -25,4 +25,5 @@ fi
 cp -fr /root/nginx.conf /etc/nginx/
 certbot_renew &
 sleep 1m
+service nginx stop &>/dev/null
 nginx -g 'daemon off;'
