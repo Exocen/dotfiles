@@ -5,7 +5,6 @@ if [ `id -u` -ne 0 ]; then
     exit 1
 fi
 
-# TODO need to arg or source paths
 docker run -d --rm --log-driver=journald \
     --name=transmission \
     -e PUID=1000 \
@@ -14,4 +13,4 @@ docker run -d --rm --log-driver=journald \
     --network=container:gluetun \
     -v /docker-data/transmission/config/:/config \
     -v /docker-data/transmission/dl/:/downloads \
-    lscr.io/linuxserver/transmission:latest
+    lscr.io/linuxserver/transmission:latest && echo "transmission started."
