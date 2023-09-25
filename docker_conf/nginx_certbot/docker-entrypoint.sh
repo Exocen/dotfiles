@@ -17,7 +17,8 @@ RESULT=$?
 if [ $RESULT -ne 0 ]; then
     #TODO check dat
     #/usr/bin/certbot --nginx --keep-until-expiring --expand --register-unsafely-without-email --agree-tos -d [DOMAIN] -d vw.[DOMAIN] -d git.[DOMAIN] -d www.[DOMAIN] -d mail.[DOMAIN]
-    /usr/bin/certbot --nginx --keep-until-expiring --expand --register-unsafely-without-email --agree-tos -d [DOMAIN] -d *.[DOMAIN]
+    /usr/bin/certbot --nginx --keep-until-expiring --expand --register-unsafely-without-email --agree-tos -d [DOMAIN] -d git.[DOMAIN] -d mail.[DOMAIN] -d status.[DOMAIN] -d www.[DOMAIN] -d vw.[DOMAIN]
+
     if [ $? -ne 0 ]; then
         echo "certbot failed exiting..."
         exit 1
