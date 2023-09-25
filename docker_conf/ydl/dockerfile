@@ -1,9 +1,6 @@
-FROM debian:latest
+FROM alpine:latest
 
-ENV DEBIAN_FRONTEND="noninteractive"
-RUN apt-get -y update
-RUN apt-get -y upgrade
-RUN apt-get install -y --no-install-recommends python3 python3-pip python3-venv rsync git ffmpeg
+RUN apk add --update-cache python3 python3-pip python3-venv rsync git ffmpeg
 RUN python3 -m venv /root/ydl_env
 RUN /root/ydl_env/bin/pip3 install mutagen
 RUN /root/ydl_env/bin/pip3 install "git+https://github.com/ytdl-org/youtube-dl.git"

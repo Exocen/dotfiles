@@ -1,13 +1,10 @@
-FROM debian:latest
+FROM alpine:latest
 ARG DOMAIN
 
 VOLUME /etc/letsencrypt/
 EXPOSE 80/TCP 443/TCP
 
-ENV DEBIAN_FRONTEND="noninteractive"
-RUN apt-get -y update
-RUN apt-get -y upgrade
-RUN apt-get install -y --no-install-recommends nginx certbot python3-certbot-nginx locales
+RUN apk add --update-cache nginx certbot python3-certbot-nginx locales
 RUN locale-gen
 
 WORKDIR /root/
