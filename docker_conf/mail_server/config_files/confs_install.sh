@@ -16,8 +16,8 @@ function main(){
 
     mv -f dovecot.conf /etc/dovecot/
     mkdir -p /post_base/vhosts/$DOMAIN
-    groupadd -g 5000 vmail
-    useradd -g vmail -u 5000 vmail -d /var/mail
+    addgroup -g 5000 vmail
+    adduser -D -G vmail -u 5000 vmail -h /var/mail
     chown -R vmail:vmail /var/mail
     chown -R vmail:dovecot /etc/dovecot
     chmod -R o-rwx /etc/dovecot
