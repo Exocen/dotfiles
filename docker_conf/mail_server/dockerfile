@@ -9,11 +9,11 @@ RUN apk add --update-cache postfix dovecot opendkim opendkim-utils syslog-ng pro
 
 WORKDIR /root/
 COPY config_files/ /root/
-RUN /bin/sh -c 'chmod +x /root/*.sh'
+RUN /bin/bash -c 'chmod +x /root/*.sh'
 RUN /root/confs_install.sh $DOMAIN
 
 # Fix syslog error
-RUN /bin/sh -c 'echo "SYSLOGNG_OPTS=\"--no-caps\"" >> /etc/default/syslog-ng'
+RUN /bin/bash -c 'echo "SYSLOGNG_OPTS=\"--no-caps\"" >> /etc/default/syslog-ng'
 
 HEALTHCHECK CMD ./healthcheck.sh
 
