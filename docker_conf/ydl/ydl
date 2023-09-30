@@ -18,7 +18,7 @@ from urllib.request import urlopen
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger('YDL')
 tmp_dir = "/var/tmp"
-audio_format = "flac"
+audio_format = "mp3"
 video_format = "mkv"
 post_dl_cooldown = 15
 loop_cooldown = 600
