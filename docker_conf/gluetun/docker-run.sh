@@ -5,7 +5,7 @@ if [ `id -u` -ne 0 ]; then
     exit 1
 fi
 
-if [ -z ${KEY_PATH+x} ] ; then
+if [ -z ${VPN_KEY+x} ] ; then
     echo "No key supplied"
     exit 1
 fi
@@ -13,7 +13,7 @@ fi
 docker run -d --rm --cap-add=NET_ADMIN --name gluetun --log-driver=journald -e VPN_SERVICE_PROVIDER=mullvad -e VPN_TYPE=openvpn \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     -p 9091:9091 -p 51413:51413 -p 51413:51413/udp \
-    -e SERVER_COUNTRIES="USA" -e OPENVPN_USER=$KEY qmcgaw/gluetun && echo "gluetun started."
+    -e SERVER_COUNTRIES="USA" -e OPENVPN_USER=$VPN_KEY qmcgaw/gluetun && echo "gluetun started."
 
 # Optional environment variables
 
