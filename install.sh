@@ -127,9 +127,9 @@ function basic_install() {
     ins vim git htop iftop iotop tree zsh make wget sudo rsync
 
     # zsh
-    ln -sfn $LOCAL/auto_conf/zshrc  ~/.zshrc
+    ln -sfn $LOCAL/user_conf/zshrc  ~/.zshrc
     git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
-    ln -sfn $LOCAL/auto_conf/custom.zsh-theme ~/.oh-my-zsh/custom/themes
+    ln -sfn $LOCAL/user_conf/custom.zsh-theme ~/.oh-my-zsh/custom/themes
     sudo chsh -s /usr/bin/zsh $USER
 
     # vimrc
@@ -149,8 +149,8 @@ function dev_env_install() {
                 if [ -f "$file" ]; then
                     info "Arch dev inv installation"
                     # .config links
-                    ln -sfn $LOCAL/auto_conf/zprofile  ~/.zprofile
-                    conf_folder auto_conf/home_conf
+                    ln -sfn $LOCAL/user_conf/zprofile  ~/.zprofile
+                    conf_folder user_conf/home_conf
                     list=""
                     while IFS= read -r line; do
                         char=$(echo $line | head -c1)
