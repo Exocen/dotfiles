@@ -24,7 +24,6 @@ fi
 # Reloading vpn
 docker restart gluetun &>/dev/null && sleep 1m
 
-#TODO $1 or source arg for data_path
 docker run \
     --log-driver=journald --rm \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
