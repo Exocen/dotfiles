@@ -6,8 +6,12 @@ if [ `id -u` -ne 0 ]; then
 fi
 
 if [ -z ${VPN_KEY+x} ] ; then
-    echo "No key supplied"
-    exit 1
+    if [ -z "$1" ]; then
+        echo "No key supplied"
+        exit 1
+    else
+        VPN_KEY=$1
+    fi
 fi
 
 docker run -d --rm --cap-add=NET_ADMIN --name gluetun --log-driver=journald -e VPN_SERVICE_PROVIDER=mullvad -e VPN_TYPE=openvpn \
