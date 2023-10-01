@@ -117,7 +117,7 @@ function git_clone() {
         git clone --depth=1 $1 $2 &>>$logFile
         is_working "Cloned: $1 to $2"
     else
-        warning "$2 already present (--force to overwrite)"
+        warning "$2 already present"
     fi
 }
 
