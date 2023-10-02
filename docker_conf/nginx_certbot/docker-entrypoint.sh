@@ -1,21 +1,22 @@
 #!/bin/bash
-CERTBOT_RENEW_DATE='1 day'
+CERTBOT_RENEW_DATE='86400' # one day
+LOG_DIR=/etc/letsencrypt/logs/
 
 certbot_renew(){
     while true; do
-        echo "Starting Certbot renew..."
-        /usr/bin/certbot renew --nginx && echo "Certbot renew succeded"
-        sleep $(( $(date -d "$CERTBOT_RENEW_DATE" +%s) - $(date +%s) ))
+        /usr/bin/certbot renew --nginx --logs-dir $LOG_DIR
+        sleep $CERTBOT_RENEW_DATE
     done
 }
 
 mkdir -p /var/log/nginx
 mkdir -p /var/log/letsencrypt
+mkdir -p $LOG_DIR
 
 /usr/bin/certbot certificates | grep '[DOMAIN]\|*.[DOMAIN]' &>/dev/null
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
-    /usr/bin/certbot --nginx --keep-until-expiring --expand --register-unsafely-without-email --agree-tos -d [DOMAIN] -d git.[DOMAIN] -d mail.[DOMAIN] -d status.[DOMAIN] -d www.[DOMAIN] -d vw.[DOMAIN]
+    /usr/bin/certbot --nginx --keep-until-expiring --expand --register-unsafely-without-email --agree-tos --logs-dir $LOG_DIR -q -d [DOMAIN] -d git.[DOMAIN] -d mail.[DOMAIN] -d status.[DOMAIN] -d www.[DOMAIN] -d vw.[DOMAIN]
     if [ $? -ne 0 ]; then
         echo "certbot failed exiting..."
         exit 1
@@ -24,6 +25,4 @@ fi
 
 cp -fr /root/nginx.conf /etc/nginx/
 certbot_renew &
-sleep 1m
-service nginx stop &>/dev/null
 nginx -g 'daemon off;'
