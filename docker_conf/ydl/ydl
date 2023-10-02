@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# Needed : mutagen, youtube_dl, rsync
+# Needed : mutagen, youtube_dl
 import mutagen
 import youtube_dl
 
@@ -11,7 +11,7 @@ from shlex import quote
 from random import seed, randint
 from time import sleep
 from mutagen.easyid3 import EasyID3
-from os import path, listdir
+from os import path, listdir, rename
 from tempfile import TemporaryDirectory
 from urllib.request import urlopen
 
@@ -162,7 +162,7 @@ class Main:
                 meta["artist"] = audio_data.artist
                 meta.save()
 
-        cmd = ['/bin/bash', '-c', f"rsync -a -s --no-perms {quote(filepath)} {quote(dest_path)}"]
+        rename(f"{quote(filepath)}, f"{quote(dest_path)}")
         log.info(f'Running {cmd}')
         Main.run_process(cmd)
 
