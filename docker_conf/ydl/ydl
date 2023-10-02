@@ -7,7 +7,6 @@ import re
 import csv
 import subprocess
 import logging
-from shlex import quote
 from random import seed, randint
 from time import sleep
 from mutagen.easyid3 import EasyID3
@@ -161,10 +160,7 @@ class Main:
                 meta["title"] = audio_data.tagtitle
                 meta["artist"] = audio_data.artist
                 meta.save()
-
-        rename(f"{quote(filepath)}, f"{quote(dest_path)}")
-        log.info(f'Running {cmd}')
-        Main.run_process(cmd)
+        rename(filepath, dest_path)
 
     def get_video_count(self):
         try:
