@@ -71,7 +71,7 @@
 
     "clock#time": {
     "interval": 1,
-    "format": "<span font='14' color=\"#909497\">󱑑</span> {:%H:%M}",
+    "format": "<span font='14' color=\"#909497\">󱑑</span> {:%T}",
     "tooltip": false
     },
 
