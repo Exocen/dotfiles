@@ -5,6 +5,7 @@ VOLUME /etc/letsencrypt/
 EXPOSE 80/TCP 443/TCP
 
 RUN apk add certbot certbot-nginx bash
+RUN mkdir /etc/letsencrypt
 
 WORKDIR /root/
 COPY docker-entrypoint.sh nginx.conf healthcheck.sh /root/
