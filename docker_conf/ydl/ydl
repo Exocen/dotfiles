@@ -180,7 +180,7 @@ class Main:
 
         # Check playlist len
         video_count = self.get_video_count()
-        if video_count == self.last_video_count[self.playlist_id]:
+        if video_count != 0 and video_count == self.last_video_count[self.playlist_id]:
             return
 
         # Dl infos only
