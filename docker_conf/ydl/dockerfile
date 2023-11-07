@@ -1,8 +1,5 @@
 FROM alpine:latest
 
-RUN apt-get -y update
-RUN apt-get -y upgrade
-#RUN apt-get install -y --no-install-recommends python3 python3-pip python3-venv git ffmpeg iputils-ping
 RUN apk add --update-cache python3 python3-pip python3-venv rsync git ffmpeg iputils
 RUN python3 -m venv /root/ydl_env
 RUN /root/ydl_env/bin/pip3 install mutagen
