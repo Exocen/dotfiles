@@ -10,7 +10,7 @@ if [ -z ${YDL_MUSIC_PATH+x} ] ; then
         echo "No path supplied"
         exit 1
     else
-        VPN_KEY=$1
+        YDL_MUSIC_PATH=$1
     fi
 fi
 
