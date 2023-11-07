@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk add --update-cache python3 py3-pip py3-venv rsync git ffmpeg iputils
+RUN apk add --update-cache python3 py3-pip py3-virtualenv rsync git ffmpeg iputils
 RUN python3 -m venv /root/ydl_env
 RUN /root/ydl_env/bin/pip3 install mutagen
 RUN /root/ydl_env/bin/pip3 install "git+https://github.com/ytdl-org/youtube-dl.git"
