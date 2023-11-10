@@ -11,7 +11,8 @@ import shutil
 from random import seed, randint
 from time import sleep
 from mutagen.easyid3 import EasyID3
-from os import path, listdir
+from time import time
+from os import path, listdir, utime
 from tempfile import TemporaryDirectory
 from urllib.request import urlopen
 
@@ -161,6 +162,8 @@ class Main:
                 meta["title"] = audio_data.tagtitle
                 meta["artist"] = audio_data.artist
                 meta.save()
+        current_time = time()
+        utime(filepath, (current_time, current_time))
         shutil.move(filepath, dest_path)
 
     def get_video_count(self):
