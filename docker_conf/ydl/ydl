@@ -181,12 +181,12 @@ class Main:
 
     def downloader(self):
 
-        # Check playlist len
+        log.debug("Checking playlist length (urlopen)")
         video_count = self.get_video_count()
         if video_count != 0 and video_count == self.last_video_count[self.playlist_id]:
             return
 
-        # Dl infos only
+        log.debug("Checing playlist info (yt_dl)")
         try:
             infos = self.extract_info()
         except youtube_dl.utils.DownloadError as dl_error:
