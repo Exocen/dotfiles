@@ -186,7 +186,7 @@ class Main:
         if video_count != 0 and video_count == self.last_video_count[self.playlist_id]:
             return
 
-        log.debug("Checing playlist info (yt_dl)")
+        log.debug("Checking playlist info (yt_dl)")
         try:
             infos = self.extract_info()
         except youtube_dl.utils.DownloadError as dl_error:
