@@ -30,6 +30,4 @@ docker run \
     -v $FILEBROWSER_PATH:/srv \
     -u $(id -u):$(id -g) \
     -p 80:80 \
-    filebrowser/filebrowser:v2.24.2
-
-# TODO last filebrowser version is a mess, staying on v2.24.2 for now (2023-09-19)
+    filebrowser/filebrowser
