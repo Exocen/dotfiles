@@ -177,13 +177,13 @@ class Main:
         # check not mandatory, any error : process continue
         except Exception as dl_error:
             self.connection_error(dl_error)
-            return 0
+            return None
 
     def downloader(self):
 
         log.debug("Checking playlist length (urlopen)")
         video_count = self.get_video_count()
-        if video_count != 0 and video_count == self.last_video_count[self.playlist_id]:
+        if video_count is not None and video_count == self.last_video_count[self.playlist_id]:
             return
 
         log.debug("Checking playlist info (yt_dl)")
