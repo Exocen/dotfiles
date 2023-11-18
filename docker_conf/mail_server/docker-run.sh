@@ -16,6 +16,8 @@ fi
 
 # imap tls implicit 992
 # smtp tls implicit 464
+# normal password SSL/TLS
+# dkim : /docker-data/dms/config/opendkim/keys/$DOMAIN/mail.txt
 
 docker run -d --rm --log-driver=journald \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
@@ -25,6 +27,7 @@ docker run -d --rm --log-driver=journald \
     -p 25:25 -p 464:465 -p 992:993 \
     -e ENABLE_FAIL2BAN=1 -e SSL_TYPE=letsencrypt -e PERMIT_DOCKER=network \
     -e ONE_DIR=1 -e ENABLE_POSTGREY=0 -e ENABLE_CLAMAV=0 -e ENABLE_SPAMASSASSIN=0 -e SPOOF_PROTECTION=0 \
+    -e ENABLE_OPENDKIM=1 -e ENABLE_OPENDMARC=1 -e ENABLE_POLICYD_SPF=1 \
     --cap-add=NET_ADMIN \
     --name mail_server --hostname=$MAIL_DOMAIN \
     mailserver/docker-mailserver && echo "mail_server started."
