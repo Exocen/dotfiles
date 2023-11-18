@@ -23,5 +23,5 @@ docker run -d --rm --log-driver=journald \
     -e ENABLE_FAIL2BAN=1 -e SSL_TYPE=letsencrypt -e PERMIT_DOCKER=network \
     -e ONE_DIR=1 -e ENABLE_POSTGREY=0 -e ENABLE_CLAMAV=0 -e ENABLE_SPAMASSASSIN=0 -e SPOOF_PROTECTION=0 \
     --cap-add=NET_ADMIN \
-    --name server_mail --hostname=$DOMAIN \
+    --name mail_server --hostname=$DOMAIN \
     mailserver/docker-mailserver && echo "mail_server started."
