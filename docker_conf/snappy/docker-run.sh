@@ -14,9 +14,8 @@ if [ -z ${DOMAIN+x} ] ; then
 fi
 
 docker run -d --rm --log-driver=journald \
-    -e ROUNDCUBEMAIL_DEFAULT_HOST=ssl://$DOMAIN -e ROUNDCUBEMAIL_SMTP_SERVER=ssl://$DOMAIN \
-    -e ROUNDCUBEMAIL_SMTP_PORT=464 -e ROUNDCUBEMAIL_DEFAULT_PORT=992 \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
+    -v /docker-data/snappymail:/snappymail/data
     --net user_network --ip 10.0.0.82 \
-    --name=roundcube \
-    roundcube/roundcubemail && echo "Roundcube started."
+    --name=snappymail \
+    kouinkouin/snappymail && echo "Snappymail started."
