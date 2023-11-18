@@ -4,7 +4,7 @@ export BACKUP_FAIL_MAIL="change@me.com"
 export MAIL_PASS="pass"
 export BACKUP_MAIL_PASS="pass"
 
-export CONTAINERS="nginx_certbot mail_server vaultwarden gitea roundcube"
+export CONTAINERS="nginx_certbot mail_server vaultwarden gitea snappymail"
 export DOMAIN="domain.com"
 export MAIL_DOMAIN="mail.domain.com"
 export PASS_ENABLED=0
