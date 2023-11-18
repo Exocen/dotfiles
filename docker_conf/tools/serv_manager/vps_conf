@@ -6,4 +6,5 @@ export BACKUP_MAIL_PASS="pass"
 
 export CONTAINERS="nginx_certbot mail_server vaultwarden gitea roundcube"
 export DOMAIN="domain.com"
+export MAIL_DOMAIN="mail.domain.com"
 export PASS_ENABLED=0
