@@ -65,17 +65,17 @@ function ins() {
     all="$@" #for is_working function
     info "Installation: $all "
     if [ "$WOS" = "ubuntu" ] || [ "$WOS" = "debian" ] || [ "$WOS" = "raspbian" ]; then
-        apt update -y &>>$logFile
-        apt install $@ -y &>>$logFile
+        sudo apt update -y &>>$logFile
+        sudo apt install $@ -y &>>$logFile
         is_working "$all installed"
     elif [ "$WOS" = "fedora" ]; then
-        dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-        dnf install -y --nogpgcheck https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-        dnf update -y &>>$logFile
-        dnf install $@ -y &>>$logFile
+        sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+        sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+        sudo dnf update -y &>>$logFile
+        sudo dnf install $@ -y &>>$logFile
         is_working "$all installed"
     elif [ "$WOS" = "arch" ]; then
-        pacman -S $@ --needed --noconfirm &>>$logFile
+        sudo pacman -S $@ --needed --noconfirm &>>$logFile
         is_working "$all installed"
     else
         error "Unknow OS: $WOS"
@@ -87,11 +87,11 @@ function aur_ins() {
     info "Installation: $all "
     if [ "$WOS" = "arch" ]; then
         # Aur tool install
-        yay -V &>/dev/null
+        paru -V &>/dev/null
         if [ $? -ne 0 ]; then
-            arch_package_install https://aur.archlinux.org/yay.git
+            arch_package_install https://aur.archlinux.org/paru.git
         fi
-        yay -S $@ --needed --noconfirm &>>$logFile
+        paru -S $@ --needed --noconfirm &>>$logFile
         is_working "$all installed"
     else
         error "Invalid OS"
@@ -101,7 +101,7 @@ function aur_ins() {
 
 function arch_package_install() {
     info "Arch install: $1"
-    pacman -S --needed base-devel git --noconfirm &>>$logFile
+    sudo pacman -S --needed base-devel git --noconfirm &>>$logFile
     tmpD=$(mktemp -d)
     git clone $1 $tmpD &>>$logFile
     current_dir=`pwd`
@@ -130,7 +130,7 @@ function basic_install() {
     ln -sfn $LOCAL/user_conf/zshrc  ~/.zshrc
     git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
     ln -sfn $LOCAL/user_conf/custom.zsh-theme ~/.oh-my-zsh/custom/themes
-    chsh -s /usr/bin/zsh $USER
+    sudo chsh -s /usr/bin/zsh $USER
 
     # vimrc
     git_clone https://github.com/exocen/vim-conf ~/.vim_runtime
@@ -171,16 +171,9 @@ function dev_env_install() {
 function mainScript() {
     echo -n
     info 'Script started'
-
-    if [ `id -u` -ne 0 ]; then
-        error "Must be run as root"
-        exit 1
-    fi
-
     if [ -z "$EDITOR" ]; then
         export EDITOR=nano
     fi
-
     detectOS
     basic_install
     dev_env_install

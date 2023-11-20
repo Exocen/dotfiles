@@ -176,16 +176,16 @@ alias aps='apt search'
 alias apse='apt-cache search -t experimental'
 alias apshow='apt-cache showpkg'
 
-# yay / aur
-alias auri='yay -S'
-alias aurr='yay -Rsu'
-alias auru='yay -Syu'
-alias aurs='yay -Ss'
-alias aurl='yay -Qe'
+# paru / aur
+alias auri='paru -S'
+alias aurr='paru -Rsu'
+alias auru='paru -Syu'
+alias aurs='paru -Ss'
+alias aurl='paru -Qe'
 # Get packages list sorted by declared size
-alias aurls='yay -Qi | awk "/^Name/{name=\$3} /^Installed Size/{print \$4\$5, name}" | sort -h'
+alias aurls='paru -Qi | awk "/^Name/{name=\$3} /^Installed Size/{print \$4\$5, name}" | sort -h'
 # Clean cache + orphan/unneeded packages
-alias aurc='yay -Sc --noconfirm ; yay -Qtdq | yay -Rns --noconfirm - 2>/dev/null ;:'
+alias aurc='paru -Sc --noconfirm ; paru -Qtdq | paru -Rns --noconfirm - 2>/dev/null ;:'
 
 ## Functions
 
