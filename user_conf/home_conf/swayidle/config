@@ -1,3 +1,2 @@
-#timeout 3600 '(pactl list sink-inputs | grep . -q) || echo mem | sudo tee /sys/power/state 1>/dev/null'
-timeout 3600 'swaymsg "output * dpms off"' \
+timeout 3600 '(pactl list sink-inputs | grep . -q) || echo mem |  swaymsg "output * dpms off"' \
 resume 'swaymsg "output * dpms on"'
