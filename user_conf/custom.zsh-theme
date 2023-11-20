@@ -44,11 +44,11 @@ prompt_git() {
     ahead=$(git log --oneline @{upstream}.. 2>/dev/null)
     behind=$(git log --oneline ..@{upstream} 2>/dev/null)
     if [[ -n "$ahead" ]] && [[ -n "$behind" ]]; then
-      PL_BRANCH_CHAR=$'\u21c5'
+      PL_BRANCH_CHAR='⇅'
     elif [[ -n "$ahead" ]]; then
-      PL_BRANCH_CHAR=$'\u21b1'
+      PL_BRANCH_CHAR='↱'
     elif [[ -n "$behind" ]]; then
-      PL_BRANCH_CHAR=$'\u21b0'
+      PL_BRANCH_CHAR=$'↰'
     fi
 
     if [[ -e "${repo_path}/BISECT_LOG" ]]; then
