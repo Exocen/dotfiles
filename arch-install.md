@@ -1,7 +1,8 @@
 # Arch install with live key guide
 
 From <https://wiki.archlinux.org/title/Installation_guide>
-Doesn't work with secure boot
+
+Does not work with secure boot
 
 ## Live key
 
@@ -27,6 +28,8 @@ iwctl station $device connect SSID
 ### No lvm or encrypt
 
 `archinstall`
+
+Go to `First Boot`
 
 ### Partitioning the hard disk
 
