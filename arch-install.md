@@ -25,7 +25,7 @@ iwctl device list
 iwctl station $device connect SSID
 ```
 
-If no need for lvm or encrypt just run `archinstall` and go to **First Boot**
+If no need for lvm or encrypt, run `archinstall` and go to **First Boot**
 
 ### Partitioning the hard disk
 
@@ -35,18 +35,22 @@ cfdisk /dev/sdX
 ```
 #### Crypt
 
-`modprobe dm-crypt`
-`cryptsetup luksFormat /dev/lvm_disk`
-`cryptsetup open --type luks /dev/lvm_disk cryptlvm`
+```bash
+modprobe dm-crypt
+cryptsetup luksFormat /dev/lvm_disk
+cryptsetup open --type luks /dev/lvm_disk cryptlvm
+```
 
 #### LVM
 
-`pvcreate /dev/sdXx`
-`vgcreate lvm /dev/sdXx`
+```bash
+pvcreate /dev/sdXx
+vgcreate lvm /dev/sdXx
+```
 
 Create logical volumes, for a basic setup we'd need one for root, swap and home.
 
-```
+```bash
 lvcreate -L 30G lvm -n root
 lvcreate -L 8G lvm -n swap
 lvcreate -l 100%FREE lvm -n home
@@ -99,7 +103,7 @@ Install the base packages using _pacstrap_:
 genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
-#### Change root:
+#### Log to partition:
 
 `arch-chroot /mnt`
 
@@ -120,14 +124,14 @@ Install systemd-boot to the EFI system partition:
 
 `bootctl install`
 
-```
+```bash
 /boot/loader/loader.conf
 default arch
 timeout 4
 editor 0
 ```
 
-```
+```bash
 /boot/loader/entries/arch.conf
 title	Arch
 linux	/vmlinuz-linux
@@ -141,7 +145,7 @@ options	UUID={UUID}:lvm2 root=/dev/lvm/root rw
 
 #### Windows Dual-Boot
 
-```
+```bash
 cp -r /sdX/EFI/Microsoft /boot/EFI/Microsoft
 bootctl list
 bootctl update
@@ -155,7 +159,7 @@ Set the root password with:
 
 ### Unmount the partitions and reboot
 
-```
+```bash
 exit
 umount -R /mnt
 reboot
@@ -167,7 +171,7 @@ reboot
 
 #### Set Config
 
-```
+```bash
 dotfiles/install.sh
 hostnamectl hostname {}
 timedatectl set-ntp 1
@@ -180,7 +184,7 @@ ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
 #### Network
 
-```
+```bash
 wifi-menu
 netctl list | enable | start
 ```
