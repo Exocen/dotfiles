@@ -1,14 +1,17 @@
-https://wiki.archlinux.org/title/Installation_guide
+# Arch install with live key guide
 
-### Live key
+From <https://wiki.archlinux.org/title/Installation_guide>
+Doesn't work with secure boot
 
-#### Linux
+## Live key
+
+### Linux
 
 `dd bs=4M if=path/to/archlinux-version-x86_64.iso of=/dev/sdx conv=fsync oflag=direct status=progress`
 
-#### Windows
+### Windows
 
-`Rufus`
+`Ventoy`
 
 ---
 
@@ -20,6 +23,10 @@ https://wiki.archlinux.org/title/Installation_guide
 iwctl device list
 iwctl station $device connect SSID
 ```
+
+### No lvm or encrypt
+
+`archinstall`
 
 ### Partitioning the hard disk
 
@@ -115,19 +122,20 @@ Install systemd-boot to the EFI system partition:
 `bootctl install`
 
 ```
-/boot/loader.conf
+/boot/loader/loader.conf
 default arch
 timeout 4
 editor 0
 ```
 
 ```
-/boot/loader/arch.conf
+/boot/loader/entries/arch.conf
 title	Arch
 linux	/vmlinuz-linux
 initrd	/initramfs-linux.img
 # initrd  /intel|amd-ucode.img
 options	UUID={UUID}:lvm2 root=/dev/lvm/root rw
+# {UUID}=lwqlkdnwlkwndlqkwn << `blkid`
 # options cryptdevice=UUID={UUID}:cryptlvm root=/dev/volume/root quiet rw
 
 ```
@@ -135,7 +143,7 @@ options	UUID={UUID}:lvm2 root=/dev/lvm/root rw
 #### Windows Dual-Boot
 
 ```
-cp -r /mnt/EFI/Microsoft /boot/EFI/Microsoft
+cp -r /sdX/EFI/Microsoft /boot/EFI/Microsoft
 bootctl list
 bootctl update
 ```
@@ -161,11 +169,13 @@ reboot
 #### Set Config
 
 ```
+dotfiles/install.sh
 hostnamectl hostname {}
 timedatectl set-ntp 1
 timedatectl set-timezone {}
-localectl set-locale en_US.UTF-8
+edit /etc/locale.gen -> `locale-gen`
 systemctl enable systemd-resoled.service
+ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
 ```
 
