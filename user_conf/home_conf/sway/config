@@ -37,7 +37,7 @@ exec mpvpaper -o "no-audio --loop-playlist" DP-2 ~/.config/wallpapers/screen2.mk
 
 
 # Idle stuff
-#exec swayidle
+exec swayidle
 
 # Hide cursor
 seat seat0 hide_cursor 5000
