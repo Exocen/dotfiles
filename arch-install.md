@@ -25,11 +25,7 @@ iwctl device list
 iwctl station $device connect SSID
 ```
 
-### No lvm or encrypt
-
-`archinstall`
-
-Go to `First Boot`
+If no need for lvm or encrypt just run `archinstall` and go to **First Boot**
 
 ### Partitioning the hard disk
 
