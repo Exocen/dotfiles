@@ -1,2 +1,1 @@
-timeout 3600 '(pactl list sink-inputs | grep . -q) || echo mem |  swaymsg "output * dpms off"' \
-resume 'swaymsg "output * dpms on"'
+timeout 1800 '(pactl list sink-inputs | grep . -q || swaymsg "output * dpms off")' resume 'swaymsg "output * dpms on"'
