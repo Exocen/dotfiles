@@ -32,9 +32,6 @@ assign [title="Steam"] 9
 exec swaync
 
 # Background
-exec mpvpaper -o "no-audio --loop-playlist" DP-1 ~/.config/wallpapers/screen1.mkv
-exec mpvpaper -o "no-audio --loop-playlist" DP-2 ~/.config/wallpapers/screen2.mkv
-
 
 # Idle stuff
 exec swayidle
