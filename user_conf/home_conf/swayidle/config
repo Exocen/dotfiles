@@ -1,1 +1,1 @@
-timeout 1800 '(pactl list sink-inputs | grep . -q || swaymsg "output * dpms off")' resume 'swaymsg "output * dpms on"'
+timeout 1800 '(pgrep vlc 1>/dev/null || swaymsg "output * dpms off")' resume 'swaymsg "output * dpms on"'
