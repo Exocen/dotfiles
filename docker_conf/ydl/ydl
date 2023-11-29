@@ -19,16 +19,14 @@ from urllib.request import urlopen
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger('YDL')
 tmp_dir = "/var/tmp"
-audio_format = "mp3"
-video_format = "mkv"
 post_dl_cooldown = 15
 loop_cooldown = 600
 docker_data_path = "/ydl/"
 params_location = path.join(docker_data_path, "ydl_param.csv")
-DEFAULT_USAGE = f"multiline csv file usage -> output_dir (can use host:/), playlist_id, audio_transform(true/false) to {params_location}"
+DEFAULT_USAGE = f"multiline csv file usage -> output_dir (can use host:/), playlist_id, file_format(mp4,mkv,mp3) to {params_location}"
 safe_fail_count = 2
 retry_counter_max = 2
-
+FORMATS = ["mp4","mkv","mp3"]
 
 class CmdException(Exception):
     pass
@@ -56,7 +54,7 @@ class Main:
         self.retry_counter = 0
         self.loop = True
         self.last_dl_file = None
-        self.audio_transform = None
+        self.file_format = None
 
     def get_title_list(self, file_path):
         log.debug(f"getting titles from {file_path}")
@@ -94,25 +92,24 @@ class Main:
     def file_hook(self, d):
         if d['status'] == 'finished':
             filename = self.get_filename_without_ext(path.basename(d['filename']))
-            if self.audio_transform:
-                self.last_dl_file = filename + '.' + audio_format
-            else:
-                self.last_dl_file = filename + '.' + video_format
+                self.last_dl_file = filename + '.' + self.file_format
             log.debug(self.last_dl_file)
 
     def gen_ydl_options(self, tmpdirname):
         opts = {
-            "quiet": True,
-            "logger": YDL_Logger,
-            "progress_hooks": [self.file_hook],
-            "outtmpl": tmpdirname + "/%(title)s.",
-        }
-        if self.audio_transform:
-            opts.update({"postprocessors": [{"key": "FFmpegExtractAudio", "preferredcodec": audio_format, }],
+                "quiet": True,
+                "logger": YDL_Logger,
+                "progress_hooks": [self.file_hook],
+                "outtmpl": tmpdirname + "/%(title)s.",
+                }
+        if self.file_format == "mp3":
+            opts.update({"postprocessors": [{"key": "FFmpegExtractAudio", "preferredcodec": "mp3", }],
                          "extractaudio": True,
                          "format": "bestaudio/best", })
-        else:
-            opts.update({"recode-video": video_format})
+        elif self.file_format == "mp4":
+            opts.update({"format": "bestvideo[height<=?1080]+bestaudio/best", "recode-video": "mp4"})
+        elif self.file_format == "mkv":
+            opts.update({"recode-video": "mkv"})
         return opts
 
     def connection_error(self, dl_error):
@@ -154,7 +151,7 @@ class Main:
             raise Exception(f"Too many files: {filenames}")
         filepath = path.join(tmpdirname, filenames[0])
         # if artist and audio -> use id3 tags
-        if self.audio_transform and audio_data.artist is not None:
+        if self.file_format and audio_data.artist is not None:
             try:
                 meta = EasyID3(filepath)
             except mutagen.id3.ID3NoHeaderError:
@@ -206,8 +203,8 @@ class Main:
 
         done_list = list(filter(lambda a: a in [b.title for b in audio_data_list], existing_title_list))
         audio_data_list = list(
-            filter(lambda a: a.title not in existing_title_list,
-                   audio_data_list))
+                filter(lambda a: a.title not in existing_title_list,
+                       audio_data_list))
 
         # Dl and tag
         if audio_data_list:
@@ -231,18 +228,16 @@ class Main:
                 return
 
         # Keep infos for next loop
-        elif (len(existing_title_list) != len(done_list)):
-            self.write_title_list(file_list_path, done_list)
+    elif (len(existing_title_list) != len(done_list)):
+        self.write_title_list(file_list_path, done_list)
         self.retry_counter = 0
         self.last_video_count[self.playlist_id] = video_count
 
     def set_params(self, params):
         self.playlist_path_location = params[0]
         self.playlist_id = params[1]
-        if params[2].lower() == 'true':
-            self.audio_transform = True
-        elif params[2].lower() == 'false':
-            self.audio_transform = False
+        if params[2].lower() in FORMATS:
+            self.file_format = params[2].lower()
         else:
             raise Exception(DEFAULT_USAGE)
 
