@@ -92,7 +92,7 @@ class Main:
     def file_hook(self, d):
         if d['status'] == 'finished':
             filename = self.get_filename_without_ext(path.basename(d['filename']))
-                self.last_dl_file = filename + '.' + self.file_format
+            self.last_dl_file = filename + '.' + self.file_format
             log.debug(self.last_dl_file)
 
     def gen_ydl_options(self, tmpdirname):
