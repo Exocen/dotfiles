@@ -1,3 +1,13 @@
 # ~/.ssh/config
-Host github.com
-    IdentityFile ~/.ssh/github
+# use with /etc/hosts
+
+ConnectTimeout 10
+ServerAliveInterval 10
+
+Host gitsample.com
+    IdentityFile ~/.ssh/gitsample
+
+Host hostsample.net
+    Port 76
+    User bob
+    IdentityFile ~/.ssh/host
