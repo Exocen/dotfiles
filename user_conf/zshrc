@@ -185,7 +185,7 @@ alias aurl='paru -Qe'
 # Get packages list sorted by declared size
 alias aurls='paru -Qi | awk "/^Name/{name=\$3} /^Installed Size/{print \$4\$5, name}" | sort -h'
 # Clean cache + orphan/unneeded packages
-alias aurc='paru -Sc --noconfirm ; paru -Qtdq | paru -Rns --noconfirm - 2>/dev/null ;:'
+alias aurc='paru -Sccd --noconfirm ; paru -Qtdq | paru -Rns --noconfirm - 2>/dev/null ;:'
 
 ## Functions
 
