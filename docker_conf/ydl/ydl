@@ -17,7 +17,7 @@ from tempfile import TemporaryDirectory
 from urllib.request import urlopen
 
 logging.basicConfig(level=logging.DEBUG)
-log = logging.getLogger('YDL')
+log = logging.getLogger("YDL")
 tmp_dir = "/var/tmp"
 post_dl_cooldown = 15
 loop_cooldown = 600
@@ -26,7 +26,8 @@ params_location = path.join(docker_data_path, "ydl_param.csv")
 DEFAULT_USAGE = f"multiline csv file usage -> output_dir (can use host:/), playlist_id, file_format(mp4,mkv,mp3) to {params_location}"
 safe_fail_count = 2
 retry_counter_max = 2
-FORMATS = ["mp4","mkv","mp3"]
+FORMATS = ["mp4", "mkv", "mp3"]
+
 
 class CmdException(Exception):
     pass
@@ -44,13 +45,12 @@ class YDL_Logger:
 
 
 class Main:
-
     def __init__(self):
         self.playlist_id = None
         self.playlist_path_location = None
         self.params_list = self.get_param_list()
         self.last_video_count = {param[1]: 0 for param in self.params_list}
-        log.debug(f'Using new parameters -> {self.params_list}')
+        log.debug(f"Using new parameters -> {self.params_list}")
         self.retry_counter = 0
         self.loop = True
         self.last_dl_file = None
@@ -74,7 +74,7 @@ class Main:
     def get_param_list(self):
         rows = []
         if path.exists(params_location):
-            with open(params_location, 'r') as csvfile:
+            with open(params_location, "r") as csvfile:
                 csvreader = csv.reader(csvfile)
                 # extracting each data row one by one
                 for row in csvreader:
@@ -90,24 +90,38 @@ class Main:
             return pre
 
     def file_hook(self, d):
-        if d['status'] == 'finished':
-            filename = self.get_filename_without_ext(path.basename(d['filename']))
-            self.last_dl_file = filename + '.' + self.file_format
+        if d["status"] == "finished":
+            filename = self.get_filename_without_ext(path.basename(d["filename"]))
+            self.last_dl_file = filename + "." + self.file_format
             log.debug(self.last_dl_file)
 
     def gen_ydl_options(self, tmpdirname):
         opts = {
-                "quiet": True,
-                "logger": YDL_Logger,
-                "progress_hooks": [self.file_hook],
-                "outtmpl": tmpdirname + "/%(title)s.",
-                }
+            "quiet": True,
+            "logger": YDL_Logger,
+            "progress_hooks": [self.file_hook],
+            "outtmpl": tmpdirname + "/%(title)s.",
+        }
         if self.file_format == "mp3":
-            opts.update({"postprocessors": [{"key": "FFmpegExtractAudio", "preferredcodec": "mp3", }],
-                         "extractaudio": True,
-                         "format": "bestaudio/best", })
+            opts.update(
+                {
+                    "postprocessors": [
+                        {
+                            "key": "FFmpegExtractAudio",
+                            "preferredcodec": "mp3",
+                        }
+                    ],
+                    "extractaudio": True,
+                    "format": "bestaudio/best",
+                }
+            )
         elif self.file_format == "mp4":
-            opts.update({"format": "bestvideo[height<=?1080]+bestaudio/best", "recode-video": "mp4"})
+            opts.update(
+                {
+                    "format": "bestvideo[height<=?1080]+bestaudio/best",
+                    "recode-video": "mp4",
+                }
+            )
         elif self.file_format == "mkv":
             opts.update({"recode-video": "mkv"})
         return opts
@@ -120,7 +134,9 @@ class Main:
             Main.let_sleep(loop_cooldown, True)
         elif self.retry_counter < retry_counter_max:
             log.debug(dl_error)
-            log.info(f"Vpn reloading, {retry_counter_max - self.retry_counter} tries left")
+            log.info(
+                f"Vpn reloading, {retry_counter_max - self.retry_counter} tries left"
+            )
             Main.let_sleep(loop_cooldown)
         else:
             raise dl_error
@@ -146,7 +162,7 @@ class Main:
         dest_path = path.join(self.playlist_path_location, audio_data.filename)
         # youtube_dl hook doesn't give the right filename post processing
         filenames = listdir(tmpdirname)
-        log.debug(f'files : {filenames}')
+        log.debug(f"files : {filenames}")
         if len(filenames) != 1:
             raise Exception(f"Too many files: {filenames}")
         filepath = path.join(tmpdirname, filenames[0])
@@ -165,11 +181,19 @@ class Main:
 
     def get_video_count(self):
         try:
-            reg_pattern = "playlistBylineRenderer.:{.text.:{.runs.:.{.text.:.(\d*?)\D*?}"
+            reg_pattern = (
+                "playlistBylineRenderer.:{.text.:{.runs.:.{.text.:.(\d*?)\D*?}"
+            )
             url = "https://www.youtube.com/playlist?list=" + self.playlist_id
-            found_str = re.findall(reg_pattern, urlopen(url, timeout=30).read().decode("utf-8"))
-            video_count = found_str[0] if len(found_str) > 0 and len(found_str[0]) != 0 else 0
-            log.debug(f"{video_count} Videos found in {self.playlist_id} (previous: {self.last_video_count[self.playlist_id]})")
+            found_str = re.findall(
+                reg_pattern, urlopen(url, timeout=30).read().decode("utf-8")
+            )
+            video_count = (
+                found_str[0] if len(found_str) > 0 and len(found_str[0]) != 0 else 0
+            )
+            log.debug(
+                f"{video_count} Videos found in {self.playlist_id} (previous: {self.last_video_count[self.playlist_id]})"
+            )
             return video_count
         # check not mandatory, any error : process continue
         except Exception as dl_error:
@@ -177,10 +201,12 @@ class Main:
             return None
 
     def downloader(self):
-
         log.debug("Checking playlist length (urlopen)")
         video_count = self.get_video_count()
-        if video_count is not None and video_count == self.last_video_count[self.playlist_id]:
+        if (
+            video_count is not None
+            and video_count == self.last_video_count[self.playlist_id]
+        ):
             return
 
         log.debug("Checking playlist info (yt_dl)")
@@ -201,10 +227,14 @@ class Main:
 
         existing_title_list = self.get_title_list(file_list_path)
 
-        done_list = list(filter(lambda a: a in [b.title for b in audio_data_list], existing_title_list))
+        done_list = list(
+            filter(
+                lambda a: a in [b.title for b in audio_data_list], existing_title_list
+            )
+        )
         audio_data_list = list(
-                filter(lambda a: a.title not in existing_title_list,
-                       audio_data_list))
+            filter(lambda a: a.title not in existing_title_list, audio_data_list)
+        )
 
         # Dl and tag
         if audio_data_list:
@@ -227,8 +257,8 @@ class Main:
                 self.downloader()
                 return
 
-            # Keep infos for next loop
-        elif (len(existing_title_list) != len(done_list)):
+        # Keep infos for next loop
+        elif len(existing_title_list) != len(done_list):
             self.write_title_list(file_list_path, done_list)
             self.retry_counter = 0
             self.last_video_count[self.playlist_id] = video_count
@@ -243,7 +273,7 @@ class Main:
 
     @staticmethod
     def let_sleep(sleep_time, is_rnd=False):
-        if (is_rnd):
+        if is_rnd:
             sleep_time = sleep_time + randint(0, sleep_time)
         log.debug("Sleeping for " + str(sleep_time) + " second(s)")
         sleep(sleep_time)
@@ -251,17 +281,17 @@ class Main:
     @staticmethod
     def check_ffmpeg():
         try:
-            cmd = ['/usr/bin/ffmpeg', '-version', '1>/dev/null']
+            cmd = ["/usr/bin/ffmpeg", "-version", "1>/dev/null"]
             Main.run_process(cmd)
         except Exception as check_error:
-            log.error(f'ffmpeg error: {check_error}')
+            log.error(f"ffmpeg error: {check_error}")
             exit(1)
 
     def run(self):
         log.info("YDL Starting...")
         Main.check_ffmpeg()
         seed()
-        while (self.loop):
+        while self.loop:
             for params in self.params_list:
                 self.set_params(params)
                 self.downloader()
@@ -269,7 +299,6 @@ class Main:
 
 
 class Audio_data:
-
     def __init__(self, title, pid):
         self.title = title
         self.pid = pid
