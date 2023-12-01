@@ -260,8 +260,8 @@ class Main:
         # Keep infos for next loop
         elif len(existing_title_list) != len(done_list):
             self.write_title_list(file_list_path, done_list)
-            self.retry_counter = 0
-            self.last_video_count[self.playlist_id] = video_count
+        self.retry_counter = 0
+        self.last_video_count[self.playlist_id] = video_count
 
     def set_params(self, params):
         self.playlist_path_location = params[0]
