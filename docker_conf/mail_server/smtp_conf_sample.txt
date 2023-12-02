@@ -1,7 +1,0 @@
-address sample : mail_sample@$DOMAIN
-server : mail.$DOMAIN
-imap tls implicit 992
-smtp tls implicit 464
-normal password SSL/TLS
-require ssl certificate
-dkim : /docker-data/dms/config/opendkim/keys/$DOMAIN/mail.txt
