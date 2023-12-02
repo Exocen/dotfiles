@@ -14,11 +14,6 @@ else
     fi
 fi
 
-# imap tls implicit 992
-# smtp tls implicit 464
-# normal password SSL/TLS
-# dkim : /docker-data/dms/config/opendkim/keys/$DOMAIN/mail.txt
-
 docker run -d --rm --log-driver=journald \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     -v /docker-data/dms/mail-data:/var/mail -v /docker-data/dms/mail-state:/var/mail-state \
