@@ -25,6 +25,6 @@ if [ $RESULT -ne 0 ]; then
 fi
 
 cp -fr /root/nginx.conf /etc/nginx/
-nginx -s reload
 certbot_renew &
+sleep 20
 nginx -g 'daemon off;'
