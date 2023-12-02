@@ -26,5 +26,5 @@ fi
 
 cp -fr /root/nginx.conf /etc/nginx/
 certbot_renew &
-sleep 20
+pkill 'nginx'
 nginx -g 'daemon off;'
