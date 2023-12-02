@@ -9,7 +9,8 @@ else
             echo "No domain supplied"
             exit 1
         else
-            MAIL_DOMAIN=$1
+            MAIL_DOMAIN="mail.$1"
+            echo "Using $MAIL_DOMAIN"
         fi
     fi
 fi
