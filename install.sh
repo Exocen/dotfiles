@@ -2,6 +2,11 @@
 WOS=''
 LOCAL=$(dirname "$(readlink -f "$0")")
 
+sudo () {
+    [[ $EUID = 0 ]] || set -- command sudo "$@"
+    "$@"
+}
+
 function is_working() {
     if [ $? -eq 0 ]; then
         success "$1"
