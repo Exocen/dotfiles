@@ -10,6 +10,10 @@ Does not work with secure boot
 
 `dd bs=4M if=path/to/archlinux-version-x86_64.iso of=/dev/sdx conv=fsync oflag=direct status=progress`
 
+or
+
+`Ventoy`
+
 ### Windows
 
 `Ventoy`
@@ -30,7 +34,7 @@ If no need for lvm or encrypt, run `archinstall` and go to **First Boot**
 ### Partitioning the hard disk
 
 ```bash
-# 2 partitions : 512M boot & 100%FREE filesystem
+# 2 partitions : 256M boot & 100%FREE filesystem
 cfdisk /dev/sdX
 ```
 #### Crypt
@@ -125,14 +129,14 @@ Install systemd-boot to the EFI system partition:
 `bootctl install`
 
 ```bash
-/boot/loader/loader.conf
+#/boot/loader/loader.conf
 default arch
 timeout 4
 editor 0
 ```
 
 ```bash
-/boot/loader/entries/arch.conf
+#/boot/loader/entries/arch.conf
 title	Arch
 linux	/vmlinuz-linux
 initrd	/initramfs-linux.img
@@ -186,5 +190,5 @@ ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
 ```bash
 wifi-menu
-netctl list | enable | start
+netctl list | start | enable
 ```
