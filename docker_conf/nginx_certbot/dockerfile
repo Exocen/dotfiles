@@ -13,6 +13,6 @@ RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
 RUN chmod +x docker-entrypoint.sh
 RUN chmod +x healthcheck.sh
 
-HEALTHCHECK CMD ./healthcheck.sh
+HEALTHCHECK --interval=1h CMD ./healthcheck.sh
 
 ENTRYPOINT ["/root/docker-entrypoint.sh"]
