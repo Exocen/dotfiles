@@ -146,7 +146,7 @@ function basic_install() {
 }
 
 function dev_env_install() {
-    if [ "$WOS" = "arch" ]; then
+    if [ "$WOS" = "arch" ] && [ $EUID != 0 ]; then
         seek_confirmation 'Install Dev Env ?'
         if is_confirmed; then
             {
