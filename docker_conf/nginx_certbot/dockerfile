@@ -8,7 +8,7 @@ RUN apk add certbot certbot-nginx bash
 RUN mkdir -p /etc/letsencrypt
 
 WORKDIR /root/
-COPY docker-entrypoint.sh nginx.conf healthcheck.sh /root/
+COPY docker-entrypoint.sh fifo-nginx.conf nginx.conf healthcheck.sh /root/
 RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
 RUN chmod +x docker-entrypoint.sh
 RUN chmod +x healthcheck.sh

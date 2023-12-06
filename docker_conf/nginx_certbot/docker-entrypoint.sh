@@ -13,6 +13,7 @@ mkdir -p /var/log/nginx
 mkdir -p /var/log/letsencrypt
 mkdir -p $LOG_DIR
 
+cp -fr /root/fifo-nginx.conf /etc/nginx/nginx.conf
 /usr/bin/certbot certificates | grep '[DOMAIN]\|*.[DOMAIN]' &>/dev/null
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
