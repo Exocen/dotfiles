@@ -81,5 +81,4 @@ fi
 }
 
 export LSCOLORS="exfxcxdxbxegedabagacad"
-export LS_COLORS='di=1;94:ln=95:so=32:pi=33:ex=92:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:or=31'
 export GREP_COLORS='mt=1;33'
