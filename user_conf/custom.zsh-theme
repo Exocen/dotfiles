@@ -79,6 +79,3 @@ if [[ "$(git rev-parse --is-inside-work-tree 2>/dev/null)" = "true" ]]; then
     echo -n "${${ref:gs/%/%%}/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }${mode}%{$reset_color%} "
 fi
 }
-
-export LSCOLORS="exfxcxdxbxegedabagacad"
-export GREP_COLORS='mt=1;33'
