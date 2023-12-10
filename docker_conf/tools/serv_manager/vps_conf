@@ -1,9 +1,4 @@
 export FAIL_MAIL="change@me.com"
-export BACKUP_FAIL_MAIL="change@me.com"
-#TODO create user + generate pass
-export MAIL_PASS="pass"
-export BACKUP_MAIL_PASS="pass"
-
 export CONTAINERS="nginx_certbot mail_server vaultwarden gitea snappymail"
 export DOMAIN="domain.com"
 export MAIL_DOMAIN="mail.domain.com"
