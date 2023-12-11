@@ -5,7 +5,7 @@ defaults
 auth on
 tls on
 tls_starttls off
-port 465
+port 464
 logfile ~/.msmtp.log
 
 account main
