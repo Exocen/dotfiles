@@ -20,7 +20,7 @@ inspect() {
         echo "$1 is not running"
         return 1
     fi
-    if docker inspect $1 | grep -P "unhealthy" &>/dev/null
+    if docker inspect $1 | grep -P "unhealthy" &>/dev/null ; then
         echo "$1 is unhealthy"
         return 1
     fi
