@@ -16,7 +16,15 @@ safe_exit() {
 }
 
 inspect() {
-    docker inspect -f '{{.State.Status}}' $1 | grep -P "^running$" &>/dev/null && ! docker inspect $1 | grep -P "unhealthy" &>/dev/null
+    if ! docker inspect -f '{{.State.Status}}' $1 | grep -P "^running$" &>/dev/null ; then
+        echo "$1 is not running"
+        return 1
+    fi
+    if docker inspect $1 | grep -P "unhealthy" &>/dev/null
+        echo "$1 is unhealthy"
+        return 1
+    fi
+    return 0
 }
 
 send_mail() {
