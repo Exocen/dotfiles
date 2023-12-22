@@ -6,10 +6,19 @@
 html { color-scheme: light dark; }
 body { width: 35em; margin: 0 auto;
     font-family: Tahoma, Verdana, Arial, sans-serif; }
+
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
         </style>
     </head>
     <body>
-        <table>
+        <table class=center>
             <tr><th>Main</th><th><a href="https://[DOMAIN]/">[DOMAIN]</a></th></tr>
             <tr><th>Git</th><th><a href="https://git.[DOMAIN]/">git.[DOMAIN]</a></th></tr>
             <tr><th>Status</th><th><a href="https://status.[DOMAIN]/">status.[DOMAIN]</a></th></tr>
