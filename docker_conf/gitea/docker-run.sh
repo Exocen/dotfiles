@@ -12,3 +12,13 @@ docker run  \
     --log-driver=journald -e USER_UID=1000 -e USER_GID=1000 \
     -p 22:22 \
     --net user_network --ip 10.0.0.81 gitea/gitea && echo "gitea started."
+
+# /docker-data/gitea/gitea/conf/app.ini
+## allow push to create
+# Repository
+#   ENABLE_PUSH_CREATE_ORG = true
+## disable http auth (allow ssh)
+# Service
+#   ENABLE_BASIC_AUTHENTICATION = false
+# Server
+#   SSH_PORT = 2222

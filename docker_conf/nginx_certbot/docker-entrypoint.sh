@@ -26,7 +26,7 @@ if [ $RESULT -ne 0 ]; then
 fi
 
 cp -fr /root/nginx.conf /etc/nginx/
-cp -fr /root/main /root/status /usr/share/nginx/
+cp -nr /root/main /root/status /usr/share/nginx/
 certbot_renew &
 pkill 'nginx'
 nginx -g 'daemon off;'
