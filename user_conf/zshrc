@@ -178,9 +178,9 @@ alias apse='apt-cache search -t experimental'
 alias apshow='apt-cache showpkg'
 
 # paru / aur
-alias auri='paru -S'
+alias auri='paru -S --skipreview'
 alias aurr='paru -Rsu'
-alias auru='paru -Syu'
+alias auru='paru -Syu --skipreview'
 alias aurs='paru -Ss'
 alias aurl='paru -Qe'
 # Get packages list sorted by declared size
