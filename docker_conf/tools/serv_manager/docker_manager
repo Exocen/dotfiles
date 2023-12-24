@@ -3,7 +3,7 @@
 
 LOCKFILE="/var/run/$(basename "$0").lock"
 INTERVAL="15m"
-MAX_FAIL_SCORE=2
+MAX_FAIL_SCORE=3
 LOCAL_DIR=$(dirname "$(readlink -f "$0")")
 USAGE="USAGE: $(basename "$0") start|stop|reload conf_file."
 
@@ -16,18 +16,18 @@ safe_exit() {
 }
 
 inspect() {
-    if ! docker inspect -f '{{.State.Status}}' $1 2>/dev/null | grep -P "^running$" &>/dev/null ; then
+    if ! docker inspect -f '{{.State.Status}}' $1 2>/dev/null | grep -P "^running$" &>/dev/null; then
         return 1
     fi
-    if docker inspect $1 2>/dev/null | grep -P "unhealthy" &>/dev/null ; then
+    if docker inspect $1 2>/dev/null | grep -P "unhealthy" &>/dev/null; then
         return 1
     fi
     return 0
 }
 
 send_mail() {
-    local message=`journalctl -b CONTAINER_NAME=$1 | tail`
-    local message2=`journalctl -b CONTAINER_NAME=docker_manager | tail`
+    local message=$(journalctl -b CONTAINER_NAME=$1 | tail)
+    local message2=$(journalctl -b -u docker_manager | tail)
     echo -e "Subject:$1 Failure $2\n$message\n$message2" | msmtp $FAIL_MAIL && echo "Mail sended to $FAIL_MAIL."
 }
 
@@ -35,8 +35,8 @@ refresh_score() {
     # $1 cont name / $2 score
     if inspect $1; then
         echo 0
-    elif [ $2 -lt $MAX_FAIL_SCORE ] ; then
-        echo $(( $2 + 1 ))
+    elif [ $2 -lt $MAX_FAIL_SCORE ]; then
+        echo $(($2 + 1))
     else
         echo $2
     fi
@@ -48,7 +48,7 @@ kill_handler() {
 
 terminator() {
     kill -9 $1 1>/dev/null
-    [ -f "$LOCKFILE" ] && ps -p $(cat "$LOCKFILE") > /dev/null && echo "Can't kill $1, exiting." && exit 1
+    [ -f "$LOCKFILE" ] && ps -p $(cat "$LOCKFILE") >/dev/null && echo "Can't kill $1, exiting." && exit 1
 }
 
 error_handler() {
@@ -70,7 +70,10 @@ check_loop() {
     while true; do
         sleep $INTERVAL
         for cont in $CONTAINERS; do
-            local TMP=`refresh_score "$cont" ${CONTAINERS_FAIL[$cont]}`
+            # if check pass : TMP / reset to 0
+            # if not maxfailscore : TMP / increment fail value -> will try to repair
+            # if maxfailscore : TMP / same value -> no repair
+            local TMP=$(refresh_score "$cont" ${CONTAINERS_FAIL[$cont]})
             [ $TMP -gt ${CONTAINERS_FAIL[$cont]} ] && error_handler "$cont" $TMP
             CONTAINERS_FAIL[$cont]=$TMP
         done
@@ -105,14 +108,14 @@ reload() {
 }
 
 boot_check() {
-    [ `id -u` -ne 0 ] && echo "Must be run as root." && exit 1
-    if ! msmtp --version &>/dev/null ; then
+    [ $(id -u) -ne 0 ] && echo "Must be run as root." && exit 1
+    if ! msmtp --version &>/dev/null; then
         echo "msmtp not found, exiting."
         exit 1
     fi
     [ "$#" -ne 2 ] && echo "$USAGE" && exit 1
-    [ -f "$LOCKFILE" ] && ps -p $(cat "$LOCKFILE") > /dev/null && echo "$(basename "$0") is already running, restarting." && terminator $(cat "$LOCKFILE")
-    echo $$ > "$LOCKFILE"
+    [ -f "$LOCKFILE" ] && ps -p $(cat "$LOCKFILE") >/dev/null && echo "$(basename "$0") is already running, restarting." && terminator $(cat "$LOCKFILE")
+    echo $$ >"$LOCKFILE"
 }
 
 main() {
@@ -120,10 +123,10 @@ main() {
     source $2
     build_container_fails
     case $1 in
-        start)  start;;
-        reload) reload;;
-        stop) stop;;
-        * ) echo "$USAGE";;
+    start) start ;;
+    reload) reload ;;
+    stop) stop ;;
+    *) echo "$USAGE" ;;
     esac
 }
 
