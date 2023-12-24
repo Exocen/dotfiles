@@ -34,7 +34,7 @@ refresh_score() {
     # $1 cont name / $2 score
     if inspect $1; then
         echo 0
-    elif [ $2 -lt $MAX_FAIL_SCORE ] ; then
+    elif [ $2 -le $MAX_FAIL_SCORE ] ; then
         echo $(( $2 + 1 ))
     else
         echo $2
@@ -70,7 +70,7 @@ check_loop() {
         sleep $INTERVAL
         for cont in $CONTAINERS; do
             local TMP=`refresh_score "$cont" ${CONTAINERS_FAIL[$cont]}`
-            [ $TMP -gt ${CONTAINERS_FAIL[$cont]} ] && error_handler "$cont" $TMP
+            [ $TMP -ge ${CONTAINERS_FAIL[$cont]} ] && error_handler "$cont" $TMP
             CONTAINERS_FAIL[$cont]=$TMP
         done
     done
