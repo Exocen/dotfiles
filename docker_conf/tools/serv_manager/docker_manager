@@ -16,10 +16,10 @@ safe_exit() {
 }
 
 inspect() {
-    if ! docker inspect -f '{{.State.Status}}' $1 | grep -P "^running$" &>/dev/null ; then
+    if ! docker inspect -f '{{.State.Status}}' $1 2>/dev/null | grep -P "^running$" &>/dev/null ; then
         return 1
     fi
-    if docker inspect $1 | grep -P "unhealthy" &>/dev/null ; then
+    if docker inspect $1 2>/dev/null | grep -P "unhealthy" &>/dev/null ; then
         return 1
     fi
     return 0
