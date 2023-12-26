@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if [ `id -u` -ne 0 ]; then
+if [ $(id -u) -ne 0 ]; then
     echo "Must be run as root"
     exit 1
 fi
 
-if [ -z ${VPN_KEY+x} ] ; then
+if [ -z ${VPN_KEY+x} ]; then
     if [ -z "$1" ]; then
         echo "No key supplied"
         exit 1
@@ -16,7 +16,10 @@ fi
 
 docker run -d --rm --cap-add=NET_ADMIN --name gluetun --log-driver=journald -e VPN_SERVICE_PROVIDER=mullvad -e VPN_TYPE=openvpn \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
-    -p 9091:9091 -p 51413:51413 -p 51413:51413/udp \
+    -p 8112:8112 \
+    -p 6881:6881 \
+    -p 6881:6881/udp \
+    -p 58846:58846 \
     -e SERVER_COUNTRIES="USA" -e OPENVPN_USER=$VPN_KEY qmcgaw/gluetun && echo "gluetun started."
 
 # Optional environment variables
@@ -31,4 +34,3 @@ docker run -d --rm --cap-add=NET_ADMIN --name gluetun --log-driver=journald -e V
 #        For UDP: 53, 1194, 1195, 1196, 1197, 1300, 1301, 1302, 1303 or 1400
 #        It defaults to 443 for TCP and 1194 for UDP
 #  -e  VPN_ENDPOINT_PORT: Custom Wireguard server endpoint port to use
-
