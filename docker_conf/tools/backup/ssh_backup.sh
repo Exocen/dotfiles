@@ -1,9 +1,8 @@
 #!/bin/bash
 HOST=$1
-BACKUP_PREFFIX=docker-backup
-OUTPUT=$BACKUP_PREFFIX-`date +"%s"`.tgz
-BACKUP_DIR=$HOME/backup-$HOST
-MAX_BACKUP=10
+OUTPUT=$HOST-`date +"%s"`.tgz
+BACKUP_DIR=$HOME/docker-backup/$HOST
+MAX_BACKUP=20
 
 rotate_backup() {
     mkdir -p $BACKUP_DIR
