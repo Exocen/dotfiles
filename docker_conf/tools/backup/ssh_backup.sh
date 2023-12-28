@@ -7,13 +7,14 @@ MAX_BACKUP=10
 
 rotate_backup() {
     mkdir -p $BACKUP_DIR
-    if [ `ls -rta $BACKUP_DIR | wc -l` -gt $MAX_BACKUP ] ; then
+    if [ `ls -rta $BACKUP_DIR | wc -l` -ge $MAX_BACKUP ] ; then
         cd $BACKUP_DIR
         rm -- "$(ls -rta $BACKUP_DIR | head -1)"
         rotate_backup
     fi
 }
 
+rotate_backup
 ssh $HOST "cd / && tar cz docker-data" > $BACKUP_DIR/$OUTPUT
 if [ $? -eq 0 ]; then
     echo "Backup $OUTPUT created"
@@ -22,4 +23,3 @@ else
     echo "Backup from $HOST failed"
     exit 1
 fi
-rotate_backup
