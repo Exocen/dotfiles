@@ -1,7 +1,7 @@
 #!/bin/bash
 HOST=$1
 BACKUP_PREFFIX=docker-backup
-OUTPUT=$BACKUP_PREFFIX-`date +"%Y-%m-%d"`.tgz
+OUTPUT=$BACKUP_PREFFIX-`date +"%s"`.tgz
 BACKUP_DIR=$HOME/backup-$HOST
 MAX_BACKUP=10
 
