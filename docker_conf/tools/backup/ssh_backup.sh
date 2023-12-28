@@ -7,10 +7,9 @@ MAX_BACKUP=10
 
 rotate_backup() {
     mkdir -p $BACKUP_DIR
-    if [ `ls -rta $BACKUP_DIR | wc -l` -ge $MAX_BACKUP ] ; then
+    if [ `ls -rt $BACKUP_DIR | wc -l` -ge $MAX_BACKUP ] ; then
         cd $BACKUP_DIR
-        rm -- "$(ls -rta $BACKUP_DIR | head -1)"
-        rotate_backup
+        rm -- "$(ls -rt $BACKUP_DIR | head -1)" && rotate_backup
     fi
 }
 
