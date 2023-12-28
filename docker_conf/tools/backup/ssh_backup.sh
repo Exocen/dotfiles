@@ -1,7 +1,8 @@
 #!/bin/bash
+# USAGE $1=Host $2=output_dir
 HOST=$1
 OUTPUT=$HOST-`date +"%s"`.tgz
-BACKUP_DIR=$HOME/docker-backup/$HOST
+BACKUP_DIR=$2/docker-backup/$HOST
 MAX_BACKUP=20
 
 rotate_backup() {
