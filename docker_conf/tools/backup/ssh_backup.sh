@@ -1,8 +1,17 @@
 #!/bin/bash
 HOST=$1
-OUTPUT=$HOST-docker-backup.tgz
+BACKUP_PREFFIX=docker-backup
+OUTPUT=$BACKUP_PREFFIX-`date +"%Y-%m-%d"`.tgz
+BACKUP_DIR=$HOME/backup-$HOST
+MAX_BACKUP=10
 
-ssh $HOST "cd / && tar cz docker-data" > $OUTPUT
+mkdir -p $BACKUP_DIR
+backup_to_remove_count=$((`ls -rta $BACKUP_DIR/$BACKUP_PREFFIX* | wc -l` - $MAX_BACKUP))
+if [ $backup_to_remove_count -gt 0 ] ; then
+    rm -- "$(ls -rta $BACKUP_DIR/$BACKUP_PREFFIX* | head -$backup_to_remove_count)"
+fi
+
+ssh $HOST "cd / && tar cz docker-data" > $BACKUP_DIR/$OUTPUT
 if [ $? -eq 0 ]; then
     echo "Backup $OUTPUT created"
     exit 0
