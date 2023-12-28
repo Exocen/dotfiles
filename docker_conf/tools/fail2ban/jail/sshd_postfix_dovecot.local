@@ -21,7 +21,7 @@ chain = DOCKER-USER
 filter   = postfix[mode=rbl]
 port     = smtp,465,submission
 backend = systemd
-maxretry = 1
+maxretry = 3
 
 [dovecot]
 enabled = true
