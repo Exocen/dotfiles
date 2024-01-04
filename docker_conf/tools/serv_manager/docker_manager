@@ -89,7 +89,7 @@ docker_start() {
 
 docker_stop() {
     for cont in $CONTAINERS; do
-        docker stop $cont 1>/dev/null && echo "$cont stopped."
+        docker stop $cont 1>/dev/null && docker wait $cont 1>/dev/null && echo "$cont stopped."
     done
 }
 
