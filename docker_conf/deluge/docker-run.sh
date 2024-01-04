@@ -20,5 +20,5 @@ docker run -d --rm --log-driver=journald \
     -v /docker-data/deluge/:/config \
     -v $DELUGE_DL_PATH:/downloads \
     --health-cmd="curl --silent --fail 1.1.1.1 || exit 1" \
-    --health-start-period=60s \
+    --health-start-period=5m \
     lscr.io/linuxserver/deluge:latest && echo "deluge started."
