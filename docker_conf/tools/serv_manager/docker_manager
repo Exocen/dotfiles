@@ -28,7 +28,7 @@ inspect() {
 send_mail() {
     local message=$(journalctl -b CONTAINER_NAME=$1 | tail)
     local message2=$(journalctl -b -u docker_manager | tail)
-    echo -e "Subject:$1 Failure $2\n$message\n$message2" | msmtp $FAIL_MAIL && echo "Mail sended to $FAIL_MAIL."
+    echo -e "Subject:$1 Failure $2\n$message\n\n$message2" | msmtp $FAIL_MAIL && echo "Mail sended to $FAIL_MAIL."
 }
 
 refresh_score() {
