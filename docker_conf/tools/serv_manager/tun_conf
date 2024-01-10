@@ -1,6 +1,7 @@
 export FAIL_MAIL="change@me.com"
-export CONTAINERS="gluetun ydl filebrowser transmission"
+export CONTAINERS="gluetun ydl filebrowser transmission syncthing"
 export VPN_KEY=""
 export YDL_MUSIC_PATH=""
 export DELUGE_DL_PATH=""
 export FILEBROWSER_PATH=""
+export SYNCTHING_PATH=""
