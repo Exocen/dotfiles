@@ -21,9 +21,6 @@ else
     docker build -t ydl_img .
 fi
 
-# Reloading vpn
-docker restart gluetun &>/dev/null && sleep 1m
-
 docker run \
     --log-driver=journald --rm \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
