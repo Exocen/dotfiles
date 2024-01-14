@@ -19,4 +19,6 @@ docker run -d --rm --log-driver=journald \
     --network=container:gluetun \
     -v /docker-data/transmission/config/:/config \
     -v $TRANSMISSION_DL_PATH:/downloads \
+    --health-cmd="curl --silent --fail 1.1.1.1 1>/dev/null && curl --silent --fail localhost:9091 1>/dev/null || exit 1" \
+    --health-start-period=5m \
     lscr.io/linuxserver/transmission:latest && echo "transmission started."
