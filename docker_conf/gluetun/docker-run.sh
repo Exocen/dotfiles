@@ -5,6 +5,8 @@ if [ $(id -u) -ne 0 ]; then
     exit 1
 fi
 
+NEED_TO_SLEEP=false
+
 if [ -z ${VPN_KEY+x} ]; then
     if [ -z "$1" ]; then
         echo "No key supplied"
@@ -12,6 +14,8 @@ if [ -z ${VPN_KEY+x} ]; then
     else
         VPN_KEY=$1
     fi
+else
+    NEED_TO_SLEEP=true
 fi
 
 docker run -d --rm --cap-add=NET_ADMIN --name gluetun --log-driver=journald -e VPN_SERVICE_PROVIDER=mullvad -e VPN_TYPE=openvpn \
@@ -20,6 +24,8 @@ docker run -d --rm --cap-add=NET_ADMIN --name gluetun --log-driver=journald -e V
     -p 51413:51413 \
     -p 51413:51413/udp \
     -e SERVER_COUNTRIES="USA" -e OPENVPN_USER=$VPN_KEY qmcgaw/gluetun && echo "gluetun started."
+
+[ "$NEED_TO_SLEEP" = true ] && sleep 2m
 
 # Optional environment variables
 
