@@ -22,7 +22,7 @@ cd "$(dirname "$(readlink -f "$0")")"
 mkdir -p $DOCKER_PATH
 
 if [ ! -f "$FILEBROWSER_SETTINGS_PATH" ] ; then
-    echo '{\n    "port": 80,\n    "baseURL": "",\n    "address": "",\n    "log": "stdout",\n    "database": "/database.db",\n    "root": "/srv"\n}' > $FILEBROWSER_SETTINGS_PATH
+    echo -en '{\n    "port": 80,\n    "baseURL": "",\n    "address": "",\n    "log": "stdout",\n    "database": "/database.db",\n    "root": "/srv"\n}' > $FILEBROWSER_SETTINGS_PATH
 fi
 
 if [ ! -f "$FILEBROWSER_DB_PATH" ] ; then
