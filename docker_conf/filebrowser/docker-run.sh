@@ -16,10 +16,14 @@ fi
 
 DOCKER_PATH="/docker-data/filebrowser/"
 FILEBROWSER_DB_PATH="$DOCKER_PATH/filebrowser.db"
+FILEBROWSER_SETTINGS_PATH="$DOCKER_PATH/filebrowser.json"
 
 cd "$(dirname "$(readlink -f "$0")")"
 mkdir -p $DOCKER_PATH
 
+if [ ! -f "$FILEBROWSER_SETTINGS_PATH"] ; then
+    echo '{\n    "port": 80,\n    "baseURL": "",\n    "address": "",\n    "log": "stdout",\n    "database": "/database.db",\n    "root": "/srv"\n}' > $FILEBROWSER_SETTINGS_PATH
+fi
 
 if [ ! -f "$FILEBROWSER_DB_PATH" ] ; then
     touch $FILEBROWSER_DB_PATH
@@ -30,7 +34,7 @@ docker run \
     --name filebrowser --log-driver=journald --rm -d \
     -e FB_NOAUTH=noauth \
     -v $FILEBROWSER_DB_PATH:/database.db \
-    -v $DOCKER_PATH/.filebrowser.json:/.filebrowser.json \
+    -v $FILEBROWSER_SETTINGS_PATH:/.filebrowser.json \
     -v $FILEBROWSER_PATH:/srv \
     -u 1000:1000 \
     -p 80:80 \
