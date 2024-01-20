@@ -29,5 +29,5 @@ docker run \
     -v $filebrowser_settings_path:/.filebrowser.json \
     -v $FILEBROWSER_PATH:/srv \
     -u 1000:1000 \
-    -p 80:80 \
+    -p 8080:80 \
     filebrowser/filebrowser
