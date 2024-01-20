@@ -23,11 +23,11 @@ if [ ! -f "$FILEBROWSER_DB_PATH" ] ; then
     chown 1000:1000 $FILEBROWSER_DB_PATH
 fi
 
-FILEBROWSER_SETTINGS_PATH="/docker-data/filebrowser/filebrowser.json"
-if [ ! -f "$FILEBROWSER_SETTINGS_PATH" ] ; then
-    #cp default_filebrowser.json $FILEBROWSER_SETTINGS_PATH
-    #chown 1000:1000 $FILEBROWSER_SETTINGS_PATH
-fi
+#FILEBROWSER_SETTINGS_PATH="/docker-data/filebrowser/filebrowser.json"
+#if [ ! -f "$FILEBROWSER_SETTINGS_PATH" ] ; then
+#    #cp default_filebrowser.json $FILEBROWSER_SETTINGS_PATH
+#    #chown 1000:1000 $FILEBROWSER_SETTINGS_PATH
+#fi
 
 docker run \
     --name filebrowser --log-driver=journald --rm -d \
