@@ -28,6 +28,6 @@ docker run \
     -v /docker-data/filebrowser/filebrowser.db:/database/filebrowser.db \
     -v $filebrowser_settings_path:/.filebrowser.json \
     -v $FILEBROWSER_PATH:/srv \
-    -u $(id -u):$(id -g) \
+    -u 1000:1000 \
     -p 80:80 \
     filebrowser/filebrowser
