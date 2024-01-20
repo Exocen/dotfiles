@@ -21,7 +21,7 @@ FILEBROWSER_SETTINGS_PATH="$DOCKER_PATH/filebrowser.json"
 cd "$(dirname "$(readlink -f "$0")")"
 mkdir -p $DOCKER_PATH
 
-if [ ! -f "$FILEBROWSER_SETTINGS_PATH"] ; then
+if [ ! -f "$FILEBROWSER_SETTINGS_PATH" ] ; then
     echo '{\n    "port": 80,\n    "baseURL": "",\n    "address": "",\n    "log": "stdout",\n    "database": "/database.db",\n    "root": "/srv"\n}' > $FILEBROWSER_SETTINGS_PATH
 fi
 
