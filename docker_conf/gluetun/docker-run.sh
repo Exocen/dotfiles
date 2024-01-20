@@ -25,7 +25,7 @@ docker run -d --rm --cap-add=NET_ADMIN --name gluetun --log-driver=journald -e V
     -p 51413:51413/udp \
     -e SERVER_COUNTRIES="USA" -e OPENVPN_USER=$VPN_KEY qmcgaw/gluetun && echo "gluetun started."
 
-[ "$NEED_TO_SLEEP" = true ] && sleep 30s
+[ "$NEED_TO_SLEEP" = true ] && sleep 2m
 
 # Optional environment variables
 
