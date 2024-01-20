@@ -21,9 +21,14 @@ FILEBROWSER_SETTINGS_PATH="$DOCKER_PATH/filebrowser.json"
 cd "$(dirname "$(readlink -f "$0")")"
 mkdir -p $DOCKER_PATH
 
-[ -f "$FILEBROWSER_SETTINGS_PATH" ] || echo -en '{\n    "port": 80,\n    "baseURL": "",\n    "address": "",\n    "log": "stdout",\n    "database": "/database.db",\n    "root": "/srv"\n}' > $FILEBROWSER_SETTINGS_PATH
+if [ ! -f "$FILEBROWSER_SETTINGS_PATH" ] ; then
+    echo -en '{\n    "port": 80,\n    "baseURL": "",\n    "address": "",\n    "log": "stdout",\n    "database": "/database.db",\n    "root": "/srv"\n}' > $FILEBROWSER_SETTINGS_PATH
+fi
 
-[ -f "$FILEBROWSER_DB_PATH" ] || touch $FILEBROWSER_DB_PATH
+if [ ! -f "$FILEBROWSER_DB_PATH" ] ; then
+    touch $FILEBROWSER_DB_PATH
+    chown 1000:1000 $FILEBROWSER_DB_PATH
+fi
 
 docker run \
     --name filebrowser --log-driver=journald --rm -d \
