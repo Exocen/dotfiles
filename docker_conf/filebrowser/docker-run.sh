@@ -25,8 +25,8 @@ fi
 
 FILEBROWSER_SETTINGS_PATH="/docker-data/filebrowser/filebrowser.json"
 if [ ! -f "$FILEBROWSER_SETTINGS_PATH" ] ; then
-    cp default_filebrowser.json $FILEBROWSER_SETTINGS_PATH
-    chown 1000:1000 $FILEBROWSER_SETTINGS_PATH
+    #cp default_filebrowser.json $FILEBROWSER_SETTINGS_PATH
+    #chown 1000:1000 $FILEBROWSER_SETTINGS_PATH
 fi
 
 docker run \
@@ -36,5 +36,5 @@ docker run \
     -v $FILEBROWSER_SETTINGS_PATH:/.filebrowser.json \
     -v $FILEBROWSER_PATH:/srv \
     -u 1000:1000 \
-    -p 8080:80 \
+    -p 80:80 \
     filebrowser/filebrowser
