@@ -32,7 +32,7 @@ fi
 docker run \
     --name filebrowser --log-driver=journald --rm -d \
     -e FB_NOAUTH=noauth \
-    -v /docker-data/filebrowser/filebrowser.db:/filebrowser.db \
+    -v $FILEBROWSER_DB_PATH:/database.db \
     -v $FILEBROWSER_SETTINGS_PATH:/.filebrowser.json \
     -v $FILEBROWSER_PATH:/srv \
     -u 1000:1000 \
