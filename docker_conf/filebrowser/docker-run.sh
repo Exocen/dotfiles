@@ -16,17 +16,24 @@ fi
 
 cd "$(dirname "$(readlink -f "$0")")"
 mkdir -p /docker-data/filebrowser/
-touch /docker-data/filebrowser/filebrowser.db
 
+FILEBROWSER_DB_PATH="/docker-data/filebrowser/filebrowser.db"
+if [ ! -f "$FILEBROWSER_DB_PATH" ] ; then
+    touch $FILEBROWSER_DB_PATH
+    chown 1000:1000 $FILEBROWSER_DB_PATH
+fi
 
-filebrowser_settings_path="/docker-data/filebrowser/filebrowser.json"
-[ -f "$filebrowser_settings_path" ] || cp default_filebrowser.json $filebrowser_settings_path
+FILEBROWSER_SETTINGS_PATH="/docker-data/filebrowser/filebrowser.json"
+if [ ! -f "$FILEBROWSER_SETTINGS_PATH" ] ; then
+    cp default_filebrowser.json $FILEBROWSER_SETTINGS_PATH
+    chown 1000:1000 $FILEBROWSER_SETTINGS_PATH
+fi
 
 docker run \
     --name filebrowser --log-driver=journald --rm -d \
     -e FB_NOAUTH=noauth \
-    -v /docker-data/filebrowser/filebrowser.db:/database/filebrowser.db \
-    -v $filebrowser_settings_path:/.filebrowser.json \
+    -v /docker-data/filebrowser/filebrowser.db:/filebrowser.db \
+    -v $FILEBROWSER_SETTINGS_PATH:/.filebrowser.json \
     -v $FILEBROWSER_PATH:/srv \
     -u 1000:1000 \
     -p 8080:80 \
