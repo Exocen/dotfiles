@@ -1,7 +1,7 @@
 #!/bin/bash
 # USAGE $1=Host $2=output_dir
 HOST=$1
-OUTPUT=$HOST-`date +"%s"`.tgz
+OUTPUT=$HOST-`date +"%Y-%m-%dT%H:%M:%S"`.tgz
 BACKUP_DIR=$2/docker-backup/$HOST
 MAX_BACKUP=20
 
