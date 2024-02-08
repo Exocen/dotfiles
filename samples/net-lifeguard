@@ -1,0 +1,16 @@
+#!/bin/bash
+# Dumb raspberry wifi fix
+# After online detected, if no online for 1h -> reboot
+
+while ! ping -c 1 1.1.1.1 1>/dev/null; do
+    sleep 5m
+done
+
+while true
+do
+    sleep 30m
+    if ! ping -c 1 1.1.1.1 1>/dev/null ; then
+        sleep 30m
+        ping -c 1 1.1.1.1 || systemctl reboot
+    fi
+done
