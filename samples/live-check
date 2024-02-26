@@ -8,24 +8,26 @@
 #
 # Check timestamps:
 # Server : /usr/bin/live-check
-# Server needs postfix/sendmail
+# Use with systemd -> requires online + error to mail + timer
 
-TIMESTAMP_FILEPATH=$HOME/live-check-timestamps
-TIME_DELAY="4 hour"
+TIMESTAMP_FILEPATH=/docker-data/live-check-timestamps
 MESSAGE="Live-Check Expired"
+TIME_DELAY="30 minute"
 
 function save(){
     mkdir -p $TIMESTAMP_FILEPATH
-    date -d "$TIME_DELAY" +%s > "$TIMESTAMP_FILEPATH/$1"
+    date +%s > "$TIMESTAMP_FILEPATH/$1"
     exit 0
 }
 
 function check(){
+    #TODO must change html -> status page
     if [ -d $TIMESTAMP_FILEPATH ]; then
         for file in $TIMESTAMP_FILEPATH/* ; do
             # Get basename from path
             filename="${file##*/}"
-            if [ `date +%s` -ge `cat $file` ] ; then
+            file_timestamp=`cat $file`
+            if [ `date -d "-$TIME_DELAY" +%s` -ge "$file_timestamp" ] ; then
                 echo "$filename: $MESSAGE"
                 # Only remove if mail sended correctly
                 echo -e "Subject:$filename: $MESSAGE\n`date`" | sendmail $USER@`hostname` && rm $file
