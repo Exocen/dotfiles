@@ -13,7 +13,7 @@ rotate_backup() {
 }
 
 rotate_backup
-ssh $HOST "cd / && tar cz docker-data" > $BACKUP_DIR/$OUTPUT
+ssh $HOST '[ -d /docker-data ]' && ssh $HOST "cd / && tar cz docker-data" > $BACKUP_DIR/$OUTPUT
 if [ $? -eq 0 ]; then
     echo "Backup $OUTPUT created"
     exit 0
