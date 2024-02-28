@@ -2,6 +2,7 @@ FROM nginx:mainline-alpine
 ARG DOMAIN
 
 VOLUME /etc/letsencrypt/
+VOLUME /usr/share/nginx
 EXPOSE 80/TCP 443/TCP
 
 RUN apk add certbot certbot-nginx bash grep

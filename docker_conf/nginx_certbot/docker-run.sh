@@ -25,6 +25,7 @@ fi
 
 docker run \
     -v /docker-data/letsencrypt:/etc/letsencrypt/ \
+    -v /docker-data/nginx/:/usr/share/nginx \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     --log-driver=journald --rm \
     -p 80:80 -p 443:443 \
