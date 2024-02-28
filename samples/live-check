@@ -13,6 +13,33 @@
 TIMESTAMP_FILEPATH=/docker-data/live-check-timestamps
 MESSAGE="Live-Check Expired"
 TIME_DELAY="30 minute"
+HTML_TOP="<!DOCTYPE html>
+<html lang=\"en\">
+
+<head>
+<title>Status</title>
+<link rel=\"icon\" type=\"image/png\" href=\"data:image/png;base64,iVBORw0KGgo=\">
+<meta charset=\"utf-8\">
+<style>
+html {
+color-scheme: light dark;
+}
+
+.center {
+text-align: center;
+margin: 0;
+position: absolute;
+top: 50%;
+left: 50%;
+-ms-transform: translate(-50%, -50%);
+transform: translate(-50%, -50%);
+}
+</style>
+</head>
+
+<body class=\"center\">"
+HTML_BOT="</body>
+</html>"
 
 function save(){
     mkdir -p $TIMESTAMP_FILEPATH
@@ -20,27 +47,33 @@ function save(){
     exit 0
 }
 
-function check(){
-    #TODO must change html -> status page
+function status_check(){
+    tmpD=$(mktemp -d)
     if [ -d $TIMESTAMP_FILEPATH ]; then
         for file in $TIMESTAMP_FILEPATH/* ; do
             # Get basename from path
             filename="${file##*/}"
             file_timestamp=`cat $file`
+            web_page=$HTML_TOP + "\n" + $filename + " : " + `date -d @$file_timestamp`
             if [ `date -d "-$TIME_DELAY" +%s` -ge "$file_timestamp" ] ; then
-                echo "$filename: $MESSAGE"
-                # Only remove if mail sended correctly
-                echo -e "Subject:$filename: $MESSAGE\n`date`" | sendmail $USER@`hostname` && rm $file
+                web_page=$web_page + " SAD"
+            else
+                web_page=$web_page + " GOOD"
             fi
+            web_page=$web_page + $HTML_BOT
+            echo $web_page > $tmpD/index.html
+            mv $tmpD/index.html /docker-data/nginx/status/
         done
     fi
+    rm -rf $tmpD
     exit 0
 }
 
 if [ $# -eq 0 ]; then
-    check
+    status_check
 fi
 if [ $# -eq 1 ] ; then
     save $1
 fi
 echo "Usage: live-check (arg > save | empty > check)"
+exit 1
