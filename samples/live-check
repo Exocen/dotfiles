@@ -54,13 +54,13 @@ function status_check(){
             # Get basename from path
             filename="${file##*/}"
             file_timestamp=`cat $file`
-            web_page=$HTML_TOP + "\n" + $filename + " : " + `date -d @$file_timestamp`
+            web_page="$HTML_TOP $filename : `date -d @$file_timestamp`"
             if [ `date -d "-$TIME_DELAY" +%s` -ge "$file_timestamp" ] ; then
-                web_page=$web_page + " SAD"
+                web_page="$web_page SAD"
             else
-                web_page=$web_page + " GOOD"
+                web_page="$web_page GOOD"
             fi
-            web_page=$web_page + $HTML_BOT
+            web_page="$web_page $HTML_BOT"
             echo $web_page > $tmpD/index.html
             mv -f $tmpD/index.html /docker-data/nginx/status/index.html
         done
