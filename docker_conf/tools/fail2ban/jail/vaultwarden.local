@@ -3,6 +3,7 @@ enabled = true
 port = 80,443
 filter = vaultwarden
 banaction = %(banaction_allports)s
+journalmatch = CONTAINER_NAME=vaultwarden
 maxretry = 10
 backend = systemd
 chain = DOCKER-USER
