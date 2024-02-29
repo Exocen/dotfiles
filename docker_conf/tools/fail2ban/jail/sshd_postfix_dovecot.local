@@ -1,6 +1,10 @@
+[DEFAULT]
+banaction = iptables-allports[chain=FORWARD]
+protocol = all
+
 [sshd]
 enabled = true
-port = ssh
+port = all
 filter = sshd
 backend = systemd
 maxretry = 3
