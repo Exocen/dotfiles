@@ -62,7 +62,7 @@ function status_check(){
             fi
             web_page=$web_page + $HTML_BOT
             echo $web_page > $tmpD/index.html
-            mv $tmpD/index.html /docker-data/nginx/status/
+            mv -f $tmpD/index.html /docker-data/nginx/status/index.html
         done
     fi
     rm -rf $tmpD
