@@ -11,6 +11,7 @@
 # Use with systemd -> requires online + error to mail + timer
 
 TIMESTAMP_FILEPATH=/docker-data/live-check-timestamps
+DOCKER_NGINX_STATUS_LOCATION=/docker-data/nginx/status/index.html
 MESSAGE="Live-Check Expired"
 TIME_DELAY="30 minute"
 HTML_TOP="<!DOCTYPE html>
@@ -41,6 +42,9 @@ transform: translate(-50%, -50%);
 HTML_BOT="</body>
 </html>"
 
+LAST_TIMESTAMP=0
+MUST_RECHECK=true
+
 function save(){
     mkdir -p $TIMESTAMP_FILEPATH
     date +%s > "$TIMESTAMP_FILEPATH/$1"
@@ -50,27 +54,45 @@ function save(){
 function status_check(){
     tmpD=$(mktemp -d)
     if [ -d $TIMESTAMP_FILEPATH ]; then
+        MUST_RECHECK=false
         for file in $TIMESTAMP_FILEPATH/* ; do
             # Get basename from path
             filename="${file##*/}"
             file_timestamp=`cat $file`
             web_page="$HTML_TOP $filename : `date -d @$file_timestamp`"
             if [ `date -d "-$TIME_DELAY" +%s` -ge "$file_timestamp" ] ; then
+                #TODO add nice color &| emojis &| css styles
                 web_page="$web_page SAD"
             else
+                #TODO add nice color &| emojis &| css styles
                 web_page="$web_page GOOD"
+                MUST_RECHECK=true
             fi
             web_page="$web_page $HTML_BOT"
             echo $web_page > $tmpD/index.html
-            mv -f $tmpD/index.html /docker-data/nginx/status/index.html
+            mv -f $tmpD/index.html $DOCKER_NGINX_STATUS_LOCATION
         done
     fi
     rm -rf $tmpD
-    exit 0
 }
 
+function check_loop(){
+    while true; do
+        sleep $TIME_DELAY
+        last_timestamp=$(date -r "`find $TIMESTAMP_FILEPATH -type f -exec ls -th {} + | head -n 1`" +%s)
+        if [ $LAST_TIMESTAMP != $last_timestamp ]; then
+            LAST_TIMESTAMP=$last_timestamp
+            MUST_RECHECK=true
+        fi
+        if [ $MUST_RECHECK = true ]; then
+            status_check
+        fi
+    done
+}
+
+
 if [ $# -eq 0 ]; then
-    status_check
+    check_loop
 fi
 if [ $# -eq 1 ] ; then
     save $1
