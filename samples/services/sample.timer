@@ -10,6 +10,7 @@ OnBootSec=15min
 #When activated, it triggers the service immediately if it missed the last start time
 Persistent=true
 OnCalendar=weekly
+#RandomizedDelaySec=3m
 #OnCalendar=Mon,Tue *-*-01..04 12:00:00
 #Use systemd-analyze calendar
 
