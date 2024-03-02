@@ -43,6 +43,7 @@ HTML_BOT="</body>
 </html>"
 
 LAST_TIMESTAMP=0
+#MUST_RECHECK -> if there is any good timestamp, the loop should recheck even if there is no new available timestamp
 MUST_RECHECK=true
 
 function save(){
@@ -53,40 +54,41 @@ function save(){
 
 function status_check(){
     tmpD=$(mktemp -d)
-    if [ -d $TIMESTAMP_FILEPATH ]; then
-        MUST_RECHECK=false
-        for file in $TIMESTAMP_FILEPATH/* ; do
-            # Get basename from path
-            filename="${file##*/}"
-            file_timestamp=`cat $file`
-            web_page="$HTML_TOP $filename : `date -d @$file_timestamp`"
-            if [ `date -d "-$TIME_DELAY" +%s` -ge "$file_timestamp" ] ; then
-                #TODO add nice color &| emojis &| css styles
-                web_page="$web_page SAD"
-            else
-                #TODO add nice color &| emojis &| css styles
-                web_page="$web_page GOOD"
-                MUST_RECHECK=true
-            fi
-            web_page="$web_page $HTML_BOT"
-            echo $web_page > $tmpD/index.html
-            mv -f $tmpD/index.html $DOCKER_NGINX_STATUS_LOCATION
-        done
+    MUST_RECHECK=false
+    for file in $TIMESTAMP_FILEPATH/* ; do
+        # Get basename from path
+        filename="${file##*/}"
+        file_timestamp=`cat $file`
+        web_page="$HTML_TOP $filename : `date -d @$file_timestamp`"
+        if [ `date -d "-$TIME_DELAY" +%s` -ge "$file_timestamp" ] ; then
+            #TODO add nice color &| emojis &| css styles
+            web_page="$web_page SAD"
+        else
+            #TODO add nice color &| emojis &| css styles
+            web_page="$web_page GOOD"
+            MUST_RECHECK=true
+        fi
+        web_page="$web_page $HTML_BOT"
+        echo $web_page > $tmpD/index.html
+        mv -f $tmpD/index.html $DOCKER_NGINX_STATUS_LOCATION
+    done
     fi
     rm -rf $tmpD
 }
 
 function check_loop(){
-    while true; do
+    while [ -d $TIMESTAMP_FILEPATH ] ; do
+        if [ "`ls -l $TIMESTAMP_FILEPATH | wc -l`" -gt 1 ]; then
+            last_timestamp=$(date -r "`find $TIMESTAMP_FILEPATH -type f -exec ls -th {} + | head -n 1`" +%s)
+            if [ $LAST_TIMESTAMP != $last_timestamp ]; then
+                LAST_TIMESTAMP=$last_timestamp
+                MUST_RECHECK=true
+            fi
+            if [ $MUST_RECHECK = true ]; then
+                status_check
+            fi
+        fi
         sleep $TIME_DELAY
-        last_timestamp=$(date -r "`find $TIMESTAMP_FILEPATH -type f -exec ls -th {} + | head -n 1`" +%s)
-        if [ $LAST_TIMESTAMP != $last_timestamp ]; then
-            LAST_TIMESTAMP=$last_timestamp
-            MUST_RECHECK=true
-        fi
-        if [ $MUST_RECHECK = true ]; then
-            status_check
-        fi
     done
 }
 
