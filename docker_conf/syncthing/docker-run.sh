@@ -11,6 +11,7 @@ else
     fi
 fi
 
+#UserId:GroudId -> 1000:1000 must have folder permission
 docker run -d --rm --log-driver=journald \
     --name=syncthing \
     -e PUID=1000 \

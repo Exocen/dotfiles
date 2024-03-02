@@ -31,6 +31,7 @@ if [ ! -f "$FILEBROWSER_DB_PATH" ] ; then
     chown 1000:1000 $FILEBROWSER_DB_PATH
 fi
 
+#UserId:GroudId -> 1000:1000 must have folder permission
 docker run \
     --name filebrowser --log-driver=journald --rm -d \
     -e FB_NOAUTH=noauth \
