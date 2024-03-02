@@ -13,7 +13,8 @@
 TIMESTAMP_FILEPATH=/docker-data/live-check-timestamps
 DOCKER_NGINX_STATUS_LOCATION=/docker-data/nginx/status/index.html
 MESSAGE="Live-Check Expired"
-TIME_DELAY="30m"
+TIME_DELAY="40 minute"
+TIME_LOOP="30m"
 HTML_TOP="<!DOCTYPE html>
 <html lang=\"en\">
 
@@ -87,7 +88,7 @@ function check_loop(){
                 status_check
             fi
         fi
-        sleep $TIME_DELAY
+        sleep $TIME_LOOP
     done
 }
 
