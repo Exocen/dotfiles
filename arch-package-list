@@ -1,13 +1,13 @@
 # Video Driver (intel graphics, AMD)
 mesa
 # Video Driver (nvidia)
-# nvidia
+#nvidia
 # Amd CPU
 amd-ucode
 # WM
 wayland sway xorg-xwayland qt5-wayland
-# Menu, notifications, idle managment, background, screenshot
-tofi swaync-git swayidle wlr-sunclock sway-interactive-screenshot wf-recorder
+# Menu, notifications, idle managment, screenshot
+tofi swaync-git swayidle sway-interactive-screenshot wf-recorder
 # Waybar
 waybar noto-fonts ttf-nerd-fonts-symbols
 # Brightness tool
@@ -37,9 +37,9 @@ firefox
 vlc
 # Logitech mouse
 piper
-# Bluetooth
+# Bluetooth, sound
 blueman pipewire-pulse pipewire bluez-utils wireplumber
-# Music player
+# Music player, visualizer
 mpd mpc ncmpcpp cava
 # Vim addons
 vim-youcompleteme-git flake8
