@@ -1,14 +1,13 @@
 #!/bin/bash
 # Simple live check script
+# Script should only be on the server
 #
 # Set timestamps -> 2 ways:
 #
 # 1 : Client use '/usr/bin/bash -c "ssh SERVER /usr/bin/live-check %H"'
 # 2 : Server use '/usr/bin/bash -c "ping -c 2 CLIENT && /usr/bin/live-check CLIENT || :"'
 #
-# Check timestamps:
-# Server : /usr/bin/live-check
-# Use with systemd -> requires online + error to mail + timer
+# Use with systemd -> requires online + error to mail + timer (client only)
 
 TIMESTAMP_FILEPATH=/docker-data/live-check-timestamps
 DOCKER_NGINX_STATUS_LOCATION=/docker-data/nginx/status/index.html
