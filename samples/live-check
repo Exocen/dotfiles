@@ -13,7 +13,7 @@
 TIMESTAMP_FILEPATH=/docker-data/live-check-timestamps
 DOCKER_NGINX_STATUS_LOCATION=/docker-data/nginx/status/index.html
 MESSAGE="Live-Check Expired"
-TIME_DELAY="30 minute"
+TIME_DELAY="30m"
 HTML_TOP="<!DOCTYPE html>
 <html lang=\"en\">
 
