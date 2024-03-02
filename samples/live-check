@@ -72,7 +72,6 @@ function status_check(){
         echo $web_page > $tmpD/index.html
         mv -f $tmpD/index.html $DOCKER_NGINX_STATUS_LOCATION
     done
-    fi
     rm -rf $tmpD
 }
 
