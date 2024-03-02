@@ -11,6 +11,7 @@ else
     fi
 fi
 
+#PGUID 1000 PGID 1000 -> must have folder permission
 docker run -d --rm --log-driver=journald \
     --name=transmission \
     -e PUID=1000 \
