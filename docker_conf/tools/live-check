@@ -21,6 +21,7 @@ HTML_TOP="<!DOCTYPE html>
 <title>Status</title>
 <link rel=\"icon\" type=\"image/png\" href=\"data:image/png;base64,iVBORw0KGgo=\">
 <meta charset=\"utf-8\">
+<meta http-equiv=\"refresh\" content=\"3600\">
 <style>
 html {
 color-scheme: light dark;
@@ -60,11 +61,11 @@ function status_check(){
         # Get basename from path
         filename="${file##*/}"
         file_timestamp=`cat $file`
-        web_page="$web_page $filename : `date -d @$file_timestamp`"
+        web_page="$web_page $filename : "
         if [ `date -d "-$TIME_DELAY" +%s` -ge "$file_timestamp" ] ; then
-            web_page="$web_page <span style=\"color:red;\">SAD</span> &#10060; <br>"
+            web_page="$web_page <span style=\"color:red;\">`date -d @$file_timestamp`</span> &#10060; <br>"
         else
-            web_page="$web_page <span style=\"color:green;\">GOOD</span> &#9989; <br>"
+            web_page="$web_page <span style=\"color:green;\">`date -d @$file_timestamp`</span> &#9989; <br>"
             MUST_RECHECK=true
         fi
     done
