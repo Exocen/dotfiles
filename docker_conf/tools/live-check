@@ -56,20 +56,20 @@ function save(){
 function status_check(){
     tmpD=$(mktemp -d)
     MUST_RECHECK=false
-    web_page="$HTML_TOP"
+    web_page="$HTML_TOP <ul> "
     for file in $TIMESTAMP_FILEPATH/* ; do
         # Get basename from path
         filename="${file##*/}"
         file_timestamp=`cat $file`
-        web_page="$web_page $filename : "
+        web_page="$web_page <li> $filename : "
         if [ `date -d "-$TIME_DELAY" +%s` -ge "$file_timestamp" ] ; then
-            web_page="$web_page <span style=\"color:red;\">`date -d @$file_timestamp`</span> &#10060; <br>"
+            web_page="$web_page <span style=\"color:red;\">`date -d @$file_timestamp`</span> </li>"
         else
-            web_page="$web_page <span style=\"color:green;\">`date -d @$file_timestamp`</span> &#9989; <br>"
+            web_page="$web_page <span style=\"color:green;\">`date -d @$file_timestamp`</span> </li>"
             MUST_RECHECK=true
         fi
     done
-    web_page="$web_page $HTML_BOT"
+    web_page="$web_page </ul> $HTML_BOT"
     echo $web_page > $tmpD/index.html
     mv -f $tmpD/index.html $DOCKER_NGINX_STATUS_LOCATION
     rm -rf $tmpD
