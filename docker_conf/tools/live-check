@@ -21,7 +21,7 @@ HTML_TOP="<!DOCTYPE html>
 <title>Status</title>
 <link rel=\"icon\" type=\"image/png\" href=\"data:image/png;base64,iVBORw0KGgo=\">
 <meta charset=\"utf-8\">
-<meta http-equiv=\"refresh\" content=\"3600\">
+<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
 <style>
 html {
 color-scheme: light dark;
