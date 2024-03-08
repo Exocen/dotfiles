@@ -11,11 +11,9 @@ ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN mkdir -p /etc/letsencrypt
 
 WORKDIR /root/
-COPY nginx_boot.sh certbot_renew.sh fifo-nginx.conf nginx.conf healthcheck.sh static-html /root/
+COPY web_engine.sh certbot_renew.sh fifo-nginx.conf nginx.conf healthcheck.sh static-html /root/
 RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
-RUN chmod +x certbot_renew.sh
-RUN chmod +x nginx_boot.sh
-RUN chmod +x healthcheck.sh
+RUN chmod +x certbot_renew.sh web_engine.sh healthcheck.sh
 
 HEALTHCHECK --interval=30m CMD ./healthcheck.sh
 
