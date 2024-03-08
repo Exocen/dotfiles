@@ -1,6 +1,7 @@
 #!/bin/bash
 CERTBOT_RENEW_DATE='86400' # one day
 LOG_DIR=/etc/letsencrypt/logs/
+mkdir -p $LOG_DIR
 
 while true; do
     echo "Certbot renew in $CERTBOT_RENEW_DATE s"
