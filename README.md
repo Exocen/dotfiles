@@ -1,4 +1,4 @@
-#### Dotfiles + Automatic installation
+#### TODO REDO Dotfiles + Automatic installation
 
 Tested on
 * Ubuntu 15+
@@ -6,3 +6,11 @@ Tested on
 * Debian 8+
 * Arch (+ dev conf)
 * Raspbian 8+
+
+explain install.sh
+
+Docker
+for images
+dependancies[]
+usage
+
