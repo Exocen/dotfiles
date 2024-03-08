@@ -17,4 +17,4 @@ RUN chmod +x certbot_renew.sh web_engine.sh healthcheck.sh
 
 HEALTHCHECK --interval=30m CMD ./healthcheck.sh
 
-ENTRYPOINT ["/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf"]
+ENTRYPOINT ["/usr/bin/supervisord"]
