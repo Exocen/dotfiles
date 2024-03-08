@@ -1,13 +1,4 @@
 #!/bin/bash
-CERTBOT_RENEW_DATE='86400' # one day
-LOG_DIR=/etc/letsencrypt/logs/
-
-certbot_renew(){
-    while true; do
-        /usr/bin/certbot renew --nginx --logs-dir $LOG_DIR
-        sleep $CERTBOT_RENEW_DATE
-    done
-}
 
 mkdir -p /var/log/nginx
 mkdir -p /var/log/letsencrypt
@@ -27,6 +18,5 @@ fi
 
 cp -fr /root/nginx.conf /etc/nginx/
 cp -nr /root/main /root/status /usr/share/nginx/
-certbot_renew &
 pkill 'nginx'
 nginx -g 'daemon off;'
