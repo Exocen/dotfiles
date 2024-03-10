@@ -6,11 +6,17 @@
 BACKUP_PATH="/docker-data/vaultwarden/sqlite3_backups/"
 DB_PATH="/docker-data/vaultwarden/db.sqlite3"
 BACKUP_FILE="db_$(date "+%F-%H%M%S").sqlite3"
+MAX_BACKUP=20
+
+
+rotate_backup() {
+    if [ `ls -rt $BACKUP_PATH/*.sqlite3 | wc -l` -ge $MAX_BACKUP ] ; then
+        rm -v -- $BACKUP_PATH/$(ls -rt $BACKUP_PATH/*.sqlite3 | head -1) && rotate_backup
+    fi
+}
 
 mkdir -p $BACKUP_PATH
-
-# rm any backups older than 30 days
-find $BACKUP_PATH/* -mtime +30 -exec rm {} \;
+rotate_backup
 
 # use sqlite3 to create backup (avoids corruption if db write in progress)
 sqlite3 $DB_PATH "VACUUM INTO  '$BACKUP_PATH/$BACKUP_FILE'"
