@@ -6,7 +6,7 @@
 BACKUP_PATH="/docker-data/vaultwarden/sqlite3_backups/"
 DB_PATH="/docker-data/vaultwarden/db.sqlite3"
 BACKUP_FILE="db_$(date "+%F-%H%M%S").sqlite3"
-MAX_BACKUP=20
+MAX_BACKUP=10
 
 
 rotate_backup() {
