@@ -11,7 +11,7 @@ MAX_BACKUP=10
 
 rotate_backup() {
     if [ `ls -rt $BACKUP_PATH/*.sqlite3 2>/dev/null | wc -l` -ge $MAX_BACKUP ] ; then
-        rm -v -- $BACKUP_PATH/$(find $BACKUP_PATH/*.sqlite3 -type f | head -1) && rotate_backup
+        rm -v -- $(find $BACKUP_PATH/*.sqlite3 -type f | head -1) && rotate_backup
     fi
 }
 

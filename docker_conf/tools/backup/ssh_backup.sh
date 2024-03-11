@@ -8,7 +8,7 @@ MAX_BACKUP=20
 rotate_backup() {
     mkdir -p $BACKUP_DIR
     if [ `ls -rt $BACKUP_DIR/*.tgz | wc -l` -ge $MAX_BACKUP ] ; then
-        rm -v -- $BACKUP_PATH/$(find $BACKUP_PATH/*.tgz -type f | head -1) && rotate_backup
+        rm -v -- $(find $BACKUP_PATH/*.tgz -type f | head -1) && rotate_backup
     fi
 }
 
