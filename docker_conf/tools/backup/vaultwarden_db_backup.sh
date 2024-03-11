@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Use with ssh_backup.sh
 
 ! sqlite3 --version &>/dev/null && echo "sqlite3 needs to be installed." && exit 1
