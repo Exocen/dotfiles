@@ -19,4 +19,4 @@ docker run -d --rm --log-driver=journald \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     --net user_network --ip 10.0.0.82 \
     --name=roundcube \
-    roundcube/roundcubemail && echo "Roundcube started."
+    roundcube/roundcubemail:latest-fpm-alpine && echo "Roundcube started."
