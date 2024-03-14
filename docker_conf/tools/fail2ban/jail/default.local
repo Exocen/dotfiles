@@ -1,0 +1,7 @@
+[DEFAULT]
+banaction = iptables-allports[chain=FORWARD]
+protocol = all
+maxretry = 3
+findtime = 3600
+bantime = 86400
+ignoreip = 127.0.0.1/8 10.0.0.1/8

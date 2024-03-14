@@ -1,0 +1,3 @@
+[roundcube]
+enabled  = true
+filter   = roundcube
