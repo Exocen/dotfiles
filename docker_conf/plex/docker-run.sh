@@ -13,4 +13,4 @@ docker run -d --rm --log-driver=journald \
     -p 32400:32400/tcp \
     -v /docker-data/plex:/data \
     --name=plex \
-     plexinc/pms-docker:latest && echo "Plex started."
+    linuxserver/plex:latest && echo "Plex started."
