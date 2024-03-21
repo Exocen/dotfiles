@@ -3,6 +3,15 @@
 if [ `id -u` -ne 0 ]; then
     echo "Must be run as root"
     exit 1
+else
+    if [ -z ${PLEX_PATH+x} ] ; then
+        if [ -z "$1" ]; then
+            echo "No path supplied"
+            exit 1
+        else
+            PLEX_PATH=$1
+        fi
+    fi
 fi
 
 docker run -d --rm --log-driver=journald \
@@ -12,5 +21,6 @@ docker run -d --rm --log-driver=journald \
     -e PGID=1000 \
     -p 32400:32400/tcp \
     -v /docker-data/plex:/data \
+    -v $PLEX_PATH:/media_files \
     --name=plex \
     linuxserver/plex:latest && echo "Plex started."
