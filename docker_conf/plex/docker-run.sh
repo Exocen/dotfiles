@@ -7,7 +7,7 @@ fi
 
 docker run -d --rm --log-driver=journald \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
-    --network=host
+    --network=host \
     -e PLEX_UID=1000 \
     -e PLEX_GID=1000 \
     -p 32400:32400/tcp \
