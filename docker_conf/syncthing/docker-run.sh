@@ -7,6 +7,8 @@ else
     if [ -z ${SYNCTHING_PATH+x} ] ; then
         if [ -z "$1" ]; then
             SYNCTHING_PATH="/docker-data/syncthing/root/"
+        else
+            SYNCTHING_PATH=$1
         fi
     fi
 fi
