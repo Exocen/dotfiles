@@ -20,7 +20,7 @@ docker run -d --rm --log-driver=journald \
     -e PUID=1000 \
     -e PGID=1000 \
     -p 32400:32400/tcp \
-    -v /docker-data/plex:/config \
+    -v /docker-data-nobackup/plex:/config \
     -v $PLEX_PATH:/media_files \
     --name=plex \
     linuxserver/plex:latest && echo "Plex started."
