@@ -19,10 +19,7 @@ docker run -d --rm --log-driver=journald \
     -e PUID=1000 \
     -e PGID=1000 \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
-    -p 8384:8384 \
-    -p 22000:22000/tcp \
-    -p 22000:22000/udp \
-    -p 21027:21027/udp \
+    --network host \
     -v /docker-data/syncthing/config:/config \
     -v $SYNCTHING_PATH:/data1 \
-    lscr.io/linuxserver/syncthing:latest && echo "syncthing started."
+    syncthing/syncthing:latest && echo "syncthing started."
