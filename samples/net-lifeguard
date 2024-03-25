@@ -6,11 +6,18 @@ while ! ping -c 1 1.1.1.1 1>/dev/null; do
     sleep 5m
 done
 
+echo "Internet detected, starting Net-Lifeguard"
+
 while true
 do
     sleep 30m
-    if ! ping -c 1 1.1.1.1 1>/dev/null ; then
+    ping -c 1 1.1.1.1 1>/dev/null
+    if [[ $? -ne 0 ]]; then
         sleep 30m
-        ping -c 1 1.1.1.1 || systemctl reboot
+        ping -c 1 1.1.1.1
+        if [[ $? -ne 0 ]]; then
+            echo "Internet connexion lost, restarting..."
+            systemctl reboot
+        fi
     fi
 done
