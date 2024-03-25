@@ -18,7 +18,7 @@ docker run -d --rm --cap-add=NET_ADMIN --name gluetun --log-driver=journald -e V
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     -p 8000:8000/tcp \
     -p 9091:9091 \
-    -p 8384:8384
+    -p 8384:8384 \
     -p 22000:22000/tcp \
     -p 22000:22000/udp \
     -p 21027:21027/udp \
