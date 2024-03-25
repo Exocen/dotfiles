@@ -21,6 +21,12 @@ else
     docker build -t ydl_img .
 fi
 
+# Gluetun reset
+curl -X PUT --fail --silent --show-error http://localhost:8000/v1/openvpn/status -H "Content-Type: application/json" -d '{"status":"stopped"}'
+# Should get {"outcome":"stopped"}
+curl -X PUT --fail --silent --show-error http://localhost:8000/v1/openvpn/status -H "Content-Type: application/json" -d '{"status":"running"}'
+# Should get{"outcome":"running"}
+
 docker run \
     --log-driver=journald --rm \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
