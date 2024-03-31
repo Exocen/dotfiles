@@ -4,6 +4,8 @@ mesa
 #nvidia
 # Amd CPU
 amd-ucode
+# Network
+ifplugd
 # WM
 wayland sway xorg-xwayland qt5-wayland
 # Menu, notifications, idle managment, screenshot
