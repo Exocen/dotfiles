@@ -29,6 +29,11 @@ safe_fail_count = 2
 retry_counter_max = 2
 FORMATS = ["mp4", "mkv", "mp3"]
 
+
+class CmdException(Exception):
+    pass
+
+
 class Main:
     def __init__(self):
         self.playlist_id = None
@@ -89,8 +94,8 @@ class Main:
         elif self.retry_counter < retry_counter_max:
             log.debug(dl_error)
             log.info(
-                    f"Vpn reloading, {retry_counter_max - self.retry_counter} tries left"
-                    )
+                f"Vpn reloading, {retry_counter_max - self.retry_counter} tries left"
+            )
             Main.let_sleep(loop_cooldown)
         else:
             raise dl_error
@@ -105,10 +110,18 @@ class Main:
         return ""
 
     def dl_list(self):
-        if self.file_format == "mp3"
-                Main.run_process("youtube-dl --extract-audio --audio-format mp3 -o \"%(title)s.%(ext)s\"" + self.playlist_id)
-            else
-                Main.run_process("youtube-dl  -f \"best[ext=" + self.file_format + "]\"-o \"%(title)s.%(ext)s\"" + self.playlist_id)
+        if self.file_format == "mp3":
+            Main.run_process(
+                'youtube-dl --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s"'
+                + self.playlist_id
+            )
+        else:
+            Main.run_process(
+                'youtube-dl  -f "best[ext='
+                + self.file_format
+                + ']"-o "%(title)s.%(ext)s"'
+                + self.playlist_id
+            )
 
     def extract_info(self):
         try:
@@ -116,7 +129,7 @@ class Main:
             return json.loads(Main.run_process(cmd))
         except Exception as extraction_error:
             log.error(f"Playlist info extraction error: {extraction_error}")
-            self.connection_error(dl_error)
+            self.connection_error(extraction_error)
             self.downloader()
             return
 
@@ -143,18 +156,18 @@ class Main:
     def get_video_count(self):
         try:
             reg_pattern = (
-                    "playlistBylineRenderer.:{.text.:{.runs.:.{.text.:.(\d*?)\D*?}"
-                    )
+                "playlistBylineRenderer.:{.text.:{.runs.:.{.text.:.(\d*?)\D*?}"
+            )
             url = "https://www.youtube.com/playlist?list=" + self.playlist_id
             found_str = re.findall(
-                    reg_pattern, urlopen(url, timeout=30).read().decode("utf-8")
-                    )
+                reg_pattern, urlopen(url, timeout=30).read().decode("utf-8")
+            )
             video_count = (
-                    found_str[0] if len(found_str) > 0 and len(found_str[0]) != 0 else 0
-                    )
+                found_str[0] if len(found_str) > 0 and len(found_str[0]) != 0 else 0
+            )
             log.debug(
-                    f"{video_count} Videos found in {self.playlist_id} (previous: {self.last_video_count[self.playlist_id]})"
-                    )
+                f"{video_count} Videos found in {self.playlist_id} (previous: {self.last_video_count[self.playlist_id]})"
+            )
             return video_count
         # check not mandatory, any error : process continue
         except Exception as dl_error:
@@ -165,9 +178,9 @@ class Main:
         log.debug("Checking playlist length (urlopen)")
         video_count = self.get_video_count()
         if (
-                video_count is not None
-                and video_count == self.last_video_count[self.playlist_id]
-                ):
+            video_count is not None
+            and video_count == self.last_video_count[self.playlist_id]
+        ):
             return
 
         log.debug("Checking playlist info (yt_dl)")
@@ -185,13 +198,13 @@ class Main:
         existing_title_list = self.get_title_list(file_list_path)
 
         done_list = list(
-                filter(
-                    lambda a: a in [b.title for b in audio_data_list], existing_title_list
-                    s = subprocess.   )
-                )
+            filter(
+                lambda a: a in [b.title for b in audio_data_list], existing_title_list
+            )
+        )
         audio_data_list = list(
-                filter(lambda a: a.title not in existing_title_list, audio_data_list)
-                )
+            filter(lambda a: a.title not in existing_title_list, audio_data_list)
+        )
 
         # Dl and tag
         if audio_data_list:
@@ -214,11 +227,11 @@ class Main:
                 self.downloader()
                 return
 
-        # Keep infos for next loop
-    elif len(existing_title_list) != len(done_list):
-        self.write_title_list(file_list_path, done_list)
-        self.retry_counter = 0
-        self.last_video_count[self.playlist_id] = video_count
+            # Keep infos for next loop
+        elif len(existing_title_list) != len(done_list):
+            self.write_title_list(file_list_path, done_list)
+            self.retry_counter = 0
+            self.last_video_count[self.playlist_id] = video_count
 
     def set_params(self, params):
         self.playlist_path_location = params[0]
