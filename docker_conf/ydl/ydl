@@ -112,7 +112,8 @@ class Main:
                     "--extract-audio",
                     "--audio-format",
                     self.file_format,
-                    '-o "' + tmpdirname + '/%(title)s"',
+                    '-o',
+                    tmpdirname + '/%(title)s',
                     pid,
                 ]
             )
@@ -121,7 +122,8 @@ class Main:
                 [
                     "/usr/bin/youtube-dl",
                     '-f "best[ext=' + self.file_format + "]",
-                    '-o "' + tmpdirname + '/%(title)s.%(ext)s"',
+                    '-o',
+                    tmpdirname + '/%(title)s.%(ext)s',
                     pid,
                 ]
             )
@@ -142,7 +144,7 @@ class Main:
         filenames = listdir(tmpdirname)
         log.debug(f"files : {filenames}")
         if len(filenames) != 1:
-            raise Exception(f"Too many files: {filenames}")
+            raise Exception(f"One file should be present: {filenames}")
         filepath = path.join(tmpdirname, filenames[0])
         # if artist and audio -> use id3 tags
         if self.file_format == "mp3" and audio_data.artist is not None:
