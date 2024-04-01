@@ -213,7 +213,7 @@ class Main:
                     # new tmp dir every dl
                     with TemporaryDirectory(dir=tmp_dir) as tmpdirname:
                         log.info("Downloading: " + audio_data.title)
-                        self.dl_list(audio_data, self.gen_ydl_options(tmpdirname))
+                        self.dl_list()
                         audio_data.filename = self.last_dl_file
                         log.debug("Tag and copy: " + audio_data.title)
                         self.tag_and_copy(audio_data, tmpdirname)
