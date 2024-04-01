@@ -1,13 +1,14 @@
 #!/usr/bin/python3
-# Needed : mutagen, youtube_dl
+# Needed : mutagen, youtube_dl, ffmpeg
 import mutagen
-import youtube_dl
 
 import re
 import csv
 import subprocess
 import logging
 import shutil
+import json
+
 from random import seed, randint
 from time import sleep
 from mutagen.easyid3 import EasyID3
@@ -27,22 +28,6 @@ DEFAULT_USAGE = f"multiline csv file usage -> output_dir (can use host:/), playl
 safe_fail_count = 2
 retry_counter_max = 2
 FORMATS = ["mp4", "mkv", "mp3"]
-
-
-class CmdException(Exception):
-    pass
-
-
-class YDL_Logger:
-    def error(msg):
-        log.error(msg)
-
-    def warning(msg):
-        log.debug(msg)
-
-    def debug(msg):
-        log.debug(msg)
-
 
 class Main:
     def __init__(self):
@@ -84,7 +69,8 @@ class Main:
 
     def get_filename_without_ext(self, filename):
         pre, ext = path.splitext(filename)
-        if ext:
+        if ext:import json
+
             return self.get_filename_without_ext(pre)
         else:
             return pre
@@ -95,37 +81,6 @@ class Main:
             self.last_dl_file = filename + "." + self.file_format
             log.debug(self.last_dl_file)
 
-    def gen_ydl_options(self, tmpdirname):
-        opts = {
-            "quiet": True,
-            "logger": YDL_Logger,
-            "progress_hooks": [self.file_hook],
-            "outtmpl": tmpdirname + "/%(title)s.",
-        }
-        if self.file_format == "mp3":
-            opts.update(
-                {
-                    "postprocessors": [
-                        {
-                            "key": "FFmpegExtractAudio",
-                            "preferredcodec": "mp3",
-                        }
-                    ],
-                    "extractaudio": True,
-                    "format": "bestaudio/best",
-                }
-            )
-        elif self.file_format == "mp4":
-            opts.update(
-                {
-                    "format": "bestvideo[height<=?1080]+bestaudio/best",
-                    "recode-video": "mp4",
-                }
-            )
-        elif self.file_format == "mkv":
-            opts.update({"recode-video": "mkv"})
-        return opts
-
     def connection_error(self, dl_error):
         self.retry_counter = self.retry_counter + 1
         if self.retry_counter <= safe_fail_count:
@@ -135,8 +90,8 @@ class Main:
         elif self.retry_counter < retry_counter_max:
             log.debug(dl_error)
             log.info(
-                f"Vpn reloading, {retry_counter_max - self.retry_counter} tries left"
-            )
+                    f"Vpn reloading, {retry_counter_max - self.retry_counter} tries left"
+                    )
             Main.let_sleep(loop_cooldown)
         else:
             raise dl_error
@@ -147,20 +102,27 @@ class Main:
         if s.returncode != 0:
             raise CmdException(s.stderr)
         if s.stdout:
-            log.debug(s.stdout)
-        return s
+            return s.stdout
+        return ""
 
-    def dl_list(self, audio_data, ydl_opts):
-        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            ydl.download([audio_data.pid])
+    def dl_list(self):
+        if self.file_format == "mp3"
+                Main.run_process("youtube-dl --extract-audio --audio-format mp3 -o \"%(title)s.%(ext)s\"" + self.playlist_id)
+            else
+                Main.run_process("youtube-dl  -f \"best[ext=" + self.file_format + "]\"-o \"%(title)s.%(ext)s\"" + self.playlist_id)
 
     def extract_info(self):
-        with youtube_dl.YoutubeDL({"logger": YDL_Logger, "quiet": True}) as ydl:
-            return ydl.extract_info(self.playlist_id, download=False)
+        try:
+            cmd = ["/usr/bin/youtube-dl", "--flat-playlist", "-J", self.playlist_id]
+            return json.loads(Main.run_process(cmd))
+        except Exception as extraction_error:
+            log.error(f"Playlist info extraction error: {extraction_error}")
+            self.connection_error(dl_error)
+            self.downloader()
+            return
 
     def tag_and_copy(self, audio_data, tmpdirname):
         dest_path = path.join(self.playlist_path_location, audio_data.filename)
-        # youtube_dl hook doesn't give the right filename post processing
         filenames = listdir(tmpdirname)
         log.debug(f"files : {filenames}")
         if len(filenames) != 1:
@@ -182,18 +144,18 @@ class Main:
     def get_video_count(self):
         try:
             reg_pattern = (
-                "playlistBylineRenderer.:{.text.:{.runs.:.{.text.:.(\d*?)\D*?}"
-            )
+                    "playlistBylineRenderer.:{.text.:{.runs.:.{.text.:.(\d*?)\D*?}"
+                    )
             url = "https://www.youtube.com/playlist?list=" + self.playlist_id
             found_str = re.findall(
-                reg_pattern, urlopen(url, timeout=30).read().decode("utf-8")
-            )
+                    reg_pattern, urlopen(url, timeout=30).read().decode("utf-8")
+                    )
             video_count = (
-                found_str[0] if len(found_str) > 0 and len(found_str[0]) != 0 else 0
-            )
+                    found_str[0] if len(found_str) > 0 and len(found_str[0]) != 0 else 0
+                    )
             log.debug(
-                f"{video_count} Videos found in {self.playlist_id} (previous: {self.last_video_count[self.playlist_id]})"
-            )
+                    f"{video_count} Videos found in {self.playlist_id} (previous: {self.last_video_count[self.playlist_id]})"
+                    )
             return video_count
         # check not mandatory, any error : process continue
         except Exception as dl_error:
@@ -204,18 +166,14 @@ class Main:
         log.debug("Checking playlist length (urlopen)")
         video_count = self.get_video_count()
         if (
-            video_count is not None
-            and video_count == self.last_video_count[self.playlist_id]
-        ):
+                video_count is not None
+                and video_count == self.last_video_count[self.playlist_id]
+                ):
             return
 
         log.debug("Checking playlist info (yt_dl)")
-        try:
-            infos = self.extract_info()
-        except youtube_dl.utils.DownloadError as dl_error:
-            self.connection_error(dl_error)
-            self.downloader()
-            return
+        infos = self.extract_info()
+
         playlist_title = infos["title"]
         file_list_path = path.join(docker_data_path, playlist_title + ".csv")
 
@@ -228,13 +186,13 @@ class Main:
         existing_title_list = self.get_title_list(file_list_path)
 
         done_list = list(
-            filter(
-                lambda a: a in [b.title for b in audio_data_list], existing_title_list
-            )
-        )
+                filter(
+                    lambda a: a in [b.title for b in audio_data_list], existing_title_list
+                    s = subprocess.   )
+                )
         audio_data_list = list(
-            filter(lambda a: a.title not in existing_title_list, audio_data_list)
-        )
+                filter(lambda a: a.title not in existing_title_list, audio_data_list)
+                )
 
         # Dl and tag
         if audio_data_list:
@@ -252,14 +210,14 @@ class Main:
                         log.info("Downloaded: " + audio_data.title)
                         Main.let_sleep(post_dl_cooldown, True)
 
-            except (youtube_dl.utils.DownloadError, CmdException) as dl_error:
+            except Exception as dl_error:
                 self.connection_error(dl_error)
                 self.downloader()
                 return
 
         # Keep infos for next loop
-        elif len(existing_title_list) != len(done_list):
-            self.write_title_list(file_list_path, done_list)
+    elif len(existing_title_list) != len(done_list):
+        self.write_title_list(file_list_path, done_list)
         self.retry_counter = 0
         self.last_video_count[self.playlist_id] = video_count
 
@@ -279,17 +237,19 @@ class Main:
         sleep(sleep_time)
 
     @staticmethod
-    def check_ffmpeg():
+    def check_dependencies():
         try:
             cmd = ["/usr/bin/ffmpeg", "-version", "1>/dev/null"]
             Main.run_process(cmd)
+            cmd = ["/usr/bin/youtube-dl", "--version", "1>/dev/null"]
+            Main.run_process(cmd)
         except Exception as check_error:
-            log.error(f"ffmpeg error: {check_error}")
+            log.error(f"Missing dependency: {check_error}")
             exit(1)
 
     def run(self):
         log.info("YDL Starting...")
-        Main.check_ffmpeg()
+        Main.check_dependencies()
         seed()
         while self.loop:
             for params in self.params_list:
