@@ -94,12 +94,12 @@ class Main:
             raise dl_error
 
     @staticmethod
-    def run_process(cmd, islogging = True):
+    def run_process(cmd, islogging=True):
         s = subprocess.run(cmd, capture_output=True, text=True)
         if s.returncode != 0:
             raise CmdException(s.stderr)
         if s.stdout:
-            if islogging: 
+            if islogging:
                 log.debug(s.stdout)
             return s.stdout
         return ""
@@ -112,8 +112,21 @@ class Main:
                     "--extract-audio",
                     "--audio-format",
                     self.file_format,
-                    '-o',
-                    tmpdirname + '/%(title)s',
+                    "-o",
+                    tmpdirname + "/%(title)s",
+                    pid,
+                ]
+            )
+        elif self.file_format == "mp4":
+            Main.run_process(
+                [
+                    "/usr/bin/youtube-dl",
+                    "-f",
+                    "bestvideo[height<=?1080]",
+                    "--recode-video",
+                    self.file_format,
+                    "-o",
+                    tmpdirname + "/%(title)s.%(ext)s",
                     pid,
                 ]
             )
@@ -121,9 +134,10 @@ class Main:
             Main.run_process(
                 [
                     "/usr/bin/youtube-dl",
-                    '-f "best[ext=' + self.file_format + "]",
-                    '-o',
-                    tmpdirname + '/%(title)s.%(ext)s',
+                    "--recode-video",
+                    self.file_format,
+                    "-o",
+                    tmpdirname + "/%(title)s.%(ext)s",
                     pid,
                 ]
             )
