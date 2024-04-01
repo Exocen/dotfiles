@@ -43,7 +43,6 @@ class Main:
         log.debug(f"Using new parameters -> {self.params_list}")
         self.retry_counter = 0
         self.loop = True
-        self.last_dl_file = None
         self.file_format = None
 
     def get_title_list(self, file_path):
@@ -95,12 +94,13 @@ class Main:
             raise dl_error
 
     @staticmethod
-    def run_process(cmd):
+    def run_process(cmd, islogging = True):
         s = subprocess.run(cmd, capture_output=True, text=True)
         if s.returncode != 0:
             raise CmdException(s.stderr)
         if s.stdout:
-            log.debug(s.stdout)
+            if islogging: 
+                log.debug(s.stdout)
             return s.stdout
         return ""
 
@@ -112,7 +112,7 @@ class Main:
                     "--extract-audio",
                     "--audio-format",
                     self.file_format,
-                    '-o "%(title)s.%(ext)s"',
+                    '-o "%(title)s"',
                     pid,
                 ]
             )
@@ -129,7 +129,7 @@ class Main:
     def extract_info(self):
         try:
             cmd = ["/usr/bin/youtube-dl", "--flat-playlist", "-J", self.playlist_id]
-            return json.loads(Main.run_process(cmd))
+            return json.loads(Main.run_process(cmd, False))
         except Exception as extraction_error:
             log.error(f"Playlist info extraction error: {extraction_error}")
             self.connection_error(extraction_error)
@@ -219,7 +219,6 @@ class Main:
                     with TemporaryDirectory(dir=tmp_dir) as tmpdirname:
                         log.info("Downloading: " + audio_data.title)
                         self.dl_list(audio_data.pid)
-                        audio_data.filename = self.last_dl_file
                         log.debug("Tag and copy: " + audio_data.title)
                         self.tag_and_copy(audio_data, tmpdirname)
                         done_list.append(audio_data.title)
