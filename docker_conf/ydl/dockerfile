@@ -1,8 +1,7 @@
 FROM alpine:latest
 
-RUN apk add --update-cache python3 py3-pip rsync git ffmpeg
+RUN apk add --update-cache python3 py3-pip rsync git ffmpeg youtube_dl
 RUN pip3 install --break-system-packages mutagen
-RUN pip3 install --break-system-packages "git+https://github.com/ytdl-org/youtube-dl.git"
 
 WORKDIR /root/
 COPY docker-entrypoint.sh ydl /root/

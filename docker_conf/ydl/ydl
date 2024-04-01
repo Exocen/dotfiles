@@ -112,14 +112,14 @@ class Main:
     def dl_list(self):
         if self.file_format == "mp3":
             Main.run_process(
-                'youtube-dl --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s"'
+                '/usr/bin/youtube-dl --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s" '
                 + self.playlist_id
             )
         else:
             Main.run_process(
-                'youtube-dl  -f "best[ext='
+                '/usr/bin/youtube-dl  -f "best[ext='
                 + self.file_format
-                + ']"-o "%(title)s.%(ext)s"'
+                + ']"-o "%(title)s.%(ext)s" '
                 + self.playlist_id
             )
 
