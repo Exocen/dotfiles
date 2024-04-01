@@ -109,7 +109,7 @@ class Main:
             return s.stdout
         return ""
 
-    def dl_list(self):
+    def dl_list(self, pid):
         if self.file_format == "mp3":
             Main.run_process(
                 [
@@ -118,7 +118,7 @@ class Main:
                     "--audio-format",
                     self.file_format,
                     '-o "%(title)s.%(ext)s"',
-                    self.playlist_id,
+                    self.pid,
                 ]
             )
         else:
@@ -127,7 +127,7 @@ class Main:
                     "/usr/bin/youtube-dl",
                     '-f "best[ext=' + self.file_format + "]",
                     '-o "%(title)s.%(ext)s"',
-                    self.playlist_id,
+                    self.pid,
                 ]
             )
 
@@ -221,7 +221,7 @@ class Main:
                     # new tmp dir every dl
                     with TemporaryDirectory(dir=tmp_dir) as tmpdirname:
                         log.info("Downloading: " + audio_data.title)
-                        self.dl_list()
+                        self.dl_list(audio_data.pid)
                         audio_data.filename = self.last_dl_file
                         log.debug("Tag and copy: " + audio_data.title)
                         self.tag_and_copy(audio_data, tmpdirname)
