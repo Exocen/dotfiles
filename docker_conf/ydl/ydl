@@ -270,10 +270,10 @@ class Main:
     @staticmethod
     def check_dependencies():
         try:
-            cmd = ["/usr/bin/ffmpeg", "-version", "1>/dev/null"]
-            Main.run_process(cmd)
-            cmd = ["/usr/bin/youtube-dl", "--version", "1>/dev/null"]
-            Main.run_process(cmd)
+            cmd = ["/usr/bin/ffmpeg", "-version"]
+            Main.run_process(cmd, False)
+            cmd = ["/usr/bin/youtube-dl", "--version"]
+            Main.run_process(cmd, False)
         except Exception as check_error:
             log.error(f"Missing dependency: {check_error}")
             exit(1)
