@@ -112,7 +112,7 @@ class Main:
                     "--extract-audio",
                     "--audio-format",
                     self.file_format,
-                    '-o "' + tmpdirname + '%(title)s"',
+                    '-o "' + tmpdirname + '/%(title)s"',
                     pid,
                 ]
             )
@@ -121,7 +121,7 @@ class Main:
                 [
                     "/usr/bin/youtube-dl",
                     '-f "best[ext=' + self.file_format + "]",
-                    '-o "' + tmpdirname + '%(title)s.%(ext)s"',
+                    '-o "' + tmpdirname + '/%(title)s.%(ext)s"',
                     pid,
                 ]
             )
