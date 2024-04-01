@@ -118,7 +118,7 @@ class Main:
                     "--audio-format",
                     self.file_format,
                     '-o "%(title)s.%(ext)s"',
-                    self.pid,
+                    pid,
                 ]
             )
         else:
@@ -127,7 +127,7 @@ class Main:
                     "/usr/bin/youtube-dl",
                     '-f "best[ext=' + self.file_format + "]",
                     '-o "%(title)s.%(ext)s"',
-                    self.pid,
+                    pid,
                 ]
             )
 
