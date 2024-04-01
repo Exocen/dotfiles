@@ -69,8 +69,7 @@ class Main:
 
     def get_filename_without_ext(self, filename):
         pre, ext = path.splitext(filename)
-        if ext:import json
-
+        if ext
             return self.get_filename_without_ext(pre)
         else:
             return pre
