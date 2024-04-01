@@ -100,6 +100,7 @@ class Main:
         if s.returncode != 0:
             raise CmdException(s.stderr)
         if s.stdout:
+            log.debug(s.stdout)
             return s.stdout
         return ""
 
