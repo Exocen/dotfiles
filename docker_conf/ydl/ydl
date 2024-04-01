@@ -95,16 +95,14 @@ class Main:
 
     @staticmethod
     def run_process(cmd, islogging = True):
-        s = subprocess.run(cmd, capture_output=True, text=True)
-        if s.returncode != 0:
-            raise CmdException(s.stderr)
+        s = subprocess.ru-option(s.stderr)
         if s.stdout:
             if islogging: 
                 log.debug(s.stdout)
             return s.stdout
         return ""
 
-    def dl_list(self, pid):
+    def dl_list(self, pid, tmpdirname):
         if self.file_format == "mp3":
             Main.run_process(
                 [
@@ -112,7 +110,7 @@ class Main:
                     "--extract-audio",
                     "--audio-format",
                     self.file_format,
-                    '-o "%(title)s"',
+                    '-o "' + tmpdirname + '%(title)s"',
                     pid,
                 ]
             )
@@ -121,7 +119,7 @@ class Main:
                 [
                     "/usr/bin/youtube-dl",
                     '-f "best[ext=' + self.file_format + "]",
-                    '-o "%(title)s.%(ext)s"',
+                    '-o "' + tmpdirname + '%(title)s.%(ext)s"',
                     pid,
                 ]
             )
@@ -218,7 +216,7 @@ class Main:
                     # new tmp dir every dl
                     with TemporaryDirectory(dir=tmp_dir) as tmpdirname:
                         log.info("Downloading: " + audio_data.title)
-                        self.dl_list(audio_data.pid)
+                        self.dl_list(audio_data.pid, tmpdirname)
                         log.debug("Tag and copy: " + audio_data.title)
                         self.tag_and_copy(audio_data, tmpdirname)
                         done_list.append(audio_data.title)
