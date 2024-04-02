@@ -222,8 +222,7 @@ class Main:
         utime(filepath, (current_time, current_time))
         shutil.move(filepath, dest_path)
 
-    def downloader(self):
-        log.debug(f"Starting dl on {Main.getip()}")
+    def downloader(self):        
         log.debug("Checking playlist info (yt_dl)")
         infos = self.extract_info()
 
@@ -310,6 +309,7 @@ class Main:
 
     def run(self):
         log.info("YDL Starting...")
+        log.debug(Main.getip())
         Main.check_dependencies()
         seed()
         while self.loop:
