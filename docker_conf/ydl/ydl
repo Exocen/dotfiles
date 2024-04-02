@@ -235,7 +235,7 @@ class Main:
         for info in infos["entries"]:
             audio_data_list.append(Audio_data(info["title"], info["id"]))
 
-        existing_title_list = self.db[self.playlist_id]
+        existing_title_list = self.db.get(self.playlist_id, []) 
 
         done_list = list(
             filter(
