@@ -49,8 +49,12 @@ class Main:
     def get_title_list(self):
         log.debug(f"getting titles from {db_path}")
         if path.exists(db_path):
-            with open(db_path, newline="") as json_file:
-                self.db = ast.literal_eval(json_file.read())
+            try: 
+                with open(db_path, newline="") as json_file:
+                    self.db = ast.literal_eval(json_file.read())
+            except Exception as read_exception:
+                log.error(f"Error try to read {db_path}: {read_exception}")
+                self.db = {}
 
     def write_title_list(self):
         log.info(f"writing titles to {db_path}")
