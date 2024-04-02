@@ -40,4 +40,4 @@ docker run \
     -v $FILEBROWSER_PATH:/srv \
     -u 1000:1000 \
     -p 80:80 \
-    filebrowser/filebrowser:v2-s6
+    filebrowser/filebrowser:v2.27.0
