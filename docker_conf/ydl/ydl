@@ -62,7 +62,7 @@ class Main:
             write.writerow(title_list)
 
         with open(db_path, "w", newline="") as json_file:
-            json_file.write(self.db)
+            json_file.write(str(self.db))
 
     def get_param_list(self):
         rows = []
