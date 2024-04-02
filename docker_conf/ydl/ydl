@@ -291,10 +291,8 @@ class Main:
     @staticmethod
     def check_dependencies():
         try:
-            cmd = ["/usr/bin/ffmpeg", "-version"]
-            Main.run_process(cmd, False)
-            cmd = ["yt-dlp", "--version"]
-            Main.run_process(cmd, False)
+            Main.run_process(["/usr/bin/ffmpeg", "-version"], False)
+            Main.run_process(["yt-dlp", "--version"], False)
         except Exception as check_error:
             log.error(f"Missing dependency: {check_error}")
             exit(1)
