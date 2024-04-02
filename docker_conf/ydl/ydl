@@ -15,19 +15,20 @@ from mutagen.easyid3 import EasyID3
 from time import time
 from os import path, listdir, utime
 from tempfile import TemporaryDirectory
-from urllib.request import urlopen
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger("YDL")
 tmp_dir = "/var/tmp"
 post_dl_cooldown = 15
+error_cooldown = 60
 loop_cooldown = 600
 docker_data_path = "/ydl/"
 params_location = path.join(docker_data_path, "ydl_param.csv")
 DEFAULT_USAGE = f"multiline csv file usage -> output_dir (can use host:/), playlist_id, file_format(mp4,mkv,mp3) to {params_location}"
-safe_fail_count = 2
+safe_fail_count = 0
 retry_counter_max = 2
 FORMATS = ["mp4", "mkv", "mp3"]
+db_path = path.join(docker_data_path, "db.json")
 
 
 class CmdException(Exception):
@@ -39,9 +40,9 @@ class Main:
         self.playlist_id = None
         self.playlist_path_location = None
         self.params_list = self.get_param_list()
-        self.last_video_count = {param[1]: 0 for param in self.params_list}
         log.debug(f"Using new parameters -> {self.params_list}")
-        self.retry_counter = 0
+        self.retry_counter = {}
+        self.db = {}
         self.loop = True
         self.file_format = None
 
@@ -59,6 +60,9 @@ class Main:
         with open(file_path, "w", newline="") as csv_file:
             write = csv.writer(csv_file)
             write.writerow(title_list)
+
+        with open(db_path, "w", newline="") as json_file:
+            json_file.write(self.db)
 
     def get_param_list(self):
         rows = []
@@ -79,17 +83,17 @@ class Main:
             return pre
 
     def connection_error(self, dl_error):
-        self.retry_counter = self.retry_counter + 1
-        if self.retry_counter <= safe_fail_count:
+        self.retry_counter[self.playlist_id] = self.retry_counter[self.playlist_id] + 1
+        if self.retry_counter[self.playlist_id] <= safe_fail_count:
             # Shit happen
             log.error(dl_error)
-            Main.let_sleep(loop_cooldown, True)
-        elif self.retry_counter < retry_counter_max:
+            Main.let_sleep(error_cooldown, True)
+        elif self.retry_counter[self.playlist_id] < retry_counter_max:
             log.error(dl_error)
             log.info(
-                f"Vpn reloading, {retry_counter_max - self.retry_counter} tries left"
+                f"Vpn reloading, {retry_counter_max - self.retry_counter[self.playlist_id]} tries left"
             )
-            Main.let_sleep(loop_cooldown)
+            Main.let_sleep(error_cooldown, True)
         else:
             raise dl_error
 
@@ -173,36 +177,7 @@ class Main:
         utime(filepath, (current_time, current_time))
         shutil.move(filepath, dest_path)
 
-    def get_video_count(self):
-        try:
-            reg_pattern = (
-                "playlistBylineRenderer.:{.text.:{.runs.:.{.text.:.(\d*?)\D*?}"
-            )
-            url = "https://www.youtube.com/playlist?list=" + self.playlist_id
-            found_str = re.findall(
-                reg_pattern, urlopen(url, timeout=30).read().decode("utf-8")
-            )
-            video_count = (
-                found_str[0] if len(found_str) > 0 and len(found_str[0]) != 0 else 0
-            )
-            log.debug(
-                f"{video_count} Videos found in {self.playlist_id} (previous: {self.last_video_count[self.playlist_id]})"
-            )
-            return video_count
-        # check not mandatory, any error : process continue
-        except Exception as dl_error:
-            self.connection_error(dl_error)
-            return None
-
     def downloader(self):
-        log.debug("Checking playlist length (urlopen)")
-        video_count = self.get_video_count()
-        if (
-            video_count is not None
-            and video_count == self.last_video_count[self.playlist_id]
-        ):
-            return
-
         log.debug("Checking playlist info (yt_dl)")
         infos = self.extract_info()
 
@@ -237,6 +212,7 @@ class Main:
                         log.debug("Tag and copy: " + audio_data.title)
                         self.tag_and_copy(audio_data, tmpdirname)
                         done_list.append(audio_data.title)
+                        self.db[self.playlist_id] = done_list
                         self.write_title_list(file_list_path, done_list)
                         log.info("Downloaded: " + audio_data.title)
                         Main.let_sleep(post_dl_cooldown, True)
@@ -246,15 +222,18 @@ class Main:
                 self.downloader()
                 return
 
-            # Keep infos for next loop
+        # Keep infos for next loop
         elif len(existing_title_list) != len(done_list):
             self.write_title_list(file_list_path, done_list)
-            self.retry_counter = 0
-            self.last_video_count[self.playlist_id] = video_count
+            self.retry_counter[self.playlist_id] = 0
 
     def set_params(self, params):
         self.playlist_path_location = params[0]
         self.playlist_id = params[1]
+        if self.playlist_id not in self.retry_counter:
+            self.retry_counter[self.playlist_id] = 0
+        if self.playlist_id not in self.db:
+            self.db[self.playlist_id] = []
         if params[2].lower() in FORMATS:
             self.file_format = params[2].lower()
         else:
