@@ -50,8 +50,7 @@ class Main:
         log.debug(f"getting titles from {db_path}")
         if path.exists(db_path):
             with open(db_path, newline="") as json_file:
-                json_data = json.loads("".join(line.rstrip() for line in json_file))
-                self.db = json_data
+                self.db = json.loads(json_file)
      
 
     def write_title_list(self, file_path):
