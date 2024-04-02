@@ -45,22 +45,17 @@ class Main:
         self.loop = True
         self.file_format = None
 
-    def get_title_list(self, file_path):
-        log.debug(f"getting titles from {file_path}")
-        if path.exists(file_path):
-            with open(file_path, newline="") as f:
-                reader = csv.reader(f)
-                return list(reader)[0]
-        else:
-            return []
 
-    def write_title_list(self, file_path, title_list):
-        # TODO REM csv
+    def get_title_list(self):
+        log.debug(f"getting titles from {db_path}")
+        if path.exists(db_path):
+            with open(db_path, newline="") as json_file:
+                json_data = json.load(json_file)
+                self.db = json_data
+     
+
+    def write_title_list(self, file_path):
         log.info(f"writing titles to {file_path}")
-        with open(file_path, "w", newline="") as csv_file:
-            write = csv.writer(csv_file)
-            write.writerow(title_list)
-
         with open(db_path, "w", newline="") as json_file:
             json_file.write(str(self.db))
 
@@ -139,17 +134,20 @@ class Main:
     @staticmethod
     def getip():
         try:
-            return json.loads(Main.run_process(
-                [
-                    "curl",
-                    "-X",
-                    "GET",
-                    "--fail",
-                    "--silent",
-                    "--show-error",
-                    "http://localhost:8000/v1/publicip/ip",
-                ]
-            , False))["public_ip"]
+            return json.loads(
+                Main.run_process(
+                    [
+                        "curl",
+                        "-X",
+                        "GET",
+                        "--fail",
+                        "--silent",
+                        "--show-error",
+                        "http://localhost:8000/v1/publicip/ip",
+                    ],
+                    False,
+                )
+            )["public_ip"]
         except Exception as ex:
             log.error(f"Can't retrieve public ip: {ex}")
 
@@ -225,7 +223,7 @@ class Main:
         utime(filepath, (current_time, current_time))
         shutil.move(filepath, dest_path)
 
-    def downloader(self):        
+    def downloader(self):
         log.debug("Checking playlist info (yt_dl)")
         infos = self.extract_info()
 
@@ -238,7 +236,7 @@ class Main:
         for info in infos["entries"]:
             audio_data_list.append(Audio_data(info["title"], info["id"]))
 
-        existing_title_list = self.get_title_list(file_list_path)
+        existing_title_list = [e.title for e in self.db[self.playlist_id]]
 
         done_list = list(
             filter(
@@ -261,7 +259,7 @@ class Main:
                         self.tag_and_copy(audio_data, tmpdirname)
                         done_list.append(audio_data.title)
                         self.db[self.playlist_id] = done_list
-                        self.write_title_list(file_list_path, done_list)
+                        self.write_title_list(file_list_path)
                         log.info("Downloaded: " + audio_data.title)
                         Main.let_sleep(post_dl_cooldown, True)
 
@@ -273,12 +271,8 @@ class Main:
         # Keep infos for next loop
         elif len(existing_title_list) != len(done_list):
             self.db[self.playlist_id] = done_list
-            self.write_title_list(file_list_path, done_list)
+            self.write_title_list(file_list_path)
             self.retry_counter[self.playlist_id] = 0
-
-        # TODO REM
-        self.db[self.playlist_id] = done_list
-        self.write_title_list(file_list_path, done_list)
 
     def set_params(self, params):
         self.playlist_path_location = params[0]
@@ -315,6 +309,7 @@ class Main:
         log.debug(f"Starting on {Main.getip()}")
         Main.check_dependencies()
         seed()
+        self.get_title_list()
         while self.loop:
             for params in self.params_list:
                 self.set_params(params)
