@@ -89,7 +89,7 @@ class Main:
             log.info(
                 f"Vpn reloading, {retry_counter_max - self.retry_counter[self.playlist_id]} tries left"
             )
-            log.info(f"Switching ip {Main.getip()}")
+            log.info(f"Switching ip: {Main.getip()}")
             Main.run_process(
                 [
                     "curl",
@@ -121,7 +121,7 @@ class Main:
                 ]
             )
             Main.let_sleep(error_cooldown, True)
-            log.info(f"New ip {Main.getip()}")
+            log.info(f"New ip: {Main.getip()}")
         else:
             raise dl_error
 
@@ -139,7 +139,7 @@ class Main:
     @staticmethod
     def getip():
         try:
-            Main.run_process(
+            return json.loads(Main.run_process(
                 [
                     "curl",
                     "-X",
@@ -149,9 +149,9 @@ class Main:
                     "--show-error",
                     "http://localhost:8000/v1/publicip/ip",
                 ]
-            )
-        except CmdException as cmd:
-            log.error(f"Can't retrieve public ip: {cmd}")
+            ))["public_ip"]
+        except Exception as ex:
+            log.error(f"Can't retrieve public ip: {ex}")
 
     def dl_list(self, pid, tmpdirname):
         if self.file_format == "mp3":
