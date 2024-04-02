@@ -149,7 +149,7 @@ class Main:
                     "--show-error",
                     "http://localhost:8000/v1/publicip/ip",
                 ]
-            ), False)["public_ip"]
+            , False))["public_ip"]
         except Exception as ex:
             log.error(f"Can't retrieve public ip: {ex}")
 
