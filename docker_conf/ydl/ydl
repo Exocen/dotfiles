@@ -191,6 +191,7 @@ class Main:
             )
 
     def extract_info(self):
+        log.debug(f"Checking playlist: {self.playlist_id}")
         try:
             cmd = ["yt-dlp", "--quiet", "--flat-playlist", "-J", self.playlist_id]
             return json.loads(Main.run_process(cmd, False))
@@ -222,7 +223,6 @@ class Main:
         shutil.move(filepath, dest_path)
 
     def downloader(self):
-        log.debug("Checking playlist info (yt_dl)")
         infos = self.extract_info()
 
         # Check existing
