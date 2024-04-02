@@ -56,7 +56,7 @@ class Main:
             return []
 
     def write_title_list(self, file_path, title_list):
-        #TODO REM csv
+        # TODO REM csv
         log.info(f"writing titles to {file_path}")
         with open(file_path, "w", newline="") as csv_file:
             write = csv.writer(csv_file)
@@ -93,6 +93,36 @@ class Main:
             log.error(dl_error)
             log.info(
                 f"Vpn reloading, {retry_counter_max - self.retry_counter[self.playlist_id]} tries left"
+            )
+            Main.run_process(
+                [
+                    "curl",
+                    "-X",
+                    "PUT",
+                    "--fail",
+                    "--silent",
+                    "--show-error",
+                    "http://localhost:8000/v1/openvpn/status",
+                    "-H",
+                    "Content-Type: application/json",
+                    "-d",
+                    '{"status":"stopped"}',
+                ]
+            )
+            Main.run_process(
+                [
+                    "curl",
+                    "-X",
+                    "PUT",
+                    "--fail",
+                    "--silent",
+                    "--show-error",
+                    "http://localhost:8000/v1/openvpn/status",
+                    "-H",
+                    "Content-Type: application/json",
+                    "-d",
+                    '{"status":"running"}',
+                ]
             )
             Main.let_sleep(error_cooldown, True)
         else:
@@ -229,7 +259,7 @@ class Main:
             self.write_title_list(file_list_path, done_list)
             self.retry_counter[self.playlist_id] = 0
 
-        #TODO REM
+        # TODO REM
         self.db[self.playlist_id] = done_list
         self.write_title_list(file_list_path, done_list)
 
