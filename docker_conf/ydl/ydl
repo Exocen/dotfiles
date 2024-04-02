@@ -46,13 +46,11 @@ class Main:
         self.loop = True
         self.file_format = None
 
-
     def get_title_list(self):
         log.debug(f"getting titles from {db_path}")
         if path.exists(db_path):
             with open(db_path, newline="") as json_file:
                 self.db = ast.literal_eval(json_file.read())
-     
 
     def write_title_list(self):
         log.info(f"writing titles to {db_path}")
@@ -226,7 +224,7 @@ class Main:
     def downloader(self):
         log.debug("Checking playlist info (yt_dl)")
         infos = self.extract_info()
-        
+
         # Check existing
         audio_data_list = []
 
