@@ -25,7 +25,6 @@ loop_cooldown = 600
 docker_data_path = "/ydl/"
 params_location = path.join(docker_data_path, "ydl_param.csv")
 DEFAULT_USAGE = f"multiline csv file usage -> output_dir (can use host:/), playlist_id, file_format(mp4,mkv,mp3) to {params_location}"
-safe_fail_count = 0
 retry_counter_max = 2
 FORMATS = ["mp4", "mkv", "mp3"]
 db_path = path.join(docker_data_path, "db.json")
@@ -85,15 +84,12 @@ class Main:
 
     def connection_error(self, dl_error):
         self.retry_counter[self.playlist_id] = self.retry_counter[self.playlist_id] + 1
-        if self.retry_counter[self.playlist_id] <= safe_fail_count:
-            # Shit happen
-            log.error(dl_error)
-            Main.let_sleep(error_cooldown, True)
-        elif self.retry_counter[self.playlist_id] < retry_counter_max:
+        if self.retry_counter[self.playlist_id] < retry_counter_max:
             log.error(dl_error)
             log.info(
                 f"Vpn reloading, {retry_counter_max - self.retry_counter[self.playlist_id]} tries left"
             )
+            log.info(f"Switching ip {Main.getip()}")
             Main.run_process(
                 [
                     "curl",
@@ -125,6 +121,7 @@ class Main:
                 ]
             )
             Main.let_sleep(error_cooldown, True)
+            log.info(f"New ip {Main.getip()}")
         else:
             raise dl_error
 
@@ -138,6 +135,23 @@ class Main:
                 log.debug(s.stdout)
             return s.stdout
         return ""
+
+    @staticmethod
+    def getip():
+        try:
+            Main.run_process(
+                [
+                    "curl",
+                    "-X",
+                    "GET",
+                    "--fail",
+                    "--silent",
+                    "--show-error",
+                    "http://localhost:8000/v1/publicip/ip",
+                ]
+            )
+        except CmdException as cmd:
+            log.error(f"Can't retrieve public ip: {cmd}")
 
     def dl_list(self, pid, tmpdirname):
         if self.file_format == "mp3":
@@ -209,6 +223,7 @@ class Main:
         shutil.move(filepath, dest_path)
 
     def downloader(self):
+        log.debug(f"Starting dl on {Main.getip()}")
         log.debug("Checking playlist info (yt_dl)")
         infos = self.extract_info()
 
