@@ -54,8 +54,8 @@ class Main:
                 self.db = ast.literal_eval(json_file.read())
      
 
-    def write_title_list(self, file_path):
-        log.info(f"writing titles to {file_path}")
+    def write_title_list(self):
+        log.info(f"writing titles to {db_path}")
         with open(db_path, "w", newline="") as json_file:
             json_file.write(str(self.db))
 
@@ -226,10 +226,7 @@ class Main:
     def downloader(self):
         log.debug("Checking playlist info (yt_dl)")
         infos = self.extract_info()
-
-        playlist_title = infos["title"]
-        file_list_path = path.join(docker_data_path, playlist_title + ".csv")
-
+        
         # Check existing
         audio_data_list = []
 
@@ -259,7 +256,7 @@ class Main:
                         self.tag_and_copy(audio_data, tmpdirname)
                         done_list.append(audio_data.title)
                         self.db[self.playlist_id] = done_list
-                        self.write_title_list(file_list_path)
+                        self.write_title_list()
                         log.info("Downloaded: " + audio_data.title)
                         Main.let_sleep(post_dl_cooldown, True)
 
@@ -271,7 +268,7 @@ class Main:
         # Keep infos for next loop
         elif len(existing_title_list) != len(done_list):
             self.db[self.playlist_id] = done_list
-            self.write_title_list(file_list_path)
+            self.write_title_list()
             self.retry_counter[self.playlist_id] = 0
 
     def set_params(self, params):

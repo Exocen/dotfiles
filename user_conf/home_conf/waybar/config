@@ -198,14 +198,6 @@
     "tooltip-format": "{ifname}: {ipaddr}"
     },
 
-    "network#wifi": {
-    "interval": 4,
-    "interface":"wlo1",
-    "format-wifi": "<span font='14' color=\"#9b59b6\"></span> {essid} <span font='14' color=\"#9b59b6\">  </span>{bandwidthDownOctets:<4} <span font='14' color=\"#9b59b6\"> </span>{bandwidthUpOctets:<4}",
-    "format-disconnected": "<span font='14' color=\"#9b59b6\">󰖪 </span>",
-    "tooltip-format": "{ifname}: {ipaddr}"
-    },
-
     "sway/workspaces": {
     "all-outputs": false,
     "disable-scroll": false,
