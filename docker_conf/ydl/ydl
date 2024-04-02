@@ -113,7 +113,7 @@ class Main:
         if self.file_format == "mp3":
             Main.run_process(
                 [
-                    "/usr/bin/youtube-dl",
+                    "yt-dlp",
                     "--extract-audio",
                     "--audio-format",
                     self.file_format,
@@ -125,7 +125,7 @@ class Main:
         elif self.file_format == "mp4":
             Main.run_process(
                 [
-                    "/usr/bin/youtube-dl",
+                    "yt-dlp",
                     "-f",
                     "bestvideo[height<=?1080]",
                     "--recode-video",
@@ -138,7 +138,7 @@ class Main:
         else:
             Main.run_process(
                 [
-                    "/usr/bin/youtube-dl",
+                    "yt-dlp",
                     "--recode-video",
                     self.file_format,
                     "-o",
@@ -149,7 +149,7 @@ class Main:
 
     def extract_info(self):
         try:
-            cmd = ["/usr/bin/youtube-dl", "--flat-playlist", "-J", self.playlist_id]
+            cmd = ["yt-dlp", "--flat-playlist", "-J", self.playlist_id]
             return json.loads(Main.run_process(cmd, False))
         except Exception as extraction_error:
             self.connection_error(extraction_error)
@@ -257,7 +257,7 @@ class Main:
         try:
             cmd = ["/usr/bin/ffmpeg", "-version"]
             Main.run_process(cmd, False)
-            cmd = ["/usr/bin/youtube-dl", "--version"]
+            cmd = ["yt-dlp", "--version"]
             Main.run_process(cmd, False)
         except Exception as check_error:
             log.error(f"Missing dependency: {check_error}")
