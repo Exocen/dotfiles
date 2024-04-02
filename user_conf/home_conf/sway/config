@@ -82,6 +82,9 @@ bindsym $mod+Print exec sway-interactive-screenshot --video
 # Capture a screenshot
 bindsym Print exec sway-interactive-screenshot
 
+# Rotate Screen
+bindsym $mod+Shift+m exec "swaymsg 'output DP-1 transform 270'"
+
 # Kill focused window
 bindsym $mod+Shift+A kill
 
@@ -117,20 +120,12 @@ bindsym XF86MonBrightnessUp   exec light -A 10
 bindsym XF86MonBrightnessDown exec light -U 10
 
 # Change focus
-
-# alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # Move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+M move right
-
-# alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up

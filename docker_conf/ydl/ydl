@@ -158,6 +158,7 @@ class Main:
             Main.run_process(
                 [
                     "yt-dlp",
+                    "--quiet",
                     "--extract-audio",
                     "--audio-format",
                     self.file_format,
@@ -170,6 +171,7 @@ class Main:
             Main.run_process(
                 [
                     "yt-dlp",
+                    "--quiet",
                     "-f",
                     "bestvideo[height<=?1080]",
                     "--recode-video",
@@ -183,6 +185,7 @@ class Main:
             Main.run_process(
                 [
                     "yt-dlp",
+                    "--quiet",
                     "--recode-video",
                     self.file_format,
                     "-o",
@@ -193,7 +196,7 @@ class Main:
 
     def extract_info(self):
         try:
-            cmd = ["yt-dlp", "--flat-playlist", "-J", self.playlist_id]
+            cmd = ["yt-dlp", "--quiet", "--flat-playlist", "-J", self.playlist_id]
             return json.loads(Main.run_process(cmd, False))
         except Exception as extraction_error:
             self.connection_error(extraction_error)
