@@ -25,7 +25,7 @@ loop_cooldown = 600
 docker_data_path = "/ydl/"
 params_location = path.join(docker_data_path, "ydl_param.csv")
 DEFAULT_USAGE = f"multiline csv file usage -> output_dir (can use host:/), playlist_id, file_format(mp4,mkv,mp3) to {params_location}"
-retry_counter_max = 2
+retry_counter_max = 5
 FORMATS = ["mp4", "mkv", "mp3"]
 db_path = path.join(docker_data_path, "db.json")
 
@@ -311,8 +311,8 @@ class Main:
             exit(1)
 
     def run(self):
-        log.info("YDL Starting...")
-        log.debug(Main.getip())
+        log.info("YDL Starting")
+        log.debug(f"Starting on {Main.getip()}")
         Main.check_dependencies()
         seed()
         while self.loop:
