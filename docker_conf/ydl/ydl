@@ -68,13 +68,6 @@ class Main:
                 return rows
         raise Exception(DEFAULT_USAGE)
 
-    def get_filename_without_ext(self, filename):
-        pre, ext = path.splitext(filename)
-        if ext:
-            return self.get_filename_without_ext(pre)
-        else:
-            return pre
-
     def connection_error(self, dl_error):
         self.retry_counter[self.playlist_id] = self.retry_counter[self.playlist_id] + 1
         if self.retry_counter[self.playlist_id] < retry_counter_max:
@@ -245,7 +238,7 @@ class Main:
             filter(lambda a: a.title not in existing_title_list, audio_data_list)
         )
 
-        # Dl and tag
+        # Starting Dl and tag
         if audio_data_list:
             try:
                 for audio_data in audio_data_list:
@@ -259,6 +252,7 @@ class Main:
                         self.db[self.playlist_id] = done_list
                         self.write_title_list()
                         log.info("Downloaded: " + audio_data.title)
+                        self.retry_counter[self.playlist_id] = 0
                         Main.let_sleep(post_dl_cooldown, True)
 
             except Exception as dl_error:
@@ -266,7 +260,7 @@ class Main:
                 self.downloader()
                 return
 
-        # Keep infos for next loop
+        # Playlist update detected but no need to dl
         elif set(existing_title_list) != set(done_list):
             self.db[self.playlist_id] = done_list
             self.write_title_list()
