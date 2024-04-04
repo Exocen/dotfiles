@@ -1,3 +1,3 @@
 #!/bin/sh
-yt-dlp -U
+pip3 install --break-system-packages -U yt-dlp
 python3 /root/ydl
