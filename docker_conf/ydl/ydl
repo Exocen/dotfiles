@@ -1,21 +1,18 @@
 #!/usr/bin/python3
-# Needed : mutagen, youtube_dl, ffmpeg
-import mutagen
+# Dependencies : mutagen, youtube_dl, ffmpeg
 
-import re
-import ast
 import csv
-import subprocess
-import logging
-import shutil
 import json
-
-from random import seed, randint
-from time import sleep
-from mutagen.easyid3 import EasyID3
-from time import time
-from os import path, listdir, utime
+import logging
+import re
+import shutil
+import subprocess
+from os import listdir, path, utime
+from random import randint, seed
 from tempfile import TemporaryDirectory
+from time import sleep, time
+
+from mutagen import File, easyid3, id3
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger("YDL")
@@ -49,9 +46,9 @@ class Main:
     def get_title_list(self):
         log.debug(f"getting titles from {db_path}")
         if path.exists(db_path):
-            try: 
+            try:
                 with open(db_path, newline="") as json_file:
-                    self.db = ast.literal_eval(json_file.read())
+                    self.db = json.load(json_file)
             except Exception as read_exception:
                 log.error(f"Error try to read {db_path}: {read_exception}")
                 self.db = {}
@@ -59,7 +56,7 @@ class Main:
     def write_title_list(self):
         log.info(f"writing titles to {db_path}")
         with open(db_path, "w", newline="") as json_file:
-            json_file.write(str(self.db))
+            json_file.write(json.dumps(self.db))
 
     def get_param_list(self):
         rows = []
@@ -219,9 +216,9 @@ class Main:
         # if artist and audio -> use id3 tags
         if self.file_format == "mp3" and audio_data.artist is not None:
             try:
-                meta = EasyID3(filepath)
-            except mutagen.id3.ID3NoHeaderError:
-                meta = mutagen.File(filepath, easy=True)
+                meta = easyid3.EasyID3(filepath)
+            except id3.ID3NoHeaderError:
+                meta = File(filepath, easy=True)
                 meta["title"] = audio_data.tagtitle
                 meta["artist"] = audio_data.artist
                 meta.save()
@@ -238,7 +235,7 @@ class Main:
         for info in infos["entries"]:
             audio_data_list.append(Audio_data(info["title"], info["id"]))
 
-        existing_title_list = self.db.get(self.playlist_id, []) 
+        existing_title_list = self.db.get(self.playlist_id, [])
 
         done_list = list(
             filter(
