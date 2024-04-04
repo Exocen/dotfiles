@@ -271,7 +271,7 @@ class Main:
                 return
 
         # Keep infos for next loop
-        elif len(existing_title_list) != len(done_list):
+        elif set(existing_title_list) != set(done_list):
             self.db[self.playlist_id] = done_list
             self.write_title_list()
             self.retry_counter[self.playlist_id] = 0
