@@ -46,7 +46,7 @@ class Main:
                 with open(db_path, newline="") as json_file:
                     self.db = json.load(json_file)
             except Exception as read_exception:
-                log.error(f"Error try to read {db_path}: {read_exception}")
+                log.error(f"Error trying to read {db_path}: {read_exception}")
                 self.db = {}
 
     def write_title_list(self):
@@ -55,7 +55,7 @@ class Main:
             with open(db_path, "w", newline="") as json_file:
                 json_file.write(json.dumps(self.db))
         except Exception as write_exception:
-            log.error(f"Error try to write {db_path}: {write_exception}")
+            log.error(f"Error trying to write {db_path}: {write_exception}")
 
     def get_param_list(self):
         rows = []
