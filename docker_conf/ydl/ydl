@@ -28,10 +28,6 @@ FORMATS = ["mp4", "mkv", "mp3"]
 db_path = path.join(docker_data_path, "db.json")
 
 
-class CmdException(Exception):
-    pass
-
-
 class Main:
     def __init__(self):
         self.playlist_id = None
@@ -55,8 +51,11 @@ class Main:
 
     def write_title_list(self):
         log.info(f"writing titles to {db_path}")
-        with open(db_path, "w", newline="") as json_file:
-            json_file.write(json.dumps(self.db))
+        try:
+            with open(db_path, "w", newline="") as json_file:
+                json_file.write(json.dumps(self.db))
+        except Exception as write_exception:
+            log.error(f"Error try to write {db_path}: {write_exception}")
 
     def get_param_list(self):
         rows = []
@@ -126,7 +125,7 @@ class Main:
     def run_process(cmd, islogging=True):
         s = subprocess.run(cmd, capture_output=True, text=True)
         if s.returncode != 0:
-            raise CmdException(s.stderr)
+            raise Exception(s.stderr)
         if s.stdout:
             if islogging:
                 log.debug(s.stdout)
