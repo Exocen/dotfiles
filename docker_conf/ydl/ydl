@@ -24,7 +24,7 @@ LOOP_COOLDOWN = 600
 DOCKER_DATA_PATH = "/ydl/"
 TMP_DIR = "/var/tmp"
 PARAMS_LOCATION = path.join(DOCKER_DATA_PATH, "ydl_param.csv")
-DEFAULT_USAGE = f"multiline csv file usage -> output_dir , playlist_id, file_format(mp4,mkv,mp3) to {PARAMS_LOCATION}"
+DEFAULT_USAGE = f"Multiline csv file usage -> output_dir , playlist_id, file_format(mp4,mkv,mp3) to {PARAMS_LOCATION}"
 FORMATS = ["mp4", "mkv", "mp3"]
 DB_PATH = path.join(DOCKER_DATA_PATH, "db.json")
 
@@ -41,7 +41,7 @@ class Main:
         self.file_format = None
 
     def get_title_list(self):
-        log.debug(f"getting titles from {DB_PATH}")
+        log.debug(f"Getting titles from {DB_PATH}")
         if path.exists(DB_PATH):
             try:
                 with open(DB_PATH, newline="") as json_file:
@@ -51,7 +51,7 @@ class Main:
                 self.db = {}
 
     def write_title_list(self, done_list):
-        log.info(f"writing titles to {DB_PATH}")
+        log.info(f"Writing titles to {DB_PATH}")
         self.db[self.playlist_id] = done_list
         try:
             with open(DB_PATH, "w", newline="") as json_file:
@@ -206,7 +206,7 @@ class Main:
             log.error(f"{dest_path} already exists")
             return
         filenames = listdir(tmpdirname)
-        log.debug(f"files : {filenames}")
+        log.debug(f"Files : {filenames}")
         if len(filenames) != 1:
             raise Exception(f"One file should be present: {filenames}")
         filepath = path.join(tmpdirname, filenames[0])
