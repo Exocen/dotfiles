@@ -55,7 +55,7 @@ class Main:
         self.db[self.playlist_id] = done_list
         try:
             with open(DB_PATH, "w", newline="") as json_file:
-                json_file.write(json.dumps(done_list))
+                json_file.write(json.dumps(self.db))
         except Exception as write_exception:
             log.error(f"Error trying to write {DB_PATH}: {write_exception}")
 
