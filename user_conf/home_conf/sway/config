@@ -1,5 +1,4 @@
 # Outputs
-#output DP-1 res 2560x1440 pos 0,0
 output * bg #000000 solid_color
 
 # Workspaces allocation

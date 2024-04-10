@@ -33,9 +33,6 @@
     "disk",
     "memory",
     "cpu#core",
-    //"cpu#load",
- //   "custom/gpu-temp",
-//    "temperature",
     "clock#date",
     "clock#time",
     "custom/capslock-status"
