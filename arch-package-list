@@ -3,7 +3,7 @@ mesa
 # Video Driver (nvidia)
 #nvidia
 # Amd CPU
-amd-ucode
+#amd-ucode
 # Network
 ifplugd
 # WM
@@ -44,7 +44,7 @@ blueman pipewire-pulse pipewire bluez-utils wireplumber
 # Music player, visualizer
 mpd mpc ncmpcpp cava
 # Vim addons
-vim-youcompleteme-git flake8
+#vim-youcompleteme-git flake8
 # Sound app control
 pavucontrol
 # Windows usb installer
