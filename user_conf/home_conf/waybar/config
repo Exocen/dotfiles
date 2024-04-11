@@ -33,6 +33,7 @@
     "disk",
     "memory",
     "cpu#core",
+    "temperature",
     "clock#date",
     "clock#time",
     "custom/capslock-status"
@@ -230,9 +231,9 @@
     },
 
     "temperature": {
-    "critical-threshold": 85,
+    "critical-threshold": 60,
     "interval": 5,
-    "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+    "thermal-zone": 3,
     "format": "<span font='14' color=\"#cd6155\">{icon}</span>{temperatureC:>3}°C",
     "format-icons": [
     "", // Icon: temperature-empty
