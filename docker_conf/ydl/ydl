@@ -213,7 +213,7 @@ class Main:
                 meta.save()
         current_time = time()
         utime(filepath, (current_time, current_time))
-        shutil.move(filepath, dest_path)
+        shutil.move(path.normpath(filepath), path.normpath(dest_path))
 
     def downloader(self):
         # dl playlist info
