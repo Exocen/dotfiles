@@ -27,8 +27,10 @@ DEFAULT_USAGE = f"Multiline csv file usage -> output_dir , playlist_id, file_for
 FORMATS = ["mp4", "mkv", "mp3"]
 DB_PATH = path.join(DOCKER_DATA_PATH, "db.json")
 
+
 class CmdException(Exception):
     pass
+
 
 class Main:
     def __init__(self):
@@ -240,26 +242,25 @@ class Main:
 
         # starting Dl and tag
         if audio_data_list:
-            try:
-                for audio_data in audio_data_list:
-                    # new tmp dir every dl
-                    with TemporaryDirectory(dir=TMP_DIR) as tmpdirname:
+            for audio_data in audio_data_list:
+                # new tmp dir every dl
+                with TemporaryDirectory(dir=TMP_DIR) as tmpdirname:
+                    try:
                         log.info("Downloading: " + audio_data.title)
                         self.dl_list(audio_data.pid, tmpdirname)
                         log.debug("Tag and copy: " + audio_data.title)
                         self.tag_and_copy(audio_data, tmpdirname)
-                    # dl successfull or file already present, updating done list and db
-                    done_list.append(audio_data.title)
-                    self.write_title_list(done_list)
-                    log.info("Done: " + audio_data.title)
-                    self.retry_counter[self.playlist_id] = 0
-                    Main.let_sleep(POST_DL_COOLDOWN, True)
-                    
-            except shutil.Error as mv_error:
-                log.error(f"Move error: {mv_error}")
-            except CmdException as dl_error:
-                self.connection_error(dl_error)
-                return
+                    except shutil.Error as mv_error:
+                        log.error(f"Move error: {mv_error}")
+                    except CmdException as dl_error:
+                        self.connection_error(dl_error)
+                        return
+                # dl successfull or file already present, updating done list and db
+                done_list.append(audio_data.title)
+                self.write_title_list(done_list)
+                log.info("Done: " + audio_data.title)
+                self.retry_counter[self.playlist_id] = 0
+                Main.let_sleep(POST_DL_COOLDOWN, True)
 
         # playlist update detected but no need to dl
         elif set(existing_title_list) != set(done_list):
