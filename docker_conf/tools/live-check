@@ -76,7 +76,7 @@ function status_check(){
 
 function check_loop(){
     while [ -d $TIMESTAMP_FILEPATH ] ; do
-        if [ "`ls -l $TIMESTAMP_FILEPATH | wc -l`" -gt 1 ]; then
+        if [ "`ls $TIMESTAMP_FILEPATH | wc -l`" -gt 0 ]; then
             last_timestamp=$(date -r "`find $TIMESTAMP_FILEPATH -type f -exec ls -th {} + | head -n 1`" +%s)
             if [ $LAST_TIMESTAMP != $last_timestamp ]; then
                 LAST_TIMESTAMP=$last_timestamp
