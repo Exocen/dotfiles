@@ -1,13 +1,15 @@
 #!/bin/bash
-# Use with ssh_backup.sh
+# Use with ssh_backup
 
-! sqlite3 --version &>/dev/null && echo "sqlite3 needs to be installed." && exit 1
+if ! sqlite3 --version &>/dev/null ; then
+    echo "sqlite3 needs to be installed."
+    exit 1
+fi
 
 BACKUP_PATH="/docker-data/vaultwarden/sqlite3_backups"
 DB_PATH="/docker-data/vaultwarden/db.sqlite3"
 BACKUP_FILE="db_$(date "+%F-%H%M%S").sqlite3"
 MAX_BACKUP=10
-
 
 rotate_backup() {
     if [ `ls -rt $BACKUP_PATH/*.sqlite3 2>/dev/null | wc -l` -ge $MAX_BACKUP ] ; then
