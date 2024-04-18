@@ -188,7 +188,7 @@
     },
 
     "network": {
-    "interval": 4,
+    "interval": 5,
     "format-ethernet": "<span font='14' color=\"#9b59b6\">󰈀   </span>{bandwidthDownOctets:<4} <span font='14' color=\"#9b59b6\"> </span>{bandwidthUpOctets:<4}",
     "format-wifi": "<span font='14' color=\"#9b59b6\"></span> {essid} <span font='14' color=\"#9b59b6\">  </span>{bandwidthDownOctets:<4} <span font='14' color=\"#9b59b6\"> </span>{bandwidthUpOctets:<4}",
     "format-disconnected": "<span font='14' color=\"#9b59b6\">󰈂</span>",
@@ -231,7 +231,7 @@
     },
 
     "temperature": {
-    "critical-threshold": 60,
+    "critical-threshold": 80,
     "interval": 5,
     "thermal-zone": 3,
     "format": "<span font='14' color=\"#cd6155\">{icon}</span>{temperatureC:>3}°C",

@@ -63,7 +63,7 @@ bindsym $mod+Return exec $TERMINAL
 # bindcode control+62 exec $TERMINAL
 
 # Bluetooth devices
-bindsym $mod+b exec $HOME/.config/sway/bluetooth-connect "PLT BB PRO 2"
+bindsym $mod+b exec $HOME/.config/sway/bluetooth-connect "U5"
 
 # Internet browser
 bindsym $mod+g exec firefox
