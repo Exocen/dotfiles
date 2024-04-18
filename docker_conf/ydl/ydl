@@ -201,7 +201,7 @@ class Main:
         log.debug(f"Files : {filenames}")
         if len(filenames) != 1:
             raise Exception(f"One file should be present: {filenames}")
-        filepath = path.join(tmpdirname, filenames[0])
+        filepath = path.join(tmpdirname, filenames[0].replace('/', '\/'))
         # if artist and audio -> use id3 tags
         if self.file_format == "mp3" and audio_data.artist is not None:
             try:
@@ -213,7 +213,7 @@ class Main:
                 meta.save()
         current_time = time()
         utime(filepath, (current_time, current_time))
-        shutil.move(path.normpath(filepath), path.normpath(dest_path))
+        shutil.move(filepath, dest_path)
 
     def downloader(self):
         # dl playlist info
@@ -312,7 +312,7 @@ class Main:
 
 class Audio_data:
     def __init__(self, title, pid):
-        self.title = title
+        self.title = title.replace('/', '\/')
         self.pid = pid
         parsed_title = re.findall(r"(.*?)\s*(-|//)\s*(.*)", title)
         if len(parsed_title) > 0 and len(parsed_title[0]) == 3:
