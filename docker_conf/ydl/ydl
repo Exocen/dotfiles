@@ -27,6 +27,8 @@ DEFAULT_USAGE = f"Multiline csv file usage -> output_dir , playlist_id, file_for
 FORMATS = ["mp4", "mkv", "mp3"]
 DB_PATH = path.join(DOCKER_DATA_PATH, "db.json")
 
+class CmdException(Exception):
+    pass
 
 class Main:
     def __init__(self):
@@ -119,7 +121,7 @@ class Main:
     def run_process(cmd, islogging=True):
         s = subprocess.run(cmd, capture_output=True, text=True)
         if s.returncode != 0:
-            raise Exception(s.stderr)
+            raise CmdException(s.stderr)
         if s.stdout:
             if islogging:
                 log.debug(s.stdout)
@@ -252,8 +254,10 @@ class Main:
                     log.info("Done: " + audio_data.title)
                     self.retry_counter[self.playlist_id] = 0
                     Main.let_sleep(POST_DL_COOLDOWN, True)
-
-            except Exception as dl_error:
+                    
+            except shutil.Error as mv_error:
+                log.error(f"Move error: {mv_error}")
+            except CmdException as dl_error:
                 self.connection_error(dl_error)
                 return
 
