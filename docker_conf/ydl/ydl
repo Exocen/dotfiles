@@ -196,12 +196,12 @@ class Main:
             self.connection_error(extraction_error)
             return
 
-    def tag_and_copy(self, audio_data, tmpdirname, dest_path):
+    def tag_and_copy(self, audio_data, tmpdirname):
         filenames = listdir(tmpdirname)
         log.debug(f"Files : {filenames}")
         if len(filenames) != 1:
             raise Exception(f"One file should be present: {filenames}")
-        filepath = path.join(tmpdirname, filenames[0].replace('/', '\/'))
+        filepath = path.join(tmpdirname, filenames[0])
         # if artist and audio -> use id3 tags
         if self.file_format == "mp3" and audio_data.artist is not None:
             try:
@@ -213,7 +213,7 @@ class Main:
                 meta.save()
         current_time = time()
         utime(filepath, (current_time, current_time))
-        shutil.move(filepath, dest_path)
+        shutil.move(filepath, self.playlist_path_location)
 
     def downloader(self):
         # dl playlist info
@@ -240,19 +240,12 @@ class Main:
         if audio_data_list:
             try:
                 for audio_data in audio_data_list:
-                    dest_path = path.join(
-                        self.playlist_path_location,
-                        audio_data.title + "." + self.file_format,
-                    )
-                    if path.exists(dest_path):
-                        log.warning(f"{dest_path} already exists")
-                    else:
-                        # new tmp dir every dl
-                        with TemporaryDirectory(dir=TMP_DIR) as tmpdirname:
-                            log.info("Downloading: " + audio_data.title)
-                            self.dl_list(audio_data.pid, tmpdirname)
-                            log.debug("Tag and copy: " + audio_data.title)
-                            self.tag_and_copy(audio_data, tmpdirname, dest_path)
+                    # new tmp dir every dl
+                    with TemporaryDirectory(dir=TMP_DIR) as tmpdirname:
+                        log.info("Downloading: " + audio_data.title)
+                        self.dl_list(audio_data.pid, tmpdirname)
+                        log.debug("Tag and copy: " + audio_data.title)
+                        self.tag_and_copy(audio_data, tmpdirname)
                     # dl successfull or file already present, updating done list and db
                     done_list.append(audio_data.title)
                     self.write_title_list(done_list)
@@ -312,7 +305,7 @@ class Main:
 
 class Audio_data:
     def __init__(self, title, pid):
-        self.title = title.replace('/', '\/')
+        self.title = title
         self.pid = pid
         parsed_title = re.findall(r"(.*?)\s*(-|//)\s*(.*)", title)
         if len(parsed_title) > 0 and len(parsed_title[0]) == 3:
