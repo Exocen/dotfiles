@@ -90,7 +90,7 @@ function ins() {
 function aur_ins() {
     all="$@" #for is_working function
     info "Installation: $all "
-    if [ "$WOS" = "arch" ] || [ "$WOS" = "archarm" ]; then
+    if [ "$WOS" = "arch" ]; then
         # Aur tool install
         pikaur -V &>/dev/null
         if [ $? -ne 0 ]; then
