@@ -79,7 +79,7 @@ function ins() {
         sudo dnf update -y &>>$logFile
         sudo dnf install $@ -y &>>$logFile
         is_working "$all installed"
-    elif [ "$WOS" = "arch" ] || [ "$WOS" = "archarm" ] ; then
+    elif [ "$WOS" = "arch" ]; then
         sudo pacman -S $@ --needed --noconfirm &>>$logFile
         is_working "$all installed"
     else
