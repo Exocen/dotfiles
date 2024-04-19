@@ -80,7 +80,7 @@ function ins() {
         sudo dnf install $@ -y &>>$logFile
         is_working "$all installed"
     elif [ "$WOS" = "arch" ] || [ "$WOS" = "archarm" ] ; then
-        sudo pacman -S $@ --needed --noconfirm &>>$logFile
+        aur_ins $@
         is_working "$all installed"
     else
         error "Unknow OS: $WOS"
@@ -142,6 +142,8 @@ function basic_install() {
     sh ~/.vim_runtime/install_awesome_vimrc.sh &>>$logFile
     cd ~/.vim_runtime
     sh ~/.vim_runtime/update.sh &>>$logFile
+
+
     cd $LOCAL
 }
 
