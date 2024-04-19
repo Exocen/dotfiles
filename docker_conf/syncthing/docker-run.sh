@@ -18,7 +18,7 @@ docker run -d --rm --log-driver=journald \
     --name=syncthing \
     -e PUID=1000 \
     -e PGID=1000 \
-    -e STDATADIR=/var/syncthing/data \
+    -e STDATADIR=/var/syncthing/data/db \
     -e STCONFDIR=/var/syncthing/config \
     -e STHOMEDIR= \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
