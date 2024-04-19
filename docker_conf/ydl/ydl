@@ -40,7 +40,6 @@ class Main:
         log.debug(f"Using new parameters -> {self.params_list}")
         self.retry_counter = {}
         self.db = {}
-        self.loop = True
         self.file_format = None
 
     def get_title_list(self):
@@ -112,7 +111,7 @@ class Main:
                         '{"status":"running"}',
                     ]
                 )
-            except Exception as exception:
+            except CmdException as exception:
                 log.error(f"Error switching ip: {exception}")
             Main.let_sleep(ERROR_COOLDOWN, True)
             log.info(f"Ip: {Main.getip()}")
@@ -301,7 +300,7 @@ class Main:
         Main.check_dependencies()
         seed()
         self.get_title_list()
-        while self.loop:
+        while True:
             for params in self.params_list:
                 self.set_params(params)
                 self.downloader()
