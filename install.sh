@@ -107,7 +107,7 @@ function aur_ins() {
 
 function arch_package_install() {
     info "Arch install: $1"
-    sudo pacman -S --needed base-devel git python3 --noconfirm &>>$logFile
+    sudo pacman -S --needed base-devel git --noconfirm &>>$logFile
     tmpD=$(mktemp -d)
     git clone $1 $tmpD &>>$logFile
     current_dir=`pwd`
