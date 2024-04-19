@@ -28,5 +28,6 @@ docker run -d --rm --log-driver=journald \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     --network=container:gluetun \
     -v /docker-data/syncthing/config:/var/syncthing/config \
+    -v /docker-data-nobackup/syncthing/data:/var/syncthing/data \
     -v $SYNCTHING_PATH:/data1 \
     syncthing:latest && echo "syncthing started."
