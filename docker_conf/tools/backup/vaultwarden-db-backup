@@ -21,7 +21,12 @@ mkdir -p $BACKUP_PATH
 rotate_backup
 
 # use sqlite3 to create backup (avoids corruption if db write in progress)
-sqlite3 $DB_PATH "VACUUM INTO  '$BACKUP_PATH/$BACKUP_FILE'"
+if sqlite3 $DB_PATH "VACUUM INTO  '$BACKUP_PATH/$BACKUP_FILE'" ; then
+    echo "Vaultwarden backup done"
+else
+    echo "Vaultwarden backup failed"
+    exit 1
+fi
 
 # From https://github.com/dani-garcia/vaultwarden/wiki/Backing-up-your-vault
 # Make sure vaultwarden is stopped, and then simply replace each file or directory in the data dir with its backed up version.
