@@ -20,6 +20,7 @@ docker run -d --rm --log-driver=journald \
     -e PGID=1000 \
     -e STDATADIR=/var/syncthing/data \
     -e STCONFDIR=/var/syncthing/config \
+    -e STHOMEDIR= \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     --network=container:gluetun \
     -v /docker-data-nobackup/syncthing/:/var/syncthing/data \
