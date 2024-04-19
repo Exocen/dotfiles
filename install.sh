@@ -68,13 +68,12 @@ function home_cp() {
 # run detectOS before
 function ins() {
     all="$@" #for is_working function
+    info "Installation: $all "
     if [ "$WOS" = "ubuntu" ] || [ "$WOS" = "debian" ] || [ "$WOS" = "raspbian" ]; then
-        info "Installation: $all "
         sudo apt update -y &>>$logFile
         sudo apt install $@ -y &>>$logFile
         is_working "$all installed"
     elif [ "$WOS" = "fedora" ]; then
-        info "Installation: $all "
         sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
         sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
         sudo dnf update -y &>>$logFile
