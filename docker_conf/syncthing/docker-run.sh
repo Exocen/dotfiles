@@ -18,8 +18,10 @@ docker run -d --rm --log-driver=journald \
     --name=syncthing \
     -e PUID=1000 \
     -e PGID=1000 \
+    -e STDATADIR=/var/syncthing/data \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     --network=container:gluetun \
+    -v /docker-data-nobackup/syncthing/:/var/syncthing/data \
     -v /docker-data/syncthing/config:/var/syncthing/config \
     -v $SYNCTHING_PATH:/data1 \
     syncthing/syncthing:latest && echo "syncthing started."
