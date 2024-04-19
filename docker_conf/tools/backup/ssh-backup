@@ -15,7 +15,9 @@ rotate_backup() {
 
 rotate_backup
 if ssh $HOST '[ -d /docker-data ]'; then
-    cat $LOCAL/vaultwarden-db-backup | ssh $HOST
+    if ssh $HOST '[ -d /docker-data/vaultwarden ]'; then
+        cat $LOCAL/vaultwarden-db-backup | ssh $HOST
+    fi
     ssh $HOST "cd / && tar cz docker-data" > $BACKUP_DIR/$OUTPUT
     if [ $? -eq 0 ]; then
         echo "Backup $OUTPUT created"
