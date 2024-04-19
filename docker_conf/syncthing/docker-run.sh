@@ -1,10 +1,10 @@
 #!/bin/bash
 
-if [ `id -u` -ne 0 ]; then
+if [ $(id -u) -ne 0 ]; then
     echo "Must be run as root"
     exit 1
 else
-    if [ -z ${SYNCTHING_PATH+x} ] ; then
+    if [ -z ${SYNCTHING_PATH+x} ]; then
         if [ -z "$1" ]; then
             SYNCTHING_PATH="/docker-data/syncthing/root/"
         else
@@ -13,16 +13,20 @@ else
     fi
 fi
 
+if docker images | grep "syncthing"; then
+    echo "img already created"
+else
+    cd $(dirname "$(readlink -f "$0")")
+    docker build -t syncthing .
+fi
+
 #PGUID 1000 PGID 1000 -> must have folder permission
 docker run -d --rm --log-driver=journald \
     --name=syncthing \
     -e PUID=1000 \
     -e PGID=1000 \
-    -e STDATADIR=/var/syncthing/data \
-    -e STCONFDIR=/var/syncthing/config \
-    -e STHOMEDIR= \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     --network=container:gluetun \
     -v /docker-data/syncthing/config:/var/syncthing/config \
     -v $SYNCTHING_PATH:/data1 \
-    syncthing/syncthing:latest && echo "syncthing started."
+    syncthing:latest && echo "syncthing started."

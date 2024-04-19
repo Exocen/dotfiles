@@ -15,16 +15,6 @@ safe_exit() {
     exit "$2"
 }
 
-inspect() {
-    if ! docker inspect -f '{{.State.Status}}' $1 2>/dev/null | grep -P "^running$" &>/dev/null; then
-        return 1
-    fi
-    if docker inspect $1 2>/dev/null | grep -P "unhealthy" &>/dev/null; then
-        return 1
-    fi
-    return 0
-}
-
 send_mail() {
     local message=$(journalctl -b CONTAINER_NAME=$1 | tail)
     local message2=$(journalctl -b -u docker_manager | tail)
@@ -33,12 +23,22 @@ send_mail() {
 
 refresh_score() {
     # $1 cont name / $2 score
-    if inspect $1; then
-        echo 0
-    elif [ $2 -lt $MAX_FAIL_SCORE ]; then
-        echo $(($2 + 1))
-    else
+    if ! docker inspect -f '{{.State.Status}}' $1 2>/dev/null | grep -P "^running$" &>/dev/null; then
+        if [ $2 -lt $MAX_FAIL_SCORE ]; then
+            echo $(($2 + 1))
+        else
+            echo $2
+        fi
+    elif docker inspect $1 2>/dev/null | grep -P "unhealthy" &>/dev/null; then
+        if [ $2 -lt $MAX_FAIL_SCORE ]; then
+            echo $(($2 + 1))
+        else
+            echo $2
+        fi
+    elif ! docker inspect -f '{{.State.Status}}' $1 2>/dev/null | grep -P "^starting$" &>/dev/null; then
         echo $2
+    else
+        echo 0
     fi
 }
 
@@ -56,7 +56,7 @@ error_handler() {
     echo "$1 failed ($2)."
     send_mail $1 $2
     cd $LOCAL_DIR && cd ../..
-    docker stop $1 &>/dev/null && docker wait $1 1>/dev/null  && echo "$1 stopped."
+    docker stop $1 &>/dev/null && docker wait $1 1>/dev/null && echo "$1 stopped."
     $1/docker-run.sh
 }
 
