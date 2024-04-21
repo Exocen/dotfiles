@@ -20,9 +20,9 @@ else
     docker build -t syncthing .
 fi
 
-mkdir -P /docker-data/syncthing/config
+mkdir -p /docker-data/syncthing/config
 chown 1000:1000 -R /docker-data/syncthing/config
-mkdir -P /docker-data-nobackup/syncthing/data
+mkdir -p /docker-data-nobackup/syncthing/data
 chown 1000:1000 -R /docker-data-nobackup/syncthing/data
 
 #PGUID 1000 PGID 1000 -> must have folder permission
