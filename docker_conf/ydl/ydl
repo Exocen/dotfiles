@@ -234,7 +234,8 @@ class Main:
         audio_data_list = []
 
         for info in infos["entries"]:
-            audio_data_list.append(Audio_data(info["title"], info["id"]))
+            if info["title"] != "[Deleted video]":
+                audio_data_list.append(Audio_data(info["title"], info["id"]))
 
         existing_title_list = self.db.get(self.playlist_id, [])
 
