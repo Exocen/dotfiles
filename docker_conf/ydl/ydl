@@ -197,7 +197,6 @@ class Main:
             cmd = [
                 "yt-dlp",
                 "--quiet",
-                "--no-abort-on-error",
                 "--flat-playlist",
                 "-J",
                 self.playlist_id,
