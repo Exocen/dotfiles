@@ -7,13 +7,14 @@ import logging
 import re
 import shutil
 import subprocess
+import sys
 from os import listdir, path, utime
 from random import randint, seed
 from tempfile import TemporaryDirectory
 from time import sleep, time
 from mutagen import File, easyid3, id3
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 log = logging.getLogger("YDL")
 
 RETRY_COUNTER_MAX = 5
@@ -193,7 +194,14 @@ class Main:
     def extract_info(self):
         log.debug(f"Checking playlist: {self.playlist_id}")
         try:
-            cmd = ["yt-dlp", "--quiet", "--no-abort-on-error", "--flat-playlist", "-J", self.playlist_id]
+            cmd = [
+                "yt-dlp",
+                "--quiet",
+                "--no-abort-on-error",
+                "--flat-playlist",
+                "-J",
+                self.playlist_id,
+            ]
             return json.loads(Main.run_process(cmd, False))
         except Exception as extraction_error:
             self.connection_error(extraction_error)
