@@ -131,9 +131,9 @@ class Main:
         return ""
 
     @staticmethod
-    def getip():
+    def getip(retry_getip=True):
         try:
-            return json.loads(
+            ip = json.loads(
                 Main.run_process(
                     [
                         "curl",
@@ -146,7 +146,13 @@ class Main:
                     ],
                     False,
                 )
-            )["public_ip"]
+            )["public_ip"].strip()
+            if ip == "" and retry_getip:
+                Main.let_sleep(ERROR_COOLDOWN, True)
+                ip = Main.getip(False)
+            else:
+                raise Exception("no returned ip")
+            return ip
         except Exception as ex:
             log.error(f"Can't retrieve public ip: {ex}")
 
@@ -201,6 +207,9 @@ class Main:
                 "-J",
                 self.playlist_id,
             ]
+            infos = json.loads(Main.run_process(cmd, False))
+            if "entries" not in infos:
+                raise Exception("Playlist check : No valid entries downloaded")
             return json.loads(Main.run_process(cmd, False))
         except Exception as extraction_error:
             self.connection_error(extraction_error)
