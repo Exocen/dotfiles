@@ -1,0 +1,9 @@
+FROM syncthing/syncthing:latest
+
+RUN mkdir -p /var/syncthing/data
+RUN mkdir -p /var/syncthing/config
+RUN chown 1000:1000 -R /var/syncthing
+
+ENV STDATADIR=/var/syncthing/data
+ENV STCONFDIR=/var/syncthing/config
+ENV STHOMEDIR=

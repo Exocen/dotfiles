@@ -81,6 +81,9 @@ bindsym $mod+Print exec sway-interactive-screenshot --video
 # Capture a screenshot
 bindsym Print exec sway-interactive-screenshot
 
+# Rotate Screen
+bindsym $mod+Shift+m exec "swaymsg 'output DP-1 transform 90 clockwise'"
+
 # Kill focused window
 bindsym $mod+Shift+A kill
 

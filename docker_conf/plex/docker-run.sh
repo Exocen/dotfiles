@@ -19,7 +19,6 @@ docker run -d --rm --log-driver=journald \
     --network=host \
     -e PUID=1000 \
     -e PGID=1000 \
-    -p 32400:32400/tcp \
     -v /docker-data-nobackup/plex:/config \
     -v $PLEX_PATH:/media_files \
     --name=plex \
