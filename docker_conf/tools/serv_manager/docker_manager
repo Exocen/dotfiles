@@ -23,20 +23,20 @@ send_mail() {
 
 refresh_score() {
     # $1 cont name / $2 score
-    if ! docker inspect -f '{{.State.Status}}' $1 2>/dev/null | grep -P "^running$" &>/dev/null; then
-        if [ $2 -lt $MAX_FAIL_SCORE ]; then
-            echo $(($2 + 1))
-        else
-            echo $2
-        fi
-    elif docker inspect $1 2>/dev/null | grep -P "unhealthy" &>/dev/null; then
-        if [ $2 -lt $MAX_FAIL_SCORE ]; then
-            echo $(($2 + 1))
-        else
-            echo $2
-        fi
-    elif ! docker inspect -f '{{.State.Status}}' $1 2>/dev/null | grep -P "^starting$" &>/dev/null; then
+    if docker inspect -f '{{.State.Health.Status}}' $1 2>/dev/null | grep -P "^starting$" &>/dev/null; then
         echo $2
+    elif docker inspect -f '{{.State.Health.Status}}' $1 2>/dev/null | grep -P "^unhealthy$" &>/dev/null; then
+        if [ $2 -lt $MAX_FAIL_SCORE ]; then
+            echo $(($2 + 1))
+        else
+            echo $2
+        fi
+    elif ! docker inspect -f '{{.State.Status}}' $1 2>/dev/null | grep -P "^running$" &>/dev/null; then
+        if [ $2 -lt $MAX_FAIL_SCORE ]; then
+            echo $(($2 + 1))
+        else
+            echo $2
+        fi
     else
         echo 0
     fi
@@ -123,10 +123,10 @@ main() {
     source $2
     build_container_fails
     case $1 in
-    start) start ;;
-    reload) reload ;;
-    stop) stop ;;
-    *) echo "$USAGE" ;;
+        start) start ;;
+        reload) reload ;;
+        stop) stop ;;
+        *) echo "$USAGE" ;;
     esac
 }
 
