@@ -54,7 +54,7 @@ terminator() {
 error_handler() {
     # $1 cont name / $2 score
     echo "$1 failed ($2)."
-    [ "$2" -ne  "0" ] && send_mail $1 $2
+    [ "$2" -ne  "1" ] && send_mail $1 $2
     cd $LOCAL_DIR && cd ../..
     docker stop $1 &>/dev/null && docker wait $1 1>/dev/null && echo "$1 stopped."
     $1/docker-run.sh
