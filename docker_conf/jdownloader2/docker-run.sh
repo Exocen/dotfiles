@@ -18,6 +18,6 @@ docker run -d --rm --log-driver=journald \
     -e PGID=1000 \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     --network=container:gluetun \
-    -v /docker-data/jdownloader2/config/:/config \
+    -v /docker-data-nobackup/jdownloader2/config/:/config \
     -v $JDOWNLOADER_DL_PATH:/output \
     jlesage/jdownloader-2 && echo "Jdownloader2 started."
