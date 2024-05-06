@@ -6,18 +6,18 @@ if [ `id -u` -ne 0 ]; then
 else
     if [ -z ${JDOWNLOADER_DL_PATH+x} ] ; then
         if [ -z "$1" ]; then
-            JDOWNLOADER_DL_PATH="/docker-data/jdownloader/dl/"
+            JDOWNLOADER_DL_PATH="/docker-data/jdownloader2/dl/"
         fi
     fi
 fi
 
 #PGUID 1000 PGID 1000 -> must have folder permission
 docker run -d --rm --log-driver=journald \
-    --name=jdownloader \
+    --name=jdownloader2 \
     -e PUID=1000 \
     -e PGID=1000 \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     --network=container:gluetun \
-    -v /docker-data/jdownloader/config/:/config \
+    -v /docker-data/jdownloader2/config/:/config \
     -v $JDOWNLOADER_DL_PATH:/output \
-    jlesage/jdownloader-2 && echo "Jdownloader started."
+    jlesage/jdownloader-2 && echo "Jdownloader2 started."
