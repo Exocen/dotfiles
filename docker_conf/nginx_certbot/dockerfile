@@ -1,4 +1,5 @@
-FROM nginx:mainline-alpine
+FROM macbre/nginx-http3:latest
+USER root
 ARG DOMAIN
 
 VOLUME /etc/letsencrypt/
