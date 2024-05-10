@@ -36,6 +36,7 @@ docker run \
     -v /docker-data/letsencrypt:/etc/letsencrypt/ \
     -v /docker-data/nginx/:/usr/share/nginx:ro \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
+    -e "DOMAIN=$DOMAIN" \
     --log-driver=journald --rm \
     -p 80:80 -p 443:443 \
     --name nginx_certbot --net user_network --ip 10.0.0.42 -d \
