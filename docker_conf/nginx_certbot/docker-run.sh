@@ -23,6 +23,7 @@ else
     docker build --build-arg DOMAIN=$DOMAIN -t nginx_certbot_img .
 fi
 
+cd "$(dirname "$0")"
 tmpD=$(mktemp -d)
 cp -n -r static-html/* $tmpD/
 find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
