@@ -1,4 +1,4 @@
-FROM patrikjuvonen/docker-nginx-http3
+FROM nginx:mainline-alpine
 ARG DOMAIN
 
 VOLUME /etc/letsencrypt/
