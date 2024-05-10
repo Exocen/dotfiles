@@ -27,6 +27,7 @@ cd "$(dirname "$0")"
 tmpD=$(mktemp -d)
 cp -n -r static-html/* $tmpD/
 find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
+mkdir -p /docker-data/nginx/
 cp -n -r $tmpD/* /docker-data/nginx/
 rm -rf $tmpD
 
