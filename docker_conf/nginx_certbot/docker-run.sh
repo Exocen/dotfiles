@@ -37,6 +37,6 @@ docker run \
     -v /docker-data/nginx/:/usr/share/nginx:ro \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     --log-driver=journald --rm \
-    -p 80:80 -p 443:443 \
+    -p 80:80 -p 443:443 -p 443:433/udp \
     --name nginx_certbot --net user_network --ip 10.0.0.42 -d \
     nginx_certbot_img:latest && echo "nginx_certbot started."
