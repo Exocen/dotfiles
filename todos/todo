@@ -1,0 +1,13 @@
+import xml.etree.ElementTree as ET
+tree = ET.parse('filepath')
+check rss -> tree.getroot().tag == 'rss'
+
+treechannel = tree.getroot().find('channel')
+treechannel == None : exit
+
+ if len(treechannel.findall('item')) > limit
+     treechanel.remove(treechannel.findall('./item')[0])
+      recursion/ loop
+
+myattributes = {"size": "small", "gender": "unknown"}
+ET.SubElement(treechannel, "item", attrib=myattributes)
