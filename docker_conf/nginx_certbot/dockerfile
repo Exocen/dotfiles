@@ -1,4 +1,4 @@
-FROM macbre/nginx-http3:latest
+FROM patrikjuvonen/docker-nginx-http3
 ARG DOMAIN
 
 VOLUME /etc/letsencrypt/

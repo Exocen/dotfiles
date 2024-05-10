@@ -23,7 +23,7 @@ else
     docker build --build-arg DOMAIN=$DOMAIN -t nginx_certbot_img .
 fi
 
-cd -- "$(dirname -- "$0")"c
+cd $(dirname "$(readlink -f "$0")")
 tmpD=$(mktemp -d)
 cp -n -r static-html/* $tmpD/
 cd $tmpD
