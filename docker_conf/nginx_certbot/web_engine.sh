@@ -16,7 +16,6 @@ fi
 
 openssl dhparam -out /etc/letsencrypt/live/[DOMAIN]/dhparam.pem 4096
 
-
 cp -fr /root/nginx.conf /etc/nginx/nginx.conf
 cp -fr /root/http3.conf /root/http3-main.conf /root/proxy-pass.conf  /etc/nginx/
 pkill 'nginx'
