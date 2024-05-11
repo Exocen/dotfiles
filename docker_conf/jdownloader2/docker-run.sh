@@ -12,7 +12,7 @@ else
 fi
 
 #PGUID 1000 PGID 1000 -> must have folder permission
-docker run -d --rm --log-driver=journald \
+docker run -d --rm --log-driver=journald --log-opt tag="{{.Name}}" \
     --name=jdownloader2 \
     -e PUID=1000 \
     -e PGID=1000 \
