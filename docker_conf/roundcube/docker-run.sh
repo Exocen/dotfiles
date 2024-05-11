@@ -13,7 +13,7 @@ if [ -z ${DOMAIN+x} ] ; then
     fi
 fi
 
-docker run -d --rm --log-driver=journald \
+docker run -d --rm --log-driver=journald --log-opt tag="{{.Name}}" \
     -e ROUNDCUBEMAIL_DEFAULT_HOST=ssl://$DOMAIN -e ROUNDCUBEMAIL_SMTP_SERVER=ssl://$DOMAIN \
     -e ROUNDCUBEMAIL_SMTP_PORT=464 -e ROUNDCUBEMAIL_DEFAULT_PORT=992 \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \

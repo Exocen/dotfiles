@@ -14,7 +14,7 @@ else
     fi
 fi
 
-docker run -d --rm --log-driver=journald \
+docker run -d --rm --log-driver=journald --log-opt tag="{{.Name}}" \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     --network=host \
     -e PUID=1000 \

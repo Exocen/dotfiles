@@ -35,6 +35,6 @@ docker run \
     -v /docker-data/letsencrypt:/etc/letsencrypt/ \
     -v /docker-data/nginx/:/usr/share/nginx:ro \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
-    --log-driver=journald --rm \
+    --log-driver=journald --log-opt tag="{{.Name}}" --rm \
     --name nginx_certbot --net host -d \
     nginx_certbot_img:latest && echo "nginx_certbot started"

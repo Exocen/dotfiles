@@ -24,7 +24,7 @@ fi
 docker run \
     -v /docker-data/letsencrypt/:/etc/letsencrypt/ -v /docker-data/mail_server-data:/post_base \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
-    --log-driver=journald --rm \
+    --log-driver=journald --log-opt tag="{{.Name}}" --rm \
     -p 25:25 -p 587:587 -p 465:465 -p 143:143 -p 993:993 \
     --name mail_server -d mail_server_img:latest && echo "mail_server started."
 

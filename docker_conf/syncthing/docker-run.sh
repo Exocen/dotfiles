@@ -26,7 +26,7 @@ mkdir -p /docker-data-nobackup/syncthing/data
 chown 1000:1000 -R /docker-data-nobackup/syncthing/data
 
 #PGUID 1000 PGID 1000 -> must have folder permission
-docker run -d --rm --log-driver=journald \
+docker run -d --rm --log-driver=journald --log-opt tag="{{.Name}}" \
     --name=syncthing \
     -e PUID=1000 \
     -e PGID=1000 \

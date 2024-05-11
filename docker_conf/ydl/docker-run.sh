@@ -22,7 +22,7 @@ else
 fi
 
 docker run \
-    --log-driver=journald --rm \
+    --log-driver=journald --log-opt tag="{{.Name}}" --rm \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     -v /docker-data/ydl/:/ydl \
     -v $YDL_MUSIC_PATH:/data \

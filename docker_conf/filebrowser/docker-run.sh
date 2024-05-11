@@ -33,7 +33,7 @@ fi
 
 #UserId:GroudId -> 1000:1000 must have folder permission
 docker run \
-    --name filebrowser --log-driver=journald --rm -d \
+    --name filebrowser --log-driver=journald --log-opt tag="{{.Name}}" --rm -d \
     -e FB_NOAUTH=noauth \
     -v $FILEBROWSER_DB_PATH:/database.db \
     -v $FILEBROWSER_SETTINGS_PATH:/.filebrowser.json \

@@ -15,5 +15,6 @@ if ! /usr/bin/certbot certificates | grep '[DOMAIN]\|*.[DOMAIN]' &>/dev/null; th
 fi
 
 cp -fr /root/nginx.conf /etc/nginx/nginx.conf
+cp -fr /root/http3.conf /root/proxy-pass.conf  /etc/nginx/
 pkill 'nginx'
 nginx -g 'daemon off;'
