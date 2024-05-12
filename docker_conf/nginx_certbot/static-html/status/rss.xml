@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+    <channel type="online-status">
+        <title>[DOMAIN]/</title>
+        <link>https://[DOMAIN]</link>
+       <item>
+            <title>HOST</title>
+            <link>status.[DOMAIN]</link>
+            <description>online</description>
+            <pubDate>5 nov</pubDate>
+        </item>
+        <item>
+            <title>Status</title>
+            <link>status.[DOMAIN]</link>
+            <description>offline</description>
+            <pubDate>6 oct</pubDate>
+        </item>
+    </channel>
+</rss>

@@ -8,4 +8,3 @@ while true; do
     /usr/bin/certbot renew --nginx
     /usr/bin/certbot certificates | grep -P "\(VALID\:" || exit 1
 done
-
