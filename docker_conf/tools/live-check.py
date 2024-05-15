@@ -63,12 +63,12 @@ class Main:
             self.feed_tree.getroot()
 
     @staticmethod
-    def findOrCreate(element, subelement):
-        search = element.find(subelement, NS)
-        if search is None:
-            search = ET.Element(subelement)
-            element.append(search)
-        return search
+    def findOrCreate(element, subelement_str):
+        subelement = element.find(subelement_str, NS)
+        if subelement is None:
+            subelement = ET.Element(subelement_str)
+            element.append(subelement)
+        return subelement
 
     def updateStatus(self, host, status):
         titles = self.feed_tree.findall('./entry/title[.="' + self.host + '"]', NS)
@@ -95,10 +95,8 @@ class Main:
                     entry.findOrCreate("id").text = Main.genId()
 
             parent_map[title].remove(title)
-        self.writeXml()
-
-    def writeXml(self):
         self.tree.write(ATOM_PATH)
+     
 
     # check loop fct
     # while true + sleep LOOP_INTERVAL
