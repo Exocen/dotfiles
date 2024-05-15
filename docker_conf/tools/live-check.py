@@ -2,53 +2,103 @@ import xml.etree.ElementTree as ET
 import time
 from datetime import datetime
 import os
+import socket
+import uuid
+
+LOOP_INTERVAL = "30min"
+OFFLINE_DELAY = "2h"
+SAMPLE_ATOM = """<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>[HOST] feed</title>
+  <link href="https://[DOMAIN]/status/"/>
+  <updated>[TIME]</updated>
+  <author>
+    <name>[DOMAIN]</name>
+  </author>
+  <id>[ID]</id>
+</feed>"""
+SAMPLE_ENTRY = """<entry>
+    <title>[HOST]</title>
+    <link href="https://[HOST]/status#[HOST2]"/>
+    <id></id>
+    <updated></updated>
+    <summary></summary>
+  </entry>"""
+
+ATOM_PATH = "/docker-data/nginx/status/atom.xml"
+NS = {"": "http://www.w3.org/2005/Atom"}
+PRE_ID = "urn:uuid:"
 
 
 class Main:
-    # arg or hostname ?
-    domain = ""
-    LOOP_INTERVAL = "30min"
-    OFFLINE_DELAY = "2h"
-    SAMPLE_RSS = '<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel type="online-status"><title>Status/</title><link>https://[DOMAIN]</link></channel></rss>'
-    RSS_PATH = "/docker-data/nginx/status/rss.xml"
-    last_rss_update = None
-    channel_tree = None
-    rss_tree = None
+    def __init__(self):
+        self.host = socket.gethostname()
+        self.last_rss_update = None
+        self.feed_tree = None
+        self.tree = None
 
-    try:
-        last_rss_update = time.ctime(os.path.getmtime(RSS_PATH))
-        rss_tree = ET.parse("filepath")
-        channel_tree = rss_tree.getroot().find("./channel/[@type='online-status']")
-    except Exception:
-        rss_tree = ET.fromstring(SAMPLE_RSS.replace("[DOMAIN]", domain))
-        channel_tree = rss_tree.getroot().find("./channel/[@type='online-status']")
+    @staticmethod
+    def genId():
+        return PRE_ID + str(uuid.uuid1())
 
-    # save fct
-    # if find item
-    #   if new status
-    #       item link update (link#status)
-    #       item description update
-    #       item pubDate update
-    #   else
-    #       item pubDate update
-    # else create new item
-    # channel_tree.append(item)
+    @staticmethod
+    def genTime():
+        return datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    item = ET.Element("item")
-    title = ET.Element("title")
-    title.text = domain
-    item.append(title)
-    link = ET.Element("link")
-    link.text = "status." + domain
-    item.append(link)
-    description = ET.Element("description")
-    description.text = "online"
-    item.append(description)
-    pubDate = ET.Element("pubDate")
-    pubDate.text = int(time.mktime((datetime.now().timetuple())))
-    item.append(pubDate)
+    def importTree(self):
+        try:
+            self.last_rss_update = time.ctime(os.path.getmtime(ATOM_PATH))
+            ET.register_namespace("", "http://www.w3.org/2005/Atom")
+            self.tree = ET.parse("filepath")
+            if self.feed_tree is None:
+                raise
+            self.feed_tree = self.tree.getroot()
+            # TODO custom exception
+        except Exception:
+            self.tree = ET.fromstring(
+                SAMPLE_ATOM.replace("[HOST]", self.host)
+                .replace("[ID]", Main.genId())
+                .replace("[TIME]", Main.genTime())
+            )
+            self.feed_tree.getroot()
 
-    channel_tree.append(item)
+    @staticmethod
+    def findOrCreate(element, subelement):
+        search = element.find(subelement, NS)
+        if search is None:
+            search = ET.Element(subelement)
+            element.append(search)
+        return search
+
+    def updateStatus(self, host, status):
+        titles = self.feed_tree.findall('./entry/title[.="' + self.host + '"]', NS)
+        if not titles:
+            ET.register_namespace("", "http://www.w3.org/2005/Atom")
+            entry = ET.fromstring(
+                SAMPLE_ENTRY.replace("[HOST]", self.host).replace("[HOST2]", host)
+            )
+            self.feed_tree.append(entry)
+            titles = [entry]
+
+        for title in titles:
+            parent_map = {c: p for p in self.feed_tree.iter() for c in p}
+            if titles[0] == title:
+                entry = parent_map[title]
+                summary = entry.findOrCreate("summary")
+                if summary.text == status:
+                    entry.findOrCreate("updated").text = Main.genTime()
+                    self.feed_tree.findOrCreate("updated").text = Main.genTime()
+                else:
+                    summary.text = status
+                    entry.findOrCreate("updated").text = Main.genTime()
+                    self.feed_tree.findOrCreate("updated").text = Main.genTime()
+                    entry.findOrCreate("id").text = Main.genId()
+
+            parent_map[title].remove(title)
+        self.writeXml()
+
+    def writeXml(self):
+        self.tree.write(ATOM_PATH)
 
     # check loop fct
     # while true + sleep LOOP_INTERVAL
