@@ -93,22 +93,33 @@ class Main:
                     entry.findOrCreate("updated").text = Main.genTime()
                     self.feed_tree.findOrCreate("updated").text = Main.genTime()
                     entry.findOrCreate("id").text = Main.genId()
-
-            parent_map[title].remove(title)
+            try:
+                parent_map[title].remove(title)
+            except ValueError:
+                pass
         self.tree.write(ATOM_PATH)
      
 
     # check loop fct
     # while true + sleep LOOP_INTERVAL
-    # if last_rss_update != time.ctime(os.path.getmtime(RSS_PATH))
-    #   read all
-    #   if description == online and pubDate + OFFLINE_DELAY < datetime.now()
-    #       description update to offline
-    #       link update (link#status)
-    # last_rss_update = time.ctime(os.path.getmtime(RSS_PATH))
+    # time = time.ctime(os.path.getmtime(ATOM_PATH)
+    # if self.last_rss_update != time)
+    #   for all entry :
+    #       if summary == online and updated + OFFLINE_DELAY < datetime.now()
+    #          summary = offline
+    #          updated = Main.genTime()
+    #          id = Main.genId()
+    # self.last_rss_update = time
+
+    # notif fct
 
     # main fct
-    # args save or loop
+    # args : save | check loop | notif
+    # add PID lock :
+    # PID_LOCATION="/var/run/feed-update-$arg" TODO check location
+    # save | notif = wait until -> recheck loop, sleep 30s, max 3 loops
+    #TODO pid queue, worth ?
+    # check loop = first one only -> next ones raise Exception
 
 
 if __name__ == "__main__":
