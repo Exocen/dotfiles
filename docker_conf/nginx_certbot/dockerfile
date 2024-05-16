@@ -11,7 +11,7 @@ RUN mkdir -p /etc/letsencrypt
 
 WORKDIR /root/
 COPY web_engine.sh certbot_renew.sh supervisord_run.sh supervisord.conf /root/
-COPY nginx-confs /root/
+COPY nginx-confs /root/nginx-confs
 RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
 RUN chmod +x certbot_renew.sh web_engine.sh supervisord_run.sh
 
