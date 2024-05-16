@@ -5,10 +5,10 @@ cp -fr /root/fifo-nginx.conf /etc/nginx/nginx.conf
 
 if ! /usr/bin/certbot certificates | grep '[DOMAIN]\|*.[DOMAIN]' &>/dev/null; then
     echo "Invalid certificate :"
-    /usr/bin/certbot certificates
+    /usr/bin/certbot certificates --max-log-backups 0
     echo "Creating new certificates :"
-    /usr/bin/certbot --nginx --keep-until-expiring --expand --register-unsafely-without-email --agree-tos -q -d [DOMAIN] -d git.[DOMAIN] -d mail.[DOMAIN] -d status.[DOMAIN] -d www.[DOMAIN] -d vw.[DOMAIN]
-    if ! /usr/bin/certbot certificates | grep '[DOMAIN]\|*.[DOMAIN]' &>/dev/null; then
+    /usr/bin/certbot --nginx --max-log-backups 0 --keep-until-expiring --expand --register-unsafely-without-email --agree-tos -q -d [DOMAIN] -d git.[DOMAIN] -d mail.[DOMAIN] -d status.[DOMAIN] -d www.[DOMAIN] -d vw.[DOMAIN]
+    if ! /usr/bin/certbot certificates --max-log-backups 0 | grep '[DOMAIN]\|*.[DOMAIN]' &>/dev/null; then
         echo "certbot failed exiting..."
         exit 1
     fi
