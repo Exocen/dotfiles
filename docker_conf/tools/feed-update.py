@@ -101,6 +101,7 @@ class Main:
                 )
             )
             self.feed_tree = self.tree.getroot()
+            self.tree_updated = True
 
     def getUpdateList(self):
         # Return list of host to update
