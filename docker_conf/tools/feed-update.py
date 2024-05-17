@@ -137,6 +137,7 @@ class Main:
                     tup = (
                         file_lines[0].replace("\n", ""),
                         file_lines[1].replace("\n", ""),
+                        os.path.getmtime(file_path),
                     )
                     update_list.append(tup)
                 os.remove(file_path)
@@ -202,7 +203,7 @@ class Main:
                 parent_map[entry_to_remove].remove(entry_to_remove)
             self.tree_updated = True
 
-    def createNotification(self, title, message):
+    def createNotification(self, title, message, updated):
         # Create a new notification
         ET.register_namespace("", XMLD)
         entry = ET.fromstring(
@@ -212,7 +213,7 @@ class Main:
             .replace("[TITLE_LINK]", title.strip().replace(" ", "_"))
             .replace("[ID]", Main.genId())
             .replace("[MESSAGE]", message)
-            .replace("[UPDATED]", Main.genTime())
+            .replace("[UPDATED]", updated)
         )
         self.feed_tree.append(entry)
         Main.findOrCreate(self.feed_tree, "updated").text = Main.genTime()
@@ -262,7 +263,7 @@ class Main:
             if notification_list:
                 LOG.info(f"New notification detected {notification_list}")
                 for notification in notification_list:
-                    self.createNotification(notification[0], notification[1])
+                    self.createNotification(notification[0], notification[1], notification[2])
 
             # Check and switch expired update entries
             self.checkExpiredEntries()
