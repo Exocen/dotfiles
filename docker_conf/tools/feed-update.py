@@ -22,8 +22,9 @@ FEED_UPDATE_LOCATION = TMP_DIR + "/feed/update/"
 NOTIFICATION_UPDATE_LOCATION = TMP_DIR + "/feed/notifications/"
 
 LOOP_INTERVAL = 15
-#LOOP_INTERVAL = 1200
-OFFLINE_DELAY = timedelta(hours=1)
+# LOOP_INTERVAL = 1200
+# OFFLINE_DELAY = timedelta(hours=1)
+OFFLINE_DELAY = timedelta(minutes=1)
 MAX_NOTIFICATIONS = 10
 
 USAGE = "Usage: feed-update.py [ loop | notif | update ] \n loop -> run check loop \n notif -> add a notification (title+text) \n update -> update/add given host"
@@ -37,7 +38,7 @@ SAMPLE_ATOM = """<?xml version="1.0" encoding="utf-8"?>
   </author>
   <id>[ID]</id>
 </feed>"""
-SAMPLE_ENTRY = """<entry>
+SAMPLE_ENTRY = """<entry type='update'>
     <title>[HOST2]</title>
     <link href="https://[HOST]/status#[HOST2]"/>
     <id>[ID]</id>
@@ -114,14 +115,12 @@ class Main:
         LOG.debug(f"Getting files from {FEED_UPDATE_LOCATION}")
         update_list = []
         try:
-            file_list = os.listdir(FEED_UPDATE_LOCATION)            
+            file_list = os.listdir(FEED_UPDATE_LOCATION)
             for file in file_list:
                 update_list.append(file)
                 os.remove(os.path.join(FEED_UPDATE_LOCATION, file))
         except Exception as read_exception:
-            LOG.error(
-                f"Error trying to read {FEED_UPDATE_LOCATION}: {read_exception}"
-            )
+            LOG.error(f"Error trying to read {FEED_UPDATE_LOCATION}: {read_exception}")
         return update_list
 
     def getNotificationSet(self):
@@ -135,8 +134,10 @@ class Main:
                 with open(file_path, "r") as file_buf:
                     file_lines = file_buf.readlines()
                     if len(file_lines) != 2:
-                        raise Exception(f"{file_path} contains {len(file_lines)} line(s) (should be 2) ")
-                    update_set[file_lines[0]] = file_lines[1]
+                        raise Exception(
+                            f"{file_path} contains {len(file_lines)} line(s) (should be 2) "
+                        )
+                    update_set[file_lines[0].replace("\n", "")] = file_lines[1].replace("\n", "")
                 os.remove(file_path)
         except Exception as read_exception:
             LOG.error(
@@ -145,7 +146,7 @@ class Main:
         return update_set
 
     def updateStatus(self, host):
-        titles = self.feed_tree.findall('./entry/title[.="' + host + '"]', NS)
+        titles = self.feed_tree.findall('./{*}entry/{*}title[.="' + host + '"]', NS)
         if not titles:
             ET.register_namespace("", "http://www.w3.org/2005/Atom")
             entry = ET.fromstring(
@@ -166,7 +167,7 @@ class Main:
                     Main.findOrCreate(entry, "updated").text = Main.genTime()
                     Main.findOrCreate(self.feed_tree, "updated").text = Main.genTime()
                 else:
-                    summary.text = "offline"
+                    summary.text = "online"
                     Main.findOrCreate(entry, "updated").text = Main.genTime()
                     Main.findOrCreate(self.feed_tree, "updated").text = Main.genTime()
                     Main.findOrCreate(entry, "id").text = Main.genId()
@@ -200,17 +201,16 @@ class Main:
 
     def checkExpiredEntries(self):
         # check online entries if no new update for too long -> offline
-        entries = self.feed_tree.findall("./entry", NS)
+        entries = self.feed_tree.findall('./{*}entry[@type="update"]', NS)
         for entry in entries:
             summary = Main.findOrCreate(entry, "summary")
             if summary.text == "online":
                 updated = Main.findOrCreate(entry, "updated")
                 try:
-                    updated_date = (
-                        datetime.strptime(updated.text, DATE_FORMAT) - OFFLINE_DELAY
-                    )
-                except TypeError or ValueError:
-                    updated_date = datetime.now() - OFFLINE_DELAY
+                    updated_date = datetime.strptime(updated.text, DATE_FORMAT)
+                except TypeError or ValueError as exception:
+                    LOG.error(f"Error parsing updated_time {exception}")
+                    updated_date = datetime.min
 
                 if updated_date + OFFLINE_DELAY < datetime.now():
                     LOG.info(f"{entry} switch to offline")
@@ -236,7 +236,7 @@ class Main:
             if notification_set:
                 LOG.info(f"New notification detected {notification_set}")
                 for notification in notification_set:
-                    self.updateNotifs(notification[0], notification[1])
+                    self.updateNotifs(notification, notification_set[notification])
 
             self.checkExpiredEntries()
 
@@ -257,20 +257,22 @@ class Main:
 
     @staticmethod
     def addNotification(title, summary):
-            LOG.info(f"Writing notification: {title}")
-            file_path = os.path.join(NOTIFICATION_UPDATE_LOCATION, str(round(time.time() * 10000)))
-            try:
-                with open(file_path, 'w') as file:
-                    file.write(title + os.linesep + summary)
-            except Exception as write_exception:
-                LOG.error(f"Error trying to write {file_path}: {write_exception}")
+        LOG.info(f"Writing notification: {title}")
+        file_path = os.path.join(
+            NOTIFICATION_UPDATE_LOCATION, str(round(time.time() * 10000))
+        )
+        try:
+            with open(file_path, "w") as file:
+                file.write(title + os.linesep + summary)
+        except Exception as write_exception:
+            LOG.error(f"Error trying to write {file_path}: {write_exception}")
 
     @staticmethod
     def addUpdate(host):
         LOG.info(f"Writing host update: {host}")
         file_path = os.path.join(FEED_UPDATE_LOCATION, host)
         try:
-            open(file_path, 'a').close()
+            open(file_path, "a").close()
         except Exception as write_exception:
             LOG.error(f"Error trying to write {file_path}: {write_exception}")
 
@@ -290,8 +292,6 @@ class Main:
             Main.addUpdate(sys.argv[2])
         else:
             raise Exception(USAGE)
-
-    
 
     # TODO comments + moar logs
 
