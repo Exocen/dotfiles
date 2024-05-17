@@ -115,8 +115,9 @@ class Main:
         try:
             file_list = os.listdir(FEED_UPDATE_LOCATION)
             for file in file_list:
-                update_list.append((file,os.path.getmtime('t')))
-                os.remove(os.path.join(FEED_UPDATE_LOCATION, file))
+                file_path = os.path.join(FEED_UPDATE_LOCATION, file)
+                update_list.append((file,os.path.getmtime(file_path)))
+                os.remove(file_path)
         except Exception as read_exception:
             LOG.error(f"Error trying to read {FEED_UPDATE_LOCATION}: {read_exception}")
         return update_list
