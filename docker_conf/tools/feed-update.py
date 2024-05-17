@@ -55,7 +55,6 @@ NOTIFICATION_ENTRY = """<entry >
 NS = {"": "http://www.w3.org/2005/Atom"}
 
 
-
 class Main:
     @staticmethod
     def genId():
@@ -116,7 +115,7 @@ class Main:
             file_list = os.listdir(FEED_UPDATE_LOCATION)
             for file in file_list:
                 file_path = os.path.join(FEED_UPDATE_LOCATION, file)
-                update_list.append((file,os.path.getmtime(file_path)))
+                update_list.append((file, os.path.getmtime(file_path)))
                 os.remove(file_path)
         except Exception as read_exception:
             LOG.error(f"Error trying to read {FEED_UPDATE_LOCATION}: {read_exception}")
@@ -150,7 +149,12 @@ class Main:
 
     def updateStatus(self, tuple):
         host = tuple[0]
-        updated = datetime.fromtimestamp(tuple[1]).astimezone().replace(microsecond=0).isoformat()
+        updated = (
+            datetime.fromtimestamp(tuple[1])
+            .astimezone()
+            .replace(microsecond=0)
+            .isoformat()
+        )
         # Update a status entry
         titles = self.feed_tree.findall('./{*}entry/{*}title[.="' + host + '"]', NS)
         if not titles:
@@ -188,7 +192,9 @@ class Main:
     def cleanNotifs(self):
         # Remove oldest notifs if too many (MAX_NOTIFICATIONS)
         parent_map = {c: p for p in self.feed_tree.iter() for c in p}
-        categories_notif = self.feed_tree.findall('./{*}entry/{*}category[@type="notif"]', NS)
+        categories_notif = self.feed_tree.findall(
+            './{*}entry/{*}category[@type="notif"]', NS
+        )
         entries = [parent_map[cat] for cat in categories_notif]
         if len(entries) > MAX_NOTIFICATIONS:
             LOG.info("Too many notifications detected, removing oldest ones")
@@ -216,7 +222,9 @@ class Main:
     def checkExpiredEntries(self):
         # Check online entries if no new update for too long -> offline
         parent_map = {c: p for p in self.feed_tree.iter() for c in p}
-        categories_update = self.feed_tree.findall('./{*}entry/{*}category[@type="update"]', NS)
+        categories_update = self.feed_tree.findall(
+            './{*}entry/{*}category[@type="update"]', NS
+        )
         entries = [parent_map[cat] for cat in categories_update]
         for entry in entries:
             summary = Main.findOrCreate(entry, "summary")
@@ -240,17 +248,16 @@ class Main:
         LOG.info("Starting feed_update check loop")
         # Infinite check loop
         while True:
-            
             # Clean overflowing notifications
             self.cleanNotifs()
-            
+
             # Retrieve and append new status update
             update_list = self.getUpdateList()
             if update_list:
                 LOG.info(f"New update detected {update_list}")
                 for update in update_list:
                     self.updateStatus(update)
-            
+
             # Retrieve and append new notifications
             notification_list = self.getNotificationList()
             if notification_list:
@@ -260,9 +267,9 @@ class Main:
 
             # Check and switch expired update entries
             self.checkExpiredEntries()
-            
+
             # If changes write new atom.xml
-            if self.tree_updated:                
+            if self.tree_updated:
                 self.writeFeedTree()
                 self.tree_updated = False
 
@@ -296,7 +303,7 @@ class Main:
         LOG.info(f"Writing host update: {host}")
         file_path = os.path.join(FEED_UPDATE_LOCATION, host)
         try:
-             with open(file_path, 'a'):
+            with open(file_path, "a"):
                 os.utime(file_path)
         except Exception as write_exception:
             LOG.error(f"Error trying to write {file_path}: {write_exception}")
