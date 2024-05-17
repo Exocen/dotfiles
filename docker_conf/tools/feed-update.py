@@ -24,7 +24,7 @@ USAGE = "Usage: feed-update [ loop | notif | update ] \n loop -> run check loop 
 SAMPLE_ATOM = """<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>[HOST] feed</title>
-  <link href="https://[HOST]/status/atom.xml" rel="self" />
+  <link href="https://status.[HOST]/atom.xml" rel="self" />
   <updated>[TIME]</updated>
   <author>
     <name>[HOST]</name>
@@ -33,14 +33,14 @@ SAMPLE_ATOM = """<?xml version="1.0" encoding="utf-8"?>
 </feed>"""
 UPDATE_ENTRY = """<entry type='update'>
     <title>[HOST2]</title>
-    <link href="https://[HOST]/status#[HOST2]"/>
+    <link href="https://status.[HOST]/#[HOST2]"/>
     <id>[ID]</id>
     <updated>""</updated>
     <summary>online</summary>
   </entry>"""
 NOTIFICATION_ENTRY = """<entry type='notif'>
     <title>[TITLE]</title>
-    <link href="https://[HOST]/status#[TITLE]"/>
+    <link href="https://status.[HOST]/#[TITLE]"/>
     <id>[ID]</id>
     <updated>[UPDATED]</updated>
     <summary>[MESSAGE]</summary>
