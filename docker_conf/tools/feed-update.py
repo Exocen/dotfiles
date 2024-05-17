@@ -15,9 +15,7 @@ logging.basicConfig(level=logging.ERROR)
 
 TMP_DIR = "/run/"
 ATOM_PATH = "/docker-data/nginx/status/atom.xml"
-# Can be volatile
-FEED_UPDATE_LOCATION = "/run/feed/update/"
-# Must be persistent
+FEED_UPDATE_LOCATION = "/var/tmp/feed/updates/"
 NOTIFICATION_UPDATE_LOCATION = "/var/tmp/feed/notifications/"
 
 LOOP_INTERVAL = 900
@@ -52,7 +50,8 @@ NOTIFICATION_ENTRY = """<entry >
     <summary>[MESSAGE]</summary>
   </entry>"""
 
-NS = {"": "http://www.w3.org/2005/Atom"}
+XMLD = "http://www.w3.org/2005/Atom"
+NS = {"": XMLD}
 
 
 class Main:
@@ -88,7 +87,7 @@ class Main:
     def importTree(self):
         # Import existing ATOM_PATH, or create a new one
         try:
-            ET.register_namespace("", "http://www.w3.org/2005/Atom")
+            ET.register_namespace("", XMLD)
             LOG.debug(f"Retrieving {ATOM_PATH}")
             self.tree = ET.parse(ATOM_PATH)
             if self.tree is None:
@@ -158,7 +157,7 @@ class Main:
         # Update a status entry
         titles = self.feed_tree.findall('./{*}entry/{*}title[.="' + host + '"]', NS)
         if not titles:
-            ET.register_namespace("", "http://www.w3.org/2005/Atom")
+            ET.register_namespace("", XMLD)
             entry = ET.fromstring(
                 UPDATE_ENTRY.replace("[HOST]", self.host.strip())
                 .replace("[HOST2]", host)
@@ -205,7 +204,7 @@ class Main:
 
     def createNotification(self, title, message):
         # Create a new notification
-        ET.register_namespace("", "http://www.w3.org/2005/Atom")
+        ET.register_namespace("", XMLD)
         entry = ET.fromstring(
             NOTIFICATION_ENTRY.replace("[HOST]", self.host)
             .replace("[HOST]", self.host)
