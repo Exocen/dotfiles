@@ -301,6 +301,8 @@ class Main:
         if len(sys.argv) < 2:
             raise Exception(USAGE)
         if sys.argv[1] == "loop":
+            if len(sys.argv) != 2:
+                raise Exception(USAGE)
             self.checkLoop()
         elif sys.argv[1] == "notif":
             if len(sys.argv) != 4:
