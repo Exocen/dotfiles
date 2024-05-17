@@ -15,17 +15,16 @@ TMP_DIR = os.path.join("/run/user/", str(os.getuid()))
 ATOM_PATH = "/tmp/atom.xml"
 # ATOM_PATH = "/docker-data/nginx/status/atom.xml"
 
-# TODO create those at start or check presence
-# can be volatil
+# Can be volatile
 FEED_UPDATE_LOCATION = TMP_DIR + "/feed/update/"
-# must be persistent
+# Must be persistent
 NOTIFICATION_UPDATE_LOCATION = TMP_DIR + "/feed/notifications/"
 
-LOOP_INTERVAL = 15
+LOOP_INTERVAL = 10
 # LOOP_INTERVAL = 1200
 # OFFLINE_DELAY = timedelta(hours=1)
 OFFLINE_DELAY = timedelta(minutes=1)
-MAX_NOTIFICATIONS = 10
+MAX_NOTIFICATIONS = 3
 
 USAGE = "Usage: feed-update.py [ loop | notif | update ] \n loop -> run check loop \n notif -> add a notification (title+text) \n update -> update/add given host"
 SAMPLE_ATOM = """<?xml version="1.0" encoding="utf-8"?>
@@ -55,7 +54,6 @@ NOTIFICATION_ENTRY = """<entry type='notif'>
 
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 NS = {"": "http://www.w3.org/2005/Atom"}
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 LOG = logging.getLogger("YDL")
 
 
@@ -82,6 +80,7 @@ class Main:
         os.makedirs(NOTIFICATION_UPDATE_LOCATION, exist_ok=True)
 
     def __init__(self):
+        logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
         Main.init_dirs()
         self.host = socket.gethostname()
         self.last_feed_update = 0
@@ -123,10 +122,10 @@ class Main:
             LOG.error(f"Error trying to read {FEED_UPDATE_LOCATION}: {read_exception}")
         return update_list
 
-    def getNotificationSet(self):
-        # Return set of notification to add to the feed key=>title and value=>summary
+    def getNotificationList(self):
+        # Return list of tuple notifications to add to the feed key=>title and value=>summary
         LOG.debug(f"Getting files from {NOTIFICATION_UPDATE_LOCATION}")
-        update_set = dict()
+        update_list = []
         try:
             file_list = os.listdir(NOTIFICATION_UPDATE_LOCATION)
             for file in file_list:
@@ -137,13 +136,14 @@ class Main:
                         raise Exception(
                             f"{file_path} contains {len(file_lines)} line(s) (should be 2) "
                         )
-                    update_set[file_lines[0].replace("\n", "")] = file_lines[1].replace("\n", "")
+                    tup = (file_lines[0].replace("\n", ""), file_lines[1].replace("\n", ""))
+                    update_list.append(tup)
                 os.remove(file_path)
         except Exception as read_exception:
             LOG.error(
                 f"Error trying to read {NOTIFICATION_UPDATE_LOCATION}: {read_exception}"
             )
-        return update_set
+        return update_list
 
     def updateStatus(self, host):
         titles = self.feed_tree.findall('./{*}entry/{*}title[.="' + host + '"]', NS)
@@ -179,11 +179,15 @@ class Main:
         self.tree_updated = True
 
     def cleanNotifs(self):
-        # TODO remove oldest notifs if too many
-        # parent_map = {c: p for p in self.feed_tree.iter() for c in p}
-        # entries = self.feed_tree.findall('./entry[@type="notif"]', NS)
-        # MAX_NOTIFICATIONS
-        pass
+        # Remove oldest notifs if too many (MAX_NOTIFICATIONS)
+        entries = self.feed_tree.findall('./{*}entry[@type="notif"]', NS)
+        if len(entries) > MAX_NOTIFICATIONS:
+            LOG.info("Too many notifications detected, removing oldest ones")
+            parent_map = {c: p for p in self.feed_tree.iter() for c in p}
+            entries_to_remove = entries[:MAX_NOTIFICATIONS]
+            for entry_to_remove in entries_to_remove:
+                parent_map[entry_to_remove].remove(entry_to_remove)
+            self.tree_updated = True
 
     def updateNotifs(self, title, message):
         ET.register_namespace("", "http://www.w3.org/2005/Atom")
@@ -200,7 +204,7 @@ class Main:
         self.tree_updated = True
 
     def checkExpiredEntries(self):
-        # check online entries if no new update for too long -> offline
+        # Check online entries if no new update for too long -> offline
         entries = self.feed_tree.findall('./{*}entry[@type="update"]', NS)
         for entry in entries:
             summary = Main.findOrCreate(entry, "summary")
@@ -232,11 +236,11 @@ class Main:
                 for update in update_list:
                     self.updateStatus(update)
 
-            notification_set = self.getNotificationSet()
-            if notification_set:
-                LOG.info(f"New notification detected {notification_set}")
-                for notification in notification_set:
-                    self.updateNotifs(notification, notification_set[notification])
+            notification_list = self.getNotificationList()
+            if notification_list:
+                LOG.info(f"New notification detected {notification_list}")
+                for notification in notification_list:
+                    self.updateNotifs(notification[0], notification[1])
 
             self.checkExpiredEntries()
 
@@ -259,7 +263,7 @@ class Main:
     def addNotification(title, summary):
         LOG.info(f"Writing notification: {title}")
         file_path = os.path.join(
-            NOTIFICATION_UPDATE_LOCATION, str(round(time.time() * 10000))
+            NOTIFICATION_UPDATE_LOCATION, str(round(time.time() * 100000))
         )
         try:
             with open(file_path, "w") as file:
@@ -277,7 +281,6 @@ class Main:
             LOG.error(f"Error trying to write {file_path}: {write_exception}")
 
     def run(self):
-        #  loop | notif | update
         if len(sys.argv) < 2:
             raise Exception(USAGE)
         if sys.argv[1] == "loop":
@@ -292,11 +295,6 @@ class Main:
             Main.addUpdate(sys.argv[2])
         else:
             raise Exception(USAGE)
-
-    # TODO comments + moar logs
-
-    # TODO tree xml validate
-
 
 if __name__ == "__main__":
     Main().run()
