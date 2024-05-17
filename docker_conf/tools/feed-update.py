@@ -115,7 +115,7 @@ class Main:
         try:
             file_list = os.listdir(FEED_UPDATE_LOCATION)
             for file in file_list:
-                update_list.append(file)
+                update_list.append((file,os.path.getmtime('t')))
                 os.remove(os.path.join(FEED_UPDATE_LOCATION, file))
         except Exception as read_exception:
             LOG.error(f"Error trying to read {FEED_UPDATE_LOCATION}: {read_exception}")
@@ -147,7 +147,9 @@ class Main:
             )
         return update_list
 
-    def updateStatus(self, host):
+    def updateStatus(self, tuple):
+        host = tuple[0]
+        updated = datetime.fromtimestamp(tuple[1]).astimezone().replace(microsecond=0).isoformat()
         # Update a status entry
         titles = self.feed_tree.findall('./{*}entry/{*}title[.="' + host + '"]', NS)
         if not titles:
@@ -168,11 +170,11 @@ class Main:
                 entry = parent_map[title]
                 summary = Main.findOrCreate(entry, "summary")
                 if summary.text == "online":
-                    Main.findOrCreate(entry, "updated").text = Main.genTime()
+                    Main.findOrCreate(entry, "updated").text = updated
                     Main.findOrCreate(self.feed_tree, "updated").text = Main.genTime()
                 else:
                     summary.text = "online"
-                    Main.findOrCreate(entry, "updated").text = Main.genTime()
+                    Main.findOrCreate(entry, "updated").text = updated
                     Main.findOrCreate(self.feed_tree, "updated").text = Main.genTime()
                     Main.findOrCreate(entry, "id").text = Main.genId()
             else:
