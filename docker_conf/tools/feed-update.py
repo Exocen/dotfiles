@@ -35,22 +35,23 @@ SAMPLE_ATOM = """<?xml version="1.0" encoding="utf-8"?>
   </author>
   <id>[ID]</id>
 </feed>"""
-UPDATE_ENTRY = """<entry type='update'>
+UPDATE_ENTRY = """<entry>
     <title>[HOST2]</title>
-    <link href="https://status.[HOST]/#[HOST2]"/>
+    <category term="update"/>
+    <link href="https://status.[HOST]/#[HOST2_LINK]"/>
     <id>[ID]</id>
     <updated>""</updated>
     <summary>online</summary>
   </entry>"""
-NOTIFICATION_ENTRY = """<entry type='notif'>
+NOTIFICATION_ENTRY = """<entry >
     <title>[TITLE]</title>
-    <link href="https://status.[HOST]/#[TITLE]"/>
+    <category term="notif"/>
+    <link href="https://status.[HOST]/#[TITLE_LINK]"/>
     <id>[ID]</id>
     <updated>[UPDATED]</updated>
     <summary>[MESSAGE]</summary>
   </entry>"""
 
-DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 NS = {"": "http://www.w3.org/2005/Atom"}
 
 
@@ -62,7 +63,7 @@ class Main:
 
     @staticmethod
     def genTime():
-        return datetime.now().strftime(DATE_FORMAT)
+        return datetime.now().isoformat()
 
     @staticmethod
     def findOrCreate(element, subelement_str):
@@ -150,8 +151,9 @@ class Main:
         if not titles:
             ET.register_namespace("", "http://www.w3.org/2005/Atom")
             entry = ET.fromstring(
-                UPDATE_ENTRY.replace("[HOST]", self.host)
+                UPDATE_ENTRY.replace("[HOST]", self.host.strip())
                 .replace("[HOST2]", host)
+                .replace("[HOST2_LINK]", host.strip())
                 .replace("[ID]", Main.genId())
             )
             self.feed_tree.append(entry)
@@ -180,10 +182,11 @@ class Main:
 
     def cleanNotifs(self):
         # Remove oldest notifs if too many (MAX_NOTIFICATIONS)
-        entries = self.feed_tree.findall('./{*}entry[@type="notif"]', NS)
+        parent_map = {c: p for p in self.feed_tree.iter() for c in p}
+        categories_notif = self.feed_tree.findall('./{*}entry/{*}category[@type="notif"]', NS)
+        entries = [parent_map[cat] for cat in categories_notif]
         if len(entries) > MAX_NOTIFICATIONS:
             LOG.info("Too many notifications detected, removing oldest ones")
-            parent_map = {c: p for p in self.feed_tree.iter() for c in p}
             entries_to_remove = entries[:MAX_NOTIFICATIONS]
             for entry_to_remove in entries_to_remove:
                 parent_map[entry_to_remove].remove(entry_to_remove)
@@ -195,6 +198,7 @@ class Main:
             NOTIFICATION_ENTRY.replace("[HOST]", self.host)
             .replace("[HOST]", self.host)
             .replace("[TITLE]", title)
+            .replace("[TITLE_LINK]", title.strip())
             .replace("[ID]", Main.genId())
             .replace("[MESSAGE]", message)
             .replace("[UPDATED]", Main.genTime())
@@ -205,13 +209,15 @@ class Main:
 
     def checkExpiredEntries(self):
         # Check online entries if no new update for too long -> offline
-        entries = self.feed_tree.findall('./{*}entry[@type="update"]', NS)
+        parent_map = {c: p for p in self.feed_tree.iter() for c in p}
+        categories_update = self.feed_tree.findall('./{*}entry/{*}category[@type="update"]', NS)
+        entries = [parent_map[cat] for cat in categories_update]
         for entry in entries:
             summary = Main.findOrCreate(entry, "summary")
             if summary.text == "online":
                 updated = Main.findOrCreate(entry, "updated")
                 try:
-                    updated_date = datetime.strptime(updated.text, DATE_FORMAT)
+                    updated_date = datetime.fromisoformat(updated.text)
                 except TypeError or ValueError as exception:
                     LOG.error(f"Error parsing updated_time {exception}")
                     updated_date = datetime.min
