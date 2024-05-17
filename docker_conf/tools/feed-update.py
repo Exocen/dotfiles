@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from tempfile import TemporaryDirectory
 
-# TODO add service sample/instruction ExecStartPre=/bin/sleep 30 TimeoutStartSec=300
+# TODO add service sample/instruction ExecStartPre=/bin/sleep 300 TimeoutStartSec=400
 LOG = logging.getLogger("YDL")
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
@@ -22,7 +22,7 @@ NOTIFICATION_UPDATE_LOCATION = "/var/tmp/feed/notifications/"
 
 LOOP_INTERVAL = 900
 OFFLINE_DELAY = timedelta(hours=1)
-MAX_NOTIFICATIONS = 20
+MAX_NOTIFICATIONS = 50
 
 USAGE = "Usage: feed-update [ loop | notif | update ] \n loop -> run check loop \n notif -> add a notification (title+text) \n update -> update/add given host"
 SAMPLE_ATOM = """<?xml version="1.0" encoding="utf-8"?>
@@ -63,7 +63,7 @@ class Main:
 
     @staticmethod
     def genTime():
-        return datetime.now().isoformat()
+        return datetime.now().astimezone().replace(microsecond=0).isoformat()
 
     @staticmethod
     def findOrCreate(element, subelement_str):
