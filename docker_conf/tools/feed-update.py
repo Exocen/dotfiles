@@ -11,7 +11,7 @@ from tempfile import TemporaryDirectory
 
 # If service used and need a boot time, add instruction ExecStartPre=/bin/sleep 300 and TimeoutStartSec=400
 LOG = logging.getLogger("Feed-Update")
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.ERROR)
 
 TMP_DIR = "/run/"
 ATOM_PATH = "/docker-data/nginx/status/atom.xml"
@@ -237,6 +237,7 @@ class Main:
                     self.tree_updated = True
 
     def checkLoop(self):
+        LOG.info("Starting feed_update check loop")
         # Infinite check loop
         while True:
             
@@ -261,18 +262,17 @@ class Main:
             self.checkExpiredEntries()
             
             # If changes write new atom.xml
-            if self.tree_updated:
-                LOG.info(f"Writing new feed to {ATOM_PATH}")
+            if self.tree_updated:                
                 self.writeFeedTree()
                 self.tree_updated = False
 
-            LOG.info(f"Sleeping for {LOOP_INTERVAL} seconds")
+            LOG.debug(f"Sleeping for {LOOP_INTERVAL} seconds")
             time.sleep(LOOP_INTERVAL)
 
     def writeFeedTree(self):
         # Write file in temp dir, then overwrite/move to ATOM_PATH
         with TemporaryDirectory(dir=TMP_DIR) as tmpdirname:
-            LOG.debug(f"Writing {ATOM_PATH}")
+            LOG.info(f"Writing new feed to {ATOM_PATH}")
             filepath = os.path.join(tmpdirname, "atom.xml")
             self.tree.write(filepath, encoding="utf-8", xml_declaration=True)
             shutil.move(filepath, ATOM_PATH)
