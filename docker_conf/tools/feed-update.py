@@ -16,7 +16,7 @@ FEED_UPDATE_LOCATION = "/run/feed/update/"
 # Must be persistent
 NOTIFICATION_UPDATE_LOCATION = "/var/tmp/feed/notifications/"
 
-LOOP_INTERVAL = 1200
+LOOP_INTERVAL = 900
 OFFLINE_DELAY = timedelta(hours=1)
 MAX_NOTIFICATIONS = 20
 
