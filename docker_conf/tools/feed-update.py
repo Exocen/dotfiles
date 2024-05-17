@@ -17,11 +17,12 @@ ATOM_PATH = "/tmp/atom.xml"
 
 # TODO create those at start or check presence
 # can be volatil
-FEED_UPDATE_LOCATION = "/run/feed/update/"
+FEED_UPDATE_LOCATION = TMP_DIR + "/feed/update/"
 # must be persistent
-NOTIFICATION_UPDATE_LOCATION = "/run/feed/notifications/"
+NOTIFICATION_UPDATE_LOCATION = TMP_DIR + "/feed/notifications/"
 
-LOOP_INTERVAL = "1200"
+LOOP_INTERVAL = 15
+#LOOP_INTERVAL = 1200
 OFFLINE_DELAY = timedelta(hours=1)
 MAX_NOTIFICATIONS = 10
 
@@ -74,7 +75,13 @@ class Main:
             element.append(subelement)
         return subelement
 
+    @staticmethod
+    def init_dirs():
+        os.makedirs(FEED_UPDATE_LOCATION, exist_ok=True)
+        os.makedirs(NOTIFICATION_UPDATE_LOCATION, exist_ok=True)
+
     def __init__(self):
+        Main.init_dirs()
         self.host = socket.gethostname()
         self.last_feed_update = 0
         self.feed_tree = None
@@ -92,7 +99,7 @@ class Main:
             self.feed_tree = self.tree.getroot()
         except Exception as exception:
             LOG.debug(f"{exception}")
-            LOG.error(f"{ATOM_PATH} retrieving failed, creating new feed")
+            LOG.warning(f"{ATOM_PATH} retrieving failed, creating new feed")
             self.tree = ET.ElementTree(
                 ET.fromstring(
                     SAMPLE_ATOM.replace("[HOST]", self.host)
@@ -104,32 +111,36 @@ class Main:
 
     def getUpdateList(self):
         # Return list of host to update
-        LOG.debug(f"Getting files from {self.FEED_UPDATE_LOCATION}")
+        LOG.debug(f"Getting files from {FEED_UPDATE_LOCATION}")
         update_list = []
         try:
-            file_list = os.listdir(os.listdir(self.FEED_UPDATE_LOCATION))
+            file_list = os.listdir(FEED_UPDATE_LOCATION)            
             for file in file_list:
-                update_list.append(os.path.basename(file))
-                os.remove(file)
+                update_list.append(file)
+                os.remove(os.path.join(FEED_UPDATE_LOCATION, file))
         except Exception as read_exception:
             LOG.error(
-                f"Error trying to read {self.FEED_UPDATE_LOCATION}: {read_exception}"
+                f"Error trying to read {FEED_UPDATE_LOCATION}: {read_exception}"
             )
         return update_list
 
     def getNotificationSet(self):
         # Return set of notification to add to the feed key=>title and value=>summary
-        LOG.debug(f"Getting files from {self.NOTIFICATION_UPDATE_LOCATION}")
-        update_set = set()
+        LOG.debug(f"Getting files from {NOTIFICATION_UPDATE_LOCATION}")
+        update_set = dict()
         try:
-            file_list = os.listdir(os.listdir(self.NOTIFICATION_UPDATE_LOCATION))
+            file_list = os.listdir(NOTIFICATION_UPDATE_LOCATION)
             for file in file_list:
-                with open(file, "r") as file_buf:
-                    update_set[os.path.basename(file)] = file_buf.read().rstrip()
-                os.remove(file)
+                file_path = os.path.join(NOTIFICATION_UPDATE_LOCATION, file)
+                with open(file_path, "r") as file_buf:
+                    file_lines = file_buf.readlines()
+                    if len(file_lines) != 2:
+                        raise Exception(f"{file_path} contains {len(file_lines)} line(s) (should be 2) ")
+                    update_set[file_lines[0]] = file_lines[1]
+                os.remove(file_path)
         except Exception as read_exception:
             LOG.error(
-                f"Error trying to read {self.NOTIFICATION_UPDATE_LOCATION}: {read_exception}"
+                f"Error trying to read {NOTIFICATION_UPDATE_LOCATION}: {read_exception}"
             )
         return update_set
 
@@ -211,12 +222,11 @@ class Main:
 
     def checkLoop(self):
         while True:
-            LOG.info(f"Sleeping for {LOOP_INTERVAL} seconds")
-            time.sleep(LOOP_INTERVAL)
+            LOG.info("Starting feed-update loop")
 
             self.cleanNotifs()
 
-            update_list = self.getUpdateList
+            update_list = self.getUpdateList()
             if update_list:
                 LOG.info(f"New update detected {update_list}")
                 for update in update_list:
@@ -235,6 +245,9 @@ class Main:
                 self.writeFeedTree()
                 self.tree_updated = False
 
+            LOG.info(f"Sleeping for {LOOP_INTERVAL} seconds")
+            time.sleep(LOOP_INTERVAL)
+
     def writeFeedTree(self):
         with TemporaryDirectory(dir=TMP_DIR) as tmpdirname:
             LOG.debug(f"Writing {ATOM_PATH}")
@@ -242,24 +255,24 @@ class Main:
             self.tree.write(filepath, encoding="utf-8", xml_declaration=True)
             shutil.move(filepath, ATOM_PATH)
 
-    def addNotification(self, title, summary):
-        #TODO redo
-         with TemporaryDirectory(dir=TMP_DIR) as tmpdirname:
-            LOG.debug(f"Writing notification: {}")
-            # name + timestamp
-            filepath = os.path.join(tmpdirname, "atom.xml")
-            self.tree.write(filepath, encoding="utf-8", xml_declaration=True)
-            shutil.move(filepath, ATOM_PATH)
+    @staticmethod
+    def addNotification(title, summary):
+            LOG.info(f"Writing notification: {title}")
+            file_path = os.path.join(NOTIFICATION_UPDATE_LOCATION, str(round(time.time() * 10000)))
+            try:
+                with open(file_path, 'w') as file:
+                    file.write(title + os.linesep + summary)
+            except Exception as write_exception:
+                LOG.error(f"Error trying to write {file_path}: {write_exception}")
 
-    # add_notif fct
-    # filename->title content->summary
-
-    # add_update fct
-    # filename->host
-    # only one of each host(overwrite)
-
-    def addUpdate(self, host):
-        pass
+    @staticmethod
+    def addUpdate(host):
+        LOG.info(f"Writing host update: {host}")
+        file_path = os.path.join(FEED_UPDATE_LOCATION, host)
+        try:
+            open(file_path, 'a').close()
+        except Exception as write_exception:
+            LOG.error(f"Error trying to write {file_path}: {write_exception}")
 
     def run(self):
         #  loop | notif | update
@@ -268,11 +281,13 @@ class Main:
         if sys.argv[1] == "loop":
             self.checkLoop()
         elif sys.argv[1] == "notif":
-            if len(sys.argv) != 3:
-                raise Exception(USAGE)
-        elif sys.argv[1] == "update":
             if len(sys.argv) != 4:
                 raise Exception(USAGE)
+            Main.addNotification(sys.argv[2], sys.argv[3])
+        elif sys.argv[1] == "update":
+            if len(sys.argv) != 3:
+                raise Exception(USAGE)
+            Main.addUpdate(sys.argv[2])
         else:
             raise Exception(USAGE)
 
