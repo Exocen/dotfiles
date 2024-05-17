@@ -223,8 +223,6 @@ class Main:
                     self.tree_updated = True
 
     def checkLoop(self):
-        LOG.info(f"Starting feed-update loop in {START_DELAY} seconds")
-        time.sleep(START_DELAY)
         while True:
 
             self.cleanNotifs()
@@ -297,4 +295,6 @@ class Main:
 
 
 if __name__ == "__main__":
+    LOG.info(f"Starting feed-update loop in {START_DELAY} seconds")
+    time.sleep(START_DELAY)
     Main().run()
