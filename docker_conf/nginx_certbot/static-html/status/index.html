@@ -38,28 +38,20 @@
           }
         }
 
-        document.getElementsByTagName("body")[0].innerHTML = ""
+        doc = document.getElementsByTagName("body")[0]
+        doc.innerHTML = ""
         for (n in nodeList) {
           node = nodeList[n]
-          const para = document.createElement("p");
+          para = document.createElement("p");
           const title = node.getElementsByTagName("title")[0].textContent;
           const summary = node.getElementsByTagName("summary")[0].textContent;
           const updated = node.getElementsByTagName("updated")[0].textContent;
-
-          if (summary === "online") {
-            child = document.createElement('p')
-            child.innerHTML = title + " : <span style=\"color:green;\">" + updated + "</span>"
-            para.appendChild(child)
-          }
-          else {
-            child = document.createElement('p')
-            child.innerHTML = title + " : <span style=\"color:red;\">" + updated + "</span>"
-            para.appendChild(child)
-          }
-
-          document.getElementsByTagName("body")[0].appendChild(para);
+          color = summary === "online" ? "green" : "red"
+          para.innerHTML = title + " : <span style=\"color:" + color + ";\">" + updated + "</span>"
+          doc.appendChild(para);
         }
       })
+
   </script>
 </head>
 
