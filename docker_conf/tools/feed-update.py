@@ -1,32 +1,26 @@
-import xml.etree.ElementTree as ET
-import time
-from datetime import datetime, timedelta
-import os
-import sys
 import logging
-import socket
+import os
 import shutil
+import socket
+import sys
+import time
 import uuid
+import xml.etree.ElementTree as ET
+from datetime import datetime, timedelta
 from tempfile import TemporaryDirectory
 
-
-# TMP_DIR = "/run/"
-TMP_DIR = os.path.join("/run/user/", str(os.getuid()))
-ATOM_PATH = "/tmp/atom.xml"
-# ATOM_PATH = "/docker-data/nginx/status/atom.xml"
-
+TMP_DIR = "/run/"
+ATOM_PATH = "/docker-data/nginx/status/atom.xml"
 # Can be volatile
-FEED_UPDATE_LOCATION = TMP_DIR + "/feed/update/"
+FEED_UPDATE_LOCATION = "/run/feed/update/"
 # Must be persistent
-NOTIFICATION_UPDATE_LOCATION = TMP_DIR + "/feed/notifications/"
+NOTIFICATION_UPDATE_LOCATION = "/var/tmp/feed/notifications/"
 
-LOOP_INTERVAL = 10
-# LOOP_INTERVAL = 1200
-# OFFLINE_DELAY = timedelta(hours=1)
-OFFLINE_DELAY = timedelta(minutes=1)
-MAX_NOTIFICATIONS = 3
+LOOP_INTERVAL = 1200
+OFFLINE_DELAY = timedelta(hours=1)
+MAX_NOTIFICATIONS = 20
 
-USAGE = "Usage: feed-update.py [ loop | notif | update ] \n loop -> run check loop \n notif -> add a notification (title+text) \n update -> update/add given host"
+USAGE = "Usage: feed-update [ loop | notif | update ] \n loop -> run check loop \n notif -> add a notification (title+text) \n update -> update/add given host"
 SAMPLE_ATOM = """<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>[HOST] feed</title>
@@ -37,7 +31,7 @@ SAMPLE_ATOM = """<?xml version="1.0" encoding="utf-8"?>
   </author>
   <id>[ID]</id>
 </feed>"""
-SAMPLE_ENTRY = """<entry type='update'>
+UPDATE_ENTRY = """<entry type='update'>
     <title>[HOST2]</title>
     <link href="https://[HOST]/status#[HOST2]"/>
     <id>[ID]</id>
@@ -82,12 +76,11 @@ class Main:
     def __init__(self):
         logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
         Main.init_dirs()
-        self.host = socket.gethostname()
-        self.last_feed_update = 0
         self.feed_tree = None
         self.tree = None
-        self.importTree()
         self.tree_updated = False
+        self.host = socket.gethostname()
+        self.importTree()
 
     def importTree(self):
         try:
@@ -136,7 +129,10 @@ class Main:
                         raise Exception(
                             f"{file_path} contains {len(file_lines)} line(s) (should be 2) "
                         )
-                    tup = (file_lines[0].replace("\n", ""), file_lines[1].replace("\n", ""))
+                    tup = (
+                        file_lines[0].replace("\n", ""),
+                        file_lines[1].replace("\n", ""),
+                    )
                     update_list.append(tup)
                 os.remove(file_path)
         except Exception as read_exception:
@@ -150,7 +146,7 @@ class Main:
         if not titles:
             ET.register_namespace("", "http://www.w3.org/2005/Atom")
             entry = ET.fromstring(
-                SAMPLE_ENTRY.replace("[HOST]", self.host)
+                UPDATE_ENTRY.replace("[HOST]", self.host)
                 .replace("[HOST2]", host)
                 .replace("[ID]", Main.genId())
             )
@@ -295,6 +291,7 @@ class Main:
             Main.addUpdate(sys.argv[2])
         else:
             raise Exception(USAGE)
+
 
 if __name__ == "__main__":
     Main().run()
