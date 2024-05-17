@@ -223,7 +223,7 @@ class Main:
                     self.tree_updated = True
 
     def checkLoop(self):
-        LOG.info("Starting feed-update loop in {START_DELAY} seconds")
+        LOG.info(f"Starting feed-update loop in {START_DELAY} seconds")
         time.sleep(START_DELAY)
         while True:
 
