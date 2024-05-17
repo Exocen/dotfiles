@@ -87,6 +87,7 @@ class Main:
         self.importTree()
 
     def importTree(self):
+        # Import existing ATOM_PATH, or create a new one
         try:
             ET.register_namespace("", "http://www.w3.org/2005/Atom")
             LOG.debug(f"Retrieving {ATOM_PATH}")
@@ -147,13 +148,14 @@ class Main:
         return update_list
 
     def updateStatus(self, host):
+        # Update a status entry
         titles = self.feed_tree.findall('./{*}entry/{*}title[.="' + host + '"]', NS)
         if not titles:
             ET.register_namespace("", "http://www.w3.org/2005/Atom")
             entry = ET.fromstring(
                 UPDATE_ENTRY.replace("[HOST]", self.host.strip())
                 .replace("[HOST2]", host)
-                .replace("[HOST2_LINK]", host.strip())
+                .replace("[HOST2_LINK]", host.strip().replace(" ", "_"))
                 .replace("[ID]", Main.genId())
             )
             self.feed_tree.append(entry)
@@ -192,13 +194,14 @@ class Main:
                 parent_map[entry_to_remove].remove(entry_to_remove)
             self.tree_updated = True
 
-    def updateNotifs(self, title, message):
+    def createNotification(self, title, message):
+        # Create a new notification
         ET.register_namespace("", "http://www.w3.org/2005/Atom")
         entry = ET.fromstring(
             NOTIFICATION_ENTRY.replace("[HOST]", self.host)
             .replace("[HOST]", self.host)
             .replace("[TITLE]", title)
-            .replace("[TITLE_LINK]", title.strip())
+            .replace("[TITLE_LINK]", title.strip().replace(" ", "_"))
             .replace("[ID]", Main.genId())
             .replace("[MESSAGE]", message)
             .replace("[UPDATED]", Main.genTime())
@@ -231,24 +234,30 @@ class Main:
                     self.tree_updated = True
 
     def checkLoop(self):
+        # Infinite check loop
         while True:
-
+            
+            # Clean overflowing notifications
             self.cleanNotifs()
-
+            
+            # Retrieve and append new status update
             update_list = self.getUpdateList()
             if update_list:
                 LOG.info(f"New update detected {update_list}")
                 for update in update_list:
                     self.updateStatus(update)
-
+            
+            # Retrieve and append new notifications
             notification_list = self.getNotificationList()
             if notification_list:
                 LOG.info(f"New notification detected {notification_list}")
                 for notification in notification_list:
-                    self.updateNotifs(notification[0], notification[1])
+                    self.createNotification(notification[0], notification[1])
 
+            # Check and switch expired update entries
             self.checkExpiredEntries()
-
+            
+            # If changes write new atom.xml
             if self.tree_updated:
                 LOG.info(f"Writing new feed to {ATOM_PATH}")
                 self.writeFeedTree()
@@ -258,6 +267,7 @@ class Main:
             time.sleep(LOOP_INTERVAL)
 
     def writeFeedTree(self):
+        # Write file in temp dir, then overwrite/move to ATOM_PATH
         with TemporaryDirectory(dir=TMP_DIR) as tmpdirname:
             LOG.debug(f"Writing {ATOM_PATH}")
             filepath = os.path.join(tmpdirname, "atom.xml")
@@ -266,6 +276,7 @@ class Main:
 
     @staticmethod
     def addNotification(title, summary):
+        # Create a new notification for the check loop
         LOG.info(f"Writing notification: {title}")
         file_path = os.path.join(
             NOTIFICATION_UPDATE_LOCATION, str(round(time.time() * 100000))
@@ -278,6 +289,7 @@ class Main:
 
     @staticmethod
     def addUpdate(host):
+        # Create a new status update for the check loop
         LOG.info(f"Writing host update: {host}")
         file_path = os.path.join(FEED_UPDATE_LOCATION, host)
         try:
