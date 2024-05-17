@@ -11,7 +11,7 @@ from tempfile import TemporaryDirectory
 
 # If service used and need a boot time, add instruction ExecStartPre=/bin/sleep 300 and TimeoutStartSec=400
 LOG = logging.getLogger("Feed-Update")
-logging.basicConfig(level=logging.ERROR)
+logging.basicConfig(level=logging.INFO)
 
 TMP_DIR = "/run/"
 ATOM_PATH = "/docker-data/nginx/status/atom.xml"
