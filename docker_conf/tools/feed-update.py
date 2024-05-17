@@ -19,7 +19,6 @@ NOTIFICATION_UPDATE_LOCATION = "/var/tmp/feed/notifications/"
 LOOP_INTERVAL = 1200
 OFFLINE_DELAY = timedelta(hours=1)
 MAX_NOTIFICATIONS = 20
-START_DELAY = 300
 
 USAGE = "Usage: feed-update [ loop | notif | update ] \n loop -> run check loop \n notif -> add a notification (title+text) \n update -> update/add given host"
 SAMPLE_ATOM = """<?xml version="1.0" encoding="utf-8"?>
@@ -75,7 +74,6 @@ class Main:
         os.makedirs(NOTIFICATION_UPDATE_LOCATION, exist_ok=True)
 
     def __init__(self):
-        logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
         Main.init_dirs()
         self.feed_tree = None
         self.tree = None
@@ -295,6 +293,4 @@ class Main:
 
 
 if __name__ == "__main__":
-    LOG.info(f"Starting feed-update loop in {START_DELAY} seconds")
-    time.sleep(START_DELAY)
     Main().run()
