@@ -9,6 +9,10 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from tempfile import TemporaryDirectory
 
+# TODO add service sample/instruction ExecStartPre=/bin/sleep 30 TimeoutStartSec=300
+LOG = logging.getLogger("YDL")
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+
 TMP_DIR = "/run/"
 ATOM_PATH = "/docker-data/nginx/status/atom.xml"
 # Can be volatile
@@ -48,7 +52,7 @@ NOTIFICATION_ENTRY = """<entry type='notif'>
 
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 NS = {"": "http://www.w3.org/2005/Atom"}
-LOG = logging.getLogger("YDL")
+
 
 
 class Main:
