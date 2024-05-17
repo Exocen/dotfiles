@@ -19,6 +19,7 @@ NOTIFICATION_UPDATE_LOCATION = "/var/tmp/feed/notifications/"
 LOOP_INTERVAL = 1200
 OFFLINE_DELAY = timedelta(hours=1)
 MAX_NOTIFICATIONS = 20
+START_DELAY = 300
 
 USAGE = "Usage: feed-update [ loop | notif | update ] \n loop -> run check loop \n notif -> add a notification (title+text) \n update -> update/add given host"
 SAMPLE_ATOM = """<?xml version="1.0" encoding="utf-8"?>
@@ -222,8 +223,9 @@ class Main:
                     self.tree_updated = True
 
     def checkLoop(self):
+        LOG.info("Starting feed-update loop in {START_DELAY} seconds")
+        time.sleep(START_DELAY)
         while True:
-            LOG.info("Starting feed-update loop")
 
             self.cleanNotifs()
 
