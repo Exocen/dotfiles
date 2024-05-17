@@ -296,7 +296,8 @@ class Main:
         LOG.info(f"Writing host update: {host}")
         file_path = os.path.join(FEED_UPDATE_LOCATION, host)
         try:
-            open(file_path, "a").close()
+             with open(file_path, 'a'):
+                os.utime(file_path)
         except Exception as write_exception:
             LOG.error(f"Error trying to write {file_path}: {write_exception}")
 
