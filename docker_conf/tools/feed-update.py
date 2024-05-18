@@ -79,7 +79,6 @@ class Main:
         os.makedirs(NOTIFICATION_UPDATE_LOCATION, exist_ok=True)
         os.makedirs(TMP_DIR, exist_ok=True)
 
-
     def __init__(self):
         Main.init_dirs()
         self.feed_tree = None
@@ -360,4 +359,7 @@ class Main:
 
 
 if __name__ == "__main__":
+    if not os.path.isfile(ATOM_PATH):
+        time.sleep(300)
+        LOG.info(f"{ATOM_PATH} not detected, waiting...")
     Main().run()
