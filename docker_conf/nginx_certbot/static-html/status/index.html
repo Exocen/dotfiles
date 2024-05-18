@@ -26,11 +26,11 @@
       const entries = categories.filter((category) => typeof category === 'object' && 'attributes' in category && category.attributes.term.value == 'update').map((category) => category.parentNode);
 
       if (entries.length !== 0) { document.body.innerHTML = ""; }
-      entries.forEach(node => {
+      entries.forEach(entry => {
         let para = document.createElement("p");
-        const title = node.getElementsByTagName("title")[0].textContent;
-        const summary = node.getElementsByTagName("summary")[0].textContent;
-        const updated = node.getElementsByTagName("updated")[0].textContent;
+        const title = entry.getElementsByTagName("title")[0].textContent;
+        const summary = entry.getElementsByTagName("summary")[0].textContent;
+        const updated = entry.getElementsByTagName("updated")[0].textContent;
         const color = summary === "online" ? "green" : "red";
         para.innerHTML = title + " : <span style=\"color:" + color + ";\">" + updated + "</span>";
         document.body.appendChild(para);
