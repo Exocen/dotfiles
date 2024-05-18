@@ -13,7 +13,7 @@ from tempfile import TemporaryDirectory
 LOG = logging.getLogger("Feed-Update")
 logging.basicConfig(level=logging.INFO)
 
-TMP_DIR = "/run/"
+TMP_DIR = "/run/feed/"
 ATOM_PATH = "/docker-data/nginx/status/atom.xml"
 FEED_UPDATE_LOCATION = "/var/tmp/feed/updates/"
 NOTIFICATION_UPDATE_LOCATION = "/var/tmp/feed/notifications/"
@@ -76,6 +76,8 @@ class Main:
     def init_dirs():
         os.makedirs(FEED_UPDATE_LOCATION, exist_ok=True)
         os.makedirs(NOTIFICATION_UPDATE_LOCATION, exist_ok=True)
+        os.makedirs(TMP_DIR, exist_ok=True)
+
 
     def __init__(self):
         Main.init_dirs()
