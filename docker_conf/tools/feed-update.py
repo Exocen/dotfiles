@@ -152,9 +152,9 @@ class Main:
         return update_list
 
     def updateStatus(self, tuple):
-        host = tuple[0]
+        host = str(tuple[0])
         updated = (
-            datetime.fromtimestamp(tuple[1])
+            datetime.fromtimestamp(str(tuple[1]))
             .astimezone()
             .replace(microsecond=0)
             .isoformat()
@@ -233,18 +233,16 @@ class Main:
 
     def createNotification(self, notification):
         # Create a new notification
-        title = notification[0]
-        message = notification[1]
-        updated = notification[2]
+        title, message, updated = notification
         ET.register_namespace("", XMLD)
         entry = ET.fromstring(
             NOTIFICATION_ENTRY.replace("[HOST]", self.host)
             .replace("[HOST]", self.host)
-            .replace("[TITLE]", title)
-            .replace("[TITLE_LINK]", title.strip().replace(" ", "_"))
+            .replace("[TITLE]", str(title))
+            .replace("[TITLE_LINK]", str(title).strip().replace(" ", "_"))
             .replace("[ID]", Main.genId())
-            .replace("[MESSAGE]", message)
-            .replace("[UPDATED]", updated)
+            .replace("[MESSAGE]", str(message))
+            .replace("[UPDATED]", str(updated))
         )
         self.feed_tree.append(entry)
         Main.findOrCreate(self.feed_tree, "updated").text = Main.genTime()
