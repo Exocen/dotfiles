@@ -21,22 +21,33 @@
     }
   </style>
   <script>
-    fetch('atom.xml').then(response => { return response.ok ? response.text() : null }).then(text => {
-      const categories = [].slice.call((new DOMParser()).parseFromString(text, "text/xml").getElementsByTagName("category"));
-      const entries = categories.filter((category) => typeof category === 'object' && 'attributes' in category && category.attributes.term.value == 'update').map((category) => category.parentNode);
 
-      if (entries.length !== 0) { document.body.innerHTML = ""; }
-      entries.forEach(entry => {
-        let para = document.createElement("p");
-        const title = entry.getElementsByTagName("title")[0].textContent;
-        const summary = entry.getElementsByTagName("summary")[0].textContent;
-        const updated = entry.getElementsByTagName("updated")[0].textContent;
-        const color = summary === "online" ? "green" : "red";
-        para.innerHTML = title + " : <span style=\"color:" + color + ";\">" + updated + "</span>";
-        document.body.appendChild(para);
+    async function start() {
+      let loop = false;
+      do {
+        const response = await fetch("atom.xml");
+        if (response.ok) {
+          loop = true;
+          const categories = [].slice.call((new DOMParser()).parseFromString(await response.text(), "text/xml").getElementsByTagName("categogry"));
+          const entries = categories.filter((category) => typeof category === 'object' && 'attributes' in category && category.attributes.term.value == 'update').map((category) => category.parentNode);
+
+          if (entries.length !== 0) { document.body.innerHTML = ""; }
+          entries.forEach(entry => {
+            let para = document.createElement("p");
+            const title = entry.getElementsByTagName("title")[0].textContent;
+            const summary = entry.getElementsByTagName("summary")[0].textContent;
+            const updated = entry.getElementsByTagName("updated")[0].textContent;
+            const color = summary === "online" ? "green" : "red";
+            para.innerHTML = title + " : <span style=\"color:" + color + ";\">" + updated + "</span>";
+            document.body.appendChild(para);
+          }
+          )
+        }
+        await new Promise(r => setTimeout(r, 300000));
       }
-      )
-    })
+      while (loop === true);
+    }
+    start()
 
   </script>
 </head>
