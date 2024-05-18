@@ -22,9 +22,10 @@
   </style>
   <script>
 
-    async function start() {      
+    async function start() {
+      let loop = false;
       do {
-        let loop = false;
+        loop = false;
         const response = await fetch("atom.xml");
         if (response.ok) {
           loop = true;
