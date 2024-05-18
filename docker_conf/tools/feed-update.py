@@ -153,7 +153,7 @@ class Main:
     def updateStatus(self, tuple):
         host = str(tuple[0])
         updated = (
-            datetime.fromtimestamp(str(tuple[1]))
+            datetime.fromtimestamp(tuple[1])
             .astimezone()
             .replace(microsecond=0)
             .isoformat()
