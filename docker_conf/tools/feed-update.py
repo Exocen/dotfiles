@@ -213,9 +213,9 @@ class Main:
         entries = [parent_map[cat] for cat in categories_notif]
         entry_to_remove = []
         for entry in entries:
-            updated = Main.findOrCreate(entry, "updated").text
+            updated_text = Main.findOrCreate(entry, "updated").text
             try:
-                updated_date = datetime.fromisoformat(updated.text)
+                updated_date = datetime.fromisoformat(updated_text)
             except TypeError or ValueError as exception:
                 LOG.error(f"Error parsing updated_time {exception}")
                 updated_date = datetime.min
