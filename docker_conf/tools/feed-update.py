@@ -140,7 +140,10 @@ class Main:
                     tup = (
                         file_lines[0].replace("\n", ""),
                         file_lines[1].replace("\n", ""),
-                        os.path.getmtime(file_path),
+                        datetime.fromtimestamp(tuple[1])
+                        .astimezone()
+                        .replace(microsecond=0)
+                        .isoformat(),
                     )
                     update_list.append(tup)
                 os.remove(file_path)
