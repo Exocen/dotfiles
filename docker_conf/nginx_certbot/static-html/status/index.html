@@ -21,36 +21,33 @@
     }
   </style>
   <script>
-    fetch('atom.xml')
-      .then(response => {
-        return response.ok ? response.text() : null
-      })
-      .then(text => {
-        nodeList = []
-        parser = new DOMParser();
-        xmlDoc = parser.parseFromString(text, "text/xml");
-        cats = xmlDoc.getElementsByTagName("category")
-
-        for (el in cats) {
-          element = cats[el]
-          if (typeof element === 'object' && 'attributes' in element && element.attributes.term.value == 'update') {
-            nodeList.push(cats[el].parentNode)
-          }
+    fetch('atom.xml').then(response => { return response.ok ? response.text() : null }).then(text => {
+      parser = new DOMParser();
+      xmlDoc = parser.parseFromString(text, "text/xml");
+      nodeList = [];
+      categories = xmlDoc.getElementsByTagName("category")
+      //TODO trouver un moyen de faire ça avec map et/ou filter
+      for (category_key in categories) {
+        category = categories[category_key];
+        if (typeof category === 'object' && 'attributes' in category && category.attributes.term.value == 'update') {
+          nodeList.push(category.parentNode);
         }
+      }
 
-        doc = document.getElementsByTagName("body")[0]
-        doc.innerHTML = ""
-        for (n in nodeList) {
-          node = nodeList[n]
-          para = document.createElement("p");
-          const title = node.getElementsByTagName("title")[0].textContent;
-          const summary = node.getElementsByTagName("summary")[0].textContent;
-          const updated = node.getElementsByTagName("updated")[0].textContent;
-          color = summary === "online" ? "green" : "red"
-          para.innerHTML = title + " : <span style=\"color:" + color + ";\">" + updated + "</span>"
-          doc.appendChild(para);
-        }
-      })
+      doc = document.getElementsByTagName("body")[0];
+      doc.innerHTML = "";
+      //TODO trouver alternative au for in => loop by values
+      for (node_key in nodeList) {
+        node = nodeList[node_key];
+        para = document.createElement("p");
+        const title = node.getElementsByTagName("title")[0].textContent;
+        const summary = node.getElementsByTagName("summary")[0].textContent;
+        const updated = node.getElementsByTagName("updated")[0].textContent;
+        color = summary === "online" ? "green" : "red";
+        para.innerHTML = title + " : <span style=\"color:" + color + ";\">" + updated + "</span>";
+        doc.appendChild(para);
+      }
+    })
 
   </script>
 </head>

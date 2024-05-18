@@ -21,6 +21,7 @@ NOTIFICATION_UPDATE_LOCATION = "/var/tmp/feed/notifications/"
 LOOP_INTERVAL = 900
 OFFLINE_DELAY = timedelta(hours=1)
 MAX_NOTIFICATIONS = 50
+MAX_NOTIFICATION_AGE = timedelta(days=30)
 
 USAGE = "Usage: feed-update [ loop | notif | update ] \n loop -> run check loop \n notif -> add a notification (title+text) \n update -> update/add given host"
 SAMPLE_ATOM = """<?xml version="1.0" encoding="utf-8"?>
@@ -189,11 +190,11 @@ class Main:
                     pass
         self.tree_updated = True
 
-    def cleanNotifs(self):
+    def cleanNotifsByLen(self):
         # Remove oldest notifs if too many (MAX_NOTIFICATIONS)
         parent_map = {c: p for p in self.feed_tree.iter() for c in p}
         categories_notif = self.feed_tree.findall(
-            './{*}entry/{*}category[@type="notif"]', NS
+            './{*}entry/{*}category[@term="notif"]', NS
         )
         entries = [parent_map[cat] for cat in categories_notif]
         if len(entries) > MAX_NOTIFICATIONS:
@@ -203,8 +204,35 @@ class Main:
                 parent_map[entry_to_remove].remove(entry_to_remove)
             self.tree_updated = True
 
-    def createNotification(self, title, message, updated):
+    def cleanNotifsByAge(self):
+        # Remove oldest notifs (MAX_NOTIFICATION_AGE)
+        parent_map = {c: p for p in self.feed_tree.iter() for c in p}
+        categories_notif = self.feed_tree.findall(
+            './{*}entry/{*}category[@term="notif"]', NS
+        )
+        entries = [parent_map[cat] for cat in categories_notif]
+        entry_to_remove = []
+        for entry in entries:
+            updated = Main.findOrCreate(entry, "updated").text
+            try:
+                updated_date = datetime.fromisoformat(updated.text)
+            except TypeError or ValueError as exception:
+                LOG.error(f"Error parsing updated_time {exception}")
+                updated_date = datetime.min
+            if updated_date + MAX_NOTIFICATION_AGE < datetime.now():
+                entry_to_remove.append(entry)
+        for entry in entry_to_remove:
+            LOG.info(
+                f"Notification expired (max age {MAX_NOTIFICATION_AGE}), removing\n{ET.tostring(entry)}"
+            )
+            parent_map[entry].remove(entry)
+            self.tree_updated = True
+
+    def createNotification(self, notification):
         # Create a new notification
+        title = notification[0]
+        message = notification[1]
+        updated = notification[2]
         ET.register_namespace("", XMLD)
         entry = ET.fromstring(
             NOTIFICATION_ENTRY.replace("[HOST]", self.host)
@@ -223,7 +251,7 @@ class Main:
         # Check online entries if no new update for too long -> offline
         parent_map = {c: p for p in self.feed_tree.iter() for c in p}
         categories_update = self.feed_tree.findall(
-            './{*}entry/{*}category[@type="update"]', NS
+            './{*}entry/{*}category[@term="update"]', NS
         )
         entries = [parent_map[cat] for cat in categories_update]
         for entry in entries:
@@ -249,7 +277,10 @@ class Main:
         # Infinite check loop
         while True:
             # Clean overflowing notifications
-            self.cleanNotifs()
+            self.cleanNotifsByLen()
+
+            # Clean oldest notifications
+            self.cleanNotifsByAge()
 
             # Retrieve and append new status update
             update_list = self.getUpdateList()
@@ -263,7 +294,7 @@ class Main:
             if notification_list:
                 LOG.info(f"New notification detected {notification_list}")
                 for notification in notification_list:
-                    self.createNotification(notification[0], notification[1], notification[2])
+                    self.createNotification(notification)
 
             # Check and switch expired update entries
             self.checkExpiredEntries()
