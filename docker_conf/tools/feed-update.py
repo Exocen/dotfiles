@@ -219,7 +219,7 @@ class Main:
             except TypeError or ValueError as exception:
                 LOG.error(f"Error parsing updated_time {exception}")
                 updated_date = datetime.min
-            if updated_date + MAX_NOTIFICATION_AGE < datetime.now():
+            if updated_date + MAX_NOTIFICATION_AGE < datetime.now().astimezone():
                 entry_to_remove.append(entry)
         for entry in entry_to_remove:
             LOG.info(
@@ -264,7 +264,7 @@ class Main:
                     LOG.error(f"Error parsing updated_time {exception}")
                     updated_date = datetime.min
 
-                if updated_date + OFFLINE_DELAY < datetime.now():
+                if updated_date + OFFLINE_DELAY < datetime.now().astimezone():
                     LOG.info(f"{entry} switch to offline")
                     summary.text = "offline"
                     updated.text = Main.genTime()
