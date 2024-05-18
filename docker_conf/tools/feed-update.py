@@ -10,7 +10,6 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from tempfile import TemporaryDirectory
 
-# If service used and need boot time, add instruction ExecStartPre=/bin/sleep 300 and TimeoutStartSec=400
 LOG = logging.getLogger("Feed-Update")
 logging.basicConfig(level=logging.INFO)
 
@@ -85,7 +84,6 @@ class Main:
         self.tree = None
         self.tree_updated = False
         self.host = socket.gethostname()
-        self.importTree()
 
     def importTree(self):
         # Import existing ATOM_PATH, or create a new one
@@ -153,15 +151,15 @@ class Main:
             )
         return update_list
 
-    def updateStatus(self, tuple):
-        host = str(tuple[0])
+    def updateStatus(self, status):
+        # Update a status entry
+        host = str(status[0])
         updated = (
-            datetime.fromtimestamp(tuple[1])
+            datetime.fromtimestamp(status[1])
             .astimezone()
             .replace(microsecond=0)
             .isoformat()
         )
-        # Update a status entry
         titles = self.feed_tree.findall('./{*}entry/{*}title[.="' + host + '"]', NS)
         if not titles:
             ET.register_namespace("", XMLD)
@@ -277,6 +275,7 @@ class Main:
 
     def checkLoop(self):
         LOG.info("Starting feed_update check loop")
+        self.importTree()
         # Infinite check loop
         while True:
             # Clean overflowing notifications
