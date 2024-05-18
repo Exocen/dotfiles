@@ -29,7 +29,7 @@
         const response = await fetch("atom.xml");
         if (response.ok) {
           loop = true;
-          const categories = [].slice.call((new DOMParser()).parseFromString(await response.text(), "text/xml").getElementsByTagName("categogry"));
+          const categories = [].slice.call((new DOMParser()).parseFromString(await response.text(), "text/xml").getElementsByTagName("category"));
           const entries = categories.filter((category) => typeof category === 'object' && 'attributes' in category && category.attributes.term.value == 'update').map((category) => category.parentNode);
 
           if (entries.length !== 0) { document.body.innerHTML = ""; }
