@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from tempfile import TemporaryDirectory
 
-# If service used and need a boot time, add instruction ExecStartPre=/bin/sleep 300 and TimeoutStartSec=400
+# If service used and need boot time, add instruction ExecStartPre=/bin/sleep 300 and TimeoutStartSec=400
 LOG = logging.getLogger("Feed-Update")
 logging.basicConfig(level=logging.INFO)
 

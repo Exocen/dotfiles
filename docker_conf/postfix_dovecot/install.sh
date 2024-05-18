@@ -76,7 +76,6 @@ function put_conf() {
     chown opendkim:opendkim /etc/opendkim/keys/$DOMAIN/mail.private
     chmod 0400 /etc/opendkim/keys/$DOMAIN/mail.private
 
-    #TODO update that
     systemctl restart postfix
     systemctl restart dovecot
     systemctl restart opendkim
