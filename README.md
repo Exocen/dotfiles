@@ -19,3 +19,4 @@ Tested on
 - [x] docker nginx : status displayed with Js reading atom.xml
 - [ ] docker nginx : fignoler le poro
 - [ ] docker jdownloader: add healthcheck
+- [ ] docker jdownloader: add vpn reconnection
