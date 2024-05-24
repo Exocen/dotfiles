@@ -18,3 +18,4 @@ Tested on
 - [x] feed-updater -> switch bash html updater to python xml updater
 - [x] docker nginx : status displayed with Js reading atom.xml
 - [ ] docker nginx : fignoler le poro
+- [ ] docker jdownloader: add healthcheck
