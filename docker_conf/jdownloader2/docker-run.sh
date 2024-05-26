@@ -11,6 +11,14 @@ else
     fi
 fi
 
+cd $(dirname "$(readlink -f "$0")")
+
+if docker images | grep "jdownloader2_img" ; then
+    echo "img already created"
+else
+    docker build -t jdownloader2_img .
+fi
+
 #PGUID 1000 PGID 1000 -> must have folder permission
 docker run -d --rm --log-driver=journald --log-opt tag="{{.Name}}" \
     --name=jdownloader2 \
@@ -20,4 +28,4 @@ docker run -d --rm --log-driver=journald --log-opt tag="{{.Name}}" \
     --network=container:gluetun \
     -v /docker-data-nobackup/jdownloader2/config/:/config \
     -v $JDOWNLOADER_DL_PATH:/output \
-    jlesage/jdownloader-2 && echo "Jdownloader2 started."
+    jdownloader2_img:latest && echo "Jdownloader2 started."

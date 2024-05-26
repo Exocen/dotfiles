@@ -1,0 +1,2 @@
+FROM jlesage/jdownloader-2
+HEALTHCHECK --interval=5m CMD  curl -f -s http://localhost:5800 1>/dev/null && ping -c 1 1.1.1.1 1>/dev/null || exit 1 
