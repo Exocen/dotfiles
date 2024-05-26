@@ -19,8 +19,8 @@ else
     docker build -t jdownloader2_img .
 fi
 
-#add this cmd to reconnect batch option
-# curl -X PUT --fail --silent --show-error http://localhost:8000/v1/openvpn/status -H "Content-Type: application/json" -d '{"status":"stopped"}' && curl -X PUT --fail --silent --show-error http://localhost:8000/v1/openvpn/status -H "Content-Type: application/json" -d '{"status":"running"}'
+#add this cmd to reconnect batch option with /bin/sh interpreter
+# ./reco.sh
 #PGUID 1000 PGID 1000 -> must have folder permission
 docker run -d --rm --log-driver=journald --log-opt tag="{{.Name}}" \
     --name=jdownloader2 \
