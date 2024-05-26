@@ -20,7 +20,7 @@ else
 fi
 
 #add this cmd to reconnect batch option with /bin/sh interpreter
-# ./reco.sh
+# /root/reco.sh
 #PGUID 1000 PGID 1000 -> must have folder permission
 docker run -d --rm --log-driver=journald --log-opt tag="{{.Name}}" \
     --name=jdownloader2 \
