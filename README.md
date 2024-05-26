@@ -11,7 +11,7 @@ Tested on
 ---
 
 ### 📝 TODO
-- [ ] install.sh: add auto-install + check option (output + ok or notok touch file)
+- [x] install.sh: remake all options auto-install
 - [ ] install.sh: add auto docker test (img = arg)
 - [ ] install.sh: documentation + ReadMe instructions
 - [ ] README: add docker instruction for each image + tools

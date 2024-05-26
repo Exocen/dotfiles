@@ -2,7 +2,7 @@
 WOS=''
 LOCAL=$(dirname "$(readlink -f "$0")")
 
-sudo () {
+sudo() {
     [[ $EUID = 0 ]] || set -- command sudo "$@"
     "$@"
 }
@@ -11,6 +11,7 @@ function is_working() {
     if [ $? -eq 0 ]; then
         success "$1"
     else
+        success_state=false
         error "$1"
     fi
 }
@@ -109,7 +110,7 @@ function arch_package_install() {
     sudo pacman -S --needed base-devel git --noconfirm &>>$logFile
     tmpD=$(mktemp -d)
     git clone $1 $tmpD &>>$logFile
-    current_dir=`pwd`
+    current_dir=$(pwd)
     cd $tmpD
     makepkg -fsri --skipinteg --noconfirm &>>$logFile
     cd $current_dir
@@ -132,7 +133,7 @@ function basic_install() {
     ins vim git htop iftop iotop tree zsh make wget sudo rsync
 
     # zsh
-    ln -sfn $LOCAL/user_conf/zshrc  ~/.zshrc
+    ln -sfn $LOCAL/user_conf/zshrc ~/.zshrc
     git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
     ln -sfn $LOCAL/user_conf/custom.zsh-theme ~/.oh-my-zsh/custom/themes
     sudo chsh -s /usr/bin/zsh $USER
@@ -154,7 +155,7 @@ function dev_env_install() {
                 if [ -f "$file" ]; then
                     info "Arch dev inv installation"
                     # .config links
-                    ln -sfn $LOCAL/user_conf/zprofile  ~/.zprofile
+                    ln -sfn $LOCAL/user_conf/zprofile ~/.zprofile
                     conf_folder user_conf/home_conf
                     list=""
                     while IFS= read -r line; do
@@ -170,6 +171,14 @@ function dev_env_install() {
                 fi
             }
         fi
+    fi
+}
+
+function ending() {
+    if $success_state; then
+        success "Installation successful"
+    else
+        error "Installation failed"
     fi
 }
 
@@ -203,6 +212,7 @@ function safeExit() {
     if $printLog; then
         echo -e "$(date +"%r") ${blue}$(printf "[%7s]" "info") "Logfile: $logFile"${reset}"
     fi
+    ending
     exit
 
 }
@@ -212,13 +222,10 @@ function safeExit() {
 scriptName=$(basename "$0")
 
 # Set Flags
-quiet=false
 printLog=true
-verbose=false
-force=false
-strict=false
 debug=false
 noconfirm=false
+success_state=true
 args=()
 
 # Set Colors
@@ -239,26 +246,19 @@ tmpDir="/tmp/${scriptName}.$RANDOM.$RANDOM.$RANDOM.$$"
 }
 
 # Logging
-# -----------------------------------
-# Log is only used when the '-l' flag is set.
-
-logFile="/tmp/${scriptName}-`date "+%s"`.log"
+logFile="/tmp/${scriptName}-$(date "+%s").log"
 
 # Options and Usage
 # -----------------------------------
 usage() {
-    echo -n "${scriptName} [OPTION]... [FILE]...
-
-    This is a script template.  Edit this description to print help to users.
+    echo -n "${scriptName} [OPTION]
 
     ${bold}Options:${reset}
-    -f, --force       Force re-install and removes previous installations
-    -v, --verbose     Output more information. (Items echoed to 'verbose')
-    -d, --debug       Runs script in BASH debug mode (set -x)
-    -y, --noconfirm   Skip all user interaction.  Implied 'Yes' to all actions.
+    -d, --debug       Use debug mode
+    -l, --logpath     Set log path (default /tmp)
+    -n, --noconfirm   Skip all user interaction.  Implied 'No' to all actions.
     -h, --help        Display this help and exit
     "
-
 }
 
 # Iterate over options breaking -ab into -a -b when needed and --foo=bar into
@@ -267,8 +267,8 @@ optstring=h
 unset options
 while (($#)); do
     case $1 in
-        # If option is of type -ab
-        -[!-]?*)
+    # If option is of type -ab
+    -[!-]?*)
         # Loop over each character starting with the second
         for ((i = 1; i < ${#1}; i++)); do
             c=${1:i:1}
@@ -291,35 +291,33 @@ while (($#)); do
     --) options+=(--endopts) ;;
     # Otherwise, nothing special
     *) options+=("$1") ;;
-esac
-shift
+    esac
+    shift
 done
 set -- "${options[@]}"
 unset options
 
 # Print help if no arguments were passed.
-# Uncomment to force arguments when invoking the script
-# -------------------------------------
 # [[ $# -eq 0  ]] && set -- "--help"
 
 # Read the options and set stuff
 while [[ $1 = -?* ]]; do
     case $1 in
-        -h | --help)
-            usage >&2
-            safeExit
-            ;;
-        -v | --verbose) verbose=true ;;
-        -l | --log) printLog=true ;;
-        -q | --quiet) quiet=true ;;
-        -d | --debug) debug=true ;;
-        -f | --force) force=true ;;
-        -y | --noconfirm) noconfirm=true ;;
-        --endopts)
-            shift
-            break
-            ;;
-        *) die "invalid option: '$1'." ;;
+    -h | --help)
+        usage >&2
+        safeExit
+        ;;
+    -d | --debug) debug=true ;;
+    -l | --logpath)
+        logFile="$2"
+        shift
+        ;;
+    -n | --noconfirm) noconfirm=true ;;
+    --endopts)
+        shift
+        break
+        ;;
+    *) die "invalid option: '$1'." ;;
     esac
     shift
 done
@@ -333,24 +331,21 @@ function _alert() {
     if [ "${1}" = "error" ]; then local color="${bold}${red}"; fi
     if [ "${1}" = "warning" ]; then local color="${yellow}"; fi
     if [ "${1}" = "success" ]; then local color="${green}"; fi
-    if [ "${1}" = "debug" ]; then local color="${purple}"; fi
-    if [ "${1}" = "header" ]; then local color="${bold}${tan}"; fi
     if [ "${1}" = "input" ]; then local color="${bold}"; fi
-    if [ "${1}" = "notice" ]; then local color="${blue}"; fi
-    if [ "${1}" = "info" ] || [ "${1}" = "notice" ]; then local color="${blue}"; fi
+    if [ "${1}" = "info" ]; then local color="${blue}"; fi
     # Don't use colors on pipes or non-recognized terminals
     if [[ "${TERM}" != "xterm"* ]] || [ -t 1 ]; then
         color=""
         reset=""
     fi
 
-    # Print to console when script is not 'quiet'
-    if ${quiet} || [ "${1}" = "debug" ]; then true; else
+    # Print to console when script is not 'debug'
+    if [ "${1}" = "debug" ]; then true; else
         echo -e "$(date +"%T") ${color}$(printf "[%7s]" "${1}") ${_message}${reset}"
     fi
 
     # Print to Logfile
-    if ${printLog} && [ "${1}" != "input" ] && [ "${1}" != "notice" ]; then
+    if ${printLog}; then
         color=""
         reset="" # Don't use colors in logs
         echo -e "$(date +"%F %T") $(printf "[%7s]" "${1}") ${_message}" >>"${logFile}"
@@ -373,17 +368,9 @@ function warning() {
     local _message="${*}"
     echo -e "$(_alert warning)"
 }
-function notice() {
-    local _message="${*}"
-    echo -e "$(_alert notice)"
-}
 function info() {
     local _message="${*}"
     echo -e "$(_alert info)"
-}
-function debug() {
-    local _message="${*}"
-    echo -n "$(_alert debug)"
 }
 function success() {
     local _message="${*}"
@@ -393,19 +380,13 @@ function input() {
     local _message="${*}"
     echo -n "$(_alert input)"
 }
-function header() {
-    local _message="== ${*} ==  "
-    echo -e "$(_alert header)"
-}
-function verbose() { if ${verbose}; then debug "$@"; fi; }
 
 # SEEKING CONFIRMATION
 # ------------------------------------------------------
 function seek_confirmation() {
-    # echo ""
     input "$@"
     if "${noconfirm}"; then
-        notice "Forcing confirmation with '--noconfirm' flag set"
+        info "Forcing no confirmation with '--noconfirm' flag set"
     else
         read -p " (y/N) " -n 1
         echo ""
@@ -413,14 +394,16 @@ function seek_confirmation() {
 
 }
 function is_confirmed() {
-    if [[ "${REPLY}" =~ ^[Yy]$ ]] || "${noconfirm}"; then
+    if "${noconfirm}"; then
+        return 1
+    elif [[ "${REPLY}" =~ ^[Yy]$ ]]; then
         return 0
     fi
     return 1
 
 }
 function is_not_confirmed() {
-    if [[ "${REPLY}" =~ ^[Nn]$ ]]; then
+    if [[ "${REPLY}" =~ ^[Nn]$ ]] || "${noconfirm}"; then
         return 0
     fi
     return 1
@@ -442,6 +425,5 @@ set -o pipefail
 
 # Run your script
 mainScript
-
 # Exit cleanly
 safeExit
