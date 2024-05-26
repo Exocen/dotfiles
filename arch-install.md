@@ -29,7 +29,7 @@ iwctl device list
 iwctl station $device connect SSID
 ```
 
-for automatic installation, run `archinstall` and go to **First Boot** section
+If no need for lvm or encrypt, run `archinstall` and go to **First Boot** section
 
 ### Partitioning the hard disk
 
@@ -37,12 +37,66 @@ for automatic installation, run `archinstall` and go to **First Boot** section
 # 2 partitions : 256M boot & 100%FREE filesystem
 cfdisk /dev/sdX
 ```
+#### Crypt
+
+```bash
+modprobe dm-crypt
+cryptsetup luksFormat /dev/lvm_disk
+cryptsetup open --type luks /dev/lvm_disk cryptlvm
+```
+
+#### LVM
+
+```bash
+pvcreate /dev/sdXx
+vgcreate lvm /dev/sdXx
+```
+
+Create logical volumes, for a basic setup we'd need one for root, swap and home.
+
+```bash
+lvcreate -L 30G lvm -n root
+lvcreate -L 8G lvm -n swap
+lvcreate -l 100%FREE lvm -n home
+```
+
+### Format the file systems and enable swap
+
+List existing partition using `lsblk`.
+
+Format the boot partition first:
+
+`mkfs.fat -F32 /dev/sdXx`
+
+Format the other partitions:
+
+```
+mkfs.ext4 /dev/lvm/root
+mkfs.ext4 /dev/lvm/home
+```
+
+Enable Swap:
+
+```
+mkswap /dev/lvm/swap
+swapon /dev/lvm/swap
+```
+
+Mount the partitions:
+
+```
+mount /dev/lvm/root /mnt
+mkdir -p /mnt/home
+mount /dev/lvm/home /mnt/home
+mkdir -p /mnt/boot
+mount /dev/sda1 /mnt/boot
+```
 
 ### Install the base packages
 
 Install the base packages using _pacstrap_:
 
-`pacstrap -K /mnt base linux linux-firmware openssh git vim dhcpcd wpa_supplicant dialog netctl`
+`pacstrap -K /mnt base linux linux-firmware openssh git vim dhcpcd wpa_supplicant dialog netctl lvm2`
 
 ### Configuration
 
@@ -58,6 +112,11 @@ genfstab -U /mnt >> /mnt/etc/fstab
 `arch-chroot /mnt`
 
 #### Initramfs
+
+First we need to edit `/etc/mkinitcpio.conf` to provide support for lvm2.
+Edit the file and insert lvm2 between block and filesystems like so:
+
+`HOOKS="base udev ... block lvm2 encrypt filesystems"`
 
 Generate the initramfs image:
 
@@ -82,6 +141,9 @@ title	Arch
 linux	/vmlinuz-linux
 initrd	/initramfs-linux.img
 # initrd  /intel|amd-ucode.img
+options	UUID={UUID}:lvm2 root=/dev/lvm/root rw
+# {UUID}=lwqlkdnwlkwndlqkwn << `blkid`
+# options cryptdevice=UUID={UUID}:cryptlvm root=/dev/volume/root quiet rw
 
 ```
 
