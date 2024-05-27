@@ -28,7 +28,7 @@ for img in "${imgs[@]}"; do
     docker run \
         -e "TZ=$(timedatectl status | grep "zone" | sed -e 's/^[ ]*Time zone: \(.*\) (.*)$/\1/g')" \
         --rm -d --name="cont_$img" -v "$logpath":/root/logs "$img"_img 1>/dev/null &&
-        echo "$img started."
+        echo "$img started"
 
     rm test-engine.sh
 
@@ -46,6 +46,7 @@ for img in "${imgs[@]}"; do
     echo "$img cleaned"
 done
 
+sleep 4
 echo "Results:"
 # Display results
 for img in "${imgs[@]}"; do

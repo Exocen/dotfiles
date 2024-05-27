@@ -27,7 +27,7 @@ function detectOS() {
     elif [ -f /etc/redhat-release ]; then
         WOS="fedora"
     elif [ -f /etc/centos-release ]; then
-        WOS="centOS"
+        WOS="centos"
     elif [ -f /etc/debian_version ]; then
         WOS="debian"
     elif [ -f /etc/arch-release ]; then
@@ -56,16 +56,12 @@ function ins() {
         sudoless apt update -y &>>"$logFile"
         sudoless apt install "${all[@]}" -y &>>"$logFile"
         is_working "$* installed"
-    elif [ "$WOS" = "fedora" ]; then
-        {
-            sudoless dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm
-            sudoless dnf install -y --nogpgcheck https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
-            sudoless dnf update -y
-            sudoless dnf install "${all[@]}" -y
-        } &>>"$logFile"
+    elif [ "$WOS" = "fedora" ] || [ "$WOS" = "centos" ]; then
+        sudoless dnf update -y &>>"$logFile"
+        sudoless dnf install "${all[@]}" -y &>>"$logFile"
         is_working "$* installed"
     elif [ "$WOS" = "arch" ]; then
-        sudoless pacman -S "${all[@]}" --needed --noconfirm &>>"$logFile"
+        sudoless pacman -Sy "${all[@]}" --needed --noconfirm &>>"$logFile"
         is_working "$* installed"
     else
         error "Unknow OS: $WOS"
