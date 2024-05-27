@@ -3,6 +3,7 @@
 *.tmp
 
 docker_conf/install_test/install.sh
+docker_conf/install_test/test-engine.sh
 ### mpd
 **/mpd/*
 !**/mpd/mpd.conf

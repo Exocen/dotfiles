@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-TERM=xterm
+export TERM=xterm-256color
 WOS=''
 LOCAL=$(dirname "$(readlink -f "$0")")
 
@@ -18,11 +18,11 @@ function is_working() {
 }
 
 function detectOS() {
-    if [ -f /etc/lsb-release ]; then
-        WOS=$(grep -oP 'DISTRIB_ID=\"\K.*(?=\")' /etc/lsb-release)
-        WOS=${WOS,,} #lower case
-    elif [ -f /etc/os-release ]; then
+    if [ -f /etc/os-release ]; then
         WOS=$(grep -oP '^ID=\K.*' /etc/os-release)
+        WOS=${WOS,,} #lower case
+    elif [ -f /etc/lsb-release ]; then
+        WOS=$(grep -oP '^DISTRIB_ID=\K.*' /etc/lsb-release)
         WOS=${WOS,,} #lower case
     elif [ -f /etc/redhat-release ]; then
         WOS="fedora"
@@ -118,7 +118,7 @@ function basic_install() {
     ln -sfn "$LOCAL"/user_conf/zshrc ~/.zshrc
     git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
     ln -sfn "$LOCAL"/user_conf/custom.zsh-theme ~/.oh-my-zsh/custom/themes
-    sudoless chsh -s /usr/bin/zsh "$USER" &>>"$logFile"
+    sudoless chsh -s /usr/bin/zsh &>>"$logFile"
     is_working "Shell changed to zsh"
 
     # vimrc
