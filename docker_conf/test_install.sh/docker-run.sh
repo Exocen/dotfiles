@@ -17,6 +17,8 @@ for img in "${imgs[@]}"; do
     mkdir -p "$dirpath"
     logpath="$dirpath"/"$img"
 
+    echo "/root/install.sh -n -l /root/logs/$img" > test-engine.sh
+
     if docker images | grep "$img"; then
         echo "img already created, removing"
         docker image rm "$img" 2>/dev/null
@@ -27,6 +29,7 @@ for img in "${imgs[@]}"; do
     docker run --rm -v "$logpath":/root/logs "$img" && echo "$img started."
     docker wait "$img"
     docker image rm "$img" 2>/dev/null
+    rm test-engine.sh
 
 done
 

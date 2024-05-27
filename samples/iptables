@@ -1,15 +1,16 @@
+#!/usr/bin/env bash
 # Enable redirection
 sysctl -w net.ipv4.ip_forward=1
 # Reduce ended connection waiting time
 sysctl net.netfilter.nf_conntrack_tcp_timeout_time_wait=1
 
 # Ip forwarding
-iptables -t nat -A PREROUTING -p tcp --dport {PORT_DESTINATION} -j REDIRECT --to-port {PORT_SOURCE}
+iptables -t nat -A PREROUTING -p tcp --dport "{PORT_DESTINATION}" -j REDIRECT --to-port "{PORT_SOURCE}"
 # tested with udp
-iptables -A PREROUTING -t nat -p tcp --dport {PORT_SOURCE} -j DNAT --to-destination {IP_DESTINATION:PORT_DESTINATION}
+iptables -A PREROUTING -t nat -p tcp --dport "{PORT_SOURCE}" -j DNAT --to-destination "{IP_DESTINATION:PORT_DESTINATION}"
 iptables -t nat -A POSTROUTING -j MASQUERADE
 #
-iptables -A POSTROUTING -t nat -p tcp --dport {PORT_DESTINATION} -j SNAT --to-source {IP_SOURCE:PORT_SOURCE}
+iptables -A POSTROUTING -t nat -p tcp --dport "{PORT_DESTINATION}" -j SNAT --to-source "{IP_SOURCE:PORT_SOURCE}"
 
 # Display rules
 iptables -S
@@ -17,12 +18,12 @@ iptables -t nat -L -n -v
 
 # Network {interface} kill switch for {user/group}
 # --uid-owner user OR  --gid-owner group
-iptables -A OUTPUT ! -o {interface} -m mark ! --mark $( wg show {interface} fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner {user} -j REJECT
-ip6tables -A OUTPUT ! -o {interface} -m mark ! --mark $( wg show {interface} fwmark) -m addrtype ! --dst-type LOCAL -m owner --uid-owner {user} -j REJECT
+iptables -A OUTPUT ! -o "{interface}" -m mark ! --mark "$( wg show "{interface}" fwmark)" -m addrtype ! --dst-type LOCAL -m owner --uid-owner "{user}" -j REJECT
+ip6tables -A OUTPUT ! -o "{interface}" -m mark ! --mark "$( wg show "{interface}" fwmark)" -m addrtype ! --dst-type LOCAL -m owner --uid-owner "{user}" -j REJECT
 
 
 # Wireguard killswitch sample:
 # Add to [Interface]
-PostUp  =  iptables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT && ip6tables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
-PreDown = iptables -D OUTPUT ! -o %i -m mark ! --mark $(wg show  %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT ip6tables -D OUTPUT ! -o %i -m mark ! --mark $(wg show  %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
-sc-start/enable wg-quick@interface.service
+# PostUp  =  iptables -I OUTPUT ! -o %i -m mark ! --mark "$(wg show %i fwmark)" -m addrtype ! --dst-type LOCAL -j REJECT && ip6tables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
+# PreDown = iptables -D OUTPUT ! -o %i -m mark ! --mark "$(wg show  %i fwmark)" -m addrtype ! --dst-type LOCAL -j REJECT ip6tables -D OUTPUT ! -o %i -m mark ! --mark $(wg show  %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
+#sc-start/enable wg-quick@interface.service
