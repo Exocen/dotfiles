@@ -1,9 +1,10 @@
 ARG IMG
+ARG DIR
 FROM $IMG
 
 WORKDIR /root/
 RUN mkdir -p /root/logs/
-COPY install.sh test-engine.sh /root/
+COPY ${DIR}/* /root/
 RUN chmod +x install.sh test-engine.sh
 
 ENTRYPOINT ["/root/test-engine.sh"]

@@ -5,48 +5,57 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-cp -fr ../../install.sh .
+#TODO add args -> imgs
 
-imgs=("debian" "ubuntu" "fedora" "alpine" "centos" "archlinux")
+imgs=("debian" "ubuntu" "fedora" "alpine" "archlinux" "manjarolinux/base" "gentoo/portage")
 dirpath=/docker-data-nobackup/test-install
 
-for img in "${imgs[@]}"; do
-
+function create() {
+    img_loc="$1"
     cd "$(dirname "$(readlink -f "$0")")" || exit 1
     mkdir -p "$dirpath"
-    logpath="$dirpath"/"$img"
-    rm -f "$logpath/$img" 2>/dev/null
-
-    printf "#!/bin/sh\n/root/install.sh -n -l /root/logs/%s" "$img" >test-engine.sh
-
-    if docker images | grep "$img"_img &>/dev/null; then
-        echo "$img"_img already created, removing
-        docker image rm "$img"_img &>/dev/null
+    logpath="$dirpath"/"$img_loc"
+    rm -f "$logpath/$img_loc"
+    tmpD=$(mktemp -d -p .)
+    cp -fr ../../install.sh "$tmpD"/install.sh
+    printf "#!/bin/sh\n/root/install.sh -n -l /root/logs/%s" "$img_loc" >"$tmpD"/test-engine.sh
+    if docker images | grep "$img_loc"_img &>/dev/null; then
+        echo "$img_loc"_img already created, removing
+        docker image rm "$img_loc"_img &>/dev/null
     fi
-    docker build --build-arg IMG="$img" -t "$img"_img . 1>/dev/null
+    docker build --build-arg IMG="$img_loc" --build-arg DIR="$tmpD" -t "$img_loc"_img . 1>/dev/null
 
     docker run \
         -e "TZ=$(timedatectl status | grep "zone" | sed -e 's/^[ ]*Time zone: \(.*\) (.*)$/\1/g')" \
-        --rm -d --name="cont_$img" -v "$logpath":/root/logs "$img"_img 1>/dev/null &&
-        echo "$img started"
+        --rm -d --name="cont_$img_loc" -v "$logpath":/root/logs "$img_loc"_img 1>/dev/null &&
+        echo "$img_loc started"
 
-    rm test-engine.sh
+    rm -r "$tmpD"
+}
 
+function clean() {
+    docker wait cont_"$1" &>/dev/null
+    docker kill cont_"$1" &>/dev/null
+    docker rm cont_"$1" &>/dev/null
+    docker image rm -f "$1"_img 1>/dev/null
+    echo "$1 cleaned"
+}
+
+echo "Building ${imgs[*]}"
+for img in "${imgs[@]}"; do
+# TODO test with buildx -> background
+    create "$img"
 done
 
+wait
 echo "Running tests"
 # Cleaning
-rm install.sh
 for img in "${imgs[@]}"; do
-    # while [ "$(docker inspect -f "{{.State.Running}}" cont_"$img" 2>/dev/null)" == "true" ]; do
-    docker wait cont_"$img" &>/dev/null
-    docker kill cont_"$img" &>/dev/null
-    docker rm cont_"$img" &>/dev/null
-    docker image rm -f "$img"_img 1>/dev/null
-    echo "$img cleaned"
+    clean "$img" &
 done
 
-sleep 4
+wait
+sleep 2
 echo "Results:"
 # Display results
 for img in "${imgs[@]}"; do

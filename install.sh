@@ -19,7 +19,7 @@ function is_working() {
 
 function detectOS() {
     if [ -f /etc/os-release ]; then
-        WOS=$(grep -oP '^ID=\K.*' /etc/os-release)
+        WOS=$(grep -oP '^ID=\K.*' /etc/os-release | tr -d "\"") 
         WOS=${WOS,,} #lower case
     elif [ -f /etc/lsb-release ]; then
         WOS=$(grep -oP '^DISTRIB_ID=\K.*' /etc/lsb-release)
@@ -56,9 +56,12 @@ function ins() {
         sudoless apt update -y &>>"$logFile"
         sudoless apt install "${all[@]}" -y &>>"$logFile"
         is_working "$* installed"
-    elif [ "$WOS" = "fedora" ] || [ "$WOS" = "centos" ]; then
+    elif [ "$WOS" = "fedora" ]; then
         sudoless dnf update -y &>>"$logFile"
         sudoless dnf install "${all[@]}" -y &>>"$logFile"
+        is_working "$* installed"
+    elif [ "$WOS" = "alpine" ]; then
+        sudoless apk add "${all[@]}" -y &>>"$logFile"
         is_working "$* installed"
     elif [ "$WOS" = "arch" ]; then
         sudoless pacman -Sy "${all[@]}" --needed --noconfirm &>>"$logFile"
@@ -108,7 +111,7 @@ function git_clone() {
 function basic_install() {
     info "Basic installation"
     # Basic packages
-    ins vim git htop iftop iotop tree zsh make wget sudo rsync
+    ins bash vim git htop iftop iotop tree zsh make wget sudo rsync
 
     # zsh
     ln -sfn "$LOCAL"/user_conf/zshrc ~/.zshrc
