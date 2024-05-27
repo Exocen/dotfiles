@@ -8,7 +8,7 @@ fi
 
 cp -fr ../../install.sh .
 
-imgs=("debian:latest" "ubuntu:latest" "fedora:latest" "alpine:latest")
+imgs=("debian" "ubuntu" "fedora" "alpine")
 
 
 for img in "${imgs[@]}"; do
