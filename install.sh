@@ -332,24 +332,28 @@ function error() {
     local _message="${*}"
     echo -e "$(_alert error)"
 }
+
 function warning() {
     local _message="${*}"
     echo -e "$(_alert warning)"
 }
+
 function info() {
     local _message="${*}"
     echo -e "$(_alert info)"
 }
+
 function success() {
     local _message="${*}"
     echo -e "$(_alert success)"
 }
+
 function input() {
     local _message="${*}"
     echo -n "$(_alert input)"
 }
 
-# SEEKING CONFIRMATION
+# Seeking confirmation
 function seek_confirmation() {
     if ! "${noconfirm}"; then
         input "$@"
@@ -358,6 +362,7 @@ function seek_confirmation() {
     fi
 
 }
+
 function is_confirmed() {
     if "${noconfirm}"; then
         return 1
