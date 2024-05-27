@@ -18,7 +18,7 @@ for img in "${imgs[@]}"; do
 
     if docker images | grep "$img" ; then
         echo "img already created, removing"
-        docker image rm "$img" || exit 1
+        docker image rm "$img" 2>/dev/null
     else
         docker build --build-arg IMG="$img" -t "$img" .
     fi
