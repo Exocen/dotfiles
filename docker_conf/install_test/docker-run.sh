@@ -40,19 +40,20 @@ function create() {
         echo "$img" started
     rm -r "$tmpD"
 }
+
 cd "$(dirname "$(readlink -f "$0")")" || exit 1
 echo "Building ${imgs[*]}"
-for img4 in "${imgs[@]}"; do
-    create "$img4" &
+for img1 in "${imgs[@]}"; do
+    create "$img1" &
 done
 wait
+
 echo "Running tests"
 for img2 in "${imgs[@]}"; do
     clean "$img2" &
 done
+wait && sleep 2
 
-wait
-sleep 2
 echo "Results:"
 for img3 in "${imgs[@]}"; do
     img_name="$(echo "$img3" | tr "/" _)"
