@@ -1,9 +1,10 @@
 ARG IMG
 ARG DIR
+ARG IMGN
 FROM $IMG
 
 WORKDIR /root/
-RUN mkdir -p /root/logs/
+RUN mkdir -p /root/$IMGN
 COPY ${DIR}/* /root/
 RUN chmod +x install.sh test-engine.sh
 

@@ -35,6 +35,7 @@ function detectOS() {
     else
         WOS="WTH?"
     fi
+    info "OS detected: $WOS" 
 }
 
 function conf_folder() {
@@ -63,7 +64,7 @@ function ins() {
     elif [ "$WOS" = "alpine" ]; then
         sudoless apk add "${all[@]}" -y &>>"$logFile"
         is_working "$* installed"
-    elif [ "$WOS" = "arch" ]; then
+    elif [ "$WOS" = "arch" ] || [ "$WOS" = "manjaro" ]; then
         sudoless pacman -Sy "${all[@]}" --needed --noconfirm &>>"$logFile"
         is_working "$* installed"
     else
