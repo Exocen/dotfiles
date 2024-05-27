@@ -27,7 +27,7 @@ for img in "${imgs[@]}"; do
         --log-driver=journald --log-opt tag="{{.Name}}" --rm \
         -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
         -v "$logpath":/root/logs \
-        "$img" && echo "$img started."
+        "$img":latest && echo "$img started."
 
     docker wait "$img"
     docker image rm "$img"
