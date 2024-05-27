@@ -12,7 +12,8 @@ imgs=("debian:latest" "ubuntu:latest" "fedora:latest" "alpine:latest")
 
 
 for img in "${imgs[@]}"; do
-    
+    logpath=/docker-data-nobackup/test-install/"$img"
+    mkdir -p 
     cd "$(dirname "$(readlink -f "$0")")" || exit 1
 
     if docker images | grep "$img" ; then
@@ -25,7 +26,7 @@ for img in "${imgs[@]}"; do
     docker run \
         --log-driver=journald --log-opt tag="{{.Name}}" --rm \
         -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
-        -v /docker-data-nobackup/"$img"log/:/root/logs \
+        -v "$logpath":/root/logs \
         "$img" && echo "$img started."
 
     docker wait "$img"
