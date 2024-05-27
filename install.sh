@@ -135,7 +135,8 @@ function basic_install() {
     ln -sfn $LOCAL/user_conf/zshrc ~/.zshrc
     git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
     ln -sfn $LOCAL/user_conf/custom.zsh-theme ~/.oh-my-zsh/custom/themes
-    sudo chsh -s /usr/bin/zsh $USER
+    sudo chsh -s /usr/bin/zsh $USER &>>$logFile
+    is_working "Shell changed to zsh"
 
     # vimrc
     git_clone https://github.com/exocen/vim-conf ~/.vim_runtime
@@ -209,10 +210,12 @@ function safeExit() {
         rm -r "${tmpDir}"
     fi
     trap - INT TERM EXIT
-    if $printLog; then
-        echo -e "$(date +"%r") ${blue}$(printf "[%7s]" "info") "Logfile: $logFile"${reset}"
+    if [ $# -eq 0 ]; then
+        if $printLog; then
+            echo -e "$(date +"%T") ${blue}$(printf "[%7s]" "info") "Logfile: $logFile"${reset}"
+        fi
+        ending
     fi
-    ending
     exit
 
 }
@@ -250,14 +253,14 @@ logFile="/tmp/${scriptName}-$(date "+%s").log"
 
 # Options and Usage
 usage() {
-    echo -n "${scriptName} [OPTION]
+    printf "${scriptName} [OPTION]
 
     ${bold}Options:${reset}
     -d, --debug       Use debug mode
     -l, --logpath     Set log path (default /tmp)
     -n, --noconfirm   Skip all user interaction.  Implied 'No' to all actions.
     -h, --help        Display this help and exit
-    "
+    \n"
 }
 
 # Iterate over options breaking -ab into -a -b when needed and --foo=bar into --foo bar
@@ -303,7 +306,7 @@ while [[ $1 = -?* ]]; do
     case $1 in
     -h | --help)
         usage >&2
-        safeExit
+        safeExit true
         ;;
     -d | --debug) debug=true ;;
     -l | --logpath)
@@ -355,7 +358,7 @@ function _alert() {
 function die() {
     local _message="${*} Exiting."
     echo -e "$(_alert error)"
-    safeExit
+    safeExit true
 }
 function error() {
     local _message="${*}"
@@ -380,10 +383,8 @@ function input() {
 
 # SEEKING CONFIRMATION
 function seek_confirmation() {
-    input "$@"
-    if "${noconfirm}"; then
-        info "Forcing no confirmation with '--noconfirm' flag set"
-    else
+    if ! "${noconfirm}"; then
+        input "$@"
         read -p " (y/N) " -n 1
         echo ""
     fi
