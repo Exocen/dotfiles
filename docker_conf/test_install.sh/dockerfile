@@ -3,7 +3,7 @@ FROM $IMG
 
 WORKDIR /root/
 RUN mkdir -p logs
-COPY ../../install.sh /root/install.sh
+COPY install.sh /root/install.sh
 RUN chmod +x install.sh
 
 ENTRYPOINT ["/root/install.sh -n -l /root/logs/$IMG_log"]

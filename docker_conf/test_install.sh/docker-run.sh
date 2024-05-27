@@ -5,6 +5,9 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
+
+cp -fr ../../install.sh .
+
 imgs=("debian:latest" "ubuntu:latest" "fedora:latest" "alpine:latest")
 
 
@@ -25,4 +28,9 @@ for img in "${imgs[@]}"; do
         -v /docker-data-nobackup/"$img"log/:/root/logs \
         "$img" && echo "$img started."
 
+    docker wait "$img"
+    docker image rm "$img"
+
 done
+
+rm install.sh
