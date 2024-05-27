@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+TERM=xterm
 WOS=''
 LOCAL=$(dirname "$(readlink -f "$0")")
 

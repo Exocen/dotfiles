@@ -1,6 +1,8 @@
 ### tmp/log
 *.log
 *.tmp
+
+docker_conf/install_test/install.sh
 ### mpd
 **/mpd/*
 !**/mpd/mpd.conf
