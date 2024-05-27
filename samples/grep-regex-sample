@@ -20,21 +20,21 @@
 #
 #
 # Full sample:
-sample=`pactl get-sink-volume @DEFAULT_SINK@`
-echo $sample
+sample=$(pactl get-sink-volume @DEFAULT_SINK@)
+echo "$sample"
 # "Volume: front-left: 32768 /  50% / -18.06 dB,   front-right: 32768 /  60% / -18.06 dB"
 #       balance 0.00
 
 
 # 1+ digits followed by '%', but not followed by ','
-echo $sample | grep --color=auto -P '\d+(?=%)(?!.*,)'
+echo "$sample" | grep --color=auto -P '\d+(?=%)(?!.*,)'
 
 # 1+ digits followed by '%', but not followed by two '%'
-echo $sample | grep --color=auto -P '\d+(?=%)(?!%.*%)'
+echo "$sample" | grep --color=auto -P '\d+(?=%)(?!%.*%)'
 
 # ^.+?\K start line, at least one char, lazy quantifier -> every char from start until next regex
 # \K - a match reset operator that omits all text matched so far from the memory buffer
 # \d+ at least 1 digit or more
 # followed by %
-echo $sample | grep --color=auto -P '^.+?\K\d+(?=%)'
+echo "$sample" | grep --color=auto -P '^.+?\K\d+(?=%)'
 

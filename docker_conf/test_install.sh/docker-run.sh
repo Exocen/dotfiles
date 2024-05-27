@@ -17,7 +17,7 @@ for img in "${imgs[@]}"; do
     mkdir -p "$dirpath"
     logpath="$dirpath"/"$img"
 
-    echo "/root/install.sh -n -l /root/logs/$img" > test-engine.sh
+    printf "#!/bin/bash\n/root/install.sh -n -l /root/logs/%s" "$img" >test-engine.sh
 
     if docker images | grep "$img"; then
         echo "img already created, removing"

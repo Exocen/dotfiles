@@ -4,27 +4,31 @@ if [ "$#" -ne 1 ]; then
     exit 1
 fi
 
- # Lockfile sample (block multiple instances)
- LOCKFILE="/var/run/user/$UID/$(basename "$0").lock"
- [ -f "$LOCKFILE" ] && ps -p $(cat "$LOCKFILE") > /dev/null && echo "$(basename "$0") is already running." && exit 1 || echo $$ > "$LOCKFILE"
+# Lockfile sample (block multiple instances)
+LOCKFILE="/var/run/user/$UID/$(basename "$0").lock"
+[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running." && exit 1 || echo $$ >"$LOCKFILE"
 
- safe_exit() {
-     echo "$1"
-     rm "$LOCKFILE"
-     exit "$2"
- }
+safe_exit() {
+    echo "$1"
+    rm "$LOCKFILE"
+    exit "$2"
+}
 
- main() {
-     TIME_DELAY="5 minutes" # Time delay sample (if exceeded time -> timeout)
-     DEVICE_NAME=$1
+main() {
+    TIME_DELAY="5 minutes" # Time delay sample (if exceeded time -> timeout)
+    DEVICE_NAME=$1
 
-     systemctl status bluetooth.service | grep "^\s*Status: \"Running\"$" 1>/dev/null || sudo systemctl start bluetooth 1>/dev/null
-     bluetoothctl power on 1>/dev/null
-     DEVICE_MAC=$(bluetoothctl devices | grep -oP "(?<=\s)..:..:..:..:..:..(?=\s*$DEVICE_NAME\$)") || safe_exit "\"$DEVICE_NAME\" not paired" 1
-     while [ $(date +%s) -lt $(date -d "$TIME_DELAY" +%s) ]; do
-         bluetoothctl connect "$DEVICE_MAC" 1>/dev/null && safe_exit "\"$DEVICE_NAME\" connected" 0 || sleep 1
-     done
-     safe_exit "\"$DEVICE_NAME\" connect timeout" 1
- }
+    systemctl status bluetooth.service | grep "^\s*Status: \"Running\"$" 1>/dev/null || sudo systemctl start bluetooth 1>/dev/null
+    bluetoothctl power on 1>/dev/null
+    DEVICE_MAC=$(bluetoothctl devices | grep -oP "(?<=\s)..:..:..:..:..:..(?=\s*$DEVICE_NAME\$)") || safe_exit "\"$DEVICE_NAME\" not paired" 1
+    while [ "$(date +%s)" -lt "$(date -d "$TIME_DELAY" +%s)" ]; do
+        if bluetoothctl connect "$DEVICE_MAC" 1>/dev/null; then
+            safe_exit "\"$DEVICE_NAME\" connected" 0
+        else
+            sleep 1
+        fi
+    done
+    safe_exit "\"$DEVICE_NAME\" connect timeout" 1
+}
 
- main "$1"
+main "$1"
