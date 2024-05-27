@@ -2,7 +2,7 @@
 WOS=''
 LOCAL=$(dirname "$(readlink -f "$0")")
 
-sudo() {
+sudoless() {
     [[ $EUID = 0 ]] || set -- command sudo "$@"
     "$@"
 }
@@ -36,52 +36,35 @@ function detectOS() {
     fi
 }
 
-function home_ln() {
-    ln -sfn $(pwd)/$1 $2 &>>$logFile
-    is_working "ln $1 on $2"
-}
-
-function home_folder() {
-    info "Symbolic links to home..."
-    for f in $LOCAL/$1/*; do
-        DEST=$(basename $f)
-        ln -sfn $f ~/.$DEST &>>$logFile
-        is_working "ln $f to ~/.$DEST"
-    done
-}
-
 function conf_folder() {
     info "Symbolic links to .config"
     mkdir -p ~/.config
-    for f in $LOCAL/$1/*; do
-        DEST=$(basename $f)
-        ln -sfn $f ~/.config/$DEST &>>$logFile
+    for f in "$LOCAL/$1"/*; do
+        DEST=$(basename "$f")
+        ln -sfn "$f" ~/.config/"$DEST" &>>"$logFile"
         is_working "ln $f to ~/.config/$DEST"
     done
 
 }
 
-function home_cp() {
-    /bin/cp -fr $(pwd)/$1 ~/$1 >/dev/null 2>&1
-    is_working "Copy $1 to ~"
-}
-
 # run detectOS before
 function ins() {
-    all="$@" #for is_working function
+    all="$*" #for is_working function
     info "Installation: $all "
     if [ "$WOS" = "ubuntu" ] || [ "$WOS" = "debian" ] || [ "$WOS" = "raspbian" ]; then
-        sudo apt update -y &>>$logFile
-        sudo apt install $@ -y &>>$logFile
+        sudoless apt update -y &>>"$logFile"
+        sudoless apt install "$@" -y &>>"$logFile"
         is_working "$all installed"
     elif [ "$WOS" = "fedora" ]; then
-        sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm &>>$logFile
-        sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm &>>$logFile
-        sudo dnf update -y &>>$logFile
-        sudo dnf install $@ -y &>>$logFile
+        {
+        sudoless dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm 
+        sudoless dnf install -y --nogpgcheck https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
+        sudoless dnf update -y 
+        sudoless dnf install "$@" -y 
+        } &>>"$logFile"
         is_working "$all installed"
     elif [ "$WOS" = "arch" ]; then
-        sudo pacman -S $@ --needed --noconfirm &>>$logFile
+        sudoless pacman -S "$@" --needed --noconfirm &>>"$logFile"
         is_working "$all installed"
     else
         error "Unknow OS: $WOS"
@@ -89,14 +72,14 @@ function ins() {
 }
 
 function aur_ins() {
-    all="$@" #for is_working function
+    all="$*" #for is_working function
     info "Installation: $all"
     if [ "$WOS" = "arch" ]; then
         # Aur tool install
         if pikaur -V &>/dev/null; then
-            arch_package_install https://aur.archlinux.org/pikaur.git &>>$logFile
+            arch_package_install https://aur.archlinux.org/pikaur.git &>>"$logFile"
         fi
-        pikaur -S $@ --needed --noconfirm &>>$logFile
+        pikaur -S "$all" --needed --noconfirm &>>"$logFile"
         is_working "$all installed"
     else
         error "Invalid OS"
@@ -106,20 +89,20 @@ function aur_ins() {
 
 function arch_package_install() {
     info "Arch install: $1"
-    sudo pacman -S --needed base-devel git --noconfirm &>>$logFile
+    sudoless pacman -S --needed base-devel git --noconfirm &>>"$logFile"
     tmpD=$(mktemp -d)
-    git clone $1 $tmpD &>>$logFile
+    git clone "$1" "$tmpD" &>>"$logFile"
     current_dir=$(pwd)
-    cd $tmpD
-    makepkg -fsri --skipinteg --noconfirm &>>$logFile
-    cd $current_dir
-    rm -rf $tmpD
+    cd "$tmpD" || safeExit
+    makepkg -fsri --skipinteg --noconfirm &>>"$logFile"
+    cd "$current_dir" || safeExit
+    rm -rf "$tmpD"
 }
 
 function git_clone() {
     info "Cloning $1"
     if [ ! -e "$2" ]; then
-        git clone --depth=1 $1 $2 &>>$logFile
+        git clone --depth=1 "$1" "$2" &>>"$logFile"
         is_working "Cloned: $1 to $2"
     else
         warning "$2 already present"
@@ -132,19 +115,19 @@ function basic_install() {
     ins vim git htop iftop iotop tree zsh make wget sudo rsync
 
     # zsh
-    ln -sfn $LOCAL/user_conf/zshrc ~/.zshrc
+    ln -sfn "$LOCAL"/user_conf/zshrc ~/.zshrc
     git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
-    ln -sfn $LOCAL/user_conf/custom.zsh-theme ~/.oh-my-zsh/custom/themes
-    sudo chsh -s /usr/bin/zsh $USER &>>$logFile
+    ln -sfn "$LOCAL"/user_conf/custom.zsh-theme ~/.oh-my-zsh/custom/themes
+    sudoless chsh -s /usr/bin/zsh "$USER" &>>"$logFile"
     is_working "Shell changed to zsh"
 
     # vimrc
     git_clone https://github.com/exocen/vim-conf ~/.vim_runtime
-    sh ~/.vim_runtime/install_awesome_vimrc.sh &>>$logFile
-    cd ~/.vim_runtime
-    sh ~/.vim_runtime/update.sh &>>$logFile
+    sh ~/.vim_runtime/install_awesome_vimrc.sh &>>"$logFile"
+    cd ~/.vim_runtime || safeExit
+    sh ~/.vim_runtime/update.sh &>>"$logFile"
     is_working "Vim installed"
-    cd $LOCAL
+    cd "$LOCAL" || safeExit
 }
 
 function dev_env_install() {
@@ -156,17 +139,17 @@ function dev_env_install() {
                 if [ -f "$file" ]; then
                     info "Arch dev inv installation"
                     # .config links
-                    ln -sfn $LOCAL/user_conf/zprofile ~/.zprofile
+                    ln -sfn "$LOCAL/user_conf/zprofile" ~/.zprofile
                     conf_folder user_conf/home_conf
                     list=""
                     while IFS= read -r line; do
-                        char=$(echo $line | head -c1)
+                        char=$(echo "$line" | head -c1)
                         if [ "$char" != "#" ]; then
                             list="$list $line"
                         fi
                     done <"$file"
 
-                    aur_ins $list
+                    aur_ins "$list"
                 else
                     error "Missing $file"
                 fi
@@ -186,16 +169,6 @@ function mainScript() {
     dev_env_install
 }
 
-function trapCleanup() {
-    echo ""
-    # Delete temp files, if any
-    if [ -d "${tmpDir}" ]; then
-        rm -r "${tmpDir}"
-    fi
-    die "Exit trapped. In function: '${FUNCNAME[*]}'"
-
-}
-
 function ending() {
     # Add status line to log for post-installation check usage
     if $success_state; then
@@ -213,7 +186,7 @@ function safeExit() {
     trap - INT TERM EXIT
     if [ $# -eq 0 ]; then
         if $printLog; then
-            echo -e "$(date +"%T") ${blue}$(printf "[%7s]" "info") "Logfile: $logFile"${reset}"
+            echo -e "$(date +"%T") ${blue}$(printf "[%7s]" "info") "Logfile: "$logFile""${reset}"
         fi
         ending
     fi
@@ -254,14 +227,14 @@ logFile="/tmp/${scriptName}-$(date "+%s").log"
 
 # Options and Usage
 usage() {
-    printf "${scriptName} [OPTION]
+    printf "%s [OPTION]
 
-    ${bold}Options:${reset}
+    %sOptions:%s
     -d, --debug       Use debug mode
     -l, --logpath     Set log path (default /tmp)
     -n, --noconfirm   Skip all user interaction.  Implied 'No' to all actions.
     -h, --help        Display this help and exit
-    \n"
+    \n" "${scriptName}" "${bold}" "${reset}"
 }
 
 # Iterate over options breaking -ab into -a -b when needed and --foo=bar into --foo bar
@@ -319,7 +292,7 @@ while [[ $1 = -?* ]]; do
         shift
         break
         ;;
-    *) die "invalid option: '$1'." ;;
+    *) error "invalid option: '$1'." ; safeExit true ;;
     esac
     shift
 done
@@ -356,11 +329,6 @@ function _alert() {
     fi
 }
 
-function die() {
-    local _message="${*} Exiting."
-    echo -e "$(_alert error)"
-    safeExit true
-}
 function error() {
     local _message="${*}"
     echo -e "$(_alert error)"
@@ -400,13 +368,6 @@ function is_confirmed() {
     return 1
 
 }
-function is_not_confirmed() {
-    if [[ "${REPLY}" =~ ^[Nn]$ ]] || "${noconfirm}"; then
-        return 0
-    fi
-    return 1
-
-}
 
 # Set IFS to preferred implementation
 IFS=$' \n\t'
@@ -414,9 +375,7 @@ IFS=$' \n\t'
 # Run in debug mode, if set
 if ${debug}; then set -x; fi
 
-# Exit on empty variable
-if ${strict}; then set -o nounset; fi
-
+trap 'safeExit' ERR
 # Bash will remember & return the highest exitcode in a chain of pipes.
 # This way you can catch the error in case mysqldump fails in `mysqldump |gzip`, for example.
 set -o pipefail
