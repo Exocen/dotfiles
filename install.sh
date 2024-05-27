@@ -49,24 +49,22 @@ function conf_folder() {
 
 # run detectOS before
 function ins() {
+    read -ra all <<<"$@"
     info "Installation: $* "
     if [ "$WOS" = "ubuntu" ] || [ "$WOS" = "debian" ] || [ "$WOS" = "raspbian" ]; then
         sudoless apt update -y &>>"$logFile"
-        # shellcheck disable=SC2068
-        sudoless apt install $@ -y &>>"$logFile"
+        sudoless apt install "${all[@]}" -y &>>"$logFile"
         is_working "$* installed"
     elif [ "$WOS" = "fedora" ]; then
         {
             sudoless dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm
             sudoless dnf install -y --nogpgcheck https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
             sudoless dnf update -y
-            # shellcheck disable=SC2068
-            sudoless dnf install $@ -y
+            sudoless dnf install "${all[@]}" -y
         } &>>"$logFile"
         is_working "$* installed"
     elif [ "$WOS" = "arch" ]; then
-        # shellcheck disable=SC2068
-        sudoless pacman -S $@ --needed --noconfirm &>>"$logFile"
+        sudoless pacman -S "${all[@]}" --needed --noconfirm &>>"$logFile"
         is_working "$* installed"
     else
         error "Unknow OS: $WOS"
@@ -74,20 +72,18 @@ function ins() {
 }
 
 function aur_ins() {
-    # all="$*" #for is_working function
+    read -ra all <<<"$@"
     info "Installation: $*"
     if [ "$WOS" = "arch" ]; then
         # Aur tool install
         if pikaur -V &>/dev/null; then
             arch_package_install https://aur.archlinux.org/pikaur.git &>>"$logFile"
         fi
-        # shellcheck disable=SC2068
-        pikaur -S $@ --needed --noconfirm &>>"$logFile"
+        pikaur -S "${all[@]}" --needed --noconfirm &>>"$logFile"
         is_working "$* installed"
     else
         error "Invalid OS"
     fi
-
 }
 
 function arch_package_install() {
