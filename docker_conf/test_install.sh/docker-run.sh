@@ -13,7 +13,7 @@ imgs=("debian:latest" "ubuntu:latest" "fedora:latest" "alpine:latest")
 
 for img in "${imgs[@]}"; do
     logpath=/docker-data-nobackup/test-install/"$img"
-    mkdir -p logpath
+    mkdir -p "$logpath"
     cd "$(dirname "$(readlink -f "$0")")" || exit 1
 
     if docker images | grep "$img" ; then
