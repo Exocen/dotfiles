@@ -18,10 +18,10 @@ function is_working() {
 
 function detectOS() {
     if [ -f /etc/lsb-release ]; then
-        WOS=$(cat /etc/lsb-release | grep -oP 'DISTRIB_ID=\"\K.*(?=\")')
+        WOS=$(grep -oP 'DISTRIB_ID=\"\K.*(?=\")' /etc/lsb-release)
         WOS=${WOS,,} #lower case
     elif [ -f /etc/os-release ]; then
-        WOS=$(cat /etc/os-release | grep -oP '^ID=\K.*')
+        WOS=$(grep -oP '^ID=\K.*' /etc/os-release)
         WOS=${WOS,,} #lower case
     elif [ -f /etc/redhat-release ]; then
         WOS="fedora"
@@ -49,38 +49,41 @@ function conf_folder() {
 
 # run detectOS before
 function ins() {
-    all="$*" #for is_working function
-    info "Installation: $all "
+    info "Installation: $* "
     if [ "$WOS" = "ubuntu" ] || [ "$WOS" = "debian" ] || [ "$WOS" = "raspbian" ]; then
         sudoless apt update -y &>>"$logFile"
-        sudoless apt install "$@" -y &>>"$logFile"
-        is_working "$all installed"
+        # shellcheck disable=SC2068
+        sudoless apt install $@ -y &>>"$logFile"
+        is_working "$* installed"
     elif [ "$WOS" = "fedora" ]; then
         {
-        sudoless dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm 
-        sudoless dnf install -y --nogpgcheck https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
-        sudoless dnf update -y 
-        sudoless dnf install "$@" -y 
+            sudoless dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm
+            sudoless dnf install -y --nogpgcheck https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
+            sudoless dnf update -y
+            # shellcheck disable=SC2068
+            sudoless dnf install $@ -y
         } &>>"$logFile"
-        is_working "$all installed"
+        is_working "$* installed"
     elif [ "$WOS" = "arch" ]; then
-        sudoless pacman -S "$@" --needed --noconfirm &>>"$logFile"
-        is_working "$all installed"
+        # shellcheck disable=SC2068
+        sudoless pacman -S $@ --needed --noconfirm &>>"$logFile"
+        is_working "$* installed"
     else
         error "Unknow OS: $WOS"
     fi
 }
 
 function aur_ins() {
-    all="$*" #for is_working function
-    info "Installation: $all"
+    # all="$*" #for is_working function
+    info "Installation: $*"
     if [ "$WOS" = "arch" ]; then
         # Aur tool install
         if pikaur -V &>/dev/null; then
             arch_package_install https://aur.archlinux.org/pikaur.git &>>"$logFile"
         fi
-        pikaur -S "$all" --needed --noconfirm &>>"$logFile"
-        is_working "$all installed"
+        # shellcheck disable=SC2068
+        pikaur -S $@ --needed --noconfirm &>>"$logFile"
+        is_working "$* installed"
     else
         error "Invalid OS"
     fi
@@ -208,13 +211,10 @@ args=()
 # Set Colors
 bold=$(tput bold)
 reset=$(tput sgr0)
-purple=$(tput setaf 171)
 red=$(tput setaf 1)
 green=$(tput setaf 76)
 yellow=$(tput setaf 3)
-tan=$(tput setaf 3)
 blue=$(tput setaf 38)
-underline=$(tput sgr 0 1)
 
 # Set Temp Directory
 tmpDir="/tmp/${scriptName}.$RANDOM.$RANDOM.$RANDOM.$$"
@@ -292,7 +292,10 @@ while [[ $1 = -?* ]]; do
         shift
         break
         ;;
-    *) error "invalid option: '$1'." ; safeExit true ;;
+    *)
+        error "invalid option: '$1'."
+        safeExit true
+        ;;
     esac
     shift
 done
@@ -354,7 +357,7 @@ function input() {
 function seek_confirmation() {
     if ! "${noconfirm}"; then
         input "$@"
-        read -p " (y/N) " -n 1
+        read -rp " (y/N) " -n 1
         echo ""
     fi
 
