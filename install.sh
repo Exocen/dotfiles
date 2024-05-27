@@ -75,8 +75,8 @@ function ins() {
         sudo apt install $@ -y &>>$logFile
         is_working "$all installed"
     elif [ "$WOS" = "fedora" ]; then
-        sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-        sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+        sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm &>>$logFile
+        sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm &>>$logFile
         sudo dnf update -y &>>$logFile
         sudo dnf install $@ -y &>>$logFile
         is_working "$all installed"
@@ -90,12 +90,11 @@ function ins() {
 
 function aur_ins() {
     all="$@" #for is_working function
-    info "Installation: $all "
+    info "Installation: $all"
     if [ "$WOS" = "arch" ]; then
         # Aur tool install
-        pikaur -V &>/dev/null
-        if [ $? -ne 0 ]; then
-            arch_package_install https://aur.archlinux.org/pikaur.git
+        if pikaur -V &>/dev/null; then
+            arch_package_install https://aur.archlinux.org/pikaur.git &>>$logFile
         fi
         pikaur -S $@ --needed --noconfirm &>>$logFile
         is_working "$all installed"
@@ -174,14 +173,6 @@ function dev_env_install() {
     fi
 }
 
-function ending() {
-    if $success_state; then
-        success "Installation successful"
-    else
-        error "Installation failed"
-    fi
-}
-
 function mainScript() {
     echo -n
     info 'Script started'
@@ -201,6 +192,15 @@ function trapCleanup() {
     fi
     die "Exit trapped. In function: '${FUNCNAME[*]}'"
 
+}
+
+function ending() {
+    # Add status line to log for post-installation check usage
+    if $success_state; then
+        success "Installation successful"
+    else
+        error "Installation failed"
+    fi
 }
 
 function safeExit() {
@@ -245,11 +245,10 @@ tmpDir="/tmp/${scriptName}.$RANDOM.$RANDOM.$RANDOM.$$"
     die "Could not create temporary directory! Exiting."
 }
 
-# Logging
+# Logging (overwrited by --logpath)
 logFile="/tmp/${scriptName}-$(date "+%s").log"
 
 # Options and Usage
-# -----------------------------------
 usage() {
     echo -n "${scriptName} [OPTION]
 
@@ -261,8 +260,7 @@ usage() {
     "
 }
 
-# Iterate over options breaking -ab into -a -b when needed and --foo=bar into
-# --foo bar
+# Iterate over options breaking -ab into -a -b when needed and --foo=bar into --foo bar
 optstring=h
 unset options
 while (($#)); do
@@ -326,7 +324,6 @@ done
 args+=("$@")
 
 # Logging & Feedback
-# -----------------------------------------------------
 function _alert() {
     if [ "${1}" = "error" ]; then local color="${bold}${red}"; fi
     if [ "${1}" = "warning" ]; then local color="${yellow}"; fi
@@ -382,7 +379,6 @@ function input() {
 }
 
 # SEEKING CONFIRMATION
-# ------------------------------------------------------
 function seek_confirmation() {
     input "$@"
     if "${noconfirm}"; then

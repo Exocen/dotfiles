@@ -16,7 +16,7 @@ Tested on
 - [ ] install.sh: documentation + ReadMe instructions
 - [ ] README: add docker instruction for each image + tools
 - [ ] docker: switch plex + filebrowser -\> find something (ps4 comptability?)
-- [x] feed-updater -> switch bash html updater to python xml updater
+- [x] feed-updater: switch bash html updater to python xml updater
 - [x] docker nginx: status displayed with Js reading atom.xml
 - [ ] docker nginx: fignoler le poro
 - [x] docker jdownloader: add healthcheck
