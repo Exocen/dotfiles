@@ -14,7 +14,7 @@ if ! /usr/bin/certbot certificates | grep '[DOMAIN]\|*.[DOMAIN]' &>/dev/null; th
     fi
 fi
 
-[ ! -f /etc/letsencrypt/live/[DOMAIN]/dhparam.pem ] && openssl dhparam -out /etc/letsencrypt/live/[DOMAIN]/dhparam.pem 4096
+[ ! -f "/etc/letsencrypt/live/[DOMAIN]/dhparam.pem" ] && openssl dhparam -out /etc/letsencrypt/live/[DOMAIN]/dhparam.pem 4096
 
 cp -fr /root/nginx-confs/*.conf /etc/nginx/
 pkill 'nginx'

@@ -10,9 +10,12 @@ cp -fr ../../install.sh .
 imgs=("debian" "ubuntu" "fedora" "alpine")
 
 for img in "${imgs[@]}"; do
-    logpath=/docker-data-nobackup/test-install/"$img"
-    mkdir -p "$logpath"
+
     cd "$(dirname "$(readlink -f "$0")")" || exit 1
+
+    logpath=/docker-data-nobackup/test-install/"$img"
+
+    mkdir -p "$logpath"
 
     if docker images | grep "$img"; then
         echo "img already created, removing"
@@ -21,10 +24,7 @@ for img in "${imgs[@]}"; do
         docker build --build-arg IMG="$img" -t "$img" .
     fi
 
-    docker run \
-        -v "$logpath":/root/logs \
-        --rm "$img" && echo "$img started."
-
+    docker run --rm -v "$logpath":/root/logs "$img" && echo "$img started."
     docker wait "$img"
     docker image rm "$img" 2>/dev/null
 

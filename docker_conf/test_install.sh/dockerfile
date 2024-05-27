@@ -4,6 +4,8 @@ FROM $IMG
 WORKDIR /root/
 RUN mkdir -p /root/logs/
 COPY install.sh /root/install.sh
-RUN chmod +x install.sh
+COPY test-engine.sh /root/test-engine.sh
+RUN find . -type f -print0 | xargs -0 sed -i 's/\[IMG\]/'"$img"'/g'
+RUN chmod +x install.sh test-engine.sh
 
-ENTRYPOINT ["/root/install.sh -n -l /root/logs/$IMG_log"]
+ENTRYPOINT ["/root/test-engine.sh"]
