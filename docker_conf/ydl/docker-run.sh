@@ -17,7 +17,7 @@ fi
 if docker images | grep "ydl_img" ; then
     echo "img already created"
 else
-    cd "$(dirname "$(readlink -f "$0")")" || exit 0
+    cd "$(dirname "$(readlink -f "$0")")" || exit 1
     docker build -t ydl_img .
 fi
 

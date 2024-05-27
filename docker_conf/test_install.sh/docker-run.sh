@@ -13,9 +13,9 @@ for img in "${imgs[@]}"; do
 
     cd "$(dirname "$(readlink -f "$0")")" || exit 1
 
-    logpath=/docker-data-nobackup/test-install/"$img"
-
-    mkdir -p "$logpath"
+    dirpath=/docker-data-nobackup/test-install/
+    mkdir -p "$dirpath"
+    logpath="$dirpath"/"$img"
 
     if docker images | grep "$img"; then
         echo "img already created, removing"
