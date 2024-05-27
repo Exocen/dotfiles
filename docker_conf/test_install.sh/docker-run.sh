@@ -5,18 +5,16 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-
 cp -fr ../../install.sh .
 
 imgs=("debian" "ubuntu" "fedora" "alpine")
-
 
 for img in "${imgs[@]}"; do
     logpath=/docker-data-nobackup/test-install/"$img"
     mkdir -p "$logpath"
     cd "$(dirname "$(readlink -f "$0")")" || exit 1
 
-    if docker images | grep "$img" ; then
+    if docker images | grep "$img"; then
         echo "img already created, removing"
         docker image rm "$img" 2>/dev/null
     else
@@ -24,13 +22,11 @@ for img in "${imgs[@]}"; do
     fi
 
     docker run \
-        --log-driver=journald --log-opt tag="{{.Name}}" --rm \
-        -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
         -v "$logpath":/root/logs \
-        "$img":latest && echo "$img started."
+        --rm "$img" && echo "$img started."
 
     docker wait "$img"
-    docker image rm "$img"
+    docker image rm "$img" 2>/dev/null
 
 done
 
