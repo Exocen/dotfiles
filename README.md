@@ -14,6 +14,7 @@ Tested on
 - [x] install.sh: remake all options auto-install
 - [ ] install.sh: add auto docker test (img = arg)
 - [ ] install.sh: documentation + ReadMe instructions
+- [ ] vim conf: remake all
 - [ ] README: add docker instruction for each image + tools
 - [ ] docker: switch plex + filebrowser -\> one container solution (ps4 comptability?)
 - [x] feed-updater: switch bash html updater to python xml updater

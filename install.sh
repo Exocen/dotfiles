@@ -143,6 +143,7 @@ function basic_install() {
     sh ~/.vim_runtime/install_awesome_vimrc.sh &>>$logFile
     cd ~/.vim_runtime
     sh ~/.vim_runtime/update.sh &>>$logFile
+    is_working "Vim installed"
     cd $LOCAL
 }
 
