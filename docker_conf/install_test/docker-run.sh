@@ -8,7 +8,7 @@ fi
 #TODO add args -> imgs
 
 imgs=("debian" "ubuntu" "fedora" "alpine" "archlinux" "manjarolinux/base")
-dirpath=/docker-data-nobackup/test-install
+dirpath=/docker-data-nobackup/install-test-logs
 
 function clean() {
     img_name="$(echo "$1" | tr ":/" _)"
