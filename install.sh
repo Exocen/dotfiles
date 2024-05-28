@@ -8,7 +8,7 @@ sudoless() {
     "$@"
 }
 
-function is_working() {
+is_working() {
     if [ $? -eq 0 ]; then
         success "$1"
     else
@@ -17,9 +17,9 @@ function is_working() {
     fi
 }
 
-function detectOS() {
+detectOS() {
     if [ -f /etc/os-release ]; then
-        WOS=$(grep -oP '^ID=\K.*' /etc/os-release | tr -d "\"") 
+        WOS=$(grep -oP '^ID=\K.*' /etc/os-release | tr -d "\"")
         WOS=${WOS,,} #lower case
     elif [ -f /etc/lsb-release ]; then
         WOS=$(grep -oP '^DISTRIB_ID=\K.*' /etc/lsb-release)
@@ -35,10 +35,10 @@ function detectOS() {
     else
         WOS="WTH?"
     fi
-    info "OS detected: $WOS" 
+    info "OS detected: $WOS"
 }
 
-function conf_folder() {
+conf_folder() {
     info "Symbolic links to .config"
     mkdir -p ~/.config
     for f in "$LOCAL/$1"/*; do
@@ -50,7 +50,7 @@ function conf_folder() {
 }
 
 # run detectOS before
-function ins() {
+ins() {
     read -ra all <<<"$@"
     info "Installation: $* "
     if [ "$WOS" = "ubuntu" ] || [ "$WOS" = "debian" ] || [ "$WOS" = "raspbian" ]; then
@@ -72,7 +72,7 @@ function ins() {
     fi
 }
 
-function aur_ins() {
+aur_ins() {
     read -ra all <<<"$@"
     info "Installation: $*"
     if [ "$WOS" = "arch" ]; then
@@ -87,7 +87,7 @@ function aur_ins() {
     fi
 }
 
-function arch_package_install() {
+arch_package_install() {
     info "Arch install: $1"
     sudoless pacman -S --needed base-devel git --noconfirm &>>"$logFile"
     tmpD=$(mktemp -d)
@@ -99,7 +99,7 @@ function arch_package_install() {
     rm -rf "$tmpD"
 }
 
-function git_clone() {
+git_clone() {
     info "Cloning $1"
     if [ ! -e "$2" ]; then
         git clone --depth=1 "$1" "$2" &>>"$logFile"
@@ -109,7 +109,7 @@ function git_clone() {
     fi
 }
 
-function basic_install() {
+basic_install() {
     info "Basic installation"
     # Basic packages
     ins bash vim git htop iftop iotop tree zsh make wget sudo rsync
@@ -130,7 +130,7 @@ function basic_install() {
     cd "$LOCAL" || safeExit
 }
 
-function dev_env_install() {
+dev_env_install() {
     if [ "$WOS" = "arch" ] && [ $EUID != 0 ]; then
         seek_confirmation 'Install Dev Env ?'
         if is_confirmed; then
@@ -158,7 +158,7 @@ function dev_env_install() {
     fi
 }
 
-function mainScript() {
+mainScript() {
     echo -n
     info 'Script started'
     if [ -z "$EDITOR" ]; then
@@ -169,16 +169,16 @@ function mainScript() {
     dev_env_install
 }
 
-function ending() {
+ending() {
     # Add status line to log for post-installation check usage
     if $success_state; then
-        success "Installation successful"
+        success "Installation successful on $WOS"
     else
-        error "Installation failed"
+        error "Installation failed on $WOS"
     fi
 }
 
-function safeExit() {
+safeExit() {
     # Delete temp files, if any
     if [ -d "${tmpDir}" ]; then
         rm -r "${tmpDir}"
@@ -301,7 +301,7 @@ done
 args+=("$@")
 
 # Logging & Feedback
-function _alert() {
+_alert() {
     if [ "${1}" = "error" ]; then local color="${bold}${red}"; fi
     if [ "${1}" = "warning" ]; then local color="${yellow}"; fi
     if [ "${1}" = "success" ]; then local color="${green}"; fi
@@ -329,33 +329,33 @@ function _alert() {
     fi
 }
 
-function error() {
+error() {
     local _message="${*}"
     echo -e "$(_alert error)"
 }
 
-function warning() {
+warning() {
     local _message="${*}"
     echo -e "$(_alert warning)"
 }
 
-function info() {
+info() {
     local _message="${*}"
     echo -e "$(_alert info)"
 }
 
-function success() {
+success() {
     local _message="${*}"
     echo -e "$(_alert success)"
 }
 
-function input() {
+input() {
     local _message="${*}"
     echo -n "$(_alert input)"
 }
 
 # Seeking confirmation
-function seek_confirmation() {
+seek_confirmation() {
     if ! "${noconfirm}"; then
         input "$@"
         read -rp " (y/N) " -n 1
@@ -364,7 +364,7 @@ function seek_confirmation() {
 
 }
 
-function is_confirmed() {
+is_confirmed() {
     if "${noconfirm}"; then
         return 1
     elif [[ "${REPLY}" =~ ^[Yy]$ ]]; then

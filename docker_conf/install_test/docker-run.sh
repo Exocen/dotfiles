@@ -7,11 +7,11 @@ fi
 
 #TODO add args -> imgs
 
-imgs=("debian" "ubuntu" "fedora" "alpine" "archlinux" "manjarolinux/base" "gentoo/portage")
+imgs=("debian" "ubuntu" "fedora" "alpine" "archlinux" "manjarolinux/base")
 dirpath=/docker-data-nobackup/test-install
 
 function clean() {
-    img_name="$(echo "$1" | tr "/" _)"
+    img_name="$(echo "$1" | tr ":/" _)"
     docker wait cont_"$img_name" &>/dev/null
     docker kill cont_"$img_name" &>/dev/null
     docker rm cont_"$img_name" &>/dev/null
@@ -21,7 +21,7 @@ function clean() {
 
 function create() {
     img="$1"
-    img_name="$(echo "$img" | tr "/" _)"
+    img_name="$(echo "$img" | tr ":/" _)"
     mkdir -p "$dirpath"
     logpath="$dirpath"/"$img_name"
     rm -f "$logpath/$img_name"
@@ -44,7 +44,7 @@ function create() {
 cd "$(dirname "$(readlink -f "$0")")" || exit 1
 echo "Building ${imgs[*]}"
 for img1 in "${imgs[@]}"; do
-    create "$img1" &
+    create "$img1"
 done
 wait
 
@@ -56,7 +56,7 @@ wait && sleep 2
 
 echo "Results:"
 for img3 in "${imgs[@]}"; do
-    img_name="$(echo "$img3" | tr "/" _)"
+    img_name="$(echo "$img3" | tr ":/" _)"
     if tail -n 1 "$dirpath"/"$img_name"/logs 2>/dev/null | grep "\[success\] Installation successful" &>/dev/null; then
         echo "$img_name successful"
     else
