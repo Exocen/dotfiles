@@ -5,10 +5,15 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-#TODO add args -> imgs
-
 imgs=("debian" "ubuntu" "fedora" "alpine" "archlinux" "manjarolinux/base")
 dirpath=/docker-data-nobackup/install-test-logs
+
+if [ "$#" == 0 ]; then
+    echo "No args given testing on ${imgs[*]}"
+else
+    imgs=("$@")
+    echo "Testing on ${imgs[*]}"
+fi
 
 function clean() {
     img_name="$(echo "$1" | tr ":/" _)"

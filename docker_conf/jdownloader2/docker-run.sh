@@ -29,5 +29,5 @@ docker run -d --rm --log-driver=journald --log-opt tag="{{.Name}}" \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     --network=container:gluetun \
     -v /docker-data-nobackup/jdownloader2/config/:/config \
-    -v $JDOWNLOADER_DL_PATH:/output \
+    -v "$JDOWNLOADER_DL_PATH":/output \
     jdownloader2_img:latest && echo "Jdownloader2 started."

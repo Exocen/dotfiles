@@ -12,7 +12,7 @@ Tested on
 
 ### 📝 TODO
 - [x] install.sh: remake all options auto-install
-- [ ] install.sh: add auto docker test (img = arg)
+- [x] install.sh: add auto docker test (img = arg)
 - [ ] install.sh: documentation + ReadMe instructions
 - [ ] vim conf: remake all
 - [ ] README: add docker instruction for each image + tools
