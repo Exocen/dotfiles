@@ -36,6 +36,9 @@ exec swaync
 # Idle stuff
 exec swayidle
 
+# Clipboard manager
+exec wl-paste --watch cliphist store
+
 # Hide cursor
 seat seat0 hide_cursor 5000
 
@@ -65,6 +68,10 @@ bindsym $mod+Return exec $TERMINAL
 
 # Bluetooth devices
 bindsym $mod+b exec $HOME/.config/sway/bluetooth-connect "PLT BB PRO 2"
+
+# Clipboard manager
+bindsym pause exec cliphist list | tofi -c $HOME/.config/tofi/clipboard |  cliphist decode | wl-copy
+bindsym $mod+pause exec cliphist wipe
 
 # Internet browser
 bindsym $mod+g exec firefox

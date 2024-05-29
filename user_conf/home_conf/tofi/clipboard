@@ -1,0 +1,12 @@
+font = monospace
+corner-radius = 10
+outline-color = #000000
+border-color = #000000
+border-width = 0
+background-color = #000000
+text-color = #FFF
+selection-color = #0A3
+prompt-text = "Copy"
+hide-cursor = true
+width = 80%
+height = 50%
