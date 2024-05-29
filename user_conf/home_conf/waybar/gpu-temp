@@ -7,8 +7,8 @@ if [ $# -eq 0 ]
     exit
 fi
 
-if [ $1 == "amd" ]; then
-    echo `sensors amdgpu-pci-0b00 -u | grep -oP 'temp1_input:\ *\K\d+'`
-elif [ $1 == "nvidia" ]; then
-    echo `nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader`
+if [ "$1" == "amd" ]; then
+    sensors amdgpu-pci-0b00 -u | grep -oP 'temp1_input:\ *\K\d+'
+elif [ "$1" == "nvidia" ]; then
+    nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader
 fi

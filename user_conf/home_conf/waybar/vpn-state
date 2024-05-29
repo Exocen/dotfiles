@@ -1,8 +1,8 @@
 #!/bin/bash
 
-status=`ls /sys/class/net/*wg* &>/dev/null || ls /sys/class/net/*tun* &>/dev/null ; echo $?`
+status=$(ls /sys/class/net/*wg* &>/dev/null || ls /sys/class/net/*tun* &>/dev/null ; echo $?)
 
-if [ $status == 0 ]; then
+if [ "$status" == 0 ]; then
     echo '󰌾'
 else
     echo ''
