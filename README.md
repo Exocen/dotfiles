@@ -24,5 +24,5 @@ Install testing tool available on docker_conf/install_test
 - [x] feed-updater: switch bash html updater to python xml updater
 - [x] docker nginx: status displayed with Js reading atom.xml
 - [ ] docker nginx: fignoler le poro
-- [x] docker jdownloader: add healthcheck
-- [x] docker jdownloader: add vpn reconnection
+- [x] docker jdownloader2: add healthcheck
+- [x] docker jdownloader2: add vpn reconnection

@@ -170,7 +170,7 @@ mainScript() {
 }
 
 ending() {
-    # Add status line to log for post-installation check usage
+    # Add status line to log for post-installation check
     if $success_state; then
         success "Installation successful on $WOS"
     else
