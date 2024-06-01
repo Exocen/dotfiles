@@ -290,7 +290,7 @@ while [[ $1 = -?* ]]; do
         break
         ;;
     *)
-        error "invalid option: '$1'."
+        echo "invalid option: '$1'."
         safeExit true
         ;;
     esac
