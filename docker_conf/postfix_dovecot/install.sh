@@ -17,18 +17,18 @@ function main() {
 }
 
 function generate_conf() {
-    hostnamectl set-hostname $DOMAIN || echo "No domain change needed"
-    cp -r dovecot.conf opendkim postfix opendkim.conf $TMP_CONF
-    cd $TMP_CONF
-    find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
+    hostnamectl set-hostname "$DOMAIN" || echo "No domain change needed"
+    cp -r dovecot.conf opendkim postfix opendkim.conf "$TMP_CONF"
+    cd "$TMP_CONF" || exit 1
+    find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'"$DOMAIN"'/g'
 }
 
 function detectOS() {
     if [ -f /etc/lsb-release ]; then
-        WOS=$(cat /etc/lsb-release | grep -oP 'DISTRIB_ID=\"\K.*(?=\")')
+        WOS=$(grep -oP 'DISTRIB_ID=\"\K.*(?=\")' /etc/lsb-release)
         WOS=${WOS,,} #lower case
     elif [ -f /etc/os-release ]; then
-        WOS=$(cat /etc/os-release | grep -oP '^ID=\K.*')
+        WOS=$(grep -oP '^ID=\K.*' /etc/os-release)
         WOS=${WOS,,} #lower case
     elif [ -f /etc/redhat-release ]; then
         WOS="fedora"
@@ -52,7 +52,7 @@ function pack_install() {
 function put_conf() {
     mkdir /post_base
     # Post-generate_conf
-    cp -fr $TMP_CONF/postfix/* /etc/postfix/
+    cp -fr "$TMP_CONF"/postfix/* /etc/postfix/
     chmod -R o-rwx /etc/postfix
 
     touch /post_base/vmailbox
@@ -61,30 +61,30 @@ function put_conf() {
     postmap /post_base/virtual_alias
     newaliases
 
-    cp -fr $TMP_CONF/dovecot.conf /etc/dovecot/
-    mkdir -p /var/mail/vhosts/$DOMAIN
+    cp -fr "$TMP_CONF"/dovecot.conf /etc/dovecot/
+    mkdir -p /var/mail/vhosts/"$DOMAIN"
     groupadd -g 5000 vmail
     useradd -g vmail -u 5000 vmail -d /var/mail
     chown -R vmail:vmail /var/mail
     chown -R vmail:dovecot /etc/dovecot
     chmod -R o-rwx /etc/dovecot
 
-    cp -fr $TMP_CONF/opendkim.conf /etc/
-    mkdir -p /etc/opendkim/keys/$DOMAIN
-    cp -fr $TMP_CONF/opendkim/* /etc/opendkim/
-    opendkim-genkey -s mail -d $DOMAIN -D /etc/opendkim/keys/$DOMAIN
-    chown opendkim:opendkim /etc/opendkim/keys/$DOMAIN/mail.private
-    chmod 0400 /etc/opendkim/keys/$DOMAIN/mail.private
+    cp -fr "$TMP_CONF"/opendkim.conf /etc/
+    mkdir -p /etc/opendkim/keys/"$DOMAIN"
+    cp -fr "$TMP_CONF"/opendkim/* /etc/opendkim/
+    opendkim-genkey -s mail -d "$DOMAIN" -D /etc/opendkim/keys/"$DOMAIN"
+    chown opendkim:opendkim /etc/opendkim/keys/"$DOMAIN"/mail.private
+    chmod 0400 /etc/opendkim/keys/"$DOMAIN"/mail.private
 
     systemctl restart postfix
     systemctl restart dovecot
     systemctl restart opendkim
     echo "Opendkim key:"
-    cat /etc/opendkim/keys/$DOMAIN/*.txt
-    cp -fr /etc/opendkim/keys/$DOMAIN/*.txt /post_base/
+    cat /etc/opendkim/keys/"$DOMAIN"/*.txt
+    cp -fr /etc/opendkim/keys/"$DOMAIN"/*.txt /post_base/
 }
 
-if [ `id -u` -ne 0 ]; then
+if [ "$(id -u)" -ne 0 ]; then
     echo "Must be run as root"
 else
     if [ -z "$1" ]; then
@@ -94,8 +94,8 @@ else
     fi
 fi
 
-cd "${0%/*}"
-rm -rf $TMP_CONF
+cd "${0%/*}" || exit 1
+rm -rf "$TMP_CONF"
 
 # Local Variables:
 # mode: Shell-script

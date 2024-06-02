@@ -46,6 +46,8 @@ function create() {
     rm -r "$tmpD"
 }
 
+
+# 3 loops: Img building + run, img and cont cleaning (except logs), logs reading 
 cd "$(dirname "$(readlink -f "$0")")" || exit 1
 echo "Building ${imgs[*]}"
 for img1 in "${imgs[@]}"; do
