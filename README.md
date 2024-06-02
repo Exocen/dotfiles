@@ -26,3 +26,4 @@ Install testing tool available on docker_conf/install_test
 - [ ] docker nginx: fignoler le poro
 - [x] docker jdownloader2: add healthcheck
 - [x] docker jdownloader2: add vpn reconnection
+- [ ] Zsh: add a way to use samples/services/sample.service with "create_new_service" alias + timer
