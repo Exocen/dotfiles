@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ `id -u` -ne 0 ]; then
+if [ "$(id -u)" -ne 0 ]; then
     echo "Must be run as root"
     exit 1
 else
@@ -17,8 +17,8 @@ fi
 if docker images | grep "mail_server_img" ; then
     echo "img already created"
 else
-    cd $(dirname "$(readlink -f "$0")")
-    docker build --build-arg DOMAIN=$DOMAIN -t mail_server_img .
+    cd "$(dirname "$(readlink -f "$0")")" || exit 1
+    docker build --build-arg DOMAIN="$DOMAIN" -t mail_server_img .
 fi
 
 docker run \
