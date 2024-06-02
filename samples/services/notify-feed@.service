@@ -1,0 +1,12 @@
+# /etc/systemd/system/notify-feed@.service
+# OnFailure=notify-feed@%i.service
+
+[Unit]
+Description=Send notification
+
+[Service]
+Type=oneshot
+ExecStart=ssh meticae.com /root/feed-update notif \"%H error\" \"Problem with %i)\"
+
+[Install]
+WantedBy=multi-user.target

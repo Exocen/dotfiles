@@ -7,7 +7,7 @@ Tested on
 * Debian 12+
 * Manjarolinux
 * Arch (dev conf 🐮 available)
-* Alpine (need bash)
+* Alpine (bash needed)
 
 Install testing tool available on docker_conf/install_test
 
