@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ `id -u` -ne 0 ]; then
+if [ "$(id -u)" -ne 0 ]; then
     echo "Must be run as root"
     exit 1
 else
@@ -18,7 +18,7 @@ DOCKER_PATH="/docker-data/filebrowser/"
 FILEBROWSER_DB_PATH="$DOCKER_PATH/filebrowser.db"
 FILEBROWSER_SETTINGS_PATH="$DOCKER_PATH/filebrowser.json"
 
-cd "$(dirname "$(readlink -f "$0")")"
+cd "$(dirname "$(readlink -f "$0")")" || exit 1
 mkdir -p $DOCKER_PATH
 
 if [ ! -f "$FILEBROWSER_SETTINGS_PATH" ] ; then
@@ -37,7 +37,7 @@ docker run \
     -e FB_NOAUTH=noauth \
     -v $FILEBROWSER_DB_PATH:/database.db \
     -v $FILEBROWSER_SETTINGS_PATH:/.filebrowser.json \
-    -v $FILEBROWSER_PATH:/srv \
+    -v "$FILEBROWSER_PATH":/srv \
     -u 1000:1000 \
     -p 80:80 \
     filebrowser/filebrowser:v2.27.0
