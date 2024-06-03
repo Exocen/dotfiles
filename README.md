@@ -2,12 +2,12 @@
 
 ### Auto-install
 Tested on
-* Ubuntu 24+
-* Fedora 40+
-* Debian 12+
-* Manjaro
-* Arch (dev conf 🐮 available)
 * Alpine
+* Arch (dev conf 🐮 available)
+* Debian 12+
+* Fedora 40+
+* Manjaro
+* Ubuntu 24+
 
 Install testing tool available on docker_conf/install_test
 
