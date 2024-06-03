@@ -30,9 +30,8 @@ function clean() {
 function create() {
     img="$1"
     img_name="$(echo "$img" | tr ":/" _)"
-    mkdir -p "$dirpath"
     logpath="$dirpath"/"$img_name"
-    rm -f "$logpath/$img_name"
+
     tmpD="$(mktemp -d -p /var/tmp/)"
     cp -fr "$LOCAL/../../install.sh" "$tmpD"/install.sh
     cp "$LOCAL/dockerfile" "$tmpD"
@@ -50,6 +49,10 @@ function create() {
         echo "$img" started
     rm -r "$tmpD"
 }
+
+# Remove olds logs
+rm -fr "$dirpath"
+mkdir -p "$dirpath"
 
 # 3 loops: Img building + run, img and cont cleaning (except logs), logs reading
 echo "* Building ${imgs[*]}"
