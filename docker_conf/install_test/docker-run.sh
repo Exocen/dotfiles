@@ -24,7 +24,7 @@ function clean() {
         docker rm cont_"$img_name" &>/dev/null
     fi
     docker image rm -f "$img_name"_img 1>/dev/null
-    echo "$img_name cleaned"
+    echo "$img_name done"
 }
 
 function create() {

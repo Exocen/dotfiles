@@ -56,7 +56,7 @@ ins() {
     info "Installation: $* "
     if [ "$WOS" = "ubuntu" ] || [ "$WOS" = "debian" ] || [ "$WOS" = "raspbian" ]; then
         sudoless apt update -y 1>>"$logFile" 2>&1
-        sudoless apt install --ignore-missing "$@" -y 1>>"$logFile" 2>&1
+        sudoless apt install "$@" -y 1>>"$logFile" 2>&1
         is_working "$* installed"
     elif [ "$WOS" = "fedora" ]; then
         # sudoless yum update -y 1>>"$logFile" 2>&1
@@ -206,12 +206,12 @@ implied_no=false
 success_state=true
 
 # Set Colors
-bold=$(tput bold)
-reset=$(tput sgr0)
-red=$(tput setaf 1)
-green=$(tput setaf 76)
-yellow=$(tput setaf 3)
-blue=$(tput setaf 38)
+bold=$(tput bold 2>/dev/null)
+reset=$(tput sgr0 2>/dev/null)
+red=$(tput setaf 1 2>/dev/null)
+green=$(tput setaf 76 2>/dev/null)
+yellow=$(tput setaf 3 2>/dev/null)
+blue=$(tput setaf 38 2>/dev/null)
 
 # Set Temp Directory
 tmpDir="/tmp/${scriptName}.$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$$"
