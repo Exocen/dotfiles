@@ -4,11 +4,13 @@ WOS=''
 LOCAL=$(dirname "$(readlink -f "$0")")
 
 sudoless() {
+    # Only use sudo if user is not root
     [ "$(id -u)" -eq 0 ] || set -- command sudo "$@"
     "$@"
 }
 
 is_working() {
+    # Return cmd correct log + error code
     if [ $? -eq 0 ]; then
         success "$1"
     else
@@ -18,6 +20,7 @@ is_working() {
 }
 
 detectOS() {
+    # OS detection
     if [ -f /etc/os-release ]; then
         # shellcheck source=/dev/null
         . "/etc/os-release"
@@ -41,6 +44,7 @@ detectOS() {
 }
 
 conf_folder() {
+    # $USER/.config installation
     info "Symbolic links to .config"
     mkdir -p ~/.config
     for f in "$LOCAL/$1"/*; do
@@ -48,18 +52,16 @@ conf_folder() {
         ln -sfn "$f" ~/.config/"$DEST" 1>>"$logFile" 2>&1
         is_working "ln $f to ~/.config/$DEST"
     done
-
 }
 
-# run detectOS before
 ins() {
+    # ARGS installation (post detectOS)
     info "Installation: $* "
     if [ "$WOS" = "ubuntu" ] || [ "$WOS" = "debian" ] || [ "$WOS" = "raspbian" ]; then
         sudoless apt update -y 1>>"$logFile" 2>&1
         sudoless apt install "$@" -y 1>>"$logFile" 2>&1
         is_working "$* installed"
     elif [ "$WOS" = "fedora" ]; then
-        # sudoless yum update -y 1>>"$logFile" 2>&1
         sudoless yum install "$@" -y 1>>"$logFile" 2>&1
         is_working "$* installed"
     elif [ "$WOS" = "alpine" ]; then
@@ -75,9 +77,9 @@ ins() {
 }
 
 aur_ins() {
+    # Aur tool install and/or use
     info "Installation: $*"
     if [ "$WOS" = "arch" ]; then
-        # Aur tool install
         if pikaur -V 1>/dev/null 2>&1; then
             arch_package_install https://aur.archlinux.org/pikaur.git 1>>"$logFile" 2>&1
         fi
@@ -89,6 +91,7 @@ aur_ins() {
 }
 
 arch_package_install() {
+    # Arch manual install from git link
     info "Arch install: $1"
     sudoless pacman -S --needed base-devel git --noconfirm 1>>"$logFile" 2>&1
     tmpD=$(mktemp -d)
@@ -101,6 +104,7 @@ arch_package_install() {
 }
 
 git_clone() {
+    # Git clone if not present
     info "Cloning $1"
     if [ ! -e "$2" ]; then
         git clone --depth=1 "$1" "$2" 1>>"$logFile" 2>&1
@@ -132,6 +136,7 @@ basic_install() {
 }
 
 dev_env_install() {
+    # Arch dev env installation
     if [ "$WOS" = "arch" ] && [ "$(id -u)" != 0 ]; then
         seek_confirmation 'Install Dev Env ?'
         if is_confirmed; then
@@ -139,7 +144,7 @@ dev_env_install() {
                 file="$LOCAL/arch-package-list"
                 if [ -f "$file" ]; then
                     info "Arch dev inv installation"
-                    # .config links
+                    # Specific arch .config
                     ln -sfn "$LOCAL/user_conf/zprofile" ~/.zprofile
                     conf_folder user_conf/home_conf
                     list=""
@@ -170,15 +175,6 @@ mainScript() {
     dev_env_install
 }
 
-ending() {
-    # Add status line to log for post-installation check
-    if $success_state; then
-        success "Installation successful on $WOS"
-    else
-        error "Installation failed on $WOS"
-    fi
-}
-
 safeExit() {
     # Delete temp files, if any
     if [ -d "${tmpDir}" ]; then
@@ -189,7 +185,12 @@ safeExit() {
         if $printLog; then
             printf "%s%s [%7s] Logfile: %s %s\n" "$(date +'%T')" "$blue" "info" "$logFile" "$reset"
         fi
-        ending
+        # Add status line to log for post-installation check
+        if $success_state; then
+            success "Installation successful on $WOS"
+        else
+            error "Installation failed on $WOS"
+        fi
     fi
     exit
 
@@ -308,17 +309,13 @@ seek_confirmation() {
         REPLY=$(echo "$REPLY" | cut -c 1 | tr '[:upper:]' '[:lower:]')
         echo ""
     fi
-
 }
 
 is_confirmed() {
-    if "${implied_no}"; then
-        return 1
-    elif [ "${REPLY}" = "y" ]; then
+    if ! "${implied_no}" && [ "${REPLY}" = "y" ]; then
         return 0
     fi
     return 1
-
 }
 
 # Run in debug mode, if set
