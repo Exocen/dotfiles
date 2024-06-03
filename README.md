@@ -5,9 +5,9 @@ Tested on
 * Ubuntu 24+
 * Fedora 40+
 * Debian 12+
-* Manjarolinux
+* Manjaro
 * Arch (dev conf 🐮 available)
-* Alpine (bash needed)
+* Alpine
 
 Install testing tool available on docker_conf/install_test
 
@@ -26,4 +26,5 @@ Install testing tool available on docker_conf/install_test
 - [ ] docker nginx: fignoler le poro
 - [x] docker jdownloader2: add healthcheck
 - [x] docker jdownloader2: add vpn reconnection
+- [x] Change install shell: bash -> sh
 - [ ] Zsh: add a way to use template samples/services/sample.service with "create_new_service" alias + timer

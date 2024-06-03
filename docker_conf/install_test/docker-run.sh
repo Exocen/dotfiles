@@ -31,11 +31,12 @@ function create() {
     img="$1"
     img_name="$(echo "$img" | tr ":/" _)"
     logpath="$dirpath"/"$img_name"
-
     tmpD="$(mktemp -d -p /var/tmp/)"
+
+    rm -fr "$logpath"
     cp -fr "$LOCAL/../../install.sh" "$tmpD"/install.sh
     cp "$LOCAL/dockerfile" "$tmpD"
-    printf "#!/bin/bash\n/root/install.sh -n -l /root/%s/logs" "$img_name" >"$tmpD"/test-engine.sh
+    printf "#!/bin/sh\n/root/install.sh -n -l /root/%s/logs" "$img_name" >"$tmpD"/test-engine.sh
     cd "$tmpD" || exit 1
     if docker images | grep "$img_name"_img &>/dev/null; then
         echo "$img_name"_img already created, removing
@@ -50,8 +51,6 @@ function create() {
     rm -r "$tmpD"
 }
 
-# Remove olds logs
-rm -fr "$dirpath"
 mkdir -p "$dirpath"
 
 # 3 loops: Img building + run, img and cont cleaning (except logs), logs reading
