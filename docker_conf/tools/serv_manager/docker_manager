@@ -116,7 +116,7 @@ boot_check() {
 
 main() {
     cd "$LOCAL_DIR" || safe_exit "cd failed" 0
-    # shellcheck disable=SC1090
+    # shellcheck source=/dev/null
     source "$2"
     build_container_fails
     case $1 in
