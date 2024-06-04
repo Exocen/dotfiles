@@ -36,9 +36,8 @@ detectOS() {
     elif [ -f /etc/arch-release ]; then
         WOS="arch"
     else
-        WOS="WTH?"
         error "Unknown OS exiting"
-        safeExit
+        safeExit true
     fi
     info "OS detected: $WOS"
 }
@@ -165,7 +164,6 @@ dev_env_install() {
 }
 
 mainScript() {
-    echo
     info 'Script started'
     if [ -z "$EDITOR" ]; then
         export EDITOR=nano
