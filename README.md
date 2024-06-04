@@ -2,8 +2,8 @@
 
 ### 🪄 Automatic installation
 
-install.sh is a script written with POSIX Shell.
-It allows to install basic tools in a new linux installation
+install.sh is a script written with POSIX Shell.\
+It allows to install basic tools in a new linux installation.
 
 #### Run the script install.sh to install
 1. packages "vim git htop iftop iotop tree zsh make wget sudo rsync"
