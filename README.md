@@ -13,7 +13,7 @@ It allows to install basic tools in a new linux installation
 
 #### Script usage
 ```
-install.sh [OPTION]:
+install.sh [OPTIONS]:
 -d     Use debug mode
 -l     Set log path (default /tmp)
 -n     Skip all user interaction.  Implied 'No' to all actions
