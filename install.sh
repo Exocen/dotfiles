@@ -127,6 +127,7 @@ basic_install() {
 
     # vimrc
     ln -sfn "$LOCAL"/user_conf/vimrc ~/.vimrc
+    is_working "Vim installed"
 }
 
 dev_env_install() {

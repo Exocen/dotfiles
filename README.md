@@ -17,7 +17,7 @@ Install testing tool available on docker_conf/install_test
 - [x] install.sh: remake all options auto-install
 - [x] install.sh: add auto docker test (img = arg)
 - [ ] install.sh: documentation + ReadMe instructions
-- [ ] vim conf: remake all
+- [x] vim conf: remake all
 - [x] docker feed update: add service notif sample
 - [ ] README: add docker instruction for each image + tools
 - [ ] plex + filebrowser: try to find another solution with ps4 comptability
