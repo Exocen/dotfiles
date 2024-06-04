@@ -15,11 +15,11 @@ else
 fi
 
 docker run -d --rm --log-driver=journald --log-opt tag="{{.Name}}" \
-    -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
+    -e "TZ=$(timedatectl status | grep "zone" | sed -e 's/^[ ]*Time zone: \(.*\) (.*)$/\1/g')" \
     --network=host \
     -e PUID=1000 \
     -e PGID=1000 \
     -v /docker-data-nobackup/plex:/config \
-    -v $PLEX_PATH:/media_files \
+    -v "$PLEX_PATH":/media_files \
     --name=plex \
     linuxserver/plex:latest && echo "Plex started."
