@@ -20,7 +20,7 @@ Install testing tool available on docker_conf/install_test
 - [ ] vim conf: remake all
 - [x] docker feed update: add service notif sample
 - [ ] README: add docker instruction for each image + tools
-- [ ] docker: switch plex + filebrowser -\> one container solution (ps4 comptability?)
+- [ ] plex + filebrowser: try to find another solution with ps4 comptability
 - [x] feed-updater: switch bash html updater to python xml updater
 - [x] docker nginx: status displayed with Js reading atom.xml
 - [ ] docker nginx: fignoler le poro

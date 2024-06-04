@@ -126,12 +126,7 @@ basic_install() {
     is_working "Shell changed to zsh"
 
     # vimrc
-    git_clone https://github.com/exocen/vim-conf ~/.vim_runtime
-    sh ~/.vim_runtime/install_awesome_vimrc.sh 1>>"$logFile" 2>&1
-    cd ~/.vim_runtime || safeExit
-    sh ~/.vim_runtime/update.sh 1>>"$logFile" 2>&1
-    is_working "Vim installed"
-    cd "$LOCAL" || safeExit
+    ln -sfn "$LOCAL"/user_conf/vimrc ~/.vimrc
 }
 
 dev_env_install() {
@@ -235,18 +230,18 @@ usage() {
 
 while getopts 'hndl:' opt; do
     case $opt in
-    h)
-        usage >&2
-        safeExit true
-        ;;
-    d) debug=true ;;
-    l) logFile="${OPTARG}" ;;
-    n) implied_no=true ;;
-    ?)
-        echo "invalid option: '$1'."
-        usage >&2
-        safeExit true
-        ;;
+        h)
+            usage >&2
+            safeExit true
+            ;;
+        d) debug=true ;;
+        l) logFile="${OPTARG}" ;;
+        n) implied_no=true ;;
+        ?)
+            echo "invalid option: '$1'."
+            usage >&2
+            safeExit true
+            ;;
     esac
 done
 
