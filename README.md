@@ -7,7 +7,7 @@ It allows to install basic tools in a new linux installation.
 
 #### Run the script install.sh to install
 1. packages "vim git htop iftop iotop tree zsh make wget sudo rsync"
-2. zsh configuration files (zsh as default shell)
+2. zsh configuration files (zsh will be switched as default shell)
 3. vim configuration files with plugins
 4. (Optionnal Arch only) arch-package-list with pikaur and sway configuration
 
