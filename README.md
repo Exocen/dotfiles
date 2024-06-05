@@ -3,11 +3,11 @@
 ### 🪄 Automatic installation
 
 install.sh is a script written with POSIX Shell\
-It allows to install basic tools in a new linux installation
+It allows the installation of basic tools on linux
 
 #### Run the script install.sh to install
-1. packages "vim git htop iftop iotop tree zsh make wget sudo rsync"
-2. zsh configuration files (zsh will be switched as default shell)
+1. packages "vim git htop iftop iotop tree zsh make wget sudo rsync curl"
+2. zsh + ohmyzsh configuration files (zsh will be switched as default shell)
 3. vim configuration files with plugins
 4. (Optionnal Arch only) arch-package-list with pikaur and sway configuration
 
@@ -46,11 +46,9 @@ Install testing tool available on docker_conf/install_test
 - [x] vim conf: remake all
 - [x] docker feed update: add service notif sample
 - [ ] README: add docker instruction for each image + tools
-- [ ] plex + filebrowser: try to find another solution with ps4 comptability
 - [x] feed-updater: switch bash html updater to python xml updater
 - [x] docker nginx: status displayed with Js reading atom.xml
 - [ ] docker nginx: fignoler le poro
 - [x] docker jdownloader2: add healthcheck
 - [x] docker jdownloader2: add vpn reconnection
 - [x] Change install shell: bash -> sh
-- [ ] Zsh: add a way to use template samples/services/sample.service with "create_new_service" alias + timer
