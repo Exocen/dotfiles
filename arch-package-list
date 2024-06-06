@@ -11,7 +11,7 @@ noto-fonts ttf-nerd-fonts-symbols noto-fonts-emoji
 # WM
 wayland sway xorg-xwayland qt5-wayland
 # Menu, notifications, idle managment, screenshot, clipboard manager
-tofi mako swayidle sway-interactive-screenshot wf-recorder cliphist
+tofi dunst swayidle sway-interactive-screenshot wf-recorder cliphist
 # Waybar
 waybar
 # Brightness tool
