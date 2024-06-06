@@ -29,7 +29,7 @@ assign [title="Steam"] 9
 # Startup apps
 
 # Notifications
-exec swaync
+exec mako
 
 # Background
 

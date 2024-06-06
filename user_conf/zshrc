@@ -182,7 +182,7 @@ alias auri='pikaur -S'
 alias aurr='pikaur -Rsu'
 alias auru='pikaur -Syu'
 alias aurs='pikaur -Ss'
-alias aurl='pikaur -Qe'
+alias aurl='echo "---- Native Packages ----" && pikaur -Qen && echo "---- Aur Packages ----" && pikaur -Qem'
 # Get packages list sorted by declared size
 alias aurls='pikaur -Qi | awk "/^Name/{name=\$3} /^Installed Size/{print \$4\$5, name}" | sort -h'
 # Clean cache + orphan/unneeded packages

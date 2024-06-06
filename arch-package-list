@@ -6,12 +6,14 @@ mesa
 amd-ucode
 # Network
 ifplugd
+# Fonts
+noto-fonts ttf-nerd-fonts-symbols noto-fonts-emoji
 # WM
 wayland sway xorg-xwayland qt5-wayland
 # Menu, notifications, idle managment, screenshot, clipboard manager
-tofi swaync-git swayidle sway-interactive-screenshot wf-recorder cliphist
+tofi mako swayidle sway-interactive-screenshot wf-recorder cliphist
 # Waybar
-waybar noto-fonts ttf-nerd-fonts-symbols noto-fonts-emoji
+waybar
 # Brightness tool
 #clight
 # Utils
@@ -51,3 +53,5 @@ pavucontrol
 #woeusb
 # Arch wiki offline doc
 arch-wiki-docs wikiman
+# Archives
+zip unrar unzip p7zip
