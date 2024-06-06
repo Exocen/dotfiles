@@ -79,8 +79,8 @@ aur_ins() {
     # Aur tool install and/or use
     info "Installation: $*"
     if [ "$WOS" = "arch" ]; then
-        if pikaur -V 1>/dev/null 2>&1; then
-            arch_package_install https://aur.archlinux.org/pikaur.git 1>>"$logFile" 2>&1
+        if ! pikaur -V 1>/dev/null 2>&1; then
+            arch_package_install https://aur.archlinux.org/pikaur.git
         fi
         pikaur -S "$@" --needed --noconfirm 1>>"$logFile" 2>&1
         is_working "$* installed"
@@ -98,6 +98,7 @@ arch_package_install() {
     current_dir=$(pwd)
     cd "$tmpD" || safeExit
     makepkg -fsri --skipinteg --noconfirm 1>>"$logFile" 2>&1
+    is_working "$1 installed"
     cd "$current_dir" || safeExit
     rm -rf "$tmpD"
 }
@@ -149,8 +150,8 @@ dev_env_install() {
                             list="$list $line"
                         fi
                     done <"$file"
-
-                    aur_ins "$list"
+                    # shellcheck disable=SC2086
+                    aur_ins $list
                 else
                     error "Missing $file"
                 fi
@@ -231,18 +232,18 @@ usage() {
 
 while getopts 'hndl:' opt; do
     case $opt in
-        h)
-            usage >&2
-            safeExit true
-            ;;
-        d) debug=true ;;
-        l) logFile="${OPTARG}" ;;
-        n) implied_no=true ;;
-        ?)
-            echo "invalid option: '$1'."
-            usage >&2
-            safeExit true
-            ;;
+    h)
+        usage >&2
+        safeExit true
+        ;;
+    d) debug=true ;;
+    l) logFile="${OPTARG}" ;;
+    n) implied_no=true ;;
+    ?)
+        echo "invalid option: '$1'."
+        usage >&2
+        safeExit true
+        ;;
     esac
 done
 

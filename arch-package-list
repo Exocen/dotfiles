@@ -19,7 +19,7 @@ waybar
 # Utils
 acpi
 # Archive tools
-7-zip zip unrar unzip xarchiver
+p7zip zip unrar unzip xarchiver
 # Power management
 #tlp
 # Git Browser
@@ -45,13 +45,9 @@ piper
 blueman pipewire-pulse pipewire bluez-utils wireplumber
 # Music player, visualizer
 mpd mpc ncmpcpp cava
-# Vim addons
-vim-youcompleteme-git flake8
 # Sound app control
 pavucontrol
 # Windows usb installer
 #woeusb
 # Arch wiki offline doc
 arch-wiki-docs wikiman
-# Archives
-zip unrar unzip p7zip
