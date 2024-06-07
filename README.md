@@ -37,6 +37,44 @@ Install testing tool available on docker_conf/install_test
 
 ### 🐳 Docker conf
 
+#### Filebrowser
+
+#### Gitea
+
+#### Install_test
+
+#### Gluetun
+
+#### Jdownloader2
+
+#### Nginx_certbot
+
+#### Plex
+
+#### Mail_server
+
+#### Roundcube
+
+#### Snappymail
+
+#### Syncthing
+
+#### Transmission
+
+#### Vaultwarden
+
+#### Ydl
+
+#### Tools
+
+##### Backup
+
+##### Docker_manager
+
+##### Fail2ban
+
+##### Notification and Mails
+
 ---
 
 ### 📝 TODO

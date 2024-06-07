@@ -67,7 +67,7 @@ bindsym $mod+Return exec $TERMINAL
 # bindcode control+62 exec $TERMINAL
 
 # Bluetooth devices
-bindsym $mod+b exec $HOME/.config/sway/bluetooth-connect "PLT BB PRO 2"
+bindsym $mod+b exec $HOME/.config/sway/bluetooth-connect
 
 # Clipboard manager
 bindsym pause exec cliphist list | tofi -c $HOME/.config/tofi/clipboard |  cliphist decode | wl-copy
