@@ -17,14 +17,15 @@ main() {
     TIME_DELAY="5 minutes" # Time delay sample (if exceeded time -> timeout)
     if [ "$#" -eq 1 ]; then
         DEVICE_NAME=$1
+        DEVICE_MAC=$(bluetoothctl devices | grep -oP "(?<=\s)..:..:..:..:..:..(?=\s*$DEVICE_NAME\$)") || safe_exit "\"$DEVICE_NAME\" not paired" 1
     else
         echo "No bluetooth device given, using first registered device on bluetoothctl"
+        DEVICE_MAC=`bluetoothctl devices | head -n 1 | cut -d " " -f 2`
         DEVICE_NAME=`bluetoothctl devices | head -n 1 | cut -d " " -f 3-10`
     fi
 
     systemctl status bluetooth.service | grep "^\s*Status: \"Running\"$" 1>/dev/null || sudo systemctl start bluetooth 1>/dev/null
     bluetoothctl power on 1>/dev/null
-    DEVICE_MAC=$(bluetoothctl devices | grep -oP "(?<=\s)..:..:..:..:..:..(?=\s*$DEVICE_NAME\$)") || safe_exit "\"$DEVICE_NAME\" not paired" 1
     while [ "$(date +%s)" -lt "$(date -d "$TIME_DELAY" +%s)" ]; do
         if bluetoothctl connect "$DEVICE_MAC" 1>/dev/null; then
             # Fix -> remove set-card-profile switch and check if unneeded
@@ -40,4 +41,4 @@ main() {
     safe_exit "\"$DEVICE_NAME\" connect timeout" 1
 }
 
-main "$1"
+main $*
