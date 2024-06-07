@@ -43,7 +43,7 @@ detectOS() {
 }
 
 conf_folder() {
-    # $USER/.config installation
+    # copy $LOCAL/$1 dir contents to $USER/.config
     info "Symbolic links to .config"
     mkdir -p ~/.config
     for f in "$LOCAL/$1"/*; do
@@ -54,7 +54,7 @@ conf_folder() {
 }
 
 ins() {
-    # ARGS installation (post detectOS)
+    # install $* packages (depends on detectOS() to get $WOS)
     info "Installation: $* "
     if [ "$WOS" = "ubuntu" ] || [ "$WOS" = "debian" ] || [ "$WOS" = "raspbian" ]; then
         sudoless apt update -y 1>>"$logFile" 2>&1
@@ -90,7 +90,7 @@ aur_ins() {
 }
 
 arch_package_install() {
-    # Arch manual install from git link
+    # Arch manual install from git link with makepkg
     info "Arch install: $1"
     sudoless pacman -S --needed base-devel git --noconfirm 1>>"$logFile" 2>&1
     tmpD=$(mktemp -d)
@@ -104,7 +104,7 @@ arch_package_install() {
 }
 
 git_clone() {
-    # Git clone if not present
+    # Git clone $1 to $2 if $1 not already present
     info "Cloning $1"
     if [ ! -e "$2" ]; then
         git clone --depth=1 "$1" "$2" 1>>"$logFile" 2>&1
@@ -218,7 +218,7 @@ tmpDir="/tmp/${scriptName}.$(awk 'BEGIN { srand(); print int(rand()*32768) }' /d
 # Logging (overwrited by --logpath)
 logFile="/tmp/${scriptName}-$(date "+%s").log"
 
-# Options and Usage
+# Usage/Help
 usage() {
     printf "%s [OPTION]
 
@@ -230,6 +230,7 @@ usage() {
     \n" "${scriptName}" "${bold}" "${reset}"
 }
 
+# Options
 while getopts 'hndl:' opt; do
     case $opt in
     h)
