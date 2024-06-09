@@ -46,7 +46,7 @@ All the containers by default
 * can work without docker-compose
 * log to journald
 * could be started independently with args or with */tools/manager*
-* use *user:group 1000:1000* for user permission (data access)
+* use *docker_user:docker_group 1000:1000* for user permission (data access)
 * could use external images and build local ones
 
 ### Filebrowser
