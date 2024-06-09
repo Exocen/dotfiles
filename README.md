@@ -1,4 +1,5 @@
-# Dotfiles
+# Dotfiles ⚙️
+My configuration files and helpers
 
 ## 🪄 Automatic installation script
 
