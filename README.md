@@ -44,7 +44,7 @@ All the containers by default
 * share the local time and timezone with the host
 * can work without docker-compose
 * log to journald
-* could be started independantly with args or with /tools/manager
+* could be started independently with args or with /tools/manager
 * use user:group 1000:1000 for user permission (data access)
 * could use external images and build local ones
 
@@ -103,7 +103,7 @@ Behind gluetun network
 
 ### Vaultwarden
 From **vaultwarden/server**\
-Needs **VW_ADMIN_PASS_ENABLED** argument (allow https://VW-DOMAIN/admin access)\
+Needs **VW_ADMIN_PASS_ENABLED** argument (allows https://VW-DOMAIN/admin access)\
 Behind nginx_certbot proxy\
 explain 2 options (admin/normal)\
 recommand to use tools/backup
@@ -121,7 +121,7 @@ vaultwarden-db-backup script create a backup from the local */docker-data/vaultw
 
 #### Docker_manager
 Script created to manage all docker containers\
-The script use a configuration file as argument (tun_conf or vps_conf samples)\
+Usage: $1:start|stop|reload $2:conf_file (tun_conf or vps_conf samples)\
 It can auto-heal containers, forward errors with msmtp, and could be started with systemd
 
 #### Fail2ban
@@ -132,7 +132,7 @@ msmtp sample and feed-update.sh script (allow atom.xml update)
 
 
 ## 📝 TODO
-- [x] install.sh: remake all options auto-install
+- [x] install.sh: remake all auto-install options
 - [x] install.sh: add auto docker test (img = argument)
 - [x] install.sh: documentation + ReadMe instructions
 - [x] vim conf: remake all

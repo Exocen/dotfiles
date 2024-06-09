@@ -36,6 +36,8 @@ Plug 'https://github.com/tpope/vim-surround'
 " :Git cmd
 Plug 'https://github.com/tpope/vim-fugitive'
 
+" Markdown
+Plug 'https://github.com/preservim/vim-markdown'
 
 "  select words with Ctrl-N
 "  create cursors vertically with Ctrl-Down/Ctrl-Up
@@ -513,3 +515,7 @@ let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let g:NERDTreeWinSize=35
 
 map <leader>o :BufExplorer<cr>
+
+" Markdown indent correction
+let g:vim_markdown_new_list_item_indent = 0
+let g:vim_markdown_auto_insert_bullets = 0
