@@ -32,7 +32,7 @@ install.sh [OPTIONS]:
 * Manjaro
 * Ubuntu 24+
 
-Install testing tool available on docker_conf/install_test
+Install testing tool available on *docker_conf/install_test*
 
 ## 🐳 Docker conf
 
