@@ -120,14 +120,14 @@ vaultwarden-db-backup script create a backup from the local */docker-data/vaultw
 
 #### Docker_manager
 Script created to manage all docker containers\
-Usage: $1:start|stop|reload $2:conf_file (tun_conf or vps_conf samples)\
+Usage: $1:start|stop|reload $2:conf_file (*tun_conf* or *vps_conf* samples)\
 It can auto-heal containers, forward errors with msmtp, and could be started with systemd
 
 #### Fail2ban
 Fail2ban configuration sample for every containers. The script *install.sh* installs every jails and filters
 
 #### Notification and Mails
-msmtp_sample and *feed-update.sh* script (allow atom.xml update) available
+msmtp_sample and *feed-update.sh* script (allow *atom.xml* update) available
 
 
 ## 📝 TODO
