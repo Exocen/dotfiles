@@ -5,5 +5,8 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-docker exec -ti mail_server setup "$@"
-[ ! -d "/docker-data/dms/config/opendkim" ] && docker exec -ti mail_server setup config dkim && docker restart mail_server
+if docker ps | grep "mail_server" &>/dev/null; then
+    docker exec -ti mail_server setup "$@"
+else
+    echo "mail_server must run"
+fi
