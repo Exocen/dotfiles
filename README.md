@@ -127,7 +127,7 @@ It can auto-heal containers, forward errors with msmtp, and could be started wit
 Fail2ban configuration sample for every containers. The script *install.sh* installs every jails and filters
 
 #### Notification and Mails
-msmtp_sample and *feed-update.sh* script (allow *atom.xml* update) available
+*msmtp_sample* and *feed-update.sh* script (allow *atom.xml* update) available
 
 
 ## 📝 TODO
