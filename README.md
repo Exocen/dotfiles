@@ -74,8 +74,7 @@ Needs **JDOWNLOADER_DL_PATH** argument
 ### Nginx_certbot
 Custom img from **nginx:mainline-alpine**\
 Needs **DOMAIN** argument\
-Default website is in static_Files\
-Avalaible proxy for gitea, vaultwarden and snappymail containers\
+Allows redirection for gitea, vaultwarden, and snappymail containers\
 Create and renew certifications with certbot automatically
 
 ### Plex
