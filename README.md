@@ -45,8 +45,8 @@ All the containers by default
 * share the local time and timezone with the host
 * can work without docker-compose
 * log to journald
-* could be started independently with args or with /tools/manager
-* use user:group 1000:1000 for user permission (data access)
+* could be started independently with args or with */tools/manager*
+* use *user:group 1000:1000* for user permission (data access)
 * could use external images and build local ones
 
 ### Filebrowser
@@ -60,7 +60,7 @@ Behind nginx_certbot proxy
 ### Install_test
 Used to test the install.sh script \
 Accept custom images string list as arguments\
-Or use ("debian" "ubuntu" "fedora" "alpine" "archlinux" "manjarolinux/base") as default
+Debian, Ubuntu, Fedora, Alpine, Archlinux, and Manjarolinux/base are used by default
 
 ### Gluetun
 From **qmcgaw/gluetun**\
@@ -84,9 +84,9 @@ Needs **PLEX_PATH** argument
 ### Mail_server
 From **mailserver/docker-mailserver**\
 Needs **MAIL_DOMAIN** argument\
-Add/Del mail accounts with setup-mail.sh\
-Creates opendkim conf with setup-opendkim.sh\
-smtp_sample available
+Add/Del mail accounts with *setup-mail.sh*\
+Creates opendkim conf with *setup-opendkim.sh*\
+*smtp_sample* available
 
 ### Snappymail
 From **kouinkouin/snappymail**\
@@ -95,7 +95,7 @@ Behind nginx_certbot proxy
 
 ### Syncthing
 Custom img from **syncthing/syncthing**\
-Needs SYNCTHING_PATH argument\
+Needs **SYNCTHING_PATH** argument\
 Behind gluetun network
 
 ### Transmission
@@ -105,9 +105,7 @@ Behind gluetun network
 ### Vaultwarden
 From **vaultwarden/server**\
 Needs **VW_ADMIN_PASS_ENABLED** argument (allows https://VW-DOMAIN/admin access)\
-Behind nginx_certbot proxy\
-explain 2 options (admin/normal)\
-recommand to use tools/backup
+Behind nginx_certbot proxy
 
 ### Ydl
 Custom img from **alpine**\
@@ -126,10 +124,10 @@ Usage: $1:start|stop|reload $2:conf_file (tun_conf or vps_conf samples)\
 It can auto-heal containers, forward errors with msmtp, and could be started with systemd
 
 #### Fail2ban
-Fail2ban configuration sample for every containers. The script install.sh installs every jails and filters
+Fail2ban configuration sample for every containers. The script *install.sh* installs every jails and filters
 
 #### Notification and Mails
-msmtp sample and feed-update.sh script (allow atom.xml update)
+msmtp_sample and *feed-update.sh* script (allow atom.xml update) available
 
 
 ## 📝 TODO
