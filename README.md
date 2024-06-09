@@ -26,7 +26,7 @@ install.sh [OPTIONS]:
 
 ### Tested on
 * Alpine
-* Arch (dev conf 🐮 available)
+* Arch (wm conf 🐮 available)
 * Debian 12+
 * Fedora 40+
 * Manjaro
