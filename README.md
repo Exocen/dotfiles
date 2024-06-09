@@ -3,7 +3,7 @@ My configuration files, samples, and helpers.
 
 ## 🪄 Automatic installation script
 
-install.sh is a script written with POSIX Shell.\
+*install.sh* is a script written with POSIX Shell.\
 It allows the installation of basic tools on linux.
 
 ### Run the script install.sh to
@@ -114,9 +114,9 @@ Behind gluetun network
 ### Tools
 
 #### Backup
-ssh-backup script is used to backup the */docker-data* dir from a host or locally\
+*ssh-backup* script is used to backup the */docker-data* dir from a host or locally\
 Usage :$1=Host $2=output_dir\
-vaultwarden-db-backup script create a backup from the local */docker-data/vaultwarden/sqlite.db*
+*vaultwarden-db-backup* script create a backup from the local */docker-data/vaultwarden/sqlite.db*
 
 #### Docker_manager
 Script created to manage all docker containers\
