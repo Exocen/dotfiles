@@ -104,7 +104,7 @@ backup via ssh
 vaultwarden backup
 
 ##### Docker_manager
-Script created to manage all docker containers
+Script created to manage all docker containers use conf file as argument (tun_conf or vps_conf samples)
 auto-heal
 error forwarding
 healthcheck check

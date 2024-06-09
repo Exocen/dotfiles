@@ -14,7 +14,6 @@
     "layer": "top",
 
     "position": "top",
-    "output": ["DP-1", "DP-2"],
 
     // If height property would be not present, it'd be calculated dynamically
     "height": 30,
