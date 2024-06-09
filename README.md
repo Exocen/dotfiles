@@ -75,7 +75,7 @@ Needs **JDOWNLOADER_DL_PATH** argument
 Custom img from **nginx:mainline-alpine**\
 Needs **DOMAIN** argument\
 Allows redirection for gitea, vaultwarden, and snappymail containers\
-Create and renew certifications with certbot automatically
+Creates and renews certifications with certbot automatically
 
 ### Plex
 From **linuxserver/plex**\
