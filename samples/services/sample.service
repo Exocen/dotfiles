@@ -3,7 +3,7 @@ Description=
 # Requires=
 # Wants=
 After=network.target
-OnFailure=notify-email@%i.service
+OnFailure=notify-feed@%i.service notify-email@%i.service
 
 [Service]
 # Type :simple exec oneshot notify

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ `id -u` -ne 0 ]; then
+if [ "$(id -u)" -ne 0 ]; then
     echo "Must be run as root"
     exit 1
 else
@@ -14,20 +14,27 @@ else
     fi
 fi
 
-docker network create --subnet 10.0.0.0/8 user_network 2>/dev/null
+cd "$(dirname "$(readlink -f "$0")")" || exit 1
 
 if docker images | grep "nginx_certbot_img" ; then
     echo "img already created"
 else
-    cd $(dirname "$(readlink -f "$0")")
-    docker build --build-arg DOMAIN=$DOMAIN -t nginx_certbot_img .
+    docker build --build-arg DOMAIN="$DOMAIN" -t nginx_certbot_img .
 fi
+
+
+tmpD=$(mktemp -d)
+cp -n -r static-html/* "$tmpD"/
+cd "$tmpD" || exit 1 
+find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'"$DOMAIN"'/g'
+mkdir -p /docker-data/nginx/
+cp -n -r "$tmpD"/* /docker-data/nginx/
+rm -rf "$tmpD"
 
 docker run \
     -v /docker-data/letsencrypt:/etc/letsencrypt/ \
-    -v /docker-data/nginx/:/usr/share/nginx \
+    -v /docker-data/nginx/:/usr/share/nginx:ro \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
-    --log-driver=journald --rm \
-    -p 80:80 -p 443:443 \
-    --name nginx_certbot --net user_network --ip 10.0.0.42 -d \
-    nginx_certbot_img:latest && echo "nginx_certbot started."
+    --log-driver=journald --log-opt tag="{{.Name}}" --rm \
+    --name nginx_certbot --net host -d \
+    nginx_certbot_img:latest && echo "nginx_certbot started"

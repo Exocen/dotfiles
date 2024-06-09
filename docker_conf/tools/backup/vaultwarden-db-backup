@@ -12,8 +12,8 @@ BACKUP_FILE="db_$(date "+%F-%H%M%S").sqlite3"
 MAX_BACKUP=10
 
 rotate_backup() {
-    if [ `ls -rt $BACKUP_PATH/*.sqlite3 2>/dev/null | wc -l` -ge $MAX_BACKUP ] ; then
-        rm -v -- $(find $BACKUP_PATH/*.sqlite3 -type f | head -1) && rotate_backup
+    if [ "$(ls -rt $BACKUP_PATH/*.sqlite3 2>/dev/null | wc -l)" -ge $MAX_BACKUP ] ; then
+        rm -v -- "$(find $BACKUP_PATH/*.sqlite3 -type f | head -1)" && rotate_backup
     fi
 }
 
@@ -28,8 +28,8 @@ else
     exit 1
 fi
 
+# Restore tuto :
 # From https://github.com/dani-garcia/vaultwarden/wiki/Backing-up-your-vault
 # Make sure vaultwarden is stopped, and then simply replace each file or directory in the data dir with its backed up version.
-
 # When restoring a backup created using .backup or VACUUM INTO, make sure to first delete any existing db.sqlite3-wal file, as this could potentially result in database corruption when SQLite tries to recover db.sqlite3 using a stale/mismatched WAL file. However, if you backed up the database using a straight copy of db.sqlite3 and its matching db.sqlite3-wal file, then you must restore both files as a pair. You don't need to back up or restore the db.sqlite3-shm file.
 

@@ -1,10 +1,9 @@
 #!/bin/bash
 
 LOCKED=''
-UNLOCKED=''
-status=`cat /sys/class/leds/*capslock/brightness`
+status=$(cat /sys/class/leds/*capslock/brightness)
 
-if [ $status == 1 ]; then
+if [ "$status" == 1 ]; then
     echo $LOCKED
 else
     echo ''

@@ -1,169 +1,156 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
+export TERM=xterm-256color
 WOS=''
 LOCAL=$(dirname "$(readlink -f "$0")")
 
-sudo () {
-    [[ $EUID = 0 ]] || set -- command sudo "$@"
+sudoless() {
+    # Only use sudo if user is not root
+    [ "$(id -u)" -eq 0 ] || set -- command sudo "$@"
     "$@"
 }
 
-function is_working() {
+is_working() {
+    # Return cmd correct log + error code
     if [ $? -eq 0 ]; then
         success "$1"
     else
+        success_state=false
         error "$1"
     fi
 }
 
-function detectOS() {
-    if [ -f /etc/lsb-release ]; then
-        WOS=$(cat /etc/lsb-release | grep -oP 'DISTRIB_ID=\"\K.*(?=\")')
-        WOS=${WOS,,} #lower case
-    elif [ -f /etc/os-release ]; then
-        WOS=$(cat /etc/os-release | grep -oP '^ID=\K.*')
-        WOS=${WOS,,} #lower case
+detectOS() {
+    # OS detection
+    if [ -f /etc/os-release ]; then
+        # shellcheck source=/dev/null
+        . "/etc/os-release"
+        WOS="$(echo "$ID" | tr '[:upper:]' '[:lower:]')"
+    elif [ -f /etc/lsb-release ]; then
+        WOS=$(grep -oP '^DISTRIB_ID=\K.*' /etc/lsb-release | tr '[:upper:]' '[:lower:]')
     elif [ -f /etc/redhat-release ]; then
         WOS="fedora"
     elif [ -f /etc/centos-release ]; then
-        WOS="centOS"
+        WOS="centos"
     elif [ -f /etc/debian_version ]; then
         WOS="debian"
     elif [ -f /etc/arch-release ]; then
         WOS="arch"
     else
-        WOS="WTH?"
+        error "Unknown OS exiting"
+        safeExit true
     fi
+    info "OS detected: $WOS"
 }
 
-function home_ln() {
-    ln -sfn $(pwd)/$1 $2 &>>$logFile
-    is_working "ln $1 on $2"
-}
-
-function home_folder() {
-    info "Symbolic links to home..."
-    for f in $LOCAL/$1/*; do
-        DEST=$(basename $f)
-        ln -sfn $f ~/.$DEST &>>$logFile
-        is_working "ln $f to ~/.$DEST"
-    done
-}
-
-function conf_folder() {
+conf_folder() {
+    # copy $LOCAL/$1 dir contents to $USER/.config
     info "Symbolic links to .config"
     mkdir -p ~/.config
-    for f in $LOCAL/$1/*; do
-        DEST=$(basename $f)
-        ln -sfn $f ~/.config/$DEST &>>$logFile
+    for f in "$LOCAL/$1"/*; do
+        DEST=$(basename "$f")
+        ln -sfn "$f" ~/.config/"$DEST" 1>>"$logFile" 2>&1
         is_working "ln $f to ~/.config/$DEST"
     done
-
 }
 
-function home_cp() {
-    /bin/cp -fr $(pwd)/$1 ~/$1 >/dev/null 2>&1
-    is_working "Copy $1 to ~"
-}
-
-# run detectOS before
-function ins() {
-    all="$@" #for is_working function
-    info "Installation: $all "
+ins() {
+    # install $* packages (depends on detectOS() to get $WOS)
+    info "Installation: $* "
     if [ "$WOS" = "ubuntu" ] || [ "$WOS" = "debian" ] || [ "$WOS" = "raspbian" ]; then
-        sudo apt update -y &>>$logFile
-        sudo apt install $@ -y &>>$logFile
-        is_working "$all installed"
+        sudoless apt update -y 1>>"$logFile" 2>&1
+        sudoless apt install "$@" -y 1>>"$logFile" 2>&1
+        is_working "$* installed"
     elif [ "$WOS" = "fedora" ]; then
-        sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-        sudo dnf install -y --nogpgcheck https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-        sudo dnf update -y &>>$logFile
-        sudo dnf install $@ -y &>>$logFile
-        is_working "$all installed"
-    elif [ "$WOS" = "arch" ]; then
-        sudo pacman -S $@ --needed --noconfirm &>>$logFile
-        is_working "$all installed"
+        sudoless yum install "$@" -y 1>>"$logFile" 2>&1
+        is_working "$* installed"
+    elif [ "$WOS" = "alpine" ]; then
+        sudoless apk add shadow 1>>"$logFile" 2>&1
+        sudoless apk add "$@" 1>>"$logFile" 2>&1
+        is_working "$* installed"
+    elif [ "$WOS" = "arch" ] || [ "$WOS" = "manjaro" ]; then
+        sudoless pacman -Sy "$@" --needed --noconfirm 1>>"$logFile" 2>&1
+        is_working "$* installed"
     else
         error "Unknow OS: $WOS"
     fi
 }
 
-function aur_ins() {
-    all="$@" #for is_working function
-    info "Installation: $all "
+aur_ins() {
+    # Aur tool install and/or use
+    info "Installation: $*"
     if [ "$WOS" = "arch" ]; then
-        # Aur tool install
-        pikaur -V &>/dev/null
-        if [ $? -ne 0 ]; then
+        if ! pikaur -V 1>/dev/null 2>&1; then
             arch_package_install https://aur.archlinux.org/pikaur.git
         fi
-        pikaur -S $@ --needed --noconfirm &>>$logFile
-        is_working "$all installed"
+        pikaur -S "$@" --needed --noconfirm 1>>"$logFile" 2>&1
+        is_working "$* installed"
     else
         error "Invalid OS"
     fi
-
 }
 
-function arch_package_install() {
+arch_package_install() {
+    # Arch manual install from git link with makepkg
     info "Arch install: $1"
-    sudo pacman -S --needed base-devel git --noconfirm &>>$logFile
+    sudoless pacman -S --needed base-devel git --noconfirm 1>>"$logFile" 2>&1
     tmpD=$(mktemp -d)
-    git clone $1 $tmpD &>>$logFile
-    current_dir=`pwd`
-    cd $tmpD
-    makepkg -fsri --skipinteg --noconfirm &>>$logFile
-    cd $current_dir
-    rm -rf $tmpD
+    git clone "$1" "$tmpD" 1>>"$logFile" 2>&1
+    current_dir=$(pwd)
+    cd "$tmpD" || safeExit
+    makepkg -fsri --skipinteg --noconfirm 1>>"$logFile" 2>&1
+    is_working "$1 installed"
+    cd "$current_dir" || safeExit
+    rm -rf "$tmpD"
 }
 
-function git_clone() {
+git_clone() {
+    # Git clone $1 to $2 if $1 not already present
     info "Cloning $1"
     if [ ! -e "$2" ]; then
-        git clone --depth=1 $1 $2 &>>$logFile
+        git clone --depth=1 "$1" "$2" 1>>"$logFile" 2>&1
         is_working "Cloned: $1 to $2"
     else
         warning "$2 already present"
     fi
 }
 
-function basic_install() {
+basic_install() {
     info "Basic installation"
     # Basic packages
-    ins vim git htop iftop iotop tree zsh make wget sudo rsync
+    ins vim git htop iftop iotop tree zsh make wget curl sudo rsync
 
     # zsh
-    ln -sfn $LOCAL/user_conf/zshrc  ~/.zshrc
+    ln -sfn "$LOCAL"/user_conf/zshrc ~/.zshrc
     git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
-    ln -sfn $LOCAL/user_conf/custom.zsh-theme ~/.oh-my-zsh/custom/themes
-    sudo chsh -s /usr/bin/zsh $USER
+    ln -sfn "$LOCAL"/user_conf/custom.zsh-theme ~/.oh-my-zsh/custom/themes
+    sudoless chsh -s /usr/bin/zsh 1>>"$logFile" 2>&1
+    is_working "Shell changed to zsh"
 
     # vimrc
-    git_clone https://github.com/exocen/vim-conf ~/.vim_runtime
-    sh ~/.vim_runtime/install_awesome_vimrc.sh &>>$logFile
-    cd ~/.vim_runtime
-    sh ~/.vim_runtime/update.sh &>>$logFile
-    cd $LOCAL
+    ln -sfn "$LOCAL"/user_conf/vimrc ~/.vimrc
+    is_working "Vim installed"
 }
 
-function dev_env_install() {
-    if [ "$WOS" = "arch" ] && [ $EUID != 0 ]; then
+dev_env_install() {
+    # Arch dev env installation
+    if [ "$WOS" = "arch" ] && [ "$(id -u)" != 0 ]; then
         seek_confirmation 'Install Dev Env ?'
         if is_confirmed; then
             {
                 file="$LOCAL/arch-package-list"
                 if [ -f "$file" ]; then
                     info "Arch dev inv installation"
-                    # .config links
-                    ln -sfn $LOCAL/user_conf/zprofile  ~/.zprofile
+                    # Specific arch .config
+                    ln -sfn "$LOCAL/user_conf/zprofile" ~/.zprofile
                     conf_folder user_conf/home_conf
                     list=""
                     while IFS= read -r line; do
-                        char=$(echo $line | head -c1)
+                        char=$(echo "$line" | head -c1)
                         if [ "$char" != "#" ]; then
                             list="$list $line"
                         fi
                     done <"$file"
-
+                    # shellcheck disable=SC2086
                     aur_ins $list
                 else
                     error "Missing $file"
@@ -173,8 +160,7 @@ function dev_env_install() {
     fi
 }
 
-function mainScript() {
-    echo -n
+mainScript() {
     info 'Script started'
     if [ -z "$EDITOR" ]; then
         export EDITOR=nano
@@ -184,24 +170,22 @@ function mainScript() {
     dev_env_install
 }
 
-function trapCleanup() {
-    echo ""
-    # Delete temp files, if any
-    if [ -d "${tmpDir}" ]; then
-        rm -r "${tmpDir}"
-    fi
-    die "Exit trapped. In function: '${FUNCNAME[*]}'"
-
-}
-
-function safeExit() {
+safeExit() {
     # Delete temp files, if any
     if [ -d "${tmpDir}" ]; then
         rm -r "${tmpDir}"
     fi
     trap - INT TERM EXIT
-    if $printLog; then
-        echo -e "$(date +"%r") ${blue}$(printf "[%7s]" "info") "Logfile: $logFile"${reset}"
+    if [ $# -eq 0 ]; then
+        if $printLog; then
+            printf "%s%s [%7s] Logfile: %s %s\n" "$(date +'%T')" "$blue" "info" "$logFile" "$reset"
+        fi
+        # Add status line to log for post-installation check
+        if $success_state; then
+            success "Installation successful on $WOS"
+        else
+            error "Installation failed on $WOS"
+        fi
     fi
     exit
 
@@ -212,236 +196,128 @@ function safeExit() {
 scriptName=$(basename "$0")
 
 # Set Flags
-quiet=false
 printLog=true
-verbose=false
-force=false
-strict=false
 debug=false
-noconfirm=false
-args=()
+implied_no=false
+success_state=true
 
 # Set Colors
-bold=$(tput bold)
-reset=$(tput sgr0)
-purple=$(tput setaf 171)
-red=$(tput setaf 1)
-green=$(tput setaf 76)
-yellow=$(tput setaf 3)
-tan=$(tput setaf 3)
-blue=$(tput setaf 38)
-underline=$(tput sgr 0 1)
+bold=$(tput bold 2>/dev/null)
+reset=$(tput sgr0 2>/dev/null)
+red=$(tput setaf 1 2>/dev/null)
+green=$(tput setaf 76 2>/dev/null)
+yellow=$(tput setaf 3 2>/dev/null)
+blue=$(tput setaf 38 2>/dev/null)
 
 # Set Temp Directory
-tmpDir="/tmp/${scriptName}.$RANDOM.$RANDOM.$RANDOM.$$"
+tmpDir="/tmp/${scriptName}.$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$$"
 (umask 077 && mkdir "${tmpDir}") || {
     die "Could not create temporary directory! Exiting."
 }
 
-# Logging
-# -----------------------------------
-# Log is only used when the '-l' flag is set.
+# Logging (overwrited by --logpath)
+logFile="/tmp/${scriptName}-$(date "+%s").log"
 
-logFile="/tmp/${scriptName}-`date "+%s"`.log"
-
-# Options and Usage
-# -----------------------------------
+# Usage/Help
 usage() {
-    echo -n "${scriptName} [OPTION]... [FILE]...
+    printf "%s [OPTION]
 
-    This is a script template.  Edit this description to print help to users.
-
-    ${bold}Options:${reset}
-    -f, --force       Force re-install and removes previous installations
-    -v, --verbose     Output more information. (Items echoed to 'verbose')
-    -d, --debug       Runs script in BASH debug mode (set -x)
-    -y, --noconfirm   Skip all user interaction.  Implied 'Yes' to all actions.
-    -h, --help        Display this help and exit
-    "
-
+    %sOptions:%s
+    -d     Use debug mode
+    -l     Set log path (default /tmp)
+    -n     Skip all user interaction.  Implied 'No' to all actions.
+    -h     Display this help and exit
+    \n" "${scriptName}" "${bold}" "${reset}"
 }
 
-# Iterate over options breaking -ab into -a -b when needed and --foo=bar into
-# --foo bar
-optstring=h
-unset options
-while (($#)); do
-    case $1 in
-        # If option is of type -ab
-        -[!-]?*)
-        # Loop over each character starting with the second
-        for ((i = 1; i < ${#1}; i++)); do
-            c=${1:i:1}
-
-            # Add current char to options
-            options+=("-$c")
-
-            # If option takes a required argument, and it's not the last char make
-            # the rest of the string its argument
-            if [[ $optstring = *"$c:"* && ${1:i+1} ]]; then
-                options+=("${1:i+1}")
-                break
-            fi
-        done
+# Options
+while getopts 'hndl:' opt; do
+    case $opt in
+    h)
+        usage >&2
+        safeExit true
         ;;
-
-    # If option is of type --foo=bar
-    --?*=*) options+=("${1%%=*}" "${1#*=}") ;;
-    # add --endopts for --
-    --) options+=(--endopts) ;;
-    # Otherwise, nothing special
-    *) options+=("$1") ;;
-esac
-shift
-done
-set -- "${options[@]}"
-unset options
-
-# Print help if no arguments were passed.
-# Uncomment to force arguments when invoking the script
-# -------------------------------------
-# [[ $# -eq 0  ]] && set -- "--help"
-
-# Read the options and set stuff
-while [[ $1 = -?* ]]; do
-    case $1 in
-        -h | --help)
-            usage >&2
-            safeExit
-            ;;
-        -v | --verbose) verbose=true ;;
-        -l | --log) printLog=true ;;
-        -q | --quiet) quiet=true ;;
-        -d | --debug) debug=true ;;
-        -f | --force) force=true ;;
-        -y | --noconfirm) noconfirm=true ;;
-        --endopts)
-            shift
-            break
-            ;;
-        *) die "invalid option: '$1'." ;;
+    d) debug=true ;;
+    l) logFile="${OPTARG}" ;;
+    n) implied_no=true ;;
+    ?)
+        echo "invalid option: '$1'."
+        usage >&2
+        safeExit true
+        ;;
     esac
-    shift
 done
-
-# Store the remaining part as arguments.
-args+=("$@")
 
 # Logging & Feedback
-# -----------------------------------------------------
-function _alert() {
-    if [ "${1}" = "error" ]; then local color="${bold}${red}"; fi
-    if [ "${1}" = "warning" ]; then local color="${yellow}"; fi
-    if [ "${1}" = "success" ]; then local color="${green}"; fi
-    if [ "${1}" = "debug" ]; then local color="${purple}"; fi
-    if [ "${1}" = "header" ]; then local color="${bold}${tan}"; fi
-    if [ "${1}" = "input" ]; then local color="${bold}"; fi
-    if [ "${1}" = "notice" ]; then local color="${blue}"; fi
-    if [ "${1}" = "info" ] || [ "${1}" = "notice" ]; then local color="${blue}"; fi
-    # Don't use colors on pipes or non-recognized terminals
-    if [[ "${TERM}" != "xterm"* ]] || [ -t 1 ]; then
-        color=""
-        reset=""
-    fi
+_alert() {
+    if [ "${1}" = "error" ]; then color="${bold}${red}"; fi
+    if [ "${1}" = "warning" ]; then color="${yellow}"; fi
+    if [ "${1}" = "success" ]; then color="${green}"; fi
+    if [ "${1}" = "input" ]; then color="${bold}"; fi
+    if [ "${1}" = "info" ]; then color="${blue}"; fi
 
-    # Print to console when script is not 'quiet'
-    if ${quiet} || [ "${1}" = "debug" ]; then true; else
-        echo -e "$(date +"%T") ${color}$(printf "[%7s]" "${1}") ${_message}${reset}"
+    # Print to console when script is not 'debug'
+    if [ "${1}" != "debug" ]; then
+        printf "%s%s [%7s] %s %s\n" "$(date +'%T')" "$color" "${1}" "$_message" "$reset"
     fi
 
     # Print to Logfile
-    if ${printLog} && [ "${1}" != "input" ] && [ "${1}" != "notice" ]; then
+    if ${printLog}; then
         color=""
         reset="" # Don't use colors in logs
-        echo -e "$(date +"%F %T") $(printf "[%7s]" "${1}") ${_message}" >>"${logFile}"
+        printf "%s%s [%7s] %s %s\n" "$(date +'%F %T')" "$color" "${1}" "$_message" "$reset" >>"${logFile}"
         if [ "${1}" = "debug" ]; then
-            echo -e "$(date +"%F %T") $(printf "[%7s]" "run") $(${_message} 2>&1)" >>"${logFile}"
+            printf "%s%s [%7s] %s %s\n" "$(date +'%F %T')" "$color" "run" "$(${_message} 2>&1)" "$reset" >>"${logFile}"
         fi
     fi
 }
 
-function die() {
-    local _message="${*} Exiting."
-    echo -e "$(_alert error)"
-    safeExit
+error() {
+    _message="${*}"
+    printf "%s\n" "$(_alert error)"
 }
-function error() {
-    local _message="${*}"
-    echo -e "$(_alert error)"
-}
-function warning() {
-    local _message="${*}"
-    echo -e "$(_alert warning)"
-}
-function notice() {
-    local _message="${*}"
-    echo -e "$(_alert notice)"
-}
-function info() {
-    local _message="${*}"
-    echo -e "$(_alert info)"
-}
-function debug() {
-    local _message="${*}"
-    echo -n "$(_alert debug)"
-}
-function success() {
-    local _message="${*}"
-    echo -e "$(_alert success)"
-}
-function input() {
-    local _message="${*}"
-    echo -n "$(_alert input)"
-}
-function header() {
-    local _message="== ${*} ==  "
-    echo -e "$(_alert header)"
-}
-function verbose() { if ${verbose}; then debug "$@"; fi; }
 
-# SEEKING CONFIRMATION
-# ------------------------------------------------------
-function seek_confirmation() {
-    # echo ""
-    input "$@"
-    if "${noconfirm}"; then
-        notice "Forcing confirmation with '--noconfirm' flag set"
-    else
-        read -p " (y/N) " -n 1
+warning() {
+    _message="${*}"
+    printf "%s\n" "$(_alert warning)"
+}
+
+info() {
+    _message="${*}"
+    printf "%s\n" "$(_alert info)"
+}
+
+success() {
+    _message="${*}"
+    printf "%s\n" "$(_alert success)"
+}
+
+input() {
+    _message="${*}"
+    printf "%s\n" "$(_alert input)"
+}
+
+# Seeking confirmation
+seek_confirmation() {
+    if ! "${implied_no}"; then
+        input "$1 (y/N)"
+        read -r REPLY
+        REPLY=$(echo "$REPLY" | cut -c 1 | tr '[:upper:]' '[:lower:]')
         echo ""
     fi
-
 }
-function is_confirmed() {
-    if [[ "${REPLY}" =~ ^[Yy]$ ]] || "${noconfirm}"; then
+
+is_confirmed() {
+    if ! "${implied_no}" && [ "${REPLY}" = "y" ]; then
         return 0
     fi
     return 1
-
 }
-function is_not_confirmed() {
-    if [[ "${REPLY}" =~ ^[Nn]$ ]]; then
-        return 0
-    fi
-    return 1
-
-}
-
-# Set IFS to preferred implementation
-IFS=$' \n\t'
 
 # Run in debug mode, if set
 if ${debug}; then set -x; fi
 
-# Exit on empty variable
-if ${strict}; then set -o nounset; fi
-
-# Bash will remember & return the highest exitcode in a chain of pipes.
-# This way you can catch the error in case mysqldump fails in `mysqldump |gzip`, for example.
-set -o pipefail
-
 # Run your script
 mainScript
-
 # Exit cleanly
 safeExit

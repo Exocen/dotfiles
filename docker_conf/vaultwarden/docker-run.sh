@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ `id -u` -ne 0 ]; then
+if [ "$(id -u)" -ne 0 ]; then
     echo "Must be run as root."
     exit 1
 else
@@ -20,13 +20,13 @@ fi
 
 docker network create --subnet 10.0.0.0/8 user_network 2>/dev/null
 
-if [ $VW_ADMIN_PASS_ENABLED -eq 1 ]; then
-    PASS=`openssl rand -base64 48`
+if [ "$VW_ADMIN_PASS_ENABLED" -eq 1 ]; then
+    PASS=$(openssl rand -base64 48)
     docker run  \
         -d --name vaultwarden --rm \
         -v /docker-data/vaultwarden/:/data/ \
         -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
-        --log-driver=journald -e ADMIN_TOKEN=$PASS \
+        --log-driver=journald --log-opt tag="{{.Name}}" -e ADMIN_TOKEN="$PASS" \
         --net user_network --ip 10.0.0.80 vaultwarden/server:latest-alpine && echo "vaultwarden started."
 
     echo -e "admin pass:\n$PASS\nUse it on https://VW-DOMAIN/admin"
@@ -36,6 +36,6 @@ else
         -d --name vaultwarden --rm \
         -v /docker-data/vaultwarden/:/data/ \
         -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
-        --log-driver=journald \
+        --log-driver=journald --log-opt tag="{{.Name}}" \
         --net user_network --ip 10.0.0.80 vaultwarden/server:latest-alpine && echo "vaultwarden started."
 fi

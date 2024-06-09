@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $(id -u) -ne 0 ]; then
+if [ "$(id -u)" -ne 0 ]; then
     echo "Must be run as root"
     exit 1
 fi
@@ -14,19 +14,22 @@ if [ -z ${VPN_KEY+x} ]; then
     fi
 fi
 
-docker run -d --rm --cap-add=NET_ADMIN --name gluetun --log-driver=journald -e VPN_SERVICE_PROVIDER=mullvad -e VPN_TYPE=openvpn \
+docker run -d --rm --cap-add=NET_ADMIN --name gluetun --log-driver=journald \
+    -e VPN_SERVICE_PROVIDER=mullvad -e VPN_TYPE=openvpn \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
+    -p 5800:5800 \
     -p 8000:8000/tcp \
     -p 9091:9091 \
     -p 8384:8384 \
     -p 22000:22000/tcp \
     -p 22000:22000/udp \
     -p 21027:21027/udp \
-    -e SERVER_COUNTRIES="USA" -e OPENVPN_USER=$VPN_KEY qmcgaw/gluetun && echo "gluetun started."
+    -e SERVER_COUNTRIES="USA" -e OPENVPN_USER="$VPN_KEY" qmcgaw/gluetun && echo "gluetun started."
 
 # Ports
 
-#  -p 8000:8000/tcp  # control server
+#  -p 8000:8000/tcp  # gluetun control server
+#  -p 5800:5800 # jdownloader web access
 #  -p 9091:9091  # transmission ui
 #  -p 8384:8384 # syncthing port web access
 #  -p 22000:22000/tcp # syncthing

@@ -1,8 +1,7 @@
 ### tmp/log
 *.log
 *.tmp
-### mdp
+tmp.*
+### mpd
 **/mpd/*
 !**/mpd/mpd.conf
-### vscode
-.vscode

@@ -28,12 +28,15 @@ assign [title="Steam"] 9
 # Startup apps
 
 # Notifications
-exec swaync
+exec dunst
 
 # Background
 
 # Idle stuff
 exec swayidle
+
+# Clipboard manager
+exec wl-paste --watch cliphist store
 
 # Hide cursor
 seat seat0 hide_cursor 5000
@@ -63,7 +66,11 @@ bindsym $mod+Return exec $TERMINAL
 # bindcode control+62 exec $TERMINAL
 
 # Bluetooth devices
-bindsym $mod+b exec $HOME/.config/sway/bluetooth-connect "U5"
+bindsym $mod+b exec $HOME/.config/sway/bluetooth-connect
+
+# Clipboard manager
+bindsym pause exec cliphist list | tofi -c $HOME/.config/tofi/clipboard |  cliphist decode | wl-copy
+bindsym Scroll_Lock cliphist wipe
 
 # Internet browser
 bindsym $mod+g exec firefox

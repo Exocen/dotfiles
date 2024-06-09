@@ -16,48 +16,44 @@ safe_exit() {
 }
 
 send_mail() {
-    local message=$(journalctl -b CONTAINER_NAME=$1 | tail)
-    local message2=$(journalctl -b -u docker_manager | tail)
-    echo -e "Subject:$1 Failure $2\n$message\n\n$message2" | msmtp $FAIL_MAIL && echo "Mail sended to $FAIL_MAIL."
+    message=$(journalctl -b CONTAINER_NAME="$1" | tail)
+    message2=$(journalctl -b -u docker_manager | tail)
+    echo -e "Subject:$1 Failure $2\n$message\n\n$message2" | msmtp "$FAIL_MAIL" && echo "Mail sended to $FAIL_MAIL."
 }
 
 refresh_score() {
     # $1 cont name / $2 score
-    if ! docker inspect -f '{{.State.Status}}' $1 2>/dev/null | grep -P "^running$" &>/dev/null; then
-        if [ $2 -lt $MAX_FAIL_SCORE ]; then
+    if docker inspect -f '{{.State.Health.Status}}' "$1" 2>/dev/null | grep -P "^starting$" &>/dev/null; then
+        echo "$2"
+    elif docker inspect -f '{{.State.Health.Status}}' "$1" 2>/dev/null | grep -P "^unhealthy$" &>/dev/null; then
+        if [ "$2" -lt $MAX_FAIL_SCORE ]; then
             echo $(($2 + 1))
         else
-            echo $2
+            echo "$2"
         fi
-    elif docker inspect $1 2>/dev/null | grep -P "unhealthy" &>/dev/null; then
-        if [ $2 -lt $MAX_FAIL_SCORE ]; then
+    elif ! docker inspect -f '{{.State.Status}}' "$1" 2>/dev/null | grep -P "^running$" &>/dev/null; then
+        if [ "$2" -lt $MAX_FAIL_SCORE ]; then
             echo $(($2 + 1))
         else
-            echo $2
+            echo "$2"
         fi
-    elif ! docker inspect -f '{{.State.Status}}' $1 2>/dev/null | grep -P "^starting$" &>/dev/null; then
-        echo $2
     else
         echo 0
     fi
 }
 
-kill_handler() {
-    safe_exit "KILL catched, exiting." 0
-}
-
 terminator() {
-    kill -9 $1 1>/dev/null
-    [ -f "$LOCKFILE" ] && ps -p $(cat "$LOCKFILE") >/dev/null && echo "Can't kill $1, exiting." && exit 1
+    kill -9 "$1" 1>/dev/null
+    [ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "Can't kill $1, exiting." && exit 1
 }
 
 error_handler() {
     # $1 cont name / $2 score
     echo "$1 failed ($2)."
-    send_mail $1 $2
-    cd $LOCAL_DIR && cd ../..
-    docker stop $1 &>/dev/null && docker wait $1 1>/dev/null && echo "$1 stopped."
-    $1/docker-run.sh
+    [ "$2" -ne  "1" ] && send_mail "$1" "$2"
+    cd "$LOCAL_DIR" && cd ../..
+    docker stop "$1" &>/dev/null && docker wait "$1" 1>/dev/null && echo "$1 stopped."
+    "$1"/docker-run.sh
 }
 
 build_container_fails() {
@@ -73,23 +69,23 @@ check_loop() {
             # if check pass : TMP / reset to 0
             # if not maxfailscore : TMP / increment fail value -> will try to repair
             # if maxfailscore : TMP / same value -> no repair
-            local TMP=$(refresh_score "$cont" ${CONTAINERS_FAIL[$cont]})
-            [ $TMP -gt ${CONTAINERS_FAIL[$cont]} ] && error_handler "$cont" $TMP
+            TMP=$(refresh_score "$cont" "${CONTAINERS_FAIL[$cont]}")
+            [ "$TMP" -gt "${CONTAINERS_FAIL[$cont]}" ] && error_handler "$cont" "$TMP"
             CONTAINERS_FAIL[$cont]=$TMP
         done
     done
 }
 
 docker_start() {
-    cd $LOCAL_DIR && cd ../..
+    cd "$LOCAL_DIR" && cd ../..
     for cont in $CONTAINERS; do
-        $cont/docker-run.sh
+        "$cont"/docker-run.sh
     done
 }
 
 docker_stop() {
     for cont in $CONTAINERS; do
-        docker stop $cont 1>/dev/null && echo "$cont stopped."
+        docker stop "$cont" 1>/dev/null && echo "$cont stopped."
     done
 }
 
@@ -108,29 +104,30 @@ reload() {
 }
 
 boot_check() {
-    [ $(id -u) -ne 0 ] && echo "Must be run as root." && exit 1
+    [ "$(id -u)" -ne 0 ] && echo "Must be run as root." && exit 1
     if ! msmtp --version &>/dev/null; then
         echo "msmtp not found, exiting."
         exit 1
     fi
     [ "$#" -ne 2 ] && echo "$USAGE" && exit 1
-    [ -f "$LOCKFILE" ] && ps -p $(cat "$LOCKFILE") >/dev/null && echo "$(basename "$0") is already running, restarting." && terminator $(cat "$LOCKFILE")
+    [ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running, restarting." && terminator "$(cat "$LOCKFILE")"
     echo $$ >"$LOCKFILE"
 }
 
 main() {
-    cd $LOCAL_DIR
-    source $2
+    cd "$LOCAL_DIR" || safe_exit "cd failed" 0
+    # shellcheck source=/dev/null
+    source "$2"
     build_container_fails
     case $1 in
-    start) start ;;
-    reload) reload ;;
-    stop) stop ;;
-    *) echo "$USAGE" ;;
+        start) start ;;
+        reload) reload ;;
+        stop) stop ;;
+        *) echo "$USAGE" ;;
     esac
 }
 
-trap term_handler SIGKILL
-boot_check $@
-main $@
+trap 'safe_exit "KILL catched, exiting." 0' SIGINT
+boot_check "$@"
+main "$@"
 safe_exit "$(basename "$0") exiting." 0

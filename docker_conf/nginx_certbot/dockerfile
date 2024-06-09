@@ -3,17 +3,18 @@ ARG DOMAIN
 
 VOLUME /etc/letsencrypt/
 VOLUME /usr/share/nginx
-EXPOSE 80/TCP 443/TCP
+EXPOSE 80/TCP 443/TCP 443/UDP
 
-RUN apk add certbot certbot-nginx bash grep supervisor
+RUN apk add certbot certbot-nginx bash grep supervisor openssl
 
 RUN mkdir -p /etc/letsencrypt
 
 WORKDIR /root/
-COPY web_engine.sh certbot_renew.sh supervisord_run.sh supervisord.conf fifo-nginx.conf nginx.conf healthcheck.sh static-html /root/
+COPY web_engine.sh certbot_renew.sh supervisord_run.sh supervisord.conf /root/
+COPY nginx-confs /root/nginx-confs
 RUN find . -type f -print0 | xargs -0 sed -i 's/\[DOMAIN\]/'$DOMAIN'/g'
-RUN chmod +x certbot_renew.sh web_engine.sh healthcheck.sh supervisord_run.sh
+RUN chmod +x certbot_renew.sh web_engine.sh supervisord_run.sh
 
-HEALTHCHECK --interval=30m CMD ./healthcheck.sh
+HEALTHCHECK --interval=30m CMD [ -e /var/run/nginx.pid ] || exit 1
 
 ENTRYPOINT ["/root/supervisord_run.sh"]

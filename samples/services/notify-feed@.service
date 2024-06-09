@@ -1,0 +1,12 @@
+# /etc/systemd/system/notify-feed@.service
+# OnFailure=notify-feed@%i.service
+
+[Unit]
+Description=Send notification
+
+[Service]
+Type=oneshot
+ExecStart=ssh HOST feed-update notif \"%H error\" \"Unexpected behavior detected from %i service, please check logs\"
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,6 @@
+[global]
+follow = keyboard
+frame_color = "#767676"
+background = "#000000"
+foreground = "#767676"
+timeout = 5

@@ -3,20 +3,20 @@
 interval=1
 min_volume=0
 max_volume=100
-volume=`pactl get-sink-volume @DEFAULT_SINK@ | grep -oP '\d+(?=%)(?!.*,)'`
+volume=$(pactl get-sink-volume @DEFAULT_SINK@ | grep -oP '\d+(?=%)(?!.*,)')
 
 if [ "$1" == "UP" ]
 then
     # New volume
-    volume=$(( ( $volume + $interval ) - ( $volume % $interval ) ))
+    volume=$(( ( volume + interval ) - ( volume % interval ) ))
     # Not above max
-    volume=$(( $volume > $max_volume ? $max_volume : $volume ))
+    volume=$(( volume > max_volume ? max_volume : volume ))
     pactl set-sink-volume @DEFAULT_SINK@ $volume%
     notify-send -t 1000 -r 1 "Volume" "$volume%"
 elif [ "$1" == "DOWN" ]
 then
-    volume=$(( ( $volume - $interval ) - ( $volume % $interval ) ))
-    volume=$(( $volume < $min_volume ? $min_volume : $volume ))
+    volume=$(( ( volume - interval ) - ( volume % interval ) ))
+    volume=$(( volume < min_volume ? min_volume : volume ))
     pactl set-sink-volume @DEFAULT_SINK@ $volume%
     notify-send -t 1000 -r 1 "Volume" "$volume%"
 elif [ "$1" == "MUTE"  ]

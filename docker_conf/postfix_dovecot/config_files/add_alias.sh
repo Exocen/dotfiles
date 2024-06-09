@@ -1,6 +1,6 @@
 #!/bin/bash
 ## TO REMOVE: remove line from virtual_alias, then postmap
-if [ `id -u` -ne 0 ]; then
+if [ "$(id -u)" -ne 0 ]; then
     echo "Must be run as root"
     exit 1
 fi

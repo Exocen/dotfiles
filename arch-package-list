@@ -6,18 +6,20 @@ mesa
 #amd-ucode
 # Network
 ifplugd
+# Fonts
+noto-fonts ttf-nerd-fonts-symbols noto-fonts-emoji
 # WM
 wayland sway xorg-xwayland qt5-wayland
-# Menu, notifications, idle managment, screenshot
-tofi swaync-git swayidle sway-interactive-screenshot wf-recorder
+# Menu, notifications, idle managment, screenshot, clipboard manager
+tofi dunst swayidle sway-interactive-screenshot wf-recorder cliphist
 # Waybar
-waybar noto-fonts ttf-nerd-fonts-symbols
+waybar
 # Brightness tool
 #clight
 # Utils
 acpi
 # Archive tools
-7-zip zip unrar unzip xarchiver
+p7zip zip unrar unzip xarchiver
 # Power management
 #tlp
 # Git Browser
@@ -43,8 +45,6 @@ piper
 blueman pipewire-pulse pipewire bluez-utils wireplumber
 # Music player, visualizer
 mpd mpc ncmpcpp cava
-# Vim addons
-#vim-youcompleteme-git flake8
 # Sound app control
 pavucontrol
 # Windows usb installer
