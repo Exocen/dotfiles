@@ -85,7 +85,8 @@ Needs **PLEX_PATH** argument
 ### Mail_server
 From **mailserver/docker-mailserver**\
 Needs **MAIL_DOMAIN** argument\
-Setup sample setup-mail.sh\
+Add/Del mail account with setup-mail.sh\
+Create opendkim conf with setup-opendkim.sh\
 smtp_sample available
 
 ### Snappymail
