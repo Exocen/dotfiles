@@ -71,7 +71,7 @@ bindsym $mod+b exec $HOME/.config/sway/bluetooth-connect
 
 # Clipboard manager
 bindsym pause exec cliphist list | tofi -c $HOME/.config/tofi/clipboard |  cliphist decode | wl-copy
-bindsym Scroll_Lock cliphist wipe
+bindsym Shift+pause exec cliphist wipe
 
 # Internet browser
 bindsym $mod+g exec firefox
