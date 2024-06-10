@@ -6,8 +6,6 @@ exec $HOME/.config/sway/sway-outputs
 # Notifications
 exec dunst
 
-# Background
-
 # Idle stuff
 exec swayidle
 
@@ -129,10 +127,10 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 # focus the parent container
-#bindsym $mod+ focus parent
+bindsym $mod+p focus parent
 
 # focus the child container
-#bindsym $mod+ focus child
+bindsym $mod+c focus child
 
 # switch to workspace
 bindsym $mod+1 workspace 1
