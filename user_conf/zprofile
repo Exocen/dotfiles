@@ -1,10 +1,10 @@
 export MPD_HOST="$HOME/.config/mpd/mpd_socket"
 
 if [ -z "$DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -eq 1 ]; then
-    export QT_QPA_PLATFORM=wayland
+    export QT_QPA_PLATFORM="wayland;xcb"
     export _JAVA_AWT_WM_NONREPARENTING=1
     export MOZ_ENABLE_WAYLAND=1
-#    export SDL_VIDEODRIVER=wayland
-    export WLR_DRM_NO_ATOMIC=1
+    export SDL_VIDEODRIVER="wayland,x11"
+    export ELECTRON_OZONE_PLATFORM_HINT=wayland
     exec sway 1> >(systemd-cat -t sway-info -p info) 2> >(systemd-cat -t sway-error -p debug)
 fi
