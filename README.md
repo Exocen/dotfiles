@@ -137,6 +137,7 @@ Fail2ban configuration sample for every containers. The script *install.sh* inst
 - [x] vim conf: remake all
 - [x] docker feed update: add service notif sample
 - [x] README: add/complete docker instruction for each image + tools
+- [ ] README: add screenshots samples?
 - [x] feed-updater: switch bash html updater to python xml updater
 - [x] docker nginx: status displayed with Js reading atom.xml
 - [ ] docker nginx: fignoler le poro
