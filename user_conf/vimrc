@@ -30,7 +30,6 @@ Plug 'https://github.com/tpope/vim-commentary'
 
 " "Hello world!" -> cs"' -> 'Hello world!'
 " "Hello world!" -> ds" -> Hello world!
-" Visual -> P
 Plug 'https://github.com/tpope/vim-surround'
 
 " :Git cmd
@@ -61,6 +60,9 @@ Plug 'SirVer/ultisnips'
 " statusline/tabline skin
 Plug 'itchyny/lightline.vim'
 Plug 'maximbaz/lightline-ale'
+
+" Color manager
+Plug 'https://github.com/ap/vim-css-color'
 
 " Lint <leader>a next problem
 Plug 'dense-analysis/ale'
