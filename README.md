@@ -73,7 +73,7 @@ Docker configuration samples, with helper tools
 *vaultwarden-db-backup* script create a backup from the local */docker-data/vaultwarden/sqlite.db*
 
 #### Docker_manager
-Script created to manage all docker containers (*one to rule them all*)\
+Script created to manage all docker containers *(one to rule them all)*\
 ./docker_manager $start||stop||reload $conf_file (*tun_conf* or *vps_conf* samples)\
 Can start containers, allows auto-heal, forwards errors with msmtp, and could be started with systemd
 
