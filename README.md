@@ -55,10 +55,10 @@ Docker configuration samples, with helper tools
 | Ydl | **alpine*** | **YDL_MUSIC_PATH** | Behind gluetun network |
 
 <br>All the containers by default
-* use a docker-run.sh script to build the image and create the container
+* use a docker-run.sh script to build and run the container
 * are detached and volatiles (-d --rm)
 * use */docker-data* and */docker-data-nobackup* folder for data storage
-* share the local time and timezone with the host
+* share localtime and timezone with the host
 * can work without docker-compose
 * log to journald
 * could be started independently with args or with */tools/manager*
@@ -73,7 +73,7 @@ Docker configuration samples, with helper tools
 *vaultwarden-db-backup* script create a backup from the local */docker-data/vaultwarden/sqlite.db*
 
 #### Docker_manager
-Script created to manage all docker containers\
+Script created to manage all docker containers (*one to rule them all*)\
 ./docker_manager $start||stop||reload $conf_file (*tun_conf* or *vps_conf* samples)\
 Can start containers, allows auto-heal, forwards errors with msmtp, and could be started with systemd
 
