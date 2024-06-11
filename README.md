@@ -98,3 +98,4 @@ Fail2ban configuration sample for every containers. The script installs every ja
 - [x] docker jdownloader2: add healthcheck
 - [x] docker jdownloader2: add vpn reconnection
 - [x] Change install shell: bash -> sh
+- [ ] Dunst : remake conf + add info to volume + bluetooth notif
