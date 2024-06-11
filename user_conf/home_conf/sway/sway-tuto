@@ -4,7 +4,7 @@ DESC="Sway Cheat Sheet"
 TIMEOUT_DELAY="15 minutes"
 TIMEOUT="$(date -d "$TIMEOUT_DELAY" +%s)"
 CHEATSHEET=$(cat <<-END
-Super + /: Display this Cheat Sheet
+Super + ?: Display this Cheat Sheet
 Super + Enter: Terminal
 Super + d: Application launcher
 
