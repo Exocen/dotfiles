@@ -57,7 +57,7 @@ bindsym $mod+Shift+p exec firefox -private-window
 bindsym $mod+n exec thunar
 
 # Sway Cheat Sheet
-bindsym $mod+slash exec $HOME/.config/sway/sway-tuto
+bindsym $mod+slash exec "$HOME/.config/sway/sway-tuto info"
 
 # Capture a video
 bindsym $mod+Print exec sway-interactive-screenshot --video
