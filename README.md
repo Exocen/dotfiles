@@ -38,7 +38,25 @@ Install testing tool available on *docker_conf/install_test*
 
 Docker configuration samples, with helper tools
 
-All the containers by default
+| Docker container | Base image pull (*custom) | Arguments | Comments |
+| --- |  --- |  --- |  --- |
+| Filebrowser | **filebrowser/filebrowser** | **FILEBROWSER_PATH** | |
+| Gitea | **gitea/gitea** |  | Behind nginx_certbot proxy|
+| Gluetun | **qmcgaw/gluetun** | **VPN_KEY** | |
+| Jdownloader2 | **jlesage/jdownloader-2*** | **JDOWNLOADER_DL_PATH** | |
+| Nginx_certbot | **nginx:mainline-alpine*** | **DOMAIN** | Allows redirection for gitea, vaultwarden, and snappymail containers<br>Creates and renews certifications with certbot automatically |
+| Install_test | Any | **IMAGES** | Debian, Ubuntu, Fedora, Alpine, Archlinux, and Manjarolinux/base are used by default |
+| Plex | **linuxserver/plex** | **PLEX_PATH** | |
+| Mail_server | **mailserver/docker-mailserver** | **MAIL_DOMAIN** | Add/Del mail accounts with *setup-mail.sh*<br>Creates opendkim conf with *setup-opendkim.sh*<br>*smtp_sample* available |
+| Snappymail | **kouinkouin/snappymail** | | For the first time configuration use *mail.domain.com/?admin*.<br>Accepts user *admin* and password from */docker-data/snappymail/_data_/_default_/admin_password.txt*<br>Behind nginx_certbot proxy |
+| Syncthing | **syncthing/syncthing*** | **SYNCTHING_PATH** | Behind gluetun network |
+| Transmission | **lscr.io/linuxserver/transmission** | **TRANSMISSION_DL_PATH** | Behind gluetun network |
+| Vaultwarden | **vaultwarden/server** | **VW_ADMIN_PASS_ENABLED** |  **VW_ADMIN_PASS_ENABLED** allows https://VW-DOMAIN/admin access<br>Behind nginx_certbot proxy |
+| Ydl | **alpine*** | **YDL_MUSIC_PATH** | Behind gluetun network |
+
+---
+
+<br>All the containers by default
 * use a docker-run.sh script to build the image and create the container
 * are detached and volatiles (-d --rm)
 * use */docker-data* and */docker-data-nobackup* folder for data storage
@@ -47,80 +65,18 @@ All the containers by default
 * log to journald
 * could be started independently with args or with */tools/manager*
 * use *docker_user:docker_group 1000:1000* for user permission (data access)
-* could use external images and build local ones
-
-### Filebrowser
-From **filebrowser/filebrowser**\
-Needs **FILEBROWSER_PATH** argument
-
-### Gitea
-From **gitea/gitea**\
-Behind nginx_certbot proxy
-
-### Install_test
-Used to test the install.sh script \
-Accept custom images string list as arguments\
-Debian, Ubuntu, Fedora, Alpine, Archlinux, and Manjarolinux/base are used by default
-
-### Gluetun
-From **qmcgaw/gluetun**\
-Needs **VPN_KEY** argument
-
-### Jdownloader2
-Custom img from **jlesage/jdownloader-2**\
-Behing gluetun network\
-Needs **JDOWNLOADER_DL_PATH** argument
-
-### Nginx_certbot
-Custom img from **nginx:mainline-alpine**\
-Needs **DOMAIN** argument\
-Allows redirection for gitea, vaultwarden, and snappymail containers\
-Creates and renews certifications with certbot automatically
-
-### Plex
-From **linuxserver/plex**\
-Needs **PLEX_PATH** argument
-
-### Mail_server
-From **mailserver/docker-mailserver**\
-Needs **MAIL_DOMAIN** argument\
-Add/Del mail accounts with *setup-mail.sh*\
-Creates opendkim conf with *setup-opendkim.sh*\
-*smtp_sample* available
-
-### Snappymail
-From **kouinkouin/snappymail**\
-For the first time configuration use *mail.domain.com/?admin*. Accepts user *admin* and password from */docker-data/snappymail/_data_/_default_/admin_password.txt*\
-Behind nginx_certbot proxy
-
-### Syncthing
-Custom img from **syncthing/syncthing**\
-Needs **SYNCTHING_PATH** argument\
-Behind gluetun network
-
-### Transmission
-From **lscr.io/linuxserver/transmission**\
-Behind gluetun network
-
-### Vaultwarden
-From **vaultwarden/server**\
-Needs **VW_ADMIN_PASS_ENABLED** argument (allows https://VW-DOMAIN/admin access)\
-Behind nginx_certbot proxy
-
-### Ydl
-Custom img from **alpine**\
-Behind gluetun network
+* could use external and custom images
 
 ### Tools
 
 #### Backup
 *ssh-backup* script is used to backup the */docker-data* dir from a host or locally\
-Usage :$1=Host $2=output_dir\
+./*ssh-backup* $host $output_dir\
 *vaultwarden-db-backup* script create a backup from the local */docker-data/vaultwarden/sqlite.db*
 
 #### Docker_manager
 Script created to manage all docker containers\
-Usage: $1:start|stop|reload $2:conf_file (*tun_conf* or *vps_conf* samples)\
+./docker_manager $start||stop||reload $conf_file (*tun_conf* or *vps_conf* samples)\
 It can auto-heal containers, forward errors with msmtp, and could be started with systemd
 
 #### Fail2ban
