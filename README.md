@@ -78,10 +78,10 @@ Script created to manage all docker containers (*one to rule them all*)\
 Can start containers, allows auto-heal, forwards errors with msmtp, and could be started with systemd
 
 #### Fail2ban
-Fail2ban configuration sample for every containers. The script *install.sh* installs every jails and filters
+Fail2ban configuration sample for every containers. The script installs every jails and filters
 
 #### Notification and Mails
-*msmtp_sample* and *feed-update.sh* script (allow *atom.xml* update) available
+*msmtp_sample* and *feed-update.sh* script (allow *atom.xml* update) availables
 
 
 ## 📝 TODO
