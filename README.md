@@ -54,8 +54,6 @@ Docker configuration samples, with helper tools
 | Vaultwarden | **vaultwarden/server** | **VW_ADMIN_PASS_ENABLED** |  **VW_ADMIN_PASS_ENABLED** allows https://VW-DOMAIN/admin access<br>Behind nginx_certbot proxy |
 | Ydl | **alpine*** | **YDL_MUSIC_PATH** | Behind gluetun network |
 
----
-
 <br>All the containers by default
 * use a docker-run.sh script to build the image and create the container
 * are detached and volatiles (-d --rm)
