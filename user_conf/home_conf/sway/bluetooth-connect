@@ -14,7 +14,8 @@ safe_exit() {
 }
 
 main() {
-    TIMEOUT="5 minutes"
+    TIMEOUT_DELAY="5 minutes"
+    TIMEOUT="$(date -d "$TIMEOUT_DELAY" +%s)"
     if [ "$#" -eq 1 ]; then
         DEVICE_NAME=$1
         DEVICE_MAC=$(bluetoothctl devices | grep -oP "(?<=\s)..:..:..:..:..:..(?=\s*$DEVICE_NAME\$)") || safe_exit "\"$DEVICE_NAME\" not paired" 1
@@ -30,7 +31,7 @@ main() {
 
     systemctl status bluetooth.service | grep "^\s*Status: \"Running\"$" 1>/dev/null || sudo systemctl start bluetooth 1>/dev/null
     bluetoothctl power on 1>/dev/null
-    while [ "$(date +%s)" -lt "$(date -d "$TIMEOUT" +%s)" ]; do
+    while [ "$(date +%s)" -lt "$TIMEOUT" ]; do
         if bluetoothctl connect "$DEVICE_MAC" 1>/dev/null; then
             # Fix -> remove set-card-profile switch and check if unneeded
             sleep 4

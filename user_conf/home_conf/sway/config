@@ -3,6 +3,9 @@ exec $HOME/.config/sway/sway-outputs
 
 # Startup apps
 
+# Sway Cheat Sheet
+exec $HOME/.config/sway/sway-tuto
+
 # Notifications
 exec dunst
 
@@ -18,8 +21,8 @@ seat seat0 hide_cursor 5000
 # Right_Ctrl + Right_Shift to switch
 input "type:keyboard" {
     xkb_layout us,us
-    xkb_variant ,intl
-    xkb_options grp:rctrl_rshift_toggle
+        xkb_variant ,intl
+        xkb_options grp:rctrl_rshift_toggle
 }
 
 # Focus mouse
@@ -52,6 +55,9 @@ bindsym $mod+Shift+p exec firefox -private-window
 
 # File Browser
 bindsym $mod+n exec thunar
+
+# Sway Cheat Sheet
+bindsym $mod+slash exec $HOME/.config/sway/sway-tuto
 
 # Capture a video
 bindsym $mod+Print exec sway-interactive-screenshot --video
@@ -165,18 +171,18 @@ bindsym $mod+Shift+r reload
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-bindsym j resize shrink width 5 px or 5 ppt
-bindsym k resize grow height 5 px or 5 ppt
-bindsym l resize shrink height 5 px or 5 ppt
-bindsym m resize grow width 5 px or 5 ppt
+    bindsym j resize shrink width 5 px or 5 ppt
+        bindsym k resize grow height 5 px or 5 ppt
+        bindsym l resize shrink height 5 px or 5 ppt
+        bindsym m resize grow width 5 px or 5 ppt
 
-bindsym Left resize shrink width 5 px or 5 ppt
-bindsym Down resize grow height 5 px or 5 ppt
-bindsym Up resize shrink height 5 px or 5 ppt
-bindsym Right resize grow width 5 px or 5 ppt
+        bindsym Left resize shrink width 5 px or 5 ppt
+        bindsym Down resize grow height 5 px or 5 ppt
+        bindsym Up resize shrink height 5 px or 5 ppt
+        bindsym Right resize grow width 5 px or 5 ppt
 
-bindsym Return mode "default"
-bindsym Escape mode "default"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
 }
 
 bindsym $mod+r mode "resize"
