@@ -65,7 +65,7 @@ Docker configuration samples, with helper tools
 * use *docker_user:docker_group 1000:1000* for user permission (data access)
 * could use external and custom images
 
-### Tools
+### Docker Tools
 
 #### Backup
 *ssh-backup* script is used to backup the */docker-data* dir from a host or locally\
