@@ -9,10 +9,33 @@ Super + Enter: Terminal
 Super + d: Application launcher
 
 Super + g: Internet browser
-Super + n: File browser
+Super + t: File browser
 Super + Shift + m: Monitor rotation
 Super + b: Connect Bluetooth
 
+Print Screen: Image screenshot
+Super + Print Screen: Video screenshot
+Pause: Get copy history
+Super + Pause: Reset copy history
+
+Super + F1/F2/F3/F4/F5: Mpd Toggle/Prev/Next/Stop/Mute
+
+Super + 1-10: Focus to workspace 1-10
+Super + Shift + 1-10: Move window to workspace 1-10
+Super + Ctrl + left/right: Move to left/right workspace
+
+Super + Arrow: Change focused window
+Super + Shift + Arrow: Move window
+Super + h/v: Split horizontaly/verticaly
+Super + f: Full screen focused swindow
+Super + s/z/e: Change container layout to stacked/tabbed/toggle split
+Super + Shift + Space: Toggle floating window
+Super + Space: Toggle focus between tiling and floating
+Super + p/c: Focus parent/child window
+Super + r: Resize window
+Super + Shift + a: Kill focused window
+
+Super + Shift + r: Reload sway
 Super + p + Escape: Power off
 Super + s + Escape: Suspend
 Super + r + Escape: Reboot

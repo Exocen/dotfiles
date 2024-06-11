@@ -51,10 +51,10 @@ bindsym Shift+pause exec cliphist wipe
 
 # Internet browser
 bindsym $mod+g exec firefox
-bindsym $mod+Shift+p exec firefox -private-window
+bindsym $mod+Shift+g exec firefox -private-window
 
 # File Browser
-bindsym $mod+n exec thunar
+bindsym $mod+t exec thunar
 
 # Sway Cheat Sheet
 bindsym $mod+slash exec "$HOME/.config/sway/sway-tuto info"
