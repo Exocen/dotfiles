@@ -75,7 +75,7 @@ Docker configuration samples, with helper tools
 #### Docker_manager
 Script created to manage all docker containers\
 ./docker_manager $start||stop||reload $conf_file (*tun_conf* or *vps_conf* samples)\
-It can auto-heal containers, forward errors with msmtp, and could be started with systemd
+Can start containers, allows auto-heal, forwards errors with msmtp, and could be started with systemd
 
 #### Fail2ban
 Fail2ban configuration sample for every containers. The script *install.sh* installs every jails and filters
