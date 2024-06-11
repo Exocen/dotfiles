@@ -68,20 +68,20 @@ Docker configuration samples, with helper tools
 ### Docker Tools
 
 #### Backup
-*ssh-backup* script is used to backup the */docker-data* dir from a host or locally\
+*ssh-backup* script is used to backup the */docker-data* dir from a host or locally.\
 ./*ssh-backup* $host $output_dir\
-*vaultwarden-db-backup* script create a backup from the local */docker-data/vaultwarden/sqlite.db*
+*vaultwarden-db-backup* script create a backup from the local */docker-data/vaultwarden/sqlite.db*.
 
 #### Docker_manager
-Script created to manage all docker containers *(one to rule them all)*\
-Can start containers, allows auto-heal, forwards errors with msmtp, and could be started with systemd\
+Script created to manage all docker containers *(one to rule them all)*.\
+Can start containers, allows auto-heal, forwards errors with msmtp, and could be started with systemd.\
 ./docker_manager $start||stop||reload $conf_file (*tun_conf* or *vps_conf* samples)
 
 #### Fail2ban
-Fail2ban configuration sample for every containers. The script installs every jails and filters
+Fail2ban configuration sample for every containers. The script installs every jails and filters.
 
 #### Notification and Mails
-*msmtp_sample* and *feed-update.sh* script (allow *atom.xml* update) availables
+*msmtp_sample* and *feed-update.sh* script (allow *atom.xml* update) availables.
 
 
 ## 📝 TODO
