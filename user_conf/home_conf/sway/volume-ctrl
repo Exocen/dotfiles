@@ -12,17 +12,17 @@ then
     # Not above max
     volume=$(( volume > max_volume ? max_volume : volume ))
     pactl set-sink-volume @DEFAULT_SINK@ $volume%
-    notify-send -t 1000 -r 1 "Volume" "$volume%"
+    notify-send -t 1000 -r 1 "Volume" "$volume%" -i audio-headset
 elif [ "$1" == "DOWN" ]
 then
     volume=$(( ( volume - interval ) - ( volume % interval ) ))
     volume=$(( volume < min_volume ? min_volume : volume ))
     pactl set-sink-volume @DEFAULT_SINK@ $volume%
-    notify-send -t 1000 -r 1 "Volume" "$volume%"
+    notify-send -t 1000 -r 1 "Volume" "$volume%" -i audio-headset
 elif [ "$1" == "MUTE"  ]
 then
     pactl set-sink-mute @DEFAULT_SINK@ toggle
-    notify-send -t 1000 -r 1 "Volume" "$(pactl get-sink-mute @DEFAULT_SINK@)"
+    notify-send -t 1000 -r 1 "Volume" "$(pactl get-sink-mute @DEFAULT_SINK@)" -i audio-headset
 else
     echo "Usage: ./script UP|DOWN|MUTE"
 fi

@@ -37,7 +37,7 @@ main() {
             sleep 4
             pactl set-card-profile $(pactl list short | grep bluez_card | cut -f 1) a2dp-sink-aac
             if pactl set-card-profile $(pactl list short | grep bluez_card | cut -f 1) a2dp-sink; then
-                notify-send "Bluetooth" "Headset $DEVICE_NAME connected"
+                notify-send "Bluetooth" "Headset $DEVICE_NAME connected" -i audio-headset
                 safe_exit "\"$DEVICE_NAME\" connected" 0
             fi
         else
