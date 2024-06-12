@@ -14,24 +14,30 @@ safe_exit() {
 }
 
 main() {
-    TIME_DELAY="5 minutes" # Time delay sample (if exceeded time -> timeout)
+    TIMEOUT_DELAY="5 minutes"
+    TIMEOUT="$(date -d "$TIMEOUT_DELAY" +%s)"
     if [ "$#" -eq 1 ]; then
         DEVICE_NAME=$1
         DEVICE_MAC=$(bluetoothctl devices | grep -oP "(?<=\s)..:..:..:..:..:..(?=\s*$DEVICE_NAME\$)") || safe_exit "\"$DEVICE_NAME\" not paired" 1
     else
-        echo "No bluetooth device given, using first registered device on bluetoothctl"
-        DEVICE_MAC=`bluetoothctl devices | head -n 1 | cut -d " " -f 2`
-        DEVICE_NAME=`bluetoothctl devices | head -n 1 | cut -d " " -f 3-10`
+        if bluetoothctl devices | grep -i device &>/dev/null; then
+            echo "No bluetooth device given, using first registered device on bluetoothctl"
+            DEVICE_MAC=`bluetoothctl devices | head -n 1 | cut -d " " -f 2`
+            DEVICE_NAME=`bluetoothctl devices | head -n 1 | cut -d " " -f 3-10`
+        else
+            safe_exit "Please register a device with bluetoothctl or give device_name as argument" 1
+        fi
     fi
 
     systemctl status bluetooth.service | grep "^\s*Status: \"Running\"$" 1>/dev/null || sudo systemctl start bluetooth 1>/dev/null
     bluetoothctl power on 1>/dev/null
-    while [ "$(date +%s)" -lt "$(date -d "$TIME_DELAY" +%s)" ]; do
+    while [ "$(date +%s)" -lt "$TIMEOUT" ]; do
         if bluetoothctl connect "$DEVICE_MAC" 1>/dev/null; then
             # Fix -> remove set-card-profile switch and check if unneeded
-            sleep 5
+            sleep 4
             pactl set-card-profile $(pactl list short | grep bluez_card | cut -f 1) a2dp-sink-aac
             if pactl set-card-profile $(pactl list short | grep bluez_card | cut -f 1) a2dp-sink; then
+                notify-send "Bluetooth" "Headset $DEVICE_NAME connected" -i audio-headset
                 safe_exit "\"$DEVICE_NAME\" connected" 0
             fi
         else

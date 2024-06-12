@@ -1,0 +1,63 @@
+#!/bin/bash
+ID=100
+DESC="Sway Cheat Sheet"
+TIMEOUT_DELAY="15 minutes"
+TIMEOUT="$(date -d "$TIMEOUT_DELAY" +%s)"
+CHEATSHEET=$(cat <<-END
+Super + ?: Display this Cheat Sheet
+Super + Enter: Terminal
+Super + d: Application launcher
+
+Super + g: Internet browser
+Super + t: File browser
+Super + Shift + m: Monitor rotation
+Super + b: Connect Bluetooth
+
+Print Screen: Image screenshot
+Super + Print Screen: Video screenshot
+Pause: Get copy history
+Super + Pause: Reset copy history
+
+Super + F1/F2/F3/F4/F5: Mpd Toggle/Prev/Next/Stop/Mute
+
+Super + 1-10: Focus to workspace 1-10
+Super + Shift + 1-10: Move window to workspace 1-10
+Super + Ctrl + left/right: Move to left/right workspace
+
+Super + Arrow: Change focused window
+Super + Shift + Arrow: Move window
+Super + h/v: Split horizontaly/verticaly
+Super + f: Full screen focused swindow
+Super + s/z/e: Change container layout to stacked/tabbed/toggle split
+Super + Shift + Space: Toggle floating window
+Super + Space: Toggle focus between tiling and floating
+Super + p/c: Focus parent/child window
+Super + r: Resize window
+Super + Shift + a: Kill focused window
+
+Super + Shift + r: Reload sway
+Super + p + Escape: Power off
+Super + s + Escape: Suspend
+Super + r + Escape: Reboot
+Super + Shift + r + Escape: Force reboot
+END
+)
+
+echo "Starting $DESC"
+echo $1
+if [ "$1" == "info" ]; then
+    LOCKFILE="/var/run/user/$(id -u)/sway-tuto.lock"
+    if [ -f "$LOCKFILE" ]; then
+        gdbus call --session --dest org.freedesktop.Notifications --object-path /org/freedesktop/Notifications --method org.freedesktop.Notifications.CloseNotification $ID 1>/dev/null
+        rm "$LOCKFILE"
+    else
+        notify-send -u low -t 3600000 -r $ID "$DESC" "$CHEATSHEET" && touch "$LOCKFILE"
+    fi
+else
+    notify-send -t 3600000 -u low -r $ID "$DESC" "$CHEATSHEET"
+    while ( ! pgrep firefox 1>/dev/null ) && ( ! pgrep tofi-run 1>/dev/null ) && ( ! pgrep thunar 1>/dev/null ) && ( ! pgrep alacritty 1>/dev/null ) && [ "$(date +%s)" -lt "$TIMEOUT" ] ; do
+        sleep 0.1
+    done
+    gdbus call --session --dest org.freedesktop.Notifications --object-path /org/freedesktop/Notifications --method org.freedesktop.Notifications.CloseNotification $ID 1>/dev/null
+fi
+echo "Closing $DESC"

@@ -133,7 +133,11 @@ basic_install() {
 
 dev_env_install() {
     # Arch dev env installation
-    if [ "$WOS" = "arch" ] && [ "$(id -u)" != 0 ]; then
+    if [ "$WOS" = "arch" ] ; then
+        if [ "$(id -u)" == 0 ]; then
+            info "Dev Env available for non root user"
+            safeExit
+        fi
         seek_confirmation 'Install Dev Env ?'
         if is_confirmed; then
             {
