@@ -521,3 +521,7 @@ map <leader>o :BufExplorer<cr>
 " Markdown indent correction
 let g:vim_markdown_new_list_item_indent = 0
 let g:vim_markdown_auto_insert_bullets = 0
+
+" Let me have long lines in python
+let g:ale_python_flake8_executable = 'flake8'
+let g:ale_python_flake8_options = '--ignore=E501, W503'

@@ -15,7 +15,7 @@ Super + b: Connect Bluetooth
 
 Print Screen: Image screenshot
 Super + Print Screen: Video screenshot
-Pause: Get copy history
+Pause: Copy history list
 Super + Pause: Reset copy history
 
 Super + F1/F2/F3/F4/F5: Mpd Toggle/Prev/Next/Stop/Mute
