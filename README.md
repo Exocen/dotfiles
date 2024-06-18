@@ -98,6 +98,7 @@ Fail2ban configuration sample for every containers. The script installs every ja
 - [x] docker jdownloader2: add healthcheck
 - [x] docker jdownloader2: add vpn reconnection
 - [x] Change install shell: bash -> sh
-- [ ] Dunst : remake conf + add info to volume + bluetooth notif
-- [ ] Dunst : create start tuto notif -> close if terminal or cmd started + timeout
-- [ ] Sway : redo ALL keys
+- [x] Dunst : remake conf + add info to volume + bluetooth notif
+- [x] Dunst : create start tuto notif -> close if terminal or cmd started + timeout
+- [x] Sway : redo ALL keys
+- [ ] Docker xvnc : try with web-browser behind gluetun + start on session only
