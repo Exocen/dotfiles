@@ -85,20 +85,6 @@ Fail2ban configuration sample for every containers. The script installs every ja
 
 
 ## 📝 TODO
-- [x] install.sh: remake all auto-install options
-- [x] install.sh: add auto docker test (img = argument)
-- [x] install.sh: documentation + ReadMe instructions
-- [x] vim conf: remake all
-- [x] docker feed update: add service notif sample
-- [x] README: add/complete docker instruction for each image + tools
 - [ ] README: add screenshots samples?
-- [x] feed-updater: switch bash html updater to python xml updater
-- [x] docker nginx: status displayed with Js reading atom.xml
 - [ ] docker nginx: fignoler le poro
-- [x] docker jdownloader2: add healthcheck
-- [x] docker jdownloader2: add vpn reconnection
-- [x] Change install shell: bash -> sh
-- [x] Dunst : remake conf + add info to volume + bluetooth notif
-- [x] Dunst : create start tuto notif -> close if terminal or cmd started + timeout
-- [x] Sway : redo ALL keys
 - [ ] Docker xvnc : try with web-browser behind gluetun + start on session only
