@@ -26,6 +26,8 @@ docker run -d --rm --log-driver=journald --log-opt tag="{{.Name}}" \
     --name=jdownloader2 \
     -e PUID=1000 \
     -e PGID=1000 \
+    -e KEEP_APP_RUNNING=1 \
+    -e DARK_MODE=1 \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     --network=container:gluetun \
     -v /docker-data-nobackup/jdownloader2/config/:/config \

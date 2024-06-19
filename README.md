@@ -53,6 +53,7 @@ Docker configuration samples, with helper tools
 | Transmission | **lscr.io/linuxserver/transmission** | **$TRANSMISSION_DL_PATH** | Behind gluetun network |
 | Vaultwarden | **vaultwarden/server** | **$VW_ADMIN_PASS_ENABLED** |  **$VW_ADMIN_PASS_ENABLED** allows https://VW-DOMAIN/admin access<br>Behind nginx_certbot proxy |
 | Ydl | **alpine*** | **$YDL_MUSIC_PATH** | Behind gluetun network |
+| Firefox | **jlesage/firefox*** | | Behind gluetun network |
 
 <br>All the containers by default
 * use a docker-run.sh script to build and run the container
