@@ -23,5 +23,6 @@ docker run -d --rm --log-driver=journald --log-opt tag="{{.Name}}" \
     -e KEEP_APP_RUNNING=1 \
     -e DARK_MODE=1 \
     -e WEB_LISTENING_PORT=6800 \
+    -e VNC_LISTENING_PORT=6900 \
     -v /docker-data-nobackup/firefox/:/config:rw \
     firefox_img:latest && echo "Firefox started."
