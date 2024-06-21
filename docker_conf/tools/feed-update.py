@@ -78,6 +78,18 @@ class Main:
         os.makedirs(NOTIFICATION_UPDATE_LOCATION, exist_ok=True)
         os.makedirs(TMP_DIR, exist_ok=True)
 
+    @staticmethod
+    def checkPath():
+        if not os.path.isfile(ATOM_PATH):
+            i = 1
+            while not os.path.isfile(ATOM_PATH):
+                if i > 5:
+                    raise Exception(f"{ATOM_PATH} not detected, exiting")
+                LOG.info(f"{ATOM_PATH} not detected, waiting ({i})")
+                time.sleep(300)
+                i = i + 1
+            LOG.info(f"{ATOM_PATH} detected, starting")
+
     def __init__(self):
         Main.init_dirs()
         self.feed_tree = None
@@ -272,18 +284,6 @@ class Main:
                     Main.findOrCreate(self.feed_tree, "updated").text = Main.genTime()
                     Main.findOrCreate(entry, "id").text = Main.genId()
                     self.tree_updated = True
-
-    @staticmethod
-    def checkPath():
-        if not os.path.isfile(ATOM_PATH):
-            i = 1
-            while not os.path.isfile(ATOM_PATH):
-                if i > 5:
-                    raise Exception(f"{ATOM_PATH} not detected, exiting")
-                LOG.info(f"{ATOM_PATH} not detected, waiting ({i})")
-                time.sleep(300)
-                i = i + 1
-            LOG.info(f"{ATOM_PATH} detected, starting")
 
     def checkLoop(self):
         LOG.info("Starting feed_update check loop")
