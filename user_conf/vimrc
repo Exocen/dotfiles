@@ -55,7 +55,8 @@ Plug 'https://github.com/honza/vim-snippets'
 " By default use Ctrl-] for definition jumping
 " Ctrl-t for jumping back
 Plug 'jayli/vim-easycomplete'
-Plug 'https://github.com/neoclide/coc-snippets'
+Plug 'https://github.com/MarcWeber/vim-addon-mw-utils.git'
+Plug 'https://github.com/garbas/vim-snipmate'
 Plug 'honza/vim-snippets'
 
 " statusline/tabline skin
