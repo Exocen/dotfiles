@@ -56,6 +56,7 @@ Plug 'https://github.com/honza/vim-snippets'
 " Ctrl-t for jumping back
 Plug 'jayli/vim-easycomplete'
 Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 " statusline/tabline skin
 Plug 'itchyny/lightline.vim'
