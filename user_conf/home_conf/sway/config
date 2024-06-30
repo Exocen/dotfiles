@@ -46,7 +46,7 @@ bindsym $mod+Return exec $TERMINAL
 bindsym $mod+b exec $HOME/.config/sway/bluetooth-connect
 
 # Clipboard manager
-bindsym pause exec cliphist list | tofi -c $HOME/.config/tofi/clipboard | cliphist decode | wl-copy
+bindsym pause exec killall tofi || cliphist list | tofi -c $HOME/.config/tofi/clipboard | cliphist decode | wl-copy
 bindsym Shift+pause exec cliphist wipe && notify-send "Cliphist" "Board cleaned"
 
 # Internet browser
