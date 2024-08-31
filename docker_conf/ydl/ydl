@@ -78,40 +78,40 @@ class Main:
         if self.retry_counter[self.playlist_id] < RETRY_COUNTER_MAX:
             log.error(dl_error)
             log.info(
-                f"Vpn reloading, {RETRY_COUNTER_MAX - self.retry_counter[self.playlist_id]} tries left"
-            )
+                    f"Vpn reloading, {RETRY_COUNTER_MAX - self.retry_counter[self.playlist_id]} tries left"
+                    )
             log.info(f"Switching ip: {Main.getip()}")
             try:
                 Main.run_process(
-                    [
-                        "curl",
-                        "-X",
-                        "PUT",
-                        "--fail",
-                        "--silent",
-                        "--show-error",
-                        "http://localhost:8000/v1/openvpn/status",
-                        "-H",
-                        "Content-Type: application/json",
-                        "-d",
-                        '{"status":"stopped"}',
-                    ]
-                )
+                        [
+                            "curl",
+                            "-X",
+                            "PUT",
+                            "--fail",
+                            "--silent",
+                            "--show-error",
+                            "http://localhost:8000/v1/openvpn/status",
+                            "-H",
+                            "Content-Type: application/json",
+                            "-d",
+                            '{"status":"stopped"}',
+                            ]
+                        )
                 Main.run_process(
-                    [
-                        "curl",
-                        "-X",
-                        "PUT",
-                        "--fail",
-                        "--silent",
-                        "--show-error",
-                        "http://localhost:8000/v1/openvpn/status",
-                        "-H",
-                        "Content-Type: application/json",
-                        "-d",
-                        '{"status":"running"}',
-                    ]
-                )
+                        [
+                            "curl",
+                            "-X",
+                            "PUT",
+                            "--fail",
+                            "--silent",
+                            "--show-error",
+                            "http://localhost:8000/v1/openvpn/status",
+                            "-H",
+                            "Content-Type: application/json",
+                            "-d",
+                            '{"status":"running"}',
+                            ]
+                        )
             except CmdException as exception:
                 log.error(f"Error switching ip: {exception}")
             Main.let_sleep(ERROR_COOLDOWN, True)
@@ -134,19 +134,19 @@ class Main:
     def getip(retry_getip=True):
         try:
             ip = json.loads(
-                Main.run_process(
-                    [
-                        "curl",
-                        "-X",
-                        "GET",
-                        "--fail",
-                        "--silent",
-                        "--show-error",
-                        "http://localhost:8000/v1/publicip/ip",
-                    ],
-                    False,
-                )
-            )["public_ip"].strip()
+                    Main.run_process(
+                        [
+                            "curl",
+                            "-X",
+                            "GET",
+                            "--fail",
+                            "--silent",
+                            "--show-error",
+                            "http://localhost:8000/v1/publicip/ip",
+                            ],
+                        False,
+                        )
+                    )["public_ip"].strip()
             if ip == "" and retry_getip:
                 Main.let_sleep(ERROR_COOLDOWN, True)
                 ip = Main.getip(False)
@@ -159,54 +159,54 @@ class Main:
     def dl_list(self, pid, tmpdirname):
         if self.file_format == "mp3":
             Main.run_process(
-                [
-                    "yt-dlp",
-                    "--quiet",
-                    "--extract-audio",
-                    "--audio-format",
-                    "mp3",
-                    "-o",
-                    tmpdirname + "/%(title)s",
-                    "\""+pid+"\"",
-                ]
-            )
+                    [
+                        "yt-dlp",
+                        "--quiet",
+                        "--extract-audio",
+                        "--audio-format",
+                        "mp3",
+                        "-o",
+                        tmpdirname + "/%(title)s",
+                        "-- " + pid,
+                        ]
+                    )
         elif self.file_format == "mp4":
             Main.run_process(
-                [
-                    "yt-dlp",
-                    "--quiet",
-                    "-f",
-                    "bestvideo[height<=?1080]",
-                    "--recode-video",
-                    "mp4",
-                    "-o",
-                    tmpdirname + "/%(title)s.%(ext)s",
-                    "\""+pid+"\"",
-                ]
-            )
+                    [
+                        "yt-dlp",
+                        "--quiet",
+                        "-f",
+                        "bestvideo[height<=?1080]",
+                        "--recode-video",
+                        "mp4",
+                        "-o",
+                        tmpdirname + "/%(title)s.%(ext)s",
+                        "-- " + pid,
+                        ]
+                    )
         else:
             Main.run_process(
-                [
-                    "yt-dlp",
-                    "--quiet",
-                    "--recode-video",
-                    self.file_format,
-                    "-o",
-                    tmpdirname + "/%(title)s.%(ext)s",
-                    "\""+pid+"\"",
-                ]
-            )
+                    [
+                        "yt-dlp",
+                        "--quiet",
+                        "--recode-video",
+                        self.file_format,
+                        "-o",
+                        tmpdirname + "/%(title)s.%(ext)s",
+                        "-- " + pid,
+                        ]
+                    )
 
     def extract_info(self):
         log.debug(f"Checking playlist: {self.playlist_id}")
         try:
             cmd = [
-                "yt-dlp",
-                "--quiet",
-                "--flat-playlist",
-                "-J",
-                self.playlist_id,
-            ]
+                    "yt-dlp",
+                    "--quiet",
+                    "--flat-playlist",
+                    "-J",
+                    "--" + self.playlist_id,
+                    ]
             infos = json.loads(Main.run_process(cmd, False))
             if "entries" not in infos:
                 raise Exception("Playlist check : No valid entries downloaded")
@@ -248,13 +248,13 @@ class Main:
         existing_title_list = self.db.get(self.playlist_id, [])
 
         done_list = list(
-            filter(
-                lambda a: a in [b.title for b in audio_data_list], existing_title_list
-            )
-        )
+                filter(
+                    lambda a: a in [b.title for b in audio_data_list], existing_title_list
+                    )
+                )
         audio_data_list = list(
-            filter(lambda a: a.title not in existing_title_list, audio_data_list)
-        )
+                filter(lambda a: a.title not in existing_title_list, audio_data_list)
+                )
 
         # starting Dl and tag
         if audio_data_list:
@@ -279,8 +279,8 @@ class Main:
                 Main.let_sleep(POST_DL_COOLDOWN, True)
 
         # playlist update detected but no need to dl
-        elif set(existing_title_list) != set(done_list):
-            self.write_title_list(done_list)
+    elif set(existing_title_list) != set(done_list):
+        self.write_title_list(done_list)
             self.retry_counter[self.playlist_id] = 0
 
     def set_params(self, params):
