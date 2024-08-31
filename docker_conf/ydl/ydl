@@ -167,7 +167,8 @@ class Main:
                     "mp3",
                     "-o",
                     tmpdirname + "/%(title)s",
-                    "--" + pid,
+                    "--",
+                    pid,
                 ]
             )
         elif self.file_format == "mp4":
@@ -181,7 +182,8 @@ class Main:
                     "mp4",
                     "-o",
                     tmpdirname + "/%(title)s.%(ext)s",
-                    "--" + pid,
+                    "--",
+                    pid,
                 ]
             )
         else:
@@ -193,7 +195,8 @@ class Main:
                     self.file_format,
                     "-o",
                     tmpdirname + "/%(title)s.%(ext)s",
-                    "--" + pid,
+                    "--",
+                    pid,
                 ]
             )
 
