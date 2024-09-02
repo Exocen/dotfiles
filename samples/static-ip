@@ -4,3 +4,10 @@ auto eth0
 iface eth0 inet static
         address 192.168.1.100/24
         gateway 192.168.1.255
+
+# gateway = router => 'ip r'
+# or add to /etc/dhcpcd.conf
+
+#interface eth0
+#static ip_address=192.168.1.100/24
+#static routers=192.168.1.255
