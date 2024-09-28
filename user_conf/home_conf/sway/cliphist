@@ -1,0 +1,4 @@
+#!/bin/bash
+mkdir -p /run/user/$(id -u)/cliphist
+ln -sf /run/user/$(id -u)/cliphist $HOME/.cache/
+wl-paste --watch cliphist store

@@ -13,7 +13,7 @@ exec dunst
 exec swayidle
 
 # Clipboard manager
-exec wl-paste --watch cliphist store
+exec $HOME/.config/sway/cliphist
 
 # Hide cursor
 seat seat0 hide_cursor 5000
