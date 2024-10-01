@@ -60,6 +60,9 @@ bindsym $mod+t exec thunar
 bindsym $mod+slash exec "$HOME/.config/sway/sway-tuto info"
 bindsym $mod+question exec "$HOME/.config/sway/sway-tuto info"
 
+# Status notification
+bindsym $mod+period exec notify-send -t 5000 -r 2 "$(stat=`mpc status | head -n -1` ; date=`date +"%F %T"` ; [ ! -z "$stat" ] && echo -e "$stat\\n$date" || echo "$date")" -u low
+
 # Capture a video
 bindsym $mod+Print exec sway-interactive-screenshot --video
 # Capture a screenshot
