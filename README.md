@@ -41,11 +41,11 @@ Docker configuration samples, with helper tools
 | Docker container | Base image pull (*custom) | Arguments | Comments |
 | --- |  --- |  --- |  --- |
 | Filebrowser | **filebrowser/filebrowser** | **$FILEBROWSER_PATH** | |
-| Gitea | **gitea/gitea** |  | Behind nginx_certbot proxy|
+| Gitea | **gitea/gitea** |  | Behind nginx_certbot proxy |
 | Gluetun | **qmcgaw/gluetun** | **$VPN_KEY** | |
-| Jdownloader2 | **jlesage/jdownloader-2*** | **$JDOWNLOADER_DL_PATH** | |
+| Jdownloader2 | **jlesage/jdownloader-2*** | **$JDOWNLOADER_DL_PATH** | Behind gluetun network |
 | Nginx_certbot | **nginx:mainline-alpine*** | **$DOMAIN** | Allows redirection for gitea, vaultwarden, and snappymail containers<br>Creates and renews certifications with certbot automatically |
-| Install_test | Any | **$IMAGES** | Debian, Ubuntu, Fedora, Alpine, Archlinux, and Manjarolinux/base are used by default |
+| Install_test | * | **$IMAGES** | Debian, Ubuntu, Fedora, Alpine, Archlinux, and Manjarolinux/base are used by default |
 | Plex | **linuxserver/plex** | **$PLEX_PATH** | |
 | Mail_server | **mailserver/docker-mailserver** | **$MAIL_DOMAIN** | Add/Del mail accounts with *setup-mail.sh*<br>Creates opendkim conf with *setup-opendkim.sh*<br>*smtp_sample* available |
 | Snappymail | **kouinkouin/snappymail** | | For the first time configuration use *mail.domain.com/?admin*.<br>Accepts user *admin* and password from */docker-data/snappymail/_data_/_default_/admin_password.txt*<br>Behind nginx_certbot proxy |
@@ -53,6 +53,7 @@ Docker configuration samples, with helper tools
 | Transmission | **lscr.io/linuxserver/transmission** | **$TRANSMISSION_DL_PATH** | Behind gluetun network |
 | Vaultwarden | **vaultwarden/server** | **$VW_ADMIN_PASS_ENABLED** |  **$VW_ADMIN_PASS_ENABLED** allows https://VW-DOMAIN/admin access<br>Behind nginx_certbot proxy |
 | Ydl | **alpine*** | **$YDL_MUSIC_PATH** | Behind gluetun network |
+| Firefox | **jlesage/firefox*** | | Behind gluetun network |
 
 <br>All the containers by default
 * use a docker-run.sh script to build and run the container
@@ -85,19 +86,6 @@ Fail2ban configuration sample for every containers. The script installs every ja
 
 
 ## 📝 TODO
-- [x] install.sh: remake all auto-install options
-- [x] install.sh: add auto docker test (img = argument)
-- [x] install.sh: documentation + ReadMe instructions
-- [x] vim conf: remake all
-- [x] docker feed update: add service notif sample
-- [x] README: add/complete docker instruction for each image + tools
 - [ ] README: add screenshots samples?
-- [x] feed-updater: switch bash html updater to python xml updater
-- [x] docker nginx: status displayed with Js reading atom.xml
 - [ ] docker nginx: fignoler le poro
-- [x] docker jdownloader2: add healthcheck
-- [x] docker jdownloader2: add vpn reconnection
-- [x] Change install shell: bash -> sh
-- [ ] Dunst : remake conf + add info to volume + bluetooth notif
-- [ ] Dunst : create start tuto notif -> close if terminal or cmd started + timeout
-- [ ] Sway : redo ALL keys
+- [X] Docker xvnc : try with web-browser behind gluetun + start on session only

@@ -1,5 +1,5 @@
 export FAIL_MAIL="change@me.com"
-export CONTAINERS="gluetun filebrowser transmission ydl plex syncthing jdownloader2"
+export CONTAINERS="gluetun filebrowser transmission ydl plex syncthing jdownloader2 firefox"
 export VPN_KEY=""
 export YDL_MUSIC_PATH=""
 export DELUGE_DL_PATH=""

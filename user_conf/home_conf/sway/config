@@ -13,7 +13,7 @@ exec dunst
 exec swayidle
 
 # Clipboard manager
-exec wl-paste --watch cliphist store
+exec $HOME/.config/sway/cliphist
 
 # Hide cursor
 seat seat0 hide_cursor 5000
@@ -46,8 +46,8 @@ bindsym $mod+Return exec $TERMINAL
 bindsym $mod+b exec $HOME/.config/sway/bluetooth-connect
 
 # Clipboard manager
-bindsym pause exec cliphist list | tofi -c $HOME/.config/tofi/clipboard |  cliphist decode | wl-copy
-bindsym Shift+pause exec cliphist wipe
+bindsym pause exec killall tofi || cliphist list | tofi -c $HOME/.config/tofi/clipboard | cliphist decode | wl-copy
+bindsym Shift+pause exec cliphist wipe && notify-send "Cliphist" "Board cleaned"
 
 # Internet browser
 bindsym $mod+g exec firefox
@@ -59,6 +59,9 @@ bindsym $mod+t exec thunar
 # Sway Cheat Sheet
 bindsym $mod+slash exec "$HOME/.config/sway/sway-tuto info"
 bindsym $mod+question exec "$HOME/.config/sway/sway-tuto info"
+
+# Status notification
+bindsym $mod+period exec notify-send -t 5000 -r 2 "$(stat=`mpc status | head -n -1` ; date=`date +"%F %T"` ; [ ! -z "$stat" ] && echo -e "$stat\\n$date" || echo "$date")" -u low
 
 # Capture a video
 bindsym $mod+Print exec sway-interactive-screenshot --video

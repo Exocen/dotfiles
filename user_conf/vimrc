@@ -48,14 +48,18 @@ Plug 'https://github.com/preservim/vim-markdown'
 "  start insert mode with i,a,I,A
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
-" Contains snippets files for various programming languages
-Plug 'https://github.com/honza/vim-snippets'
-
 " Use Tab to trigger the completion suggestions and select matched items
 " By default use Ctrl-] for definition jumping
 " Ctrl-t for jumping back
 Plug 'jayli/vim-easycomplete'
-Plug 'SirVer/ultisnips'
+
+" Snippet engine
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'https://github.com/prabirshrestha/vim-lsp'
+
+" Snippets
+Plug 'rafamadriz/friendly-snippets'
 
 " statusline/tabline skin
 Plug 'itchyny/lightline.vim'
@@ -521,3 +525,7 @@ map <leader>o :BufExplorer<cr>
 " Markdown indent correction
 let g:vim_markdown_new_list_item_indent = 0
 let g:vim_markdown_auto_insert_bullets = 0
+
+" Let me have long lines in python
+let g:ale_python_flake8_executable = 'flake8'
+let g:ale_python_flake8_options = '--ignore=E501, W503'

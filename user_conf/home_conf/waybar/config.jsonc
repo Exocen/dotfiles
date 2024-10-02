@@ -37,8 +37,7 @@
     // "temperature",
     "clock#date",
     "clock#time",
-    "custom/capslock-status",
-    "custom/notification"
+    "custom/capslock-status"
     ],
 
 
@@ -113,7 +112,7 @@
 
     "custom/gpu-temp": {
         "exec": "~/.config/waybar/gpu-temp amd",
-        "format":"<span font='14' color=\"#138d75\">{icon}</span>{:>3}°C",
+        "format":"<span font='14' color=\"#138d75\">{icon}</span>{0:>3}°C",
         "format-icons": [
             "", // Icon: temperature-empty
             "", // Icon: temperature-quarter

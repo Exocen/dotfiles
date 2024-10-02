@@ -2,7 +2,6 @@
 ID=100
 DESC="Sway Cheat Sheet"
 TIMEOUT_DELAY="15 minutes"
-TIMEOUT="$(date -d "$TIMEOUT_DELAY" +%s)"
 CHEATSHEET=$(cat <<-END
 Super + ?: Display this Cheat Sheet
 Super + Enter: Terminal
@@ -15,7 +14,7 @@ Super + b: Connect Bluetooth
 
 Print Screen: Image screenshot
 Super + Print Screen: Video screenshot
-Pause: Get copy history
+Pause: Copy history list
 Super + Pause: Reset copy history
 
 Super + F1/F2/F3/F4/F5: Mpd Toggle/Prev/Next/Stop/Mute
@@ -36,10 +35,10 @@ Super + r: Resize window
 Super + Shift + a: Kill focused window
 
 Super + Shift + r: Reload sway
-Super + p + Escape: Power off
-Super + s + Escape: Suspend
-Super + r + Escape: Reboot
-Super + Shift + r + Escape: Force reboot
+Super + Escape + p: Power off
+Super + Escape + s: Suspend
+Super + Escape + r : Reboot
+Super + Escape + Shift + r: Force reboot
 END
 )
 
@@ -55,7 +54,7 @@ if [ "$1" == "info" ]; then
     fi
 else
     notify-send -t 3600000 -u low -r $ID "$DESC" "$CHEATSHEET"
-    while ( ! pgrep firefox 1>/dev/null ) && ( ! pgrep tofi-run 1>/dev/null ) && ( ! pgrep thunar 1>/dev/null ) && ( ! pgrep alacritty 1>/dev/null ) && [ "$(date +%s)" -lt "$TIMEOUT" ] ; do
+    while ( ! pgrep firefox 1>/dev/null ) && ( ! pgrep tofi-run 1>/dev/null ) && ( ! pgrep thunar 1>/dev/null ) && ( ! pgrep alacritty 1>/dev/null ); do
         sleep 0.1
     done
     gdbus call --session --dest org.freedesktop.Notifications --object-path /org/freedesktop/Notifications --method org.freedesktop.Notifications.CloseNotification $ID 1>/dev/null

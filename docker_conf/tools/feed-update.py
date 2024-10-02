@@ -78,6 +78,18 @@ class Main:
         os.makedirs(NOTIFICATION_UPDATE_LOCATION, exist_ok=True)
         os.makedirs(TMP_DIR, exist_ok=True)
 
+    @staticmethod
+    def checkPath():
+        if not os.path.isfile(ATOM_PATH):
+            i = 1
+            while not os.path.isfile(ATOM_PATH):
+                if i > 5:
+                    raise Exception(f"{ATOM_PATH} not detected, exiting")
+                LOG.info(f"{ATOM_PATH} not detected, waiting ({i})")
+                time.sleep(300)
+                i = i + 1
+            LOG.info(f"{ATOM_PATH} detected, starting")
+
     def __init__(self):
         Main.init_dirs()
         self.feed_tree = None
@@ -275,6 +287,7 @@ class Main:
 
     def checkLoop(self):
         LOG.info("Starting feed_update check loop")
+        Main.checkPath()
         self.importTree()
         # Infinite check loop
         while True:
@@ -341,27 +354,21 @@ class Main:
         except Exception as write_exception:
             LOG.error(f"Error trying to write {file_path}: {write_exception}")
 
-    def run(self):
-        if len(sys.argv) < 2:
-            raise Exception(USAGE)
-        if sys.argv[1] == "loop":
-            if len(sys.argv) != 2:
-                raise Exception(USAGE)
-            self.checkLoop()
-        elif sys.argv[1] == "notif":
-            if len(sys.argv) != 4:
-                raise Exception(USAGE)
-            Main.addNotification(sys.argv[2], sys.argv[3])
-        elif sys.argv[1] == "update":
-            if len(sys.argv) != 3:
-                raise Exception(USAGE)
-            Main.addUpdate(sys.argv[2])
-        else:
-            raise Exception(USAGE)
-
 
 if __name__ == "__main__":
-    if not os.path.isfile(ATOM_PATH):
-        time.sleep(300)
-        LOG.info(f"{ATOM_PATH} not detected, waiting...")
-    Main().run()
+    if len(sys.argv) < 2:
+        raise Exception(USAGE)
+    if sys.argv[1] == "loop":
+        if len(sys.argv) != 2:
+            raise Exception(USAGE)
+        Main().checkLoop()
+    elif sys.argv[1] == "notif":
+        if len(sys.argv) != 4:
+            raise Exception(USAGE)
+        Main().addNotification(sys.argv[2], sys.argv[3])
+    elif sys.argv[1] == "update":
+        if len(sys.argv) != 3:
+            raise Exception(USAGE)
+        Main().addUpdate(sys.argv[2])
+    else:
+        raise Exception(USAGE)
