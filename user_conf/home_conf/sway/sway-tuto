@@ -43,7 +43,6 @@ END
 )
 
 echo "Starting $DESC"
-echo $1
 if [ "$1" == "info" ]; then
     LOCKFILE="/var/run/user/$(id -u)/sway-tuto.lock"
     if [ -f "$LOCKFILE" ]; then
@@ -53,8 +52,9 @@ if [ "$1" == "info" ]; then
         notify-send -u low -t 3600000 -r $ID "$DESC" "$CHEATSHEET" && touch "$LOCKFILE"
     fi
 else
+    sleep 4
     notify-send -t 3600000 -u low -r $ID "$DESC" "$CHEATSHEET"
-    while ( ! pgrep firefox 1>/dev/null ) && ( ! pgrep tofi-run 1>/dev/null ) && ( ! pgrep thunar 1>/dev/null ) && ( ! pgrep alacritty 1>/dev/null ); do
+    while ( ! pgrep "firefox|tofi-run|thunar|alacritty" -l ) ; do
         sleep 0.1
     done
     gdbus call --session --dest org.freedesktop.Notifications --object-path /org/freedesktop/Notifications --method org.freedesktop.Notifications.CloseNotification $ID 1>/dev/null
