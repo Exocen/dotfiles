@@ -1,10 +1,10 @@
 # Outputs
-exec $HOME/.config/sway/sway-outputs
+exec "$HOME/.config/sway/sway-outputs"
 
 # Startup apps
 
 # Sway Cheat Sheet
-exec $HOME/.config/sway/sway-tuto
+exec "$HOME/.config/sway/sway-tuto"
 
 # Notifications
 exec dunst
