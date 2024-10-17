@@ -37,7 +37,7 @@ Super + Shift + a: Kill focused window
 Super + Shift + r: Reload sway
 Super + Escape + p: Power off
 Super + Escape + s: Suspend
-Super + Escape + r : Reboot
+Super + Escape + r: Reboot
 Super + Escape + Shift + r: Force reboot
 END
 )
