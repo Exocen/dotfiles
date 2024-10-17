@@ -155,6 +155,7 @@ alias myip='echo `curl -s ipinfo.io/ip`'
 alias opened_ports='sudo lsof -i -n -P | grep LISTEN'
 alias ip='ip -c'
 alias yolo='git commit -m "$(curl -s https://whatthecommit.com/index.txt)"'
+alias swayexport='export SWAYSOCK=/run/user/$(id -u)/sway-ipc.$(id -u).$(pgrep -x sway).sock'
 
 ## Packages managers
 
