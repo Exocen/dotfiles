@@ -1,0 +1,11 @@
+#!/bin/bash
+# check internet -> fail : log error + quit
+# update list in -> /run/user/`id -u`/aur-update-list
+# if no aur-update-list detected -> sleep 5min and exec , else check last mod and run if over 1h
+# get pikaur/auru list
+# if fail try pacman
+#
+# 3 icons : fail noupdate/empty updates (count ?)
+# updates icon over mouse : update list
+# + send notif IF NEW updates on list
+# interval every 5min
