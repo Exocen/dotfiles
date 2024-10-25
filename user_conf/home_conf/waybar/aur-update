@@ -1,8 +1,10 @@
 #!/bin/bash
+#use pid file, no multiples runs allowed
 # check internet -> fail : log error + quit
-# update list in -> /run/user/`id -u`/aur-update-list
+# pikaur -Sy -> fail try pacman - > fail -----
 # if no aur-update-list detected -> sleep 5min and exec , else check last mod and run if over 1h
 # get pikaur/auru list
+# list = pikaur -Quq
 # if fail try pacman
 #
 # 3 icons : fail noupdate/empty updates (count ?)
