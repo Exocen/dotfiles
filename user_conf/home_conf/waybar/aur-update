@@ -1,13 +1,12 @@
 #!/bin/bash
-#use pid file, no multiples runs allowed
-# check internet -> fail : log error + quit
-# pikaur -Sy -> fail try pacman - > fail -----
-# if no aur-update-list detected -> sleep 5min and exec , else check last mod and run if over 1h
-# get pikaur/auru list
-# list = pikaur -Quq
-# if fail try pacman
-#
+TIMESTAMP_FILE_PATH="/run/user/`id -u`/waybar-aur-time"
+PIKAUR_DELAY=1800 #30min
+if [ ! -f $TIMESTAMP_FILE_PATH ] || [ "$(( `date +%s` - `cat $TIMESTAMP_FILE_PATH`))" -gt "$PIKAUR_DELAY" ] ; then
+    pikaur -Syq && date +%s > $TIMESTAMP_FILE_PATH
+fi
+pk_count=`pikaur -Quq | wc -l`
+if [ "$pk_count" -gt 0 ] ; then
+    notify-send -t 5000 -r 40 "Pikaur update available" "$pk_count packages to update"
+fi
 # 3 icons : fail noupdate/empty updates (count ?)
-# updates icon over mouse : update list
-# + send notif IF NEW updates on list
 # interval every 5min
