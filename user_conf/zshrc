@@ -178,9 +178,9 @@ alias apse='apt-cache search -t experimental'
 alias apshow='apt-cache showpkg'
 
 # pikaur / aur
-alias auri='pikaur -S'
+alias auri='pikaur -S --noedit'
 alias aurr='pikaur -Rsu'
-alias auru='pikaur -Syu'
+alias auru='pikaur -Syu --noedit'
 alias aurs='pikaur -Ss'
 alias aurl='echo "---- Native Packages ----" && pikaur -Qen && echo "---- Aur Packages ----" && pikaur -Qem'
 # Get packages list sorted by declared size
