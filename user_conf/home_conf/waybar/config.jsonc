@@ -36,6 +36,7 @@
         // "cpu#load",
         "custom/gpu-temp",
         "temperature",
+        "custom/aur-status",
         "clock#date",
         "clock#time",
         "custom/capslock-status"
@@ -108,6 +109,12 @@
     "custom/vpn-status": {
         "exec": "~/.config/waybar/vpn-state",
         "restart-interval": 5,
+        "tooltip": false
+    },
+
+    "custom/aur-status": {
+        "exec": "~/.config/waybar/aur-state",
+        "restart-interval": 300,
         "tooltip": false
     },
 
