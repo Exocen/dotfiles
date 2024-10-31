@@ -114,8 +114,9 @@
 
     "custom/aur-status": {
         "exec": "~/.config/waybar/aur-state",
+        "return-type": "json",
         "restart-interval": 300,
-        "tooltip": false
+        "tooltip": true
     },
 
     "custom/gpu-temp": {
