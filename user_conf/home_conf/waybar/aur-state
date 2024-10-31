@@ -8,7 +8,7 @@ mkdir -p $RUN_FILE_PATH
 if [ ! -f $TIMESTAMP_FILE_PATH ] || [ "$(( `date +%s` - `cat $TIMESTAMP_FILE_PATH`))" -gt "$PIKAUR_DELAY" ] ; then
     sudo pacman -Syq &>/dev/null && date +%s > $TIMESTAMP_FILE_PATH
 fi
-pk_list=$(echo $(sudo pacman -Quq 2>/dev/null))
+pk_list=$(echo $(pacman -Quq 2>/dev/null))
 pk_count=$(echo $pk_list | wc -w)
 if [ "$pk_count" -gt 0 ] ; then
     if [ ! -f $COUNT_FILE_PATH ] || [ "$(( `cat $COUNT_FILE_PATH`))" -ne "$pk_count" ] ; then
@@ -20,6 +20,7 @@ if [ "$pk_count" -gt 0 ] ; then
     echo "{\"text\": \"$text\", \"tooltip\": \"$tooltip\"}"
 else
     echo 0 > $COUNT_FILE_PATH
+    echo "{\"text\": \"\", \"tooltip\": \"\"}"
 fi
 #TODO pacman -> aur helper 
 # {"text": "$text", "alt": "$alt", "tooltip": "$tooltip", "class": "$class", "percentage": $percentage }
