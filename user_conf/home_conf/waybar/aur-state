@@ -1,0 +1,26 @@
+#!/bin/bash
+RUN_FILE_PATH="/run/user/`id -u`/waybar"
+TIMESTAMP_FILE_PATH="$RUN_FILE_PATH/waybar-aur-time"
+COUNT_FILE_PATH="$RUN_FILE_PATH/waybar-aur-count"
+PIKAUR_DELAY=1800 #30min
+mkdir -p $RUN_FILE_PATH
+
+if [ ! -f $TIMESTAMP_FILE_PATH ] || [ "$(( `date +%s` - `cat $TIMESTAMP_FILE_PATH`))" -gt "$PIKAUR_DELAY" ] ; then
+    sudo pacman -Syq &>/dev/null && date +%s > $TIMESTAMP_FILE_PATH
+fi
+pk_list=$(echo $(pacman -Quq 2>/dev/null))
+pk_count=$(echo $pk_list | wc -w)
+if [ "$pk_count" -gt 0 ] ; then
+    if [ ! -f $COUNT_FILE_PATH ] || [ "$(( `cat $COUNT_FILE_PATH`))" -ne "$pk_count" ] ; then
+        notify-send -t 15000 -r 40 "Pikaur update available" "$pk_count packages to update"
+        echo $pk_count > $COUNT_FILE_PATH
+    fi
+    text="<span font='14' color='#994F00'>󰏔 </span>$pk_count"
+    tooltip="Updates available:\r$pk_list"
+    echo "{\"text\": \"$text\", \"tooltip\": \"$tooltip\"}"
+else
+    echo 0 > $COUNT_FILE_PATH
+    echo "{\"text\": \"\", \"tooltip\": \"\"}"
+fi
+#TODO pacman -> aur helper 
+# {"text": "$text", "alt": "$alt", "tooltip": "$tooltip", "class": "$class", "percentage": $percentage }
