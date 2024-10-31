@@ -1,15 +1,12 @@
 #!/bin/bash
 if swaymsg -t get_outputs -p | grep -i output &>/dev/null; then
-    OUTPUT1="$(swaymsg -t get_outputs -p | grep -i output | head -n 1 | cut -d " " -f2)"
-    OUTPUT2="$(swaymsg -t get_outputs -p | grep -i output | tail -n 1 | cut -d " " -f2)"
+    OUTPUT1="$(swaymsg -t get_outputs -p | grep -i output | sort | head -n 1 | cut -d " " -f2)"
+    OUTPUT2="$(swaymsg -t get_outputs -p | grep -i output | sort | tail -n 1 | cut -d " " -f2)"
     echo "Output detection: 1:$OUTPUT1 2:$OUTPUT2"
 else
     OUTPUT1="*"
     OUTPUT2="*"
 fi
-
-swaymsg "output $OUTPUT1 res 2560x1440 pos 0 0"
-swaymsg "output * bg #202020 solid_color"
 
 # Workspaces allocation
 swaymsg "workspace 1 output $OUTPUT1"
@@ -17,16 +14,21 @@ swaymsg "workspace 2 output $OUTPUT1"
 swaymsg "workspace 3 output $OUTPUT1"
 swaymsg "workspace 4 output $OUTPUT1"
 swaymsg "workspace 5 output $OUTPUT1"
-swaymsg "rename workspace 2 to 6"
 swaymsg "workspace 6 output $OUTPUT2"
 swaymsg "workspace 7 output $OUTPUT2"
 swaymsg "workspace 8 output $OUTPUT2"
 swaymsg "workspace 9 output $OUTPUT2"
 swaymsg "workspace 10 output $OUTPUT2"
 
-# App Assignment (use swaymsg -t get_tree)
+# App assignment (use swaymsg -t get_tree)
 swaymsg 'assign [app_id="discord"] 8'
 swaymsg 'assign [class="steam"] 9'
 
+# Monitor assignment
+swaymsg "output $OUTPUT1 pos 0 0"
+swaymsg "output $OUTPUT2 pos 2560 0"
+swaymsg "output * bg #202020 solid_color"
+
 # Post config reload
-swaymsg "rename workspace 1 to 1"
+swaymsg "rename workspace 1 to 6"
+swaymsg "rename workspace 2 to 1"
