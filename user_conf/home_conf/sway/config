@@ -1,7 +1,29 @@
 # Outputs
-exec "$HOME/.config/sway/sway-outputs"
+set $OUTPUT1 "DP-1"
+set $OUTPUT2 "DP-2"
 
-# Startup apps
+# Workspaces allocation
+workspace 1 output $OUTPUT1
+workspace 2 output $OUTPUT1
+workspace 3 output $OUTPUT1
+workspace 4 output $OUTPUT1
+workspace 5 output $OUTPUT1
+workspace 6 output $OUTPUT2
+workspace 7 output $OUTPUT2
+workspace 8 output $OUTPUT2
+workspace 9 output $OUTPUT2
+workspace 10 output $OUTPUT2
+
+# App assignment (use swaymsg -t get_tree)
+assign [app_id="discord"] 8
+assign [class="steam"] 9
+
+# Monitor assignment
+output $OUTPUT1 pos 0 0
+output $OUTPUT2 pos 2560 0
+
+# Background
+output * bg #202020 solid_color
 
 # Sway Cheat Sheet
 exec "$HOME/.config/sway/sway-tuto"
@@ -18,7 +40,7 @@ exec $HOME/.config/sway/cliphist
 # Hide cursor
 seat seat0 hide_cursor 5000
 
-# Right_Ctrl + Right_Shift to switch
+# Right_Ctrl + Right_Shift to switch keyboards
 input "type:keyboard" {
     xkb_layout us,us
         xkb_variant ,intl
