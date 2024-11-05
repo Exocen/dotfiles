@@ -82,7 +82,7 @@ aur_ins() {
         if ! pacaur -V 1>/dev/null 2>&1; then
             arch_package_install https://aur.archlinux.org/pacaur.git
         fi
-        pacaur -S "$@" --needed --noconfirm 1>>"$logFile" 2>&1
+        pacaur -S "$@" --needed --noconfirm --noedit 1>>"$logFile" 2>&1
         is_working "$* installed"
     else
         error "Invalid OS"

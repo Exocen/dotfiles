@@ -54,7 +54,7 @@ if [ "$1" == "info" ]; then
 else
     sleep 4
     notify-send -t 3600000 -u low -r $ID "$DESC" "$CHEATSHEET"
-    while ( ! pgrep "firefox|tofi-run|thunar|alacritty" -l ) ; do
+    while ( ! pgrep "firefox|rofi|thunar|alacritty" -l ) ; do
         sleep 0.1
     done
     gdbus call --session --dest org.freedesktop.Notifications --object-path /org/freedesktop/Notifications --method org.freedesktop.Notifications.CloseNotification $ID 1>/dev/null
