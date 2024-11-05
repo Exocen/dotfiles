@@ -10,7 +10,7 @@ It allows the installation of basic tools on linux.
 1. Install vim, git, htop, iftop, iotop, tree, zsh, make, wget, sudo, rsync, curl.
 2. Clone ohmyzsh.git and set the configuration files (zsh will be switched as default shell).
 3. Set vim configuration files with plugins.
-4. (Optionnal Arch only) install packages from arch-package-list with pikaur, and set the Windows manager (wayland + sway).
+4. (Optionnal Arch only) install packages from arch-package-list with pacaur, and set the Windows manager (wayland + sway).
 
 ### Script usage
 ```
@@ -86,7 +86,6 @@ Fail2ban configuration sample for every containers. The script installs every ja
 
 
 ## 📝 TODO
-- [X] README: add screenshots samples?
 - [ ] docker nginx: fignoler le poro
-- [X] Docker xvnc : try with web-browser behind gluetun + start on session only
-- [ ] Waybar : add package update Notification
+- [X] Waybar : add package update Notification
+- [ ] Install script : differentiate aur packages
