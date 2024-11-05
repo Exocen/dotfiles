@@ -10,7 +10,7 @@ It allows the installation of basic tools on linux.
 1. Install vim, git, htop, iftop, iotop, tree, zsh, make, wget, sudo, rsync, curl.
 2. Clone ohmyzsh.git and set the configuration files (zsh will be switched as default shell).
 3. Set vim configuration files with plugins.
-4. (Optionnal Arch only) install packages from arch-package-list with pikaur, and set the Windows manager (wayland + sway).
+4. (Optionnal Arch only) install packages from arch-package-list with pacaur, and set the Windows manager (wayland + sway).
 
 ### Script usage
 ```
