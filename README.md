@@ -86,7 +86,6 @@ Fail2ban configuration sample for every containers. The script installs every ja
 
 
 ## 📝 TODO
-- [X] README: add screenshots samples?
 - [ ] docker nginx: fignoler le poro
-- [X] Docker xvnc : try with web-browser behind gluetun + start on session only
-- [ ] Waybar : add package update Notification
+- [X] Waybar : add package update Notification
+- [ ] Install script : differentiate aur packages
