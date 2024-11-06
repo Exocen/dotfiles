@@ -2,17 +2,17 @@
 RUN_FILE_PATH="/run/user/`id -u`/waybar"
 TIMESTAMP_FILE_PATH="$RUN_FILE_PATH/pacman-update-time"
 COUNT_FILE_PATH="$RUN_FILE_PATH/pacman-update-count"
-AUR_DELAY=1800 #30min
+UPDATE_DELAY=1800 #30min
 mkdir -p $RUN_FILE_PATH
 
-if [ ! -f $TIMESTAMP_FILE_PATH ] || [ "$(( `date +%s` - `cat $TIMESTAMP_FILE_PATH`))" -gt "$AUR_DELAY" ] ; then
+if [ ! -f $TIMESTAMP_FILE_PATH ] || [ "$(( `date +%s` - `cat $TIMESTAMP_FILE_PATH`))" -gt "$UPDATE_DELAY" ] ; then
     sudo pacman -Syq &>/dev/null && date +%s > $TIMESTAMP_FILE_PATH
 fi
 pk_list=$(echo $(pacman -Quq 2>/dev/null))
 pk_count=$(echo $pk_list | wc -w)
 if [ "$pk_count" -gt 0 ] ; then
     if [ ! -f $COUNT_FILE_PATH ] || [ "$(( `cat $COUNT_FILE_PATH`))" -ne "$pk_count" ] ; then
-        notify-send -t 15000 -r 40 "Aur update available" "$pk_count packages to update"
+        notify-send -t 15000 -r 40 "Pacman update available" "$pk_count packages to update"
         echo $pk_count > $COUNT_FILE_PATH
     fi
     text="<span font='14' color='#994F00'>󰏔 </span>$pk_count"
