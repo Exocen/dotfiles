@@ -36,7 +36,7 @@
         // "cpu#load",
         "custom/gpu-temp",
         "temperature",
-        "custom/aur-status",
+        "custom/pacman-status",
         "clock#date",
         "clock#time",
         "custom/capslock-status"
@@ -112,8 +112,8 @@
         "tooltip": false
     },
 
-    "custom/aur-status": {
-        "exec": "~/.config/waybar/aur-state",
+    "custom/pacman-status": {
+        "exec": "~/.config/waybar/pacman-state",
         "return-type": "json",
         "restart-interval": 300,
         "tooltip": true
