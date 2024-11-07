@@ -6,7 +6,7 @@ UPDATE_DELAY=1800 #30min
 mkdir -p $RUN_FILE_PATH
 
 if [ ! -f $TIMESTAMP_FILE_PATH ] || [ "$(( `date +%s` - `cat $TIMESTAMP_FILE_PATH`))" -gt "$UPDATE_DELAY" ] ; then
-    sudo pacman -Syq &>/dev/null && date +%s > $TIMESTAMP_FILE_PATH
+    sudo pacman -Syq &>/dev/null && date +%s > $TIMESTAMP_FILE_PATH && sleep 5
 fi
 pk_list=$(echo $(pacman -Quq 2>/dev/null))
 pk_count=$(echo $pk_list | wc -w)

@@ -147,30 +147,30 @@
         "format": "{stateIcon} {artist} - {title}",
         "format-disconnected": "Disconnected",
         "format-stopped": "",
-    //"format-stopped": "<span font='14' color=\"#28b463\">󰓛</span>",
-    "on-click": "mpc toggle",
-    "on-click-middle": "mpc prev",
-    "on-click-right": "mpc next",
-    "interval": 10,
-    "max-length": 150,
-    "consume-icons": {
-        "on": " "
-    },
-    "random-icons": {
-        "on": " "
-    },
-    "repeat-icons": {
-        "on": " "
-    },
-    "single-icons": {
-        "on": "1 "
-    },
-    "state-icons": {
-        "paused": "<span font='14' color=\"#28b463\">󰏤</span>",
-        "playing": "<span font='14' color=\"#28b463\">󰐊</span>"
-    },
-    "tooltip-format": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon} {elapsedTime}/{totalTime} - {songPosition}/{queueLength}",
-    "tooltip-format-disconnected": "MPD (disconnected)"
+        //"format-stopped": "<span font='14' color=\"#28b463\">󰓛</span>",
+        "on-click": "mpc toggle",
+        "on-click-middle": "mpc prev",
+        "on-click-right": "mpc next",
+        "interval": 10,
+        "max-length": 150,
+        "consume-icons": {
+            "on": " "
+        },
+        "random-icons": {
+            "on": " "
+        },
+        "repeat-icons": {
+            "on": " "
+        },
+        "single-icons": {
+            "on": "1 "
+        },
+        "state-icons": {
+            "paused": "<span font='14' color=\"#28b463\">󰏤</span>",
+            "playing": "<span font='14' color=\"#28b463\">󰐊</span>"
+        },
+        "tooltip-format": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon} {elapsedTime}/{totalTime} - {songPosition}/{queueLength}",
+        "tooltip-format-disconnected": "MPD (disconnected)"
     },
 
     "cpu#core": {
@@ -223,21 +223,21 @@
     },
 
     "pulseaudio": {
-        "format": "<span font='14' color=\"#28b463\">{icon}</span>{volume:>4}%",
-    //"format-bluetooth":"{volume}% {icon}",
-    "format-muted": "󰝟",
-    "format-source-muted":"󰝟",
-    "format-icons": {
-        "headphone": "",
-        "hands-free": "",
-        "headset": ["󰕿 ", "  ", "  "],
-        "phone": "",
-        "portable": "",
-        "car": "",
-        "default": ["󰕿", "", ""]
-    },
-    "scroll-step": 1,
-    "on-click": "pavucontrol"
+       //"format-bluetooth":"{volume}% {icon}",
+       "format": "<span font='14' color=\"#28b463\">{icon}</span>{volume:>4}%",
+       "format-muted": "󰝟",
+       "format-source-muted":"󰝟",
+       "format-icons": {
+           "headphone": "",
+           "hands-free": "",
+           "headset": ["󰕿 ", "  ", "  "],
+           "phone": "",
+           "portable": "",
+           "car": "",
+           "default": ["󰕿", "", ""]
+       },
+       "scroll-step": 1,
+       "on-click": "pavucontrol"
     },
 
     "temperature": {
