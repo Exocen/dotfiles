@@ -272,6 +272,10 @@ map <leader>bd :Bclose<cr>:tabclose<cr>gT
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
 
+" Close all the buffers but the current one
+command! BufCurOnly execute '%bdelete|edit#|bdelete#'
+map <leader>bb :BufCurOnly<cr>
+
 map <leader>l :bnext<cr>
 map <leader>h :bprevious<cr>
 

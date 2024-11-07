@@ -1,6 +1,6 @@
 configuration {
-  modes: [ combi, drun ];
-  combi-modes: [ window, drun, run ];
+  modes: [ combi ];
+  combi-modes: [ window, run, drun ];
   show-icons: true;
 }
 

@@ -97,7 +97,7 @@ bindsym $mod+Shift+m exec swaymsg output $(swaymsg -t get_outputs -p | grep "(fo
 bindsym $mod+Shift+A kill
 
 # App launcher
-bindsym $mod+d exec "rofi -show drun"
+bindsym $mod+d exec "rofi -show combi"
 
 # Power control
 bindsym $mod+p+Escape exec "sudo systemctl poweroff"
