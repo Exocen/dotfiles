@@ -124,6 +124,7 @@ basic_install() {
     git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
     ln -sfn "$LOCAL"/user_conf/custom.zsh-theme ~/.oh-my-zsh/custom/themes
     sudoless chsh -s /usr/bin/zsh 1>>"$logFile" 2>&1
+    [ "$(cat /etc/passwd | grep $USER | cut -d ':' -f7)" != "/usr/bin/zsh" ]
     is_working "Shell changed to zsh"
 
     # vimrc
@@ -154,8 +155,7 @@ dev_env_install() {
                             list="$list $line"
                         fi
                     done <"$file"
-                    # shellcheck disable=SC2086
-                    aur_ins $list
+                    pacman -Si &>/dev/null $list && ins $list || aur_ins $list
                 else
                     error "Missing $file"
                 fi

@@ -45,7 +45,7 @@ piper
 blueman pipewire-pulse pipewire bluez-utils wireplumber
 # Music player, visualizer
 mpd mpc ncmpcpp
-## cava
+#cava
 # Sound app control
 pavucontrol
 # Windows usb installer
