@@ -23,7 +23,7 @@ elif [ "$1" == "video" ] ; then
         mkdir -p $dir
         file="$dir/video-`date +"%s"`.mkv"
         echo $file > $dir/last_video
-        notify-send "$title" "Video recording started\nrestart to stop" -t 8000
+        notify-send "$title" "Video recording started\nPress again to stop" -t 8000
         wf-recorder -g "$GEO" --file=$file || notify-send "Screenshot" "Video recording failed" -t 8000 -u critical
         exit 0
     fi
