@@ -88,4 +88,4 @@ Fail2ban configuration sample for every containers. The script installs every ja
 ## 📝 TODO
 - [ ] docker nginx: fignoler le poro
 - [X] Waybar : add package update Notification
-- [ ] Install script : differentiate aur packages
+- [X] Install script : differentiate aur packages
