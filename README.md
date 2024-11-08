@@ -34,7 +34,7 @@ install.sh [OPTIONS]:
 
 Install testing tool available on *docker_conf/install_test*
 
-## 🐳 Docker confs
+## 🐳 Docker samples
 
 Docker configuration samples, with helper tools
 
