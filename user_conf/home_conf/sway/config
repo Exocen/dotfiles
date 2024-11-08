@@ -24,6 +24,7 @@ assign [class="steam"] 9
 # Monitor assignment
 output $OUTPUT1 pos 0 0
 output $OUTPUT2 pos 2560 0
+exec swaymsg "focus output $OUTPUT1"
 
 # Background
 output * bg #202020 solid_color
