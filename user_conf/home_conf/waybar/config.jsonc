@@ -236,7 +236,8 @@
             "", // Icon: temperature-half
             ""  // Icon: temperature-full
         ],
-        "tooltip": false
+        "tooltip-format": "GPU {temperatureC}°C",
+        "tooltip": true
     },
 
     "temperature#cpu": {
@@ -249,7 +250,8 @@
             "", // Icon: temperature-half
             ""  // Icon: temperature-full
         ],
-        "tooltip": false
+        "tooltip-format": "CPU {temperatureC}°C",
+        "tooltip": true
     },
 
     "tray": {
