@@ -177,16 +177,16 @@ alias aps='apt search'
 alias apse='apt-cache search -t experimental'
 alias apshow='apt-cache showpkg'
 
-# pacaur / aur
-alias auri='pacaur -S --noedit'
-alias aurr='pacaur -Rsu'
-alias auru='pacaur -Syu --noedit'
-alias aurs='pacaur -Ss'
-alias aurl='echo "---- Native Packages ----" && pacaur -Qen && echo "---- Aur Packages ----" && pacaur -Qem'
+# pikaur / aur
+alias auri='pikaur -S --noedit'
+alias aurr='pikaur -Rsu'
+alias auru='pikaur -Syu --noedit'
+alias aurs='pikaur -Ss'
+alias aurl='echo "---- Native Packages ----" && pikaur -Qen && echo "---- Aur Packages ----" && pikaur -Qem'
 # Get packages list sorted by declared size
-alias aurls='pacaur -Qi | awk "/^Name/{name=\$3} /^Installed Size/{print \$4\$5, name}" | sort -h'
+alias aurls='pikaur -Qi | awk "/^Name/{name=\$3} /^Installed Size/{print \$4\$5, name}" | sort -h'
 # Clean cache + orphan/unneeded packages
-alias aurc='pacaur -Sccd --noconfirm ; pacaur -Qtdq | pacaur -Rns --noconfirm - 2>/dev/null ;:'
+alias aurc='pikaur -Sccd --noconfirm ; pikaur -Qtdq | pikaur -Rns --noconfirm - 2>/dev/null ;:'
 
 ## Functions
 
