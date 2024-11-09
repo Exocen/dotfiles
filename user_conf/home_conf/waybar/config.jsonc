@@ -34,8 +34,8 @@
         "memory",
         "cpu#core",
         // "cpu#load",
-        "custom/gpu-temp",
-        "temperature",
+        "temperature#gpu",
+        "temperature#cpu",
         "custom/pacman-status",
         "clock#date",
         "clock#time",
@@ -117,20 +117,6 @@
         "return-type": "json",
         "restart-interval": 300,
         "tooltip": true
-    },
-
-    "custom/gpu-temp": {
-        "exec": "~/.config/waybar/gpu-temp amd",
-        "format":"<span font='14' color=\"#138d75\">{icon}</span>{0:>3}°C",
-        "format-icons": [
-            "", // Icon: temperature-empty
-            "", // Icon: temperature-quarter
-            "", // Icon: temperature-half
-            "", // Icon: temperature-three-quarters
-            ""  // Icon: temperature-full
-        ],
-        "restart-interval": 5,
-        "tooltip": false
     },
 
     "disk": {
@@ -240,16 +226,27 @@
        "on-click": "pavucontrol"
     },
 
-    "temperature": {
-        "critical-threshold": 85,
+    "temperature#gpu": {
+        "critical-threshold": 100,
         "interval": 5,
         "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "format": "<span font='14' color=\"#138d75\">{icon}</span>{temperatureC:>3}°C",
+        "format-icons": [
+            "", // Icon: temperature-empty
+            "", // Icon: temperature-half
+            ""  // Icon: temperature-full
+        ],
+        "tooltip": false
+    },
+
+    "temperature#cpu": {
+        "critical-threshold": 100,
+        "interval": 5,
+        "hwmon-path": "/sys/class/hwmon/hwmon3/temp1_input",
         "format": "<span font='14' color=\"#cd6155\">{icon}</span>{temperatureC:>3}°C",
         "format-icons": [
             "", // Icon: temperature-empty
-            "", // Icon: temperature-quarter
             "", // Icon: temperature-half
-            "", // Icon: temperature-three-quarters
             ""  // Icon: temperature-full
         ],
         "tooltip": false
