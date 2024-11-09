@@ -1,16 +1,16 @@
 # ⚙️ Dotfiles
-My configuration files, samples, and helpers.
+My configuration files, samples, and helpers
 
 ## 🪄 Automatic installation script
 
-*install.sh* is a script written with POSIX Shell.\
-It allows the installation of basic tools on linux.
+*install.sh* is a script written with POSIX Shell created to\
+install automnatically basic tools and set the user configuration
 
 ### Run the script install.sh to
-1. Install vim, git, htop, iftop, iotop, tree, zsh, make, wget, sudo, rsync, curl.
-2. Clone ohmyzsh.git and set the configuration files (zsh will be switched as default shell).
-3. Set vim configuration files with plugins.
-4. (Optionnal Arch only) install packages from arch-package-list with pacaur, and set the Windows manager (wayland + sway).
+1. Install vim git htop iftop iotop tree zsh make wget sudo rsync curl
+2. Clone ohmyzsh.git and set the configuration files (zsh will be switched as default shell)
+3. Set vim configuration files with plugins
+4. (Optionnal Arch only) install packages from arch-package-list, and set the Windows manager (wayland + sway)
 
 ### Script usage
 ```
@@ -89,3 +89,4 @@ Fail2ban configuration sample for every containers. The script installs every ja
 - [ ] docker nginx: fignoler le poro
 - [X] Waybar : add package update Notification
 - [X] Install script : differentiate aur packages
+- [ ] Docker : samples and tools on a different or sub git ?
