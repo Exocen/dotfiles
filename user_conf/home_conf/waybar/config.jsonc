@@ -32,8 +32,7 @@
         "network",
         "disk",
         "memory",
-        "cpu#core",
-        // "cpu#load",
+        "cpu",
         "temperature#gpu",
         "temperature#cpu",
         "custom/pacman-status",
@@ -159,19 +158,13 @@
         "tooltip-format-disconnected": "MPD (disconnected)"
     },
 
-    "cpu#core": {
+    "cpu": {
         "interval": 5,
         "format": "<span font='14' color=\"#d4ac0d\">󰍛</span>{usage:>3}%",
         "states": {
             "warning": 70,
             "critical": 90
         }
-    },
-
-    "cpu#load": {
-        "interval": 5,
-        "format": "<span font='14' color=\"#138d75\"></span> {load:<5}",
-        "tooltip": false
     },
 
     "memory": {
