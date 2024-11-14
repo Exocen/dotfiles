@@ -1,3 +1,6 @@
+# Config dir
+set $CONFIG "$HOME/.config/sway"
+
 # Outputs
 # set $OUTPUT1 "DP-1"
 # set $OUTPUT2 "DP-2"
@@ -26,7 +29,7 @@
 output * bg #202020 solid_color
 
 # Sway Cheat Sheet
-exec "$HOME/.config/sway/sway-tuto"
+exec "$CONFIG/sway-tuto"
 
 # Notifications
 exec dunst
@@ -35,7 +38,7 @@ exec dunst
 exec swayidle
 
 # Clipboard manager
-exec $HOME/.config/sway/cliphist
+exec $CONFIG/cliphist
 
 # Hide cursor
 seat seat0 hide_cursor 5000
@@ -65,10 +68,10 @@ bindsym $mod+Return exec $TERMINAL
 # bindcode control+62 exec $TERMINAL
 
 # Bluetooth devices
-bindsym $mod+b exec $HOME/.config/sway/bluetooth-connect
+bindsym $mod+b exec $CONFIG/bluetooth-connect
 
 # Clipboard manager
-bindsym pause exec killall tofi || cliphist list | tofi -c $HOME/.config/tofi/clipboard | cliphist decode | wl-copy
+bindsym pause exec killall rofi 2>/dev/null || cliphist list | rofi -dmenu | cliphist decode | wl-copy
 bindsym Shift+pause exec cliphist wipe && notify-send "Cliphist" "Board cleaned"
 
 # Internet browser
@@ -79,16 +82,16 @@ bindsym $mod+Shift+g exec firefox -private-window
 bindsym $mod+t exec thunar
 
 # Sway Cheat Sheet
-bindsym $mod+slash exec "$HOME/.config/sway/sway-tuto info"
-bindsym $mod+question exec "$HOME/.config/sway/sway-tuto info"
+bindsym $mod+slash exec "$CONFIG/sway-tuto info"
+bindsym $mod+question exec "$CONFIG/sway-tuto info"
 
 # Status notification
 bindsym $mod+period exec notify-send -t 5000 -r 2 "$(stat=`mpc status | head -n -1` ; date=`date +"%F %T"` ; [ ! -z "$stat" ] && echo -e "$stat\\n$date" || echo "$date")" -u low
 
-# Capture a video
-bindsym $mod+Print exec sway-interactive-screenshot --video
 # Capture a screenshot
-bindsym Print exec sway-interactive-screenshot
+bindsym Print exec "$CONFIG/sway-screenshot picture"
+# Capture a video
+bindsym $mod+Print exec "$CONFIG/sway-screenshot video"
 
 # Rotate Screen
 bindsym $mod+Shift+m exec swaymsg output $(swaymsg -t get_outputs -p | grep "(focused)" | cut -d " " -f 2) transform 90 clockwise
@@ -97,7 +100,7 @@ bindsym $mod+Shift+m exec swaymsg output $(swaymsg -t get_outputs -p | grep "(fo
 bindsym $mod+Shift+A kill
 
 # App launcher
-bindsym $mod+d exec "tofi-run | xargs swaymsg exec --"
+bindsym $mod+d exec "rofi -show combi"
 
 # Power control
 bindsym $mod+p+Escape exec "sudo systemctl poweroff"
@@ -117,10 +120,10 @@ bindsym XF86AudioNext exec mpc next -q
 bindsym XF86AudioStop exec mpc stop -q
 
 # Volume control
-bindsym XF86AudioLowerVolume exec "$HOME/.config/sway/volume-ctrl DOWN"
-bindsym XF86AudioMute        exec "$HOME/.config/sway/volume-ctrl MUTE"
-bindsym XF86AudioRaiseVolume exec "$HOME/.config/sway/volume-ctrl UP"
-bindsym $mod+F5              exec "$HOME/.config/sway/volume-ctrl MUTE"
+bindsym XF86AudioLowerVolume exec "$CONFIG/volume-ctrl DOWN"
+bindsym XF86AudioMute        exec "$CONFIG/volume-ctrl MUTE"
+bindsym XF86AudioRaiseVolume exec "$CONFIG/volume-ctrl UP"
+bindsym $mod+F5              exec "$CONFIG/volume-ctrl MUTE"
 
 # Screen brightness controls
 bindsym XF86MonBrightnessUp   exec light -A 10

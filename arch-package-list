@@ -11,7 +11,7 @@ noto-fonts ttf-nerd-fonts-symbols noto-fonts-emoji
 # WM
 wayland sway xorg-xwayland qt5-wayland
 # Menu, notifications, idle managment, screenshot, clipboard manager, background
-tofi dunst swayidle sway-interactive-screenshot wf-recorder cliphist swaybg
+rofi-wayland dunst swayidle grim slurp jq wf-recorder cliphist swaybg
 # Waybar
 waybar
 # Brightness tool
@@ -44,7 +44,8 @@ piper
 # Bluetooth, sound
 blueman pipewire-pulse pipewire bluez-utils wireplumber
 # Music player, visualizer
-mpd mpc ncmpcpp cava
+mpd mpc ncmpcpp
+#cava
 # Sound app control
 pavucontrol
 # Windows usb installer

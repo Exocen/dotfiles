@@ -1,0 +1,8 @@
+configuration {
+  modes: [ combi ];
+  combi-modes: [ window, run, drun ];
+  show-icons: true;
+}
+
+@theme "arthur"
+

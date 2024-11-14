@@ -1,0 +1,23 @@
+#!/bin/bash
+
+dir="/run/user/$(id -u)/sway-screenshot"
+title="Sway Screenshot"
+
+if [ "$1" == "picture" ] ; then
+    if GEO="$(slurp)" ; then
+        mkdir -p $dir
+        grim -g "$GEO" - | wl-copy && wl-paste > "$dir/picture-`date +"%s"`.png" && notify-send "$title" "Picture copied to the clipboard\nand to $dir" -t 8000 || notify-send "$title" "Screenshot failed" -t 8000 -u critical
+    fi
+elif [ "$1" == "video" ] ; then
+    #TODO add sound
+    if pgrep "wf-recorder" &>/dev/null ; then
+        killall "wf-recorder"
+    elif GEO="$(slurp)" ; then
+        mkdir -p $dir
+        notify-send "$title" "Video recording started\nPress again to stop" -t 8000
+        wf-recorder -g "$GEO" --file="$dir/video-`date +"%s"`.mp4" && notify-send "Screenshot" "Video copied to $dir" -t 8000 || notify-send "Screenshot" "Video recording failed" -t 8000 -u critical
+    fi
+else
+    echo "Usage: ./script picture||video"
+fi
+

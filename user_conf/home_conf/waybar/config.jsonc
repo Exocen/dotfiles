@@ -31,11 +31,9 @@
         "network",
         "disk",
         "memory",
-        "cpu#core",
-    // "custom/gpu-temp",
-    // "temperature",
-        // "cpu#load",
-        "custom/aur-status",
+        "cpu",
+        "temperature#cpu",
+        "custom/pacman-status",
         "clock#date",
         "clock#time",
         "custom/capslock-status"
@@ -111,25 +109,11 @@
         "tooltip": false
     },
 
-    "custom/aur-status": {
-        "exec": "~/.config/waybar/aur-state",
+    "custom/pacman-status": {
+        "exec": "~/.config/waybar/pacman-state",
         "return-type": "json",
         "restart-interval": 300,
         "tooltip": true
-    },
-
-    "custom/gpu-temp": {
-        "exec": "~/.config/waybar/gpu-temp amd",
-        "format":"<span font='14' color=\"#138d75\">{icon}</span>{0:>3}°C",
-        "format-icons": [
-            "", // Icon: temperature-empty
-            "", // Icon: temperature-quarter
-            "", // Icon: temperature-half
-            "", // Icon: temperature-three-quarters
-            ""  // Icon: temperature-full
-        ],
-        "restart-interval": 5,
-        "tooltip": false
     },
 
     "disk": {
@@ -146,45 +130,39 @@
         "format": "{stateIcon} {artist} - {title}",
         "format-disconnected": "Disconnected",
         "format-stopped": "",
-    //"format-stopped": "<span font='14' color=\"#28b463\">󰓛</span>",
-    "on-click": "mpc toggle",
-    "on-click-middle": "mpc prev",
-    "on-click-right": "mpc next",
-    "interval": 10,
-    "max-length": 150,
-    "consume-icons": {
-        "on": " "
-    },
-    "random-icons": {
-        "on": " "
-    },
-    "repeat-icons": {
-        "on": " "
-    },
-    "single-icons": {
-        "on": "1 "
-    },
-    "state-icons": {
-        "paused": "<span font='14' color=\"#28b463\">󰏤</span>",
-        "playing": "<span font='14' color=\"#28b463\">󰐊</span>"
-    },
-    "tooltip-format": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon} {elapsedTime}/{totalTime} - {songPosition}/{queueLength}",
-    "tooltip-format-disconnected": "MPD (disconnected)"
+        //"format-stopped": "<span font='14' color=\"#28b463\">󰓛</span>",
+        "on-click": "mpc toggle",
+        "on-click-middle": "mpc prev",
+        "on-click-right": "mpc next",
+        "interval": 10,
+        "max-length": 150,
+        "consume-icons": {
+            "on": " "
+        },
+        "random-icons": {
+            "on": " "
+        },
+        "repeat-icons": {
+            "on": " "
+        },
+        "single-icons": {
+            "on": "1 "
+        },
+        "state-icons": {
+            "paused": "<span font='14' color=\"#28b463\">󰏤</span>",
+            "playing": "<span font='14' color=\"#28b463\">󰐊</span>"
+        },
+        "tooltip-format": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon} {elapsedTime}/{totalTime} - {songPosition}/{queueLength}",
+        "tooltip-format-disconnected": "MPD (disconnected)"
     },
 
-    "cpu#core": {
+    "cpu": {
         "interval": 5,
         "format": "<span font='14' color=\"#d4ac0d\">󰍛</span>{usage:>3}%",
         "states": {
             "warning": 70,
             "critical": 90
         }
-    },
-
-    "cpu#load": {
-        "interval": 5,
-        "format": "<span font='14' color=\"#138d75\"></span> {load:<5}",
-        "tooltip": false
     },
 
     "memory": {
@@ -222,36 +200,49 @@
     },
 
     "pulseaudio": {
-        "format": "<span font='14' color=\"#28b463\">{icon}</span>{volume:>4}%",
-    //"format-bluetooth":"{volume}% {icon}",
-    "format-muted": "󰝟",
-    "format-source-muted":"󰝟",
-    "format-icons": {
-        "headphone": "",
-        "hands-free": "",
-        "headset": ["󰕿 ", "  ", "  "],
-        "phone": "",
-        "portable": "",
-        "car": "",
-        "default": ["󰕿", "", ""]
-    },
-    "scroll-step": 1,
-    "on-click": "pavucontrol"
+       //"format-bluetooth":"{volume}% {icon}",
+       "format": "<span font='14' color=\"#28b463\">{icon}</span>{volume:>4}%",
+       "format-muted": "󰝟",
+       "format-source-muted":"󰝟",
+       "format-icons": {
+           "headphone": "",
+           "hands-free": "",
+           "headset": ["󰕿 ", "  ", "  "],
+           "phone": "",
+           "portable": "",
+           "car": "",
+           "default": ["󰕿", "", ""]
+       },
+       "scroll-step": 1,
+       "on-click": "pavucontrol"
     },
 
-    "temperature": {
-        "critical-threshold": 85,
+    "temperature#gpu": {
+        "critical-threshold": 100,
         "interval": 5,
         "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "format": "<span font='14' color=\"#138d75\">{icon}</span>{temperatureC:>3}°C",
+        "format-icons": [
+            "", // Icon: temperature-empty
+            "", // Icon: temperature-half
+            ""  // Icon: temperature-full
+        ],
+        "tooltip-format": "GPU {temperatureC}°C",
+        "tooltip": true
+    },
+
+    "temperature#cpu": {
+        "critical-threshold": 90,
+        "interval": 5,
+        "hwmon-path": "/sys/class/hwmon/hwmon6/temp2_input",
         "format": "<span font='14' color=\"#cd6155\">{icon}</span>{temperatureC:>3}°C",
         "format-icons": [
             "", // Icon: temperature-empty
-            "", // Icon: temperature-quarter
             "", // Icon: temperature-half
-            "", // Icon: temperature-three-quarters
             ""  // Icon: temperature-full
         ],
-        "tooltip": false
+        "tooltip-format": "CPU {temperatureC}°C",
+        "tooltip": true
     },
 
     "tray": {
