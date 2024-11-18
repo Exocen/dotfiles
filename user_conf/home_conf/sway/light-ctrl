@@ -1,0 +1,24 @@
+#!/bin/bash
+
+interval=5
+min_light=0
+max_light=100
+light=$(sudo xbacklight -get)
+
+if [ "$1" == "UP" ]
+then
+    # New light
+    light=$(( ( light + interval ) - ( light % interval ) ))
+    # Not above max
+    light=$(( light > max_light ? max_light : light ))
+    sudo xbacklight -set $light
+    notify-send -t 1000 -r 1 "Brightness" "$light%"
+elif [ "$1" == "DOWN" ]
+then
+    light=$(( ( light - interval ) - ( light % interval ) ))
+    light=$(( light < min_light ? min_light : light ))
+    sudo xbacklight -set $light
+    notify-send -t 1000 -r 1 "Brightness" "$light%"
+else
+    echo "Usage: ./script UP|DOWN"
+fi

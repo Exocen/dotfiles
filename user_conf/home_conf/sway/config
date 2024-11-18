@@ -126,8 +126,8 @@ bindsym XF86AudioRaiseVolume exec "$CONFIG/volume-ctrl UP"
 bindsym $mod+F5              exec "$CONFIG/volume-ctrl MUTE"
 
 # Screen brightness controls
-bindsym XF86MonBrightnessUp   exec light -A 10
-bindsym XF86MonBrightnessDown exec light -U 10
+bindsym XF86MonBrightnessUp   exec "$CONFIG/light-ctrl UP"
+bindsym XF86MonBrightnessDown exec "$CONFIG/light-ctrl DOWN"
 
 # Change focus
 bindsym $mod+Left focus left
