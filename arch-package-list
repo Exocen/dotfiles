@@ -10,8 +10,8 @@ ifplugd
 noto-fonts ttf-nerd-fonts-symbols noto-fonts-emoji
 # WM
 wayland sway xorg-xwayland qt5-wayland
-# Menu, notifications, idle managment, screenshot, clipboard manager, background
-rofi-wayland dunst swayidle grim slurp jq wf-recorder cliphist swaybg
+# Menu, notifications, idle managment, screenshot, clipboard manager, background, brightness
+rofi-wayland dunst swayidle grim slurp jq wf-recorder cliphist swaybg acpilight
 # Waybar
 waybar
 # Brightness tool
