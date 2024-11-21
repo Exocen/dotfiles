@@ -101,6 +101,7 @@ bindsym $mod+Shift+m exec swaymsg output $(swaymsg -t get_outputs -p | grep "(fo
 bindsym $mod+Shift+A kill
 
 # App launcher
+# combi mode: select a specific mode with !r (run), !d (drun), !w (windows)
 bindsym $mod+d exec "rofi -show combi"
 
 # Power control
