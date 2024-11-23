@@ -38,7 +38,7 @@ exec dunst
 exec swayidle
 
 # Clipboard manager
-exec $CONFIG/cliphist
+exec "$CONFIG/cliphist"
 
 # Hide cursor
 seat seat0 hide_cursor 5000
@@ -68,11 +68,11 @@ bindsym $mod+Return exec $TERMINAL
 # bindcode control+62 exec $TERMINAL
 
 # Bluetooth devices
-bindsym $mod+b exec $CONFIG/bluetooth-connect
+bindsym $mod+b exec "$CONFIG/bluetooth-connect"
 
 # Clipboard manager
-bindsym pause exec killall rofi 2>/dev/null || cliphist list | rofi -dmenu | cliphist decode | wl-copy
-bindsym Shift+pause exec cliphist wipe && notify-send "Cliphist" "Board cleaned"
+bindsym pause exec killall rofi 2>/dev/null || cliphist list | rofi -dmenu -i -p "Clipboard" | cliphist decode | wl-copy
+bindsym $mod+pause exec cliphist wipe && notify-send "Clipboard" "Board cleaned"
 
 # Internet browser
 bindsym $mod+g exec firefox
@@ -100,13 +100,14 @@ bindsym $mod+Shift+m exec swaymsg output $(swaymsg -t get_outputs -p | grep "(fo
 bindsym $mod+Shift+A kill
 
 # App launcher
+# combi mode: select a specific mode with !r (run), !d (drun), !w (windows)
 bindsym $mod+d exec "rofi -show combi"
 
 # Power control
-bindsym $mod+p+Escape exec "sudo systemctl poweroff"
-bindsym $mod+s+Escape exec "sudo systemctl suspend"
-bindsym $mod+r+Escape exec "sudo systemctl reboot"
-bindsym $mod+Shift+Escape exec "sudo systemctl reboot -f"
+bindsym $mod+p+Escape exec "systemctl poweroff"
+bindsym $mod+s+Escape exec "systemctl suspend"
+bindsym $mod+r+Escape exec "systemctl reboot"
+bindsym $mod+Shift+Escape exec "systemctl reboot -f"
 
 # Mpd control
 bindsym $mod+F1 exec mpc toggle -q
