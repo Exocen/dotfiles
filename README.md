@@ -89,4 +89,4 @@ Fail2ban configuration sample for every containers. The script installs every ja
 - [ ] docker nginx: fignoler le poro
 - [X] Waybar : add package update Notification
 - [X] Install script : differentiate aur packages
-- [ ] Docker : samples and tools on another git (or sub) ?
+- [X] Docker : samples and tools on another git (or sub) ?
