@@ -1,0 +1,5 @@
+export FAIL_MAIL="change@me.com"
+export CONTAINERS="nginx_certbot mail_server vaultwarden gitea snappymail"
+export DOMAIN="domain.com"
+export MAIL_DOMAIN="mail.domain.com"
+export VW_ADMIN_PASS_ENABLED=0

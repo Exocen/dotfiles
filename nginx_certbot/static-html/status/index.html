@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Status</title>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon2.svg" type="image/svg+xml">
+  <style>
+    html {
+      color-scheme: light dark;
+    }
+
+    .center {
+      text-align: center;
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+  </style>
+  <script>
+
+    async function start() {
+      let loop = false;
+      do {
+        loop = false;
+        const response = await fetch("atom.xml");
+        if (response.ok) {
+          loop = true;
+          const categories = [].slice.call((new DOMParser()).parseFromString(await response.text(), "text/xml").getElementsByTagName("category"));
+          const entries = categories.filter((category) => typeof category === 'object' && 'attributes' in category && category.attributes.term.value == 'update').map((category) => category.parentNode);
+
+          if (entries.length !== 0) { document.body.innerHTML = ""; }
+          entries.forEach(entry => {
+            let para = document.createElement("p");
+            const title = entry.getElementsByTagName("title")[0].textContent;
+            const summary = entry.getElementsByTagName("summary")[0].textContent;
+            const updated = entry.getElementsByTagName("updated")[0].textContent;
+            const color = summary === "online" ? "green" : "red";
+            para.innerHTML = title + " : <span style=\"color:" + color + ";\">" + updated + "</span>";
+            document.body.appendChild(para);
+          }
+          )
+        }
+        await new Promise(r => setTimeout(r, 300000));
+      }
+      while (loop === true);
+    }
+    start()
+
+  </script>
+</head>
+
+<body class="center">
+
+</body>
+
+</html>

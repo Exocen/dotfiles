@@ -1,0 +1,13 @@
+FROM syncthing/syncthing:latest
+
+RUN mkdir -p /var/syncthing/data
+RUN mkdir -p /var/syncthing/config
+RUN chown 1000:1000 -R /var/syncthing
+
+ENV STDATADIR=/var/syncthing/data
+ENV STCONFDIR=/var/syncthing/config
+ENV STHOMEDIR=
+
+HEALTHCHECK --interval=1m \
+  CMD curl -fkLsS -m 2 127.0.0.1:8384/rest/noauth/health | grep -o --color=never OK && ping -c 1 1.1.1.1 1>/dev/null || exit 1
+

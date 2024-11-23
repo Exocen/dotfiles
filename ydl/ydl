@@ -1,0 +1,344 @@
+#!/usr/bin/python3
+# Dependencies : mutagen, youtube_dl, ffmpeg
+
+import csv
+import json
+import logging
+import re
+import shutil
+import subprocess
+import sys
+from os import listdir, path, utime
+from random import randint, seed
+from tempfile import TemporaryDirectory
+from time import sleep, time
+from mutagen import File, easyid3, id3
+
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+log = logging.getLogger("YDL")
+
+RETRY_COUNTER_MAX = 5
+POST_DL_COOLDOWN = 15
+ERROR_COOLDOWN = 60
+LOOP_COOLDOWN = 600
+DOCKER_DATA_PATH = "/ydl/"
+TMP_DIR = "/var/tmp"
+PARAMS_LOCATION = path.join(DOCKER_DATA_PATH, "ydl_param.csv")
+DEFAULT_USAGE = f"Multiline csv file usage -> output_dir , playlist_id, file_format(mp4,mkv,mp3) to {PARAMS_LOCATION}"
+FORMATS = ["mp4", "mkv", "mp3"]
+DB_PATH = path.join(DOCKER_DATA_PATH, "db.json")
+
+
+class CmdException(Exception):
+    pass
+
+
+class Main:
+    def __init__(self):
+        self.playlist_id = None
+        self.playlist_path_location = None
+        self.params_list = self.get_param_list()
+        log.debug(f"Using new parameters -> {self.params_list}")
+        self.retry_counter = {}
+        self.db = {}
+        self.file_format = None
+
+    def get_title_list(self):
+        log.debug(f"Getting titles from {DB_PATH}")
+        if path.exists(DB_PATH):
+            try:
+                with open(DB_PATH, newline="") as json_file:
+                    self.db = json.load(json_file)
+            except Exception as read_exception:
+                log.error(f"Error trying to read {DB_PATH}: {read_exception}")
+                self.db = {}
+
+    def write_title_list(self, done_list):
+        log.info(f"Writing titles to {DB_PATH}")
+        self.db[self.playlist_id] = done_list
+        try:
+            with open(DB_PATH, "w", newline="") as json_file:
+                json_file.write(json.dumps(self.db))
+        except Exception as write_exception:
+            log.error(f"Error trying to write {DB_PATH}: {write_exception}")
+
+    def get_param_list(self):
+        rows = []
+        if path.exists(PARAMS_LOCATION):
+            with open(PARAMS_LOCATION, "r") as csvfile:
+                csvreader = csv.reader(csvfile)
+                # extracting each data row one by one
+                for row in csvreader:
+                    rows.append(row)
+                return rows
+        raise Exception(DEFAULT_USAGE)
+
+    def connection_error(self, dl_error):
+        self.retry_counter[self.playlist_id] = self.retry_counter[self.playlist_id] + 1
+        if self.retry_counter[self.playlist_id] < RETRY_COUNTER_MAX:
+            log.error(dl_error)
+            log.info(
+                f"Vpn reloading, {RETRY_COUNTER_MAX - self.retry_counter[self.playlist_id]} tries left"
+            )
+            log.info(f"Switching ip: {Main.getip()}")
+            try:
+                Main.run_process(
+                    [
+                        "curl",
+                        "-X",
+                        "PUT",
+                        "--fail",
+                        "--silent",
+                        "--show-error",
+                        "http://localhost:8000/v1/openvpn/status",
+                        "-H",
+                        "Content-Type: application/json",
+                        "-d",
+                        '{"status":"stopped"}',
+                    ]
+                )
+                Main.run_process(
+                    [
+                        "curl",
+                        "-X",
+                        "PUT",
+                        "--fail",
+                        "--silent",
+                        "--show-error",
+                        "http://localhost:8000/v1/openvpn/status",
+                        "-H",
+                        "Content-Type: application/json",
+                        "-d",
+                        '{"status":"running"}',
+                    ]
+                )
+            except CmdException as exception:
+                log.error(f"Error switching ip: {exception}")
+            Main.let_sleep(ERROR_COOLDOWN, True)
+            log.info(f"Ip: {Main.getip()}")
+        else:
+            raise dl_error
+
+    @staticmethod
+    def run_process(cmd, islogging=True):
+        s = subprocess.run(cmd, capture_output=True, text=True)
+        if s.returncode != 0:
+            raise CmdException(s.stderr)
+        if s.stdout:
+            if islogging:
+                log.debug(s.stdout)
+            return s.stdout
+        return ""
+
+    @staticmethod
+    def getip(retry_getip=True):
+        try:
+            ip = json.loads(
+                Main.run_process(
+                    [
+                        "curl",
+                        "-X",
+                        "GET",
+                        "--fail",
+                        "--silent",
+                        "--show-error",
+                        "http://localhost:8000/v1/publicip/ip",
+                    ],
+                    False,
+                )
+            )["public_ip"].strip()
+            if ip == "" and retry_getip:
+                Main.let_sleep(ERROR_COOLDOWN, True)
+                ip = Main.getip(False)
+            else:
+                raise Exception("no returned ip")
+            return ip
+        except Exception as ex:
+            log.error(f"Can't retrieve public ip: {ex}")
+
+    def dl_list(self, pid, tmpdirname):
+        if self.file_format == "mp3":
+            Main.run_process(
+                [
+                    "yt-dlp",
+                    "--quiet",
+                    "--extract-audio",
+                    "--audio-format",
+                    "mp3",
+                    "-o",
+                    tmpdirname + "/%(title)s",
+                    "--",
+                    pid,
+                ]
+            )
+        elif self.file_format == "mp4":
+            Main.run_process(
+                [
+                    "yt-dlp",
+                    "--quiet",
+                    "-f",
+                    "bestvideo[height<=?1080]",
+                    "--recode-video",
+                    "mp4",
+                    "-o",
+                    tmpdirname + "/%(title)s.%(ext)s",
+                    "--",
+                    pid,
+                ]
+            )
+        else:
+            Main.run_process(
+                [
+                    "yt-dlp",
+                    "--quiet",
+                    "--recode-video",
+                    self.file_format,
+                    "-o",
+                    tmpdirname + "/%(title)s.%(ext)s",
+                    "--",
+                    pid,
+                ]
+            )
+
+    def extract_info(self):
+        log.debug(f"Checking playlist: {self.playlist_id}")
+        try:
+            cmd = [
+                "yt-dlp",
+                "--quiet",
+                "--flat-playlist",
+                "-J",
+                self.playlist_id,
+            ]
+            infos = json.loads(Main.run_process(cmd, False))
+            if "entries" not in infos:
+                raise Exception("Playlist check : No valid entries downloaded")
+            return json.loads(Main.run_process(cmd, False))
+        except Exception as extraction_error:
+            self.connection_error(extraction_error)
+            return
+
+    def tag_and_copy(self, audio_data, tmpdirname):
+        filenames = listdir(tmpdirname)
+        log.debug(f"Files : {filenames}")
+        if len(filenames) != 1:
+            raise Exception(f"One file should be present: {filenames}")
+        filepath = path.join(tmpdirname, filenames[0])
+        # if artist and audio -> use id3 tags
+        if self.file_format == "mp3" and audio_data.artist is not None:
+            try:
+                meta = easyid3.EasyID3(filepath)
+            except id3.ID3NoHeaderError:
+                meta = File(filepath, easy=True)
+                meta["title"] = audio_data.tagtitle
+                meta["artist"] = audio_data.artist
+                meta.save()
+        current_time = time()
+        utime(filepath, (current_time, current_time))
+        shutil.move(filepath, self.playlist_path_location)
+
+    def downloader(self):
+        # dl playlist info
+        infos = self.extract_info()
+
+        # check existing
+        audio_data_list = []
+
+        for info in infos["entries"]:
+            if info["title"] != "[Deleted video]":
+                audio_data_list.append(Audio_data(info["title"], info["id"]))
+
+        existing_title_list = self.db.get(self.playlist_id, [])
+
+        done_list = list(
+            filter(
+                lambda a: a in [b.title for b in audio_data_list], existing_title_list
+            )
+        )
+        audio_data_list = list(
+            filter(lambda a: a.title not in existing_title_list, audio_data_list)
+        )
+
+        # starting Dl and tag
+        if audio_data_list:
+            for audio_data in audio_data_list:
+                # new tmp dir every dl
+                with TemporaryDirectory(dir=TMP_DIR) as tmpdirname:
+                    try:
+                        log.info("Downloading: " + audio_data.title)
+                        self.dl_list(audio_data.pid, tmpdirname)
+                        log.debug("Tag and copy: " + audio_data.title)
+                        self.tag_and_copy(audio_data, tmpdirname)
+                    except shutil.Error as mv_error:
+                        log.error(f"Move error: {mv_error}")
+                    except CmdException as dl_error:
+                        self.connection_error(dl_error)
+                        return
+                # dl successfull or file already present, updating done list and db
+                done_list.append(audio_data.title)
+                self.write_title_list(done_list)
+                log.info("Done: " + audio_data.title)
+                self.retry_counter[self.playlist_id] = 0
+                Main.let_sleep(POST_DL_COOLDOWN, True)
+
+        # playlist update detected but no need to dl
+        elif set(existing_title_list) != set(done_list):
+            self.write_title_list(done_list)
+            self.retry_counter[self.playlist_id] = 0
+
+    def set_params(self, params):
+        self.playlist_path_location = params[0]
+        self.playlist_id = params[1]
+        if self.playlist_id not in self.retry_counter:
+            self.retry_counter[self.playlist_id] = 0
+        if self.playlist_id not in self.db:
+            self.db[self.playlist_id] = []
+        if params[2].lower() in FORMATS:
+            self.file_format = params[2].lower()
+        else:
+            raise Exception(DEFAULT_USAGE)
+
+    @staticmethod
+    def let_sleep(sleep_time, is_rnd=False):
+        if is_rnd:
+            sleep_time = sleep_time + randint(0, sleep_time)
+        log.debug("Sleeping for " + str(sleep_time) + " second(s)")
+        sleep(sleep_time)
+
+    @staticmethod
+    def check_dependencies():
+        try:
+            Main.run_process(["/usr/bin/ffmpeg", "-version"], False)
+            Main.run_process(["yt-dlp", "--version"], False)
+        except Exception as check_error:
+            log.error(f"Missing dependency: {check_error}")
+            exit(1)
+
+    def run(self):
+        log.info("YDL Starting")
+        log.debug(f"Starting on {Main.getip()}")
+        Main.check_dependencies()
+        seed()
+        self.get_title_list()
+        while True:
+            for params in self.params_list:
+                self.set_params(params)
+                self.downloader()
+            Main.let_sleep(LOOP_COOLDOWN, True)
+
+
+class Audio_data:
+    def __init__(self, title, pid):
+        self.title = title
+        self.pid = pid
+        parsed_title = re.findall(r"(.*?)\s*(-|//)\s*(.*)", title)
+        if len(parsed_title) > 0 and len(parsed_title[0]) == 3:
+            self.artist = parsed_title[0][0]
+            self.tagtitle = parsed_title[0][2]
+        else:
+            self.artist = None
+            self.tagtitle = None
+
+
+if __name__ == "__main__":
+    Main().run()
