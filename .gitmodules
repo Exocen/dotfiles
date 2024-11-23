@@ -1,0 +1,3 @@
+[submodule "docker_conf"]
+	path = docker_conf
+	url = git@git.meticae.com:exocen/docker_conf
