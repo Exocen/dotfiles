@@ -31,6 +31,7 @@ install.sh [OPTIONS]:
 * Fedora 40+
 * Manjaro
 * Ubuntu 24+
+* Linux Mint 22+
 
 Install testing tool available on *docker_conf/install_test*
 
