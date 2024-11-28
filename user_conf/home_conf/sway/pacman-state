@@ -1,12 +1,6 @@
 #!/bin/bash
-RUN_FILE_PATH="/run/user/`id -u`/pacman-state"
-TIMESTAMP_FILE_PATH="$RUN_FILE_PATH/pacman-update-time"
-UPDATE_DELAY=1800 #30min
-mkdir -p $RUN_FILE_PATH
 while :
 do
-    if [ ! -f $TIMESTAMP_FILE_PATH ] || [ "$(( `date +%s` - `cat $TIMESTAMP_FILE_PATH`))" -gt "$UPDATE_DELAY" ] ; then
-        sudo pacman -Syq &>/dev/null && date +%s > $TIMESTAMP_FILE_PATH
-    fi
-    sleep 15m
+    sudo pacman -Syq &>/dev/null
+    sleep 30m
 done

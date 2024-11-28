@@ -1,5 +1,5 @@
 #!/bin/bash
-RUN_FILE_PATH="/run/user/`id -u`/pacman-state"
+RUN_FILE_PATH="/run/user/`id -u`/waybar"
 COUNT_FILE_PATH="$RUN_FILE_PATH/pacman-update-count"
 mkdir -p $RUN_FILE_PATH
 
