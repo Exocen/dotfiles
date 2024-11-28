@@ -1,4 +1,8 @@
 #!/bin/bash
+while ! ping 1.1.1.1 -c 1 &>/dev/null
+do
+    sleep 5s
+done
 while :
 do
     sudo pacman -Syq &>/dev/null
