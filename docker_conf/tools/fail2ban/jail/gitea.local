@@ -1,7 +1,0 @@
-[gitea-docker]
-enabled = true
-filter = gitea
-port = all
-backend = systemd
-journalmatch = CONTAINER_NAME=gitea
-chain = DOCKER-USER

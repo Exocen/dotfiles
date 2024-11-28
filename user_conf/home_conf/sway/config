@@ -40,6 +40,9 @@ exec swayidle
 # Clipboard manager
 exec "$CONFIG/cliphist"
 
+# Pacman db update
+exec "$CONFIG/pacman-state"
+
 # Hide cursor
 seat seat0 hide_cursor 5000
 
@@ -65,7 +68,6 @@ floating_modifier $mod
 # Start a terminal
 set $TERMINAL "/sbin/alacritty"
 bindsym $mod+Return exec $TERMINAL
-# bindcode control+62 exec $TERMINAL
 
 # Bluetooth devices
 bindsym $mod+b exec "$CONFIG/bluetooth-connect"

@@ -56,7 +56,7 @@ conf_folder() {
 ins() {
     # install $* packages (depends on detectOS() to get $WOS)
     info "Installation: $* "
-    if [ "$WOS" = "ubuntu" ] || [ "$WOS" = "debian" ] || [ "$WOS" = "raspbian" ]; then
+    if [ "$WOS" = "ubuntu" ] || [ "$WOS" = "debian" ] || [ "$WOS" = "raspbian" ] || [ "$WOS" = "linuxmint" ]; then
         sudoless apt update -y 1>>"$logFile" 2>&1
         sudoless apt install "$@" -y 1>>"$logFile" 2>&1
         is_working "$* installed"

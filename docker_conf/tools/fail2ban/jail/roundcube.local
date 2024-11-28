@@ -1,6 +1,0 @@
-[roundcube]
-enabled  = true
-filter   = roundcube
-backend = systemd
-journalmatch = CONTAINER_NAME=roundcube
-chain = DOCKER-USER

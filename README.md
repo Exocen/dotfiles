@@ -31,6 +31,7 @@ install.sh [OPTIONS]:
 * Fedora 40+
 * Manjaro
 * Ubuntu 24+
+* Linux Mint 22+
 
 Install testing tool available on *docker_conf/install_test*
 
@@ -45,7 +46,7 @@ Docker configuration samples, with helper tools
 | Gluetun | **qmcgaw/gluetun** | **$VPN_KEY** | |
 | Jdownloader2 | **jlesage/jdownloader-2*** | **$JDOWNLOADER_DL_PATH** | Behind gluetun network |
 | Nginx_certbot | **nginx:mainline-alpine*** | **$DOMAIN** | Allows redirection for gitea, vaultwarden, and snappymail containers<br>Creates and renews certifications with certbot automatically |
-| Install_test | * | **$IMAGES** | Debian, Ubuntu, Fedora, Alpine, Archlinux, and Manjarolinux/base are used by default |
+| Install_test | * | **$IMAGES** | Debian, Ubuntu, Fedora, Alpine, Archlinux, vcatechnology/linux-mint, and Manjarolinux/base are used by default |
 | Plex | **linuxserver/plex** | **$PLEX_PATH** | |
 | Mail_server | **mailserver/docker-mailserver** | **$MAIL_DOMAIN** | Add/Del mail accounts with *setup-mail.sh*<br>Creates opendkim conf with *setup-opendkim.sh*<br>*smtp_sample* available |
 | Snappymail | **kouinkouin/snappymail** | | For the first time configuration use *mail.domain.com/?admin*.<br>Accepts user *admin* and password from */docker-data/snappymail/_data_/_default_/admin_password.txt*<br>Behind nginx_certbot proxy |
@@ -89,4 +90,4 @@ Fail2ban configuration sample for every containers. The script installs every ja
 - [ ] docker nginx: fignoler le poro
 - [X] Waybar : add package update Notification
 - [X] Install script : differentiate aur packages
-- [ ] Docker : samples and tools on another git (or sub) ?
+- [X] Docker : samples and tools on another git (or sub) ?

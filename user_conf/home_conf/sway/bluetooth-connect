@@ -29,15 +29,15 @@ main() {
         fi
     fi
 
-    systemctl status bluetooth.service | grep "^\s*Status: \"Running\"$" 1>/dev/null || sudo systemctl start bluetooth 1>/dev/null
     bluetoothctl power on 1>/dev/null
     while [ "$(date +%s)" -lt "$TIMEOUT" ]; do
         if bluetoothctl connect "$DEVICE_MAC" 1>/dev/null; then
-            # Fix -> remove set-card-profile switch and check if unneeded
-            sleep 4
-            pactl set-card-profile $(pactl list short | grep bluez_card | cut -f 1) a2dp-sink-aac
+            if ! pactl set-card-profile $(pactl list short | grep bluez_card | cut -f 1) a2dp-sink; then
+                sleep 4
+                pactl set-card-profile $(pactl list short | grep bluez_card | cut -f 1) a2dp-sink-aac
+            fi
             if pactl set-card-profile $(pactl list short | grep bluez_card | cut -f 1) a2dp-sink; then
-                notify-send "Bluetooth" "Headset $DEVICE_NAME connected" -i audio-headset
+                notify-send "Bluetooth" "$DEVICE_NAME connected" -i audio-headset
                 safe_exit "\"$DEVICE_NAME\" connected" 0
             fi
         else

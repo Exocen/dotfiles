@@ -6,5 +6,6 @@ if [ -z "$DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -eq 1 ]; then
     export MOZ_ENABLE_WAYLAND=1
     export ELECTRON_OZONE_PLATFORM_HINT=wayland
     export WLR_DRM_NO_ATOMIC=1
+    export GDK_DISABLE=vulkan
     exec sway 1> >(systemd-cat -t sway-info -p info) 2> >(systemd-cat -t sway-error -p debug)
 fi

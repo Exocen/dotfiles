@@ -1,0 +1,6 @@
+#!/bin/bash
+while :
+do
+    sudo pacman -Syq &>/dev/null
+    sleep 30m
+done

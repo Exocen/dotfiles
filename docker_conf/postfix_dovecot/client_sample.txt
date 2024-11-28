@@ -1,9 +1,0 @@
-imap
-993
-ssl/tls
-normal passwd
-
-outgoing
-465
-ssl/tls
-normal passwd

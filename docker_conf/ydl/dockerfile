@@ -1,9 +1,0 @@
-FROM alpine:latest
-
-RUN apk add --update-cache python3 py3-pip git ffmpeg curl
-RUN pip3 install --root-user-action=ignore --break-system-packages yt-dlp mutagen
-
-WORKDIR /root/
-COPY docker-entrypoint.sh ydl /root/
-RUN chmod +x docker-entrypoint.sh ydl
-ENTRYPOINT ["/root/docker-entrypoint.sh"]
