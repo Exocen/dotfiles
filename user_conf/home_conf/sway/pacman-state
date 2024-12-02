@@ -1,4 +1,6 @@
 #!/bin/bash
+LOCKFILE="/var/run/user/$UID/$(basename "$0").lock"
+[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running." && exit 1 || echo $$ >"$LOCKFILE"
 while ! ping 1.1.1.1 -c 1 &>/dev/null
 do
     sleep 5s
@@ -8,3 +10,5 @@ do
     sudo pacman -Syq &>/dev/null
     sleep 30m
 done
+
+rm "$LOCKFILE"
