@@ -18,6 +18,8 @@ waybar
 #clight
 # Utils
 acpi
+# Mail client
+thunderbird systray-x-common
 # Archive tools
 p7zip zip unrar unzip xarchiver
 # Power management

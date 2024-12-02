@@ -18,6 +18,7 @@ workspace 9 output $OUTPUT2
 workspace 10 output $OUTPUT2
 
 # App assignment (use swaymsg -t get_tree)
+assign [app_id="thunderbird"] 7
 assign [app_id="discord"] 8
 assign [class="steam"] 9
 
@@ -31,6 +32,9 @@ output * bg #202020 solid_color
 
 # Sway Cheat Sheet
 exec "$CONFIG/sway-tuto"
+
+# Mail client
+exec thunderbird
 
 # Notifications
 exec dunst
