@@ -33,9 +33,6 @@ output * bg #202020 solid_color
 # Sway Cheat Sheet
 exec "$CONFIG/sway-tuto"
 
-# Mail client
-exec thunderbird
-
 # Notifications
 exec dunst
 
