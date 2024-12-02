@@ -131,7 +131,7 @@
 
     "disk#home": {
         "interval": 30,
-        "format": "<span font='14' color=\"#05e4fc\">󰋊</span> /home {percentage_used}%",
+        "format": "<span font='14' color=\"#05e4fc\">󰋊</span> ~ {percentage_used}%",
         "states": {
             "warning": 80,
             "critical":90
