@@ -5,7 +5,7 @@ DISABLE_LS_COLORS=false
 DISABLE_AUTO_TITLE=false
 COMPLETION_WAITING_DOTS=true
 
-export PATH="/usr/sbin:/sbin:$PATH"
+export PATH="/usr/sbin:/sbin:$HOME/.cargo/bin/:$PATH"
 
 zstyle ':completion:*' menu select
 compctl -/ cd # type a directory's name to cd to it.
