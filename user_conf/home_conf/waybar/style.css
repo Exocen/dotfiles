@@ -39,10 +39,20 @@
 
 /* The whole bar */
 window#waybar {
-    background: #323232;
+    /* background: #323232; */
+    background: transparent;
     font-family: monospace, NotoSansMono, SymbolsNerdFont;
     font-size: 14px;
 }
+
+tooltip {
+  background: rgba(43, 48, 59, 0.5);
+  border: 1px solid rgba(100, 114, 125, 0.5);
+}
+tooltip label {
+  color: white;
+}
+
 
 /* Each module */
 #clock,
@@ -57,9 +67,15 @@ window#waybar {
 #network,
 #pulseaudio,
 #disk,
+#tray,
 #temperature{
-    padding-left: 0;
-    padding-right: 15px;
+	border-radius: 50px;
+    padding-left: 10px;
+	padding-right: 10px;
+    margin: 5px;
+	transition: none;
+	color: white;
+	background: #323232;
 }
 
 
@@ -103,10 +119,6 @@ window#waybar {
 
 #cpu.critical {
     animation: blink-critical 2s infinite;
-}
-
-#cava {
-    color: #28b463;
 }
 
 #pulseaudio.muted, #custom-capslock-status {
@@ -158,10 +170,6 @@ button:hover {
     background-color: #285577;
 }
 
-#tray {
-    padding-left: 15px;
-}
-
 #workspaces button.urgent {
     border-color: #c9545d;
     color: #c9545d;
@@ -174,3 +182,4 @@ button:hover {
     box-shadow: none;
     text-shadow: none;
 }
+

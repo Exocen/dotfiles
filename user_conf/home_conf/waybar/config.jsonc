@@ -70,7 +70,8 @@
     "clock#time": {
         "interval": 1,
         "format": "<span font='14' color=\"#909497\">󱑑</span> {:%T}",
-        "tooltip": false
+        "tooltip-format": "{tz_list}",
+        "timezones": ["America/Edmonton", "America/New_York", "Europe/Paris"]
     },
 
     "clock#date": {
