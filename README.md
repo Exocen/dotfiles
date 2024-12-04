@@ -1,4 +1,4 @@
-# 🐳 Docker samples
+## 🐳 Docker samples
 
 Docker configuration samples, with helper tools
 
@@ -30,20 +30,20 @@ Docker configuration samples, with helper tools
 * use *docker_user:docker_group 1000:1000* for user permission (data access)
 * could use external and custom images
 
-## Docker Tools
+### Docker Tools
 
-### Backup
+#### Backup
 *ssh-backup* script is used to backup the */docker-data* dir from a host or locally.\
 ./*ssh-backup* $host $output_dir\
 *vaultwarden-db-backup* script create a backup from the local */docker-data/vaultwarden/sqlite.db*.
 
-### Docker_manager
+#### Docker_manager
 Script created to manage all docker containers *(one to rule them all)*.\
 Can start containers, allows auto-heal, forwards errors with msmtp, and could be started with systemd.\
 ./docker_manager $start||stop||reload $conf_file (*tun_conf* or *vps_conf* samples)
 
-### Fail2ban
+#### Fail2ban
 Fail2ban configuration sample for every containers. The script installs every jails and filters.
 
-### Notification and Mails
+#### Notification and Mails
 *msmtp_sample* and *feed-update.sh* script (allow *atom.xml* update) availables.
