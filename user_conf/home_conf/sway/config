@@ -46,7 +46,7 @@ exec "$CONFIG/cliphist"
 exec "$CONFIG/pacman-state"
 
 # Hide cursor
-seat seat0 hide_cursor 5000
+seat seat0 hide_cursor 15000
 
 # Right_Ctrl + Right_Shift to switch keyboards
 input "type:keyboard" {

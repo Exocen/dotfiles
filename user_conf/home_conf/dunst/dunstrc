@@ -3,7 +3,7 @@ follow = keyboard
 
 ### Geometry ###
 
-    height =  10000
+height = (0, 1000)
 width = (0, 1000)
 
 # Position the notification in the top right corner
