@@ -5,9 +5,6 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-#add this cmd to reconnect batch option with /bin/sh interpreter
-# /root/reco.sh
-#PGUID 1000 PGID 1000 -> must have folder permission
 docker run -d --rm --log-driver=journald --log-opt tag="{{.Name}}" \
     --name=firefox \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
