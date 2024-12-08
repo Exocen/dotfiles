@@ -28,7 +28,8 @@ output $OUTPUT2 pos 2560 0
 exec swaymsg "focus output $OUTPUT1"
 
 # Background
-output * bg #202020 solid_color
+#output * bg #202020 solid_color
+output * bg "$HOME/bg.jpg" fill
 
 # Sway Cheat Sheet
 exec "$CONFIG/sway-tuto"
@@ -202,6 +203,8 @@ bindsym $mod+ctrl+Right workspace next
 # reload the configuration file
 bindsym $mod+Shift+r reload
 
+# windows colors
+client.focused  #333333 #0d3d1a #ffffff
 # resize window (you can also use the mouse for that)
 mode "resize" {
     bindsym j resize shrink width 5 px or 5 ppt

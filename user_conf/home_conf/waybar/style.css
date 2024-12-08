@@ -165,9 +165,9 @@ button:hover {
 }
 
 #workspaces button.focused {
-    border-color: #4c7899;
+    border-color: #cccccc;
     color: white;
-    background-color: #285577;
+    background-color: #0d3d1a;
 }
 
 #workspaces button.urgent {
@@ -177,7 +177,7 @@ button:hover {
 
 #workspaces button:hover {
     background: none;
-    background-color: #285577;
+    background-color: #0d3d1a;
     color: white;
     box-shadow: none;
     text-shadow: none;
