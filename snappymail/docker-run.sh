@@ -13,4 +13,4 @@ docker run -d --rm --log-driver=journald --log-opt tag="{{.Name}}" \
     -v /docker-data/snappymail:/snappymail/data \
     --net user_network --ip 10.0.0.82 \
     --name=snappymail \
-    kouinkouin/snappymail && echo "Snappymail started."
+    djmaze/snappymail && echo "Snappymail started."
