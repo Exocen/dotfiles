@@ -10,7 +10,7 @@ fi
 
 docker run -d --rm --log-driver=journald --log-opt tag="{{.Name}}" \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
-    -v /docker-data/snappymail:/snappymail/data \
+    -v /docker-data/snappymail:/var/lib/snappymail \
     --net user_network --ip 10.0.0.82 \
     --name=snappymail \
     djmaze/snappymail && echo "Snappymail started."
