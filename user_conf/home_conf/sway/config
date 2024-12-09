@@ -203,6 +203,13 @@ bindsym $mod+ctrl+Right workspace next
 # reload the configuration file
 bindsym $mod+Shift+r reload
 
+# windows borders and titlebar
+default_border none
+default_floating_border none
+titlebar_padding 1
+titlebar_border_thickness 0
+for_window [class=".*"] border pixel 1
+
 # windows colors
 client.focused  #1e522c #0d3d1a #ffffff #1e522c #3d6648
 # resize window (you can also use the mouse for that)
