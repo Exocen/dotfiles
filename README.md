@@ -12,7 +12,7 @@ Docker configuration samples, with helper tools
 | Install_test | * | **$IMAGES** | Debian, Ubuntu, Fedora, Alpine, Archlinux, vcatechnology/linux-mint, and Manjarolinux/base are used by default |
 | Plex | **linuxserver/plex** | **$PLEX_PATH** | |
 | Mail_server | **mailserver/docker-mailserver** | **$MAIL_DOMAIN** | Add/Del mail accounts with *setup-mail.sh*<br>Creates opendkim conf with *setup-opendkim.sh*<br>*smtp_sample* available |
-| Snappymail | **kouinkouin/snappymail** | | For the first time configuration use *mail.domain.com/?admin*.<br>Accepts user *admin* and password from */docker-data/snappymail/_data_/_default_/admin_password.txt*<br>Behind nginx_certbot proxy |
+| Snappymail | **djmaze/snappymail** | | For the first time configuration use *mail.domain.com/?admin*.<br>Accepts user *admin* and password from */docker-data/snappymail/_data_/_default_/admin_password.txt*<br>Behind nginx_certbot proxy |
 | Syncthing | **syncthing/syncthing*** | **$SYNCTHING_PATH** | Behind gluetun network |
 | Transmission | **lscr.io/linuxserver/transmission** | **$TRANSMISSION_DL_PATH** | Behind gluetun network |
 | Vaultwarden | **vaultwarden/server** | **$VW_ADMIN_PASS_ENABLED** |  **$VW_ADMIN_PASS_ENABLED** allows https://VW-DOMAIN/admin access<br>Behind nginx_certbot proxy |
