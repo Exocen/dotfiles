@@ -164,7 +164,7 @@ button:hover {
     color: grey;
 }
 
-#workspaces button.focused {
+#workspaces button.focused, #workspaces button.visible {
     border-color: green;
     color: white;
     /* background-color: #0d3d1a; */

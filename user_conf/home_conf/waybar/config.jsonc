@@ -20,14 +20,9 @@
 
     "modules-left": [
         "sway/workspaces",
-        "sway/mode",
-        "tray"
+        "sway/mode"
     ],
     "modules-center": [
-        "mpd"
-    ],
-    "modules-right": [
-        "pulseaudio",
         "custom/vpn-status",
         "network",
         "disk#root",
@@ -36,7 +31,12 @@
         "cpu",
         "temperature#gpu",
         "temperature#cpu",
-        "custom/pacman-status",
+        "custom/pacman-status"
+    ],
+    "modules-right": [
+        "pulseaudio",
+        "mpd",
+        "tray",
         "clock#date",
         "clock#time",
         "custom/capslock-status"
@@ -201,6 +201,8 @@
         "disable-scroll": false,
         "format": "{icon} {name}",
         "format-icons": {
+            "8":"",
+            "9":"",
             "urgent": "",
             "focused": "",
             "default": ""
