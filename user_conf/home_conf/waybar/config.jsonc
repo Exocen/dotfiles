@@ -201,8 +201,6 @@
         "disable-scroll": false,
         "format": "{icon} {name}",
         "format-icons": {
-            "8":"",
-            "9":"",
             "urgent": "",
             "focused": "",
             "default": ""
