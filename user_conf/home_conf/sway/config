@@ -204,7 +204,7 @@ bindsym $mod+ctrl+Right workspace next
 bindsym $mod+Shift+r reload
 
 # windows colors
-client.focused  #333333 #0d3d1a #ffffff
+client.focused  #1e522c #0d3d1a #ffffff #1e522c #3d6648
 # resize window (you can also use the mouse for that)
 mode "resize" {
     bindsym j resize shrink width 5 px or 5 ppt

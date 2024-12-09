@@ -165,9 +165,9 @@ button:hover {
 }
 
 #workspaces button.focused {
-    border-color: #cccccc;
+    border-color: green;
     color: white;
-    background-color: #0d3d1a;
+    /* background-color: #0d3d1a; */
 }
 
 #workspaces button.urgent {
