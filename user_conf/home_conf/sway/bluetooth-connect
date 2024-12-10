@@ -14,7 +14,7 @@ safe_exit() {
 }
 
 main() {
-    TIMEOUT_DELAY="5 minutes"
+    TIMEOUT_DELAY="1 minute"
     TIMEOUT="$(date -d "$TIMEOUT_DELAY" +%s)"
     if [ "$#" -eq 1 ]; then
         DEVICE_NAME=$1
@@ -44,6 +44,7 @@ main() {
             sleep 1
         fi
     done
+    notify-send "Bluetooth" "$DEVICE_NAME timeout" -u critical -i audio-headset
     safe_exit "\"$DEVICE_NAME\" connect timeout" 1
 }
 
