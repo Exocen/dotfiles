@@ -150,7 +150,7 @@ class Main:
             if ip == "" and retry_getip:
                 Main.let_sleep(ERROR_COOLDOWN, True)
                 ip = Main.getip(False)
-            else:
+            elif ip == "" :
                 raise Exception("no returned ip")
             return ip
         except Exception as ex:
