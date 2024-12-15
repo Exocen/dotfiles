@@ -37,4 +37,4 @@ Install testing tool available on *docker_conf/install_test*
 ### 📝 TODO
 - [ ] Docker nginx: fignoler le poro
 - [X] Install script : differentiate aur packages
-- [ ] Waybar : remake css
+- [X] Waybar : remake css
