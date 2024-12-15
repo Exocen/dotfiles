@@ -5,7 +5,7 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-if  fail2ban-client -V &>/dev/null; then
+if ! fail2ban-client -V &>/dev/null; then
     echo "fail2ban must be installed"
     exit 1
 fi
