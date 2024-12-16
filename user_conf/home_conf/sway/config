@@ -18,6 +18,7 @@ set $CONFIG "$HOME/.config/sway"
 # workspace 10 output $OUTPUT2
 
 # App assignment (use swaymsg -t get_tree)
+assign [app_id="thunderbird"] 7
 assign [app_id="discord"] 8
 assign [class="steam"] 9
 
@@ -26,7 +27,8 @@ assign [class="steam"] 9
 # output $OUTPUT2 pos 2560 0
 
 # Background
-output * bg #202020 solid_color
+#output * bg #202020 solid_color
+output * bg "$HOME/bg.jpg" fill
 
 # Sway Cheat Sheet
 exec "$CONFIG/sway-tuto"
@@ -44,7 +46,7 @@ exec "$CONFIG/cliphist"
 exec "$CONFIG/pacman-state"
 
 # Hide cursor
-seat seat0 hide_cursor 5000
+seat seat0 hide_cursor 15000
 
 # Right_Ctrl + Right_Shift to switch keyboards
 input "type:keyboard" {
@@ -200,6 +202,15 @@ bindsym $mod+ctrl+Right workspace next
 # reload the configuration file
 bindsym $mod+Shift+r reload
 
+# windows borders and titlebar
+default_border none
+default_floating_border none
+titlebar_padding 1
+titlebar_border_thickness 0
+for_window [class=".*"] border pixel 1
+
+# windows colors
+client.focused  #1e522c #0d3d1a #ffffff #1e522c #3d6648
 # resize window (you can also use the mouse for that)
 mode "resize" {
     bindsym j resize shrink width 5 px or 5 ppt

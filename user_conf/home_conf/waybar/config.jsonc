@@ -19,21 +19,22 @@
 
     "modules-left": [
         "sway/workspaces",
-        "sway/mode",
-        "tray"
+        "sway/mode"
     ],
     "modules-center": [
-        "mpd"
-    ],
-    "modules-right": [
-        "pulseaudio",
         "custom/vpn-status",
         "network",
-        "disk",
+        "disk#root",
+        "disk#home",
         "memory",
         "cpu",
         "temperature#cpu",
-        "custom/pacman-status",
+        "custom/pacman-status"
+    ],
+    "modules-right": [
+        "pulseaudio",
+        "mpd",
+        "tray",
         "clock#date",
         "clock#time",
         "custom/capslock-status"
@@ -67,7 +68,8 @@
     "clock#time": {
         "interval": 30,
         "format": "<span font='14' color=\"#909497\">󱑑</span> {:%H:%M}",
-        "tooltip": false
+        "tooltip-format": "{tz_list}",
+        "timezones": ["America/Edmonton", "America/New_York", "Europe/Paris"]
     },
 
     "clock#date": {
@@ -116,14 +118,24 @@
         "tooltip": true
     },
 
-    "disk": {
+    "disk#root": {
         "interval": 30,
-        "format": "<span font='14' color=\"#05e4fc\">󰋊</span>  {percentage_used}%",
+        "format": "<span font='14' color=\"#05e4fc\">󰋊</span> / {percentage_used}%",
         "states": {
             "warning": 80,
             "critical":90
         },
         "path": "/"
+    },
+
+    "disk#home": {
+        "interval": 30,
+        "format": "<span font='14' color=\"#05e4fc\">󰋊</span> ~ {percentage_used}%",
+        "states": {
+            "warning": 80,
+            "critical":90
+        },
+        "path": "/home"
     },
 
     "mpd": {
