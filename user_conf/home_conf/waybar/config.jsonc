@@ -22,18 +22,18 @@
         "sway/mode"
     ],
     "modules-center": [
+        "mpd",
+        "pulseaudio"
+    ],
+    "modules-right": [
         "custom/vpn-status",
         "network",
         "disk#root",
-        "disk#home",
         "memory",
         "cpu",
         "temperature#cpu",
-        "custom/pacman-status"
-    ],
-    "modules-right": [
-        "pulseaudio",
-        "mpd",
+        "backlight",
+        "custom/pacman-status",
         "tray",
         "clock#date",
         "clock#time",
@@ -99,6 +99,10 @@
         }
     },
 
+    "backlight": {
+        "format": "<span font='14' color=\"#FFFFFF\">󰃟</span> {percent}%"
+    },
+
     "custom/capslock-status": {
         "exec": "~/.config/waybar/keyboard-state",
         "restart-interval": 5,
@@ -147,6 +151,7 @@
         "on-click-middle": "mpc prev",
         "on-click-right": "mpc next",
         "interval": 10,
+        "min-length": 25,
         "max-length": 150,
         "consume-icons": {
             "on": " "
