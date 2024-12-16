@@ -196,6 +196,10 @@
         "tooltip-format": "{ifname}: {ipaddr}"
     },
 
+    "backlight": {
+        "format": "<span font='14' color=\"#FFFFFF\">󰃟</span> {percent}%"
+    },
+
     "sway/workspaces": {
         "all-outputs": false,
         "disable-scroll": false,
