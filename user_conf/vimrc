@@ -38,6 +38,7 @@ Plug 'https://github.com/tpope/vim-fugitive'
 " Markdown
 Plug 'https://github.com/preservim/vim-markdown'
 
+" select char leader+\
 "  select words with Ctrl-N
 "  create cursors vertically with Ctrl-Down/Ctrl-Up
 "  select one character at a time with Shift-Arrows
@@ -47,6 +48,7 @@ Plug 'https://github.com/preservim/vim-markdown'
 "  press Q to remove current cursor/selection
 "  start insert mode with i,a,I,A
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+let g:VM_leader = ','
 
 " Use Tab to trigger the completion suggestions and select matched items
 " By default use Ctrl-] for definition jumping

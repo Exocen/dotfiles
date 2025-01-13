@@ -27,6 +27,7 @@
         "network",
         "disk#root",
         "disk#home",
+        "custom/iostat",
         "memory",
         "cpu",
         "temperature#gpu",
@@ -113,6 +114,13 @@
         "tooltip": false
     },
 
+    "custom/iostat": {
+        "exec": "~/.config/waybar/iostat",
+        "return-type": "json",
+        "restart-interval": 2,
+        "tooltip": true
+    },
+
     "custom/pacman-status": {
         "exec": "~/.config/waybar/pacman-state",
         "return-type": "json",
@@ -181,7 +189,7 @@
 
     "memory": {
         "interval": 5,
-        "format": "<span font='14' color=\"#2e86c1\">󰞰</span>{percentage:>3}%",
+        "format": "<span font='14' color=\"#2e86c1\"> </span>{percentage:>3}%",
         "states": {
             "warning": 70,
             "critical": 90

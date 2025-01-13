@@ -69,6 +69,7 @@ tooltip label {
 #pulseaudio,
 #disk,
 #tray,
+#custom-iostat,
 #temperature{
     /* Disable if small monitor  */
 	border-radius: 50px;
