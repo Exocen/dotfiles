@@ -1,8 +1,10 @@
 #!/bin/bash
 
-#TODO better call (one regex no need for 2 cuts)
-stat=$(cat /proc/pressure/io| head -n 1)
-statsome=$(cat /proc/pressure/io | head -n 1 | cut -d ' ' -f2 | cut -d'=' -f2 | cut -d'.' -f1)
+#TODO better call (one regex no need for 3 cuts)
+# TODO add better tooltip
+# TODO colors warning error (raw or css ?)
+stat=$(cat /proc/pressure/io| tail -n 1)
+statsome=$(cat /proc/pressure/io | tail -n 1 | cut -d ' ' -f2 | cut -d'=' -f2 | cut -d'.' -f1)
 text="<span font='14' color='#75542e'>󰞰 </span>$statsome%"
 echo "{\"text\": \"$text\", \"tooltip\": \"$stat\"}"
 # {"text": "$text", "alt": "$alt", "tooltip": "$tooltip", "class": "$class", "percentage": $percentage }
