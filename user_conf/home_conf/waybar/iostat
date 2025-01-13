@@ -5,6 +5,9 @@
 # TODO colors warning error (raw or css ?)
 stat=$(cat /proc/pressure/io| tail -n 1)
 statsome=$(cat /proc/pressure/io | tail -n 1 | cut -d ' ' -f2 | cut -d'=' -f2 | cut -d'.' -f1)
+if [ ${#statsome} -le 2 ] ; then
+    statsome=' '$statsome
+fi
 text="<span font='14' color='#75542e'>󰞰 </span>$statsome%"
 echo "{\"text\": \"$text\", \"tooltip\": \"$stat\"}"
 # {"text": "$text", "alt": "$alt", "tooltip": "$tooltip", "class": "$class", "percentage": $percentage }
