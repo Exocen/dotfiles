@@ -36,4 +36,4 @@ Install testing tool available on *docker_conf/install_test*
 
 ### 📝 TODO
 - [ ] Docker nginx: fignoler le poro
-- [ ] Waybar : redo iostat
+- [X] Waybar : redo iostat
