@@ -1,13 +1,10 @@
 #!/bin/bash
 
-#TODO better call (one regex no need for 3 cuts)
-# TODO add better tooltip
 # TODO colors warning error (raw or css ?)
-stat=$(cat /proc/pressure/io| tail -n 1)
-statsome=$(cat /proc/pressure/io | tail -n 1 | cut -d ' ' -f2 | cut -d'=' -f2 | cut -d'.' -f1)
-if [ ${#statsome} -le 2 ] ; then
-    statsome=' '$statsome
+statfull=$(cat /proc/pressure/io| grep 'full')
+stat=$(echo $statfull | grep -oP '.*avg10=\K\d*(?=\.?\d* avg60)')
+if [ ${#stat} -eq 1 ] ; then
+    stat=' '$stat
 fi
-text="<span font='14' color='#75542e'>󰞰 </span>$statsome%"
-echo "{\"text\": \"$text\", \"tooltip\": \"$stat\"}"
-# {"text": "$text", "alt": "$alt", "tooltip": "$tooltip", "class": "$class", "percentage": $percentage }
+text="<span font='14' color='#75542e'>󰞰 </span>$stat%"
+echo "{\"text\": \"$text\", \"tooltip\": \"$statfull\"}"
