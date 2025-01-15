@@ -77,7 +77,7 @@ ins() {
 
 aur_ins() {
     # Aur tool install and/or use
-    info "Installation: $*"
+    info "Installation aur: $*"
     if [ "$WOS" = "arch" ]; then
         if ! pikaur -V 1>/dev/null 2>&1; then
             arch_package_install https://aur.archlinux.org/pikaur.git
@@ -123,7 +123,7 @@ basic_install() {
     ln -sfn "$LOCAL"/user_conf/zshrc ~/.zshrc
     git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
     ln -sfn "$LOCAL"/user_conf/custom.zsh-theme ~/.oh-my-zsh/custom/themes
-    sudoless chsh -s /usr/bin/zsh 1>>"$logFile" 2>&1
+    sudoless chsh -s /usr/bin/zsh `whoami` 1>>"$logFile" 2>&1
     [ "$(cat /etc/passwd | grep ^`whoami`: | cut -d ':' -f7)" = "/usr/bin/zsh" ]
     is_working "Shell changed to zsh"
 
@@ -155,7 +155,11 @@ dev_env_install() {
                             list="$list $line"
                         fi
                     done <"$file"
-                    pacman -Si &>/dev/null $list && ins $list || aur_ins $list
+                    if pacman -Si $list 1>/dev/null ; then
+                        ins $list
+                    else
+                        aur_ins $list
+                    fi
                 else
                     error "Missing $file"
                 fi
