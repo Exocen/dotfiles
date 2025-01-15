@@ -181,6 +181,7 @@ hostnamectl hostname {}
 timedatectl set-ntp 1
 timedatectl set-timezone {}
 edit /etc/locale.gen -> `locale-gen`
+systemctl enable dhcpcd.service
 systemctl enable systemd-resoled.service
 ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
