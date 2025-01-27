@@ -27,8 +27,8 @@ assign [class="steam"] 9
 # output $OUTPUT2 pos 2560 0
 
 # Background
-#output * bg #202020 solid_color
-output * bg "$HOME/bg.jpg" fill
+output * bg #202020 solid_color
+#output * bg "$HOME/bg.jpg" fill
 
 # Sway Cheat Sheet
 exec "$CONFIG/sway-tuto"

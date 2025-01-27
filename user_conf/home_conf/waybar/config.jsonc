@@ -23,9 +23,7 @@
     ],
     "modules-center": [
         "mpd",
-        "pulseaudio"
-    ],
-    "modules-right": [
+        "pulseaudio",
         "custom/vpn-status",
         "network",
         "disk#root",
@@ -33,7 +31,9 @@
         "cpu",
         "temperature#cpu",
         "backlight",
-        "custom/pacman-status",
+        "custom/pacman-status"
+    ],
+    "modules-right": [
         "tray",
         "clock#date",
         "clock#time",
@@ -151,7 +151,6 @@
         "on-click-middle": "mpc prev",
         "on-click-right": "mpc next",
         "interval": 10,
-        "min-length": 25,
         "max-length": 150,
         "consume-icons": {
             "on": " "
