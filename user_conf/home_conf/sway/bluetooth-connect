@@ -31,6 +31,7 @@ main() {
 
     notify-send "Bluetooth" "Connecting $DEVICE_NAME ..." -i audio-headset -r 200 -t 60000
     bluetoothctl power on 1>/dev/null
+    wpctl settings --save bluetooth.autoswitch-to-headset-profile false
     while [ "$(date +%s)" -lt "$TIMEOUT" ]; do
         if bluetoothctl connect "$DEVICE_MAC" 1>/dev/null; then
             if ! pactl set-card-profile $(pactl list short | grep bluez_card | cut -f 1) a2dp-sink; then

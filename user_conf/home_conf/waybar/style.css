@@ -41,6 +41,7 @@
 window#waybar {
     background: #323232;
     /* background: transparent; */
+    /* Switch if small monitor  */
     font-family: monospace, NotoSansMono, SymbolsNerdFont;
     font-size: 14px;
 }
@@ -68,10 +69,12 @@ tooltip label {
 #pulseaudio,
 #disk,
 #tray,
+#custom-iostat,
 #temperature{
 	/* border-radius: 50px; */
     /* padding-left: 10px; */
 	/* padding-right: 10px; */
+    /* Disable if small monitor  */
     margin: 5px;
 	transition: none;
 	color: white;

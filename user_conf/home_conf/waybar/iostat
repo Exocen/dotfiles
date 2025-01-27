@@ -1,0 +1,17 @@
+#!/bin/bash
+
+statfull=$(cat /proc/pressure/io| grep 'full')
+stat=$(echo $statfull | grep -oP '.*avg10=\K\d*(?=\.?\d* avg60)')
+stat=${stat//[[:blank:]]/}
+debut="<span font='14' color='#75542e'>󰞰 </span>"
+
+if [ $stat -lt 10 ]; then
+    text="$debut $stat%"
+elif  [ $stat -ge 75 ]; then
+    text="$debut<span color='#FFA500'>$stat%</span>"
+elif  [ $stat -ge 90 ]; then
+    text="$debut<span color='#FF0000'>$stat%</span>"
+else
+    text="$debut$stat%"
+fi
+echo "{\"text\": \"$text\", \"tooltip\": \"$statfull\"}"

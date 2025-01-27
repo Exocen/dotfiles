@@ -53,7 +53,7 @@ else
     ZSH_THEME="avit"
 fi
 
-plugins=(git docker sudo systemd lxd archlinux cp dirhistory rsync extract rust screen dnf yum colored-man-pages)
+plugins=(git docker sudo systemd lxd archlinux cp dirhistory rsync extract rust screen dnf yum colored-man-pages archlinux)
 source $ZSH/oh-my-zsh.sh
 # systemd plug -> sc-cmd
 # sudo plug -> ESC * 2

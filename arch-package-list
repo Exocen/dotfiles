@@ -21,7 +21,7 @@ acpi
 # Mail client
 thunderbird systray-x-common
 # Archive tools
-p7zip zip unrar unzip xarchiver
+7zip zip unrar unzip xarchiver
 # Power management
 #tlp
 # Git Browser
@@ -48,6 +48,8 @@ blueman pipewire-pulse pipewire bluez-utils wireplumber
 # Music player, visualizer
 mpd mpc ncmpcpp
 #cava
+# User rights (reboot without sudo)
+polkit
 # Sound app control
 pavucontrol
 # Windows usb installer

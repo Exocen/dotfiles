@@ -27,6 +27,7 @@
         "custom/vpn-status",
         "network",
         "disk#root",
+        "custom/iostat",
         "memory",
         "cpu",
         "temperature#cpu",
@@ -115,6 +116,13 @@
         "tooltip": false
     },
 
+    "custom/iostat": {
+        "exec": "~/.config/waybar/iostat",
+        "return-type": "json",
+        "restart-interval": 2,
+        "tooltip": true
+    },
+
     "custom/pacman-status": {
         "exec": "~/.config/waybar/pacman-state",
         "return-type": "json",
@@ -183,7 +191,7 @@
 
     "memory": {
         "interval": 5,
-        "format": "<span font='14' color=\"#2e86c1\">󰞰</span>{percentage:>3}%",
+        "format": "<span font='14' color=\"#2e86c1\"> </span>{percentage:>3}%",
         "states": {
             "warning": 70,
             "critical": 90
@@ -196,6 +204,10 @@
         "format-wifi": "<span font='14' color=\"#9b59b6\"></span> {essid} <span font='14' color=\"#9b59b6\">  </span>{bandwidthDownOctets:<4} <span font='14' color=\"#9b59b6\"> </span>{bandwidthUpOctets:<4}",
         "format-disconnected": "<span font='14' color=\"#9b59b6\">󰈂</span>",
         "tooltip-format": "{ifname}: {ipaddr}"
+    },
+
+    "backlight": {
+        "format": "<span font='14' color=\"#FFFFFF\">󰃟</span> {percent}%"
     },
 
     "sway/workspaces": {
