@@ -36,6 +36,7 @@
     ],
     "modules-right": [
         "pulseaudio",
+        "custom/bluetooth-battery",
         "mpd",
         "tray",
         "clock#date",
@@ -119,6 +120,13 @@
         "return-type": "json",
         "restart-interval": 2,
         "tooltip": true
+    },
+
+    "custom/bluetooth-battery": {
+        "exec": "~/.config/waybar/bluetooth-battery",
+        "return-type": "json",
+        "restart-interval": 5,
+        "tooltip": false
     },
 
     "custom/pacman-status": {

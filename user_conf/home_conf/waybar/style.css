@@ -70,6 +70,7 @@ tooltip label {
 #disk,
 #tray,
 #custom-iostat,
+#custom-bluetooth-battery,
 #temperature{
     /* Disable if small monitor  */
 	border-radius: 50px;

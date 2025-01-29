@@ -1,0 +1,15 @@
+#!/bin/bash
+
+percentage=`bluetoothctl info | grep -oP "Battery Percentage.*\(\K\d+(?=\))" | head -n 1` || exit 0
+
+if [ $percentage -ge 75 ]; then
+    text="<span font='14' color='#28b463'>󱊣 </span><span>$percentage%</span>"
+elif  [ $percentage -ge 50 ]; then
+    text="<span font='14' color='#28b463'>󱊢 </span><span>$percentage%</span>"
+elif  [ $percentage -lt 25 ]; then
+    text="<span font='14' color='#28b463'>󱊡 </span><span color='#FFA500'>$percentage%</span>"
+elif  [ $percentage -lt 10 ]; then
+    text="<span font='14' color='#28b463'>󰂎 </span><span color='#FF0000'>$percentage%</span>"
+fi
+echo "{\"text\": \"$text\", \"tooltip\": \"$statfull\"}"
+# {"text": "$text", "alt": "$alt", "tooltip": "$tooltip", "class": "$class", "percentage": $percentage }
