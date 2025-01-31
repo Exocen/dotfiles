@@ -16,8 +16,8 @@ My configuration files, samples, and helpers
 install.sh [OPTIONS]:
 -d     Use debug mode
 -l     Set log path (default /tmp)
--n     Skip all user interaction.  Implied 'No' to all actions
--h     Display this help and exit
+-n     Skip user interaction.  Implied 'No' to every actions
+-h     Display this output
 ```
 
 #### Example

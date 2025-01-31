@@ -6,6 +6,7 @@ FOLDER_PATH="/run/user/`id -u`/waybar"
 mkdir -p $FOLDER_PATH
 FILEPATH="$FOLDER_PATH/timestamp-$device"
 e_time="Waiting for estimation"
+date=`date +%s`
 if [ -f "$FILEPATH" ]; then
     lines=`wc -l < $FILEPATH`
     if [ "$lines" -eq 4 ]; then
@@ -13,31 +14,27 @@ if [ -f "$FILEPATH" ]; then
         T1=`head -n 2 $FILEPATH | tail -n 1`
         P2=`head -n 3 $FILEPATH | tail -n 1`
         T2=`tail -n 1 $FILEPATH`
-        if [ "$P2" -gt "$percentage" ]; then
-            T1=$T2
-            P1=$P2
-            T2=`date +%s`
-            P2=$percentage
-            printf "$P1\n$T1\n$P2\n$T2\n" > $FILEPATH
-            e_time="`date -d@$(( (($T2-$T1)/($P1-$P2))*$percentage )) -u +%Hh%Mm%S` left"
+        if [ "$P2" -gt "$percentage" ] && [ "$T2" -ne "$date" ] ; then
+            printf "$P2\n$T2\n$percentage\n$date\n" > $FILEPATH
+            e_time="`date -d@$(( (($date-$T2)/($P2-$percentage))*$percentage )) -u +%Hh%Mm%S` left"
         elif [ "$P2" -lt "$percentage" ]; then
-            printf "$percentage\n`date +%s`\n" > $FILEPATH
+            printf "$percentage\n`$date`\n" > $FILEPATH
         else
             e_time="`date -d@$(( (($T2-$T1)/($P1-$P2))*$percentage )) -u +%Hh%Mm%S` left"
         fi
     elif [ "$lines" -eq 2 ]; then
         P1=`head -n 1 $FILEPATH`
         T1=`tail -n 1 $FILEPATH`
-        if [ "$P1" -gt "$percentage" ]; then
-            printf "$P1\n$T1\n$percentage\n`date +%s`\n" > $FILEPATH
+        if [ "$P1" -gt "$percentage" ] && [ "$T1" -ne "$date" ] ; then
+            printf "$P1\n$T1\n$percentage\n`$date`\n" > $FILEPATH
         elif [ "$P1" -lt "$percentage" ]; then
-            printf "$percentage\n`date +%s`\n" > $FILEPATH
+            printf "$percentage\n`$date`\n" > $FILEPATH
         fi
     else
         rm $FILEPATH
     fi
 else
-    printf "$percentage\n`date +%s`\n" > $FILEPATH
+    printf "$percentage\n`$date`\n" > $FILEPATH
 fi
 
 if [ $percentage -ge 75 ]; then

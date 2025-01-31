@@ -10,8 +10,9 @@
 # a* -> 0 or more
 # a{2,3} - > 2 or 3 a
 # a{,3} -> max 3 a
+# a{3,} -> min 3 a
 # a*? -> lazy quantifier
-# a*+ -> possesive quantifier
+# a*+ -> possessive quantifier
 #
 #(?!pattern)	Negative lookahead
 #(?<!pattern)	Negative lookbehind
