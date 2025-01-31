@@ -29,9 +29,9 @@ if [ -f "$FILEPATH" ]; then
         P1=`head -n 1 $FILEPATH`
         T1=`tail -n 1 $FILEPATH`
         if [ "$P1" -gt "$percentage" ]; then
-            printf "$percentage\n`date +%s`\n" > $FILEPATH
-        elif [ "$P1" -lt "$percentage" ]; then
             printf "$P1\n$T1\n$percentage\n`date +%s`\n" > $FILEPATH
+        elif [ "$P1" -lt "$percentage" ]; then
+            printf "$percentage\n`date +%s`\n" > $FILEPATH
         fi
     else
         rm $FILEPATH
