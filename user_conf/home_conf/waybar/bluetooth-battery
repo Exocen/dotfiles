@@ -1,6 +1,44 @@
 #!/bin/bash
 
-percentage=`bluetoothctl info | grep -oP "Battery Percentage.*\(\K\d+(?=\))" | head -n 1` || exit 0
+device=`bluetoothctl devices | head -n 1 | grep -oP "^Device.\K..:.{11}:.."` || exit 0
+percentage=`bluetoothctl info $device | grep -oP "Battery Percentage.*\(\K\d+(?=\))"` || exit 0
+FOLDER_PATH="/run/user/`id -u`/waybar"
+mkdir -p $FOLDER_PATH
+FILEPATH="$FOLDER_PATH/timestamp-$device"
+e_time="Waiting for estimation"
+if [ -f "$FILEPATH" ]; then
+    lines=`wc -l < $FILEPATH`
+    if [ "$lines" -eq 4 ]; then
+        P1=`head -n 1 $FILEPATH`
+        T1=`head -n 2 $FILEPATH | tail -n 1`
+        P2=`head -n 3 $FILEPATH | tail -n 1`
+        T2=`tail -n 1 $FILEPATH`
+        if [ "$P2" -gt "$percentage" ]; then
+            T1=$T2
+            P1=$P2
+            T2=`date +%s`
+            P2=$percentage
+            printf "$P1\n$T1\n$P2\n$T2\n" > $FILEPATH
+            e_time=`date -d@$(( (($T2-$T1)/($P2-$P1))*$percentage )) -u +%H:%M:%S`
+        elif [ "$P2" -lt "$percentage" ]; then
+            printf "$percentage\n`date +%s`\n" > $FILEPATH
+        else
+            e_time=`date -d@$(( (($T2-$T1)/($P2-$P1))*$percentage )) -u +%H:%M:%S`
+        fi
+    elif [ "$lines" -eq 2 ]; then
+        P1=`head -n 1 $FILEPATH`
+        T1=`tail -n 1 $FILEPATH`
+        if [ "$P1" -gt "$percentage" ]; then
+            printf "$percentage\n`date +%s`\n" > $FILEPATH
+        elif [ "$P1" -lt "$percentage" ]; then
+            printf "$P1\n$T1\n$percentage\n`date +%s`\n" > $FILEPATH
+        fi
+    else
+        rm $FILEPATH
+    fi
+else
+    printf "$percentage\n`date +%s`\n" > $FILEPATH
+fi
 
 if [ $percentage -ge 75 ]; then
     text="<span font='14' color='#28b463'>󱊣 </span><span>$percentage%</span>"
@@ -11,5 +49,6 @@ elif  [ $percentage -lt 25 ]; then
 elif  [ $percentage -lt 10 ]; then
     text="<span font='14' color='#28b463'>󰂎 </span><span color='#FF0000'>$percentage%</span>"
 fi
-echo "{\"text\": \"$text\", \"tooltip\": \"$statfull\"}"
+
+echo "{\"text\": \"$text\", \"tooltip\": \"$e_time\"}"
 # {"text": "$text", "alt": "$alt", "tooltip": "$tooltip", "class": "$class", "percentage": $percentage }

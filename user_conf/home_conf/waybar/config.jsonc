@@ -126,7 +126,7 @@
         "exec": "~/.config/waybar/bluetooth-battery",
         "return-type": "json",
         "restart-interval": 5,
-        "tooltip": false
+        "tooltip": true
     },
 
     "custom/pacman-status": {
