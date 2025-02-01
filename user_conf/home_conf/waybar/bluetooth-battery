@@ -43,14 +43,14 @@ else
     printf "$percentage\n$date\n" > $FILEPATH
 fi
 
-if [ $percentage -ge 75 ]; then
+if [ $percentage -ge 70 ]; then
     text="<span font='14' color='#28b463'>󱊣 </span><span>$percentage%</span>"
-elif  [ $percentage -ge 50 ]; then
+elif  [ $percentage -ge 35 ]; then
     text="<span font='14' color='#28b463'>󱊢 </span><span>$percentage%</span>"
-elif  [ $percentage -lt 25 ]; then
-    text="<span font='14' color='#28b463'>󱊡 </span><span color='#FFA500'>$percentage%</span>"
+elif  [ $percentage -ge 10 ]; then
+    text="<span font='14' color='#FFA500'>󱊡 </span><span color='#FFA500'>$percentage%</span>"
 elif  [ $percentage -lt 10 ]; then
-    text="<span font='14' color='#28b463'>󰂎 </span><span color='#FF0000'>$percentage%</span>"
+    text="<span font='14' color='#FF0000'>󰂎 </span><span color='#FF0000'>$percentage%</span>"
 fi
 
 echo "{\"text\": \"$text\", \"tooltip\": \"$e_time\"}"
