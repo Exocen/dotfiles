@@ -25,9 +25,6 @@ docker run -d --rm --cap-add=NET_ADMIN --name gluetun --log-driver=journald \
     -p 22000:22000/tcp \
     -p 22000:22000/udp \
     -p 21027:21027/udp \
-    -p 6767:6767 \
-    -p 8989:8989 \
-    -p 7878:7878 \
     -e SERVER_COUNTRIES="USA" -e OPENVPN_USER="$VPN_KEY" qmcgaw/gluetun && echo "gluetun started."
 
 # Ports
@@ -40,7 +37,6 @@ docker run -d --rm --cap-add=NET_ADMIN --name gluetun --log-driver=journald \
 #  -p 22000:22000/tcp # syncthing
 #  -p 22000:22000/udp # syncthing
 #  -p 21027:21027/udp # syncthing
-#   -p 6767:6767 # bazarr
 
 # Optional environment variables
 
