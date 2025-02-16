@@ -2,7 +2,7 @@
 
 device=`pactl list sinks | grep -Pzo "$(pactl get-default-sink)(.|\n)*api.bluez5.address.*\"\K.*(?=\")" | tr '\0' '\n'`
 percentage=`bluetoothctl info $device | grep -oP "Battery Percentage.*\(\K\d+(?=\))"`
-
+tooltip=`pactl list sinks | grep -Pzo "$(pactl get-default-sink)(.|\n)*media\.name.*\"\K.*(?=\")" | tr '\0' '\n'`
 if [ -z "${device}" ] || [ -z "${percentage}" ] ; then
     echo "{\"text\": \"\", \"tooltip\": \"\"}"
     exit 0
@@ -18,5 +18,5 @@ elif  [ $percentage -lt 10 ]; then
     text="<span font='14' color='#FF0000'>󰂎 </span><span>$percentage%</span>"
 fi
 
-echo "{\"text\": \"$text\", \"tooltip\": \"$device\"}"
+echo "{\"text\": \"$text\", \"tooltip\": \"$tooltip\"}"
 # {"text": "$text", "alt": "$alt", "tooltip": "$tooltip", "class": "$class", "percentage": $percentage }
