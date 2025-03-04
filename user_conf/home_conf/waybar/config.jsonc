@@ -22,7 +22,7 @@
         "sway/workspaces",
         "sway/mode"
     ],
-    "modules-center": [
+    "modules-right": [
         "custom/vpn-status",
         "network",
         "disk#root",
@@ -32,9 +32,7 @@
         "cpu",
         "temperature#gpu",
         "temperature#cpu",
-        "custom/pacman-status"
-    ],
-    "modules-right": [
+        "custom/pacman-status",
         "pulseaudio",
         "custom/bluetooth-battery",
         "mpd",
@@ -165,7 +163,8 @@
         "on-click-middle": "mpc prev",
         "on-click-right": "mpc next",
         "interval": 10,
-        "max-length": 150,
+        // "max-length": 150,
+        // "min-length": 50,
         "consume-icons": {
             "on": " "
         },
