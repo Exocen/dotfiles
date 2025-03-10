@@ -38,3 +38,4 @@ Install testing tool available on *docker_conf/install_test*
 - [ ] Docker nginx: fignoler le poro
 - [X] Waybar : redo iostat
 - [ ] Docker test : add last working version for every container
+- [ ] Arch install : rework dns
