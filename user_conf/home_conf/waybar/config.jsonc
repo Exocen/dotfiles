@@ -23,18 +23,18 @@
     ],
     "modules-center": [
         "mpd",
-        "pulseaudio",
+        "custom/bluetooth-battery",
+        "pulseaudio"
+    ],
+    "modules-right": [
         "custom/vpn-status",
         "network",
+        "custom/pacman-status",
         "disk#root",
-        "custom/iostat",
         "memory",
         "cpu",
         "temperature#cpu",
         "backlight",
-        "custom/pacman-status"
-    ],
-    "modules-right": [
         "tray",
         "clock#date",
         "clock#time",
@@ -123,6 +123,13 @@
         "tooltip": true
     },
 
+    "custom/bluetooth-battery": {
+        "exec": "~/.config/waybar/bluetooth-battery",
+        "return-type": "json",
+        "restart-interval": 5,
+        "tooltip": true
+    },
+
     "custom/pacman-status": {
         "exec": "~/.config/waybar/pacman-state",
         "return-type": "json",
@@ -159,7 +166,8 @@
         "on-click-middle": "mpc prev",
         "on-click-right": "mpc next",
         "interval": 10,
-        "max-length": 150,
+        // "max-length": 150,
+        // "min-length": 50,
         "consume-icons": {
             "on": " "
         },

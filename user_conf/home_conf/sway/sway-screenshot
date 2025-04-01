@@ -6,16 +6,16 @@ title="Sway Screenshot"
 if [ "$1" == "picture" ] ; then
     if GEO="$(slurp)" ; then
         mkdir -p $dir
-        grim -g "$GEO" - | wl-copy && wl-paste > "$dir/picture-`date +"%s"`.png" && notify-send "$title" "Picture copied to the clipboard\nand to $dir" -t 8000 || notify-send "$title" "Screenshot failed" -t 8000 -u critical
+        grim -g "$GEO" - | wl-copy && wl-paste > "$dir/picture-`date +"%s"`.png" && notify-send "$title" "Picture copied to the clipboard\nand to $dir" -t 8000 -u low || notify-send "$title" "Screenshot failed" -t 8000 -u critical
     fi
 elif [ "$1" == "video" ] ; then
     if pgrep "wf-recorder" &>/dev/null ; then
         killall "wf-recorder"
     elif GEO="$(slurp)" ; then
         mkdir -p $dir
-        notify-send "$title" "Video recording started\nPress again to stop" -t 8000
+        notify-send "$title" "Video recording started\nPress again to stop" -t 8000 -r 78
         audiosink="$(pactl list sinks | grep `pactl get-default-sink` | grep -oP "Monitor Source:\s\K(.*)")"
-        wf-recorder --audio=$audiosink -g "$GEO" --file="$dir/video-`date +"%s"`.mp4" && notify-send "Screenshot" "Video copied to $dir" -t 8000 || notify-send "Screenshot" "Video recording failed" -t 8000 -u critical
+        wf-recorder --audio=$audiosink -g "$GEO" --file="$dir/video-`date +"%s"`.mp4" && notify-send "Screenshot" "Video copied to $dir" -t 8000 -r 78 -u low || notify-send "Screenshot" "Video recording failed" -t 8000 -u critical -r 78
     fi
 else
     echo "Usage: ./script picture||video"
