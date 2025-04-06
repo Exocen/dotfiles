@@ -43,7 +43,7 @@ exec swayidle
 exec "$CONFIG/cliphist"
 
 # Pacman db update
-exec "$CONFIG/pacman-state"
+# exec "$CONFIG/pacman-state"
 
 # Hide cursor
 seat seat0 hide_cursor 15000
