@@ -3,8 +3,11 @@
 
 # ^ start line
 # $ end line
+# \s any whitespace
+# \S any non-whitespace
 # . any char
-# /d | [0-9] digits
+# \d | [0-9] digits
+# \D non-digits
 # a? -> 0 or 1 a
 # a+ -> at least 1 a or more
 # a* -> 0 or more
