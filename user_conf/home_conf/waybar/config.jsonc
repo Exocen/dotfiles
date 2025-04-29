@@ -30,6 +30,7 @@
         "custom/vpn-status",
         "network",
         "custom/pacman-status",
+        "custom/iostat",
         "disk#root",
         "memory",
         "cpu",
@@ -119,7 +120,7 @@
     "custom/iostat": {
         "exec": "~/.config/waybar/iostat",
         "return-type": "json",
-        "restart-interval": 2,
+        "restart-interval": 5,
         "tooltip": true
     },
 
