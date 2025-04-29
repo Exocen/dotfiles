@@ -1,17 +1,8 @@
 #!/bin/bash
-
-statfull=$(cat /proc/pressure/io| grep 'full')
-stat=$(echo $statfull | grep -oP '.*avg10=\K\d*(?=\.?\d* avg60)')
-stat=${stat//[[:blank:]]/}
-debut="<span font='14' color='#75542e'>󰞰 </span>"
-
-if [ $stat -lt 10 ]; then
-    text="$debut $stat%"
-elif  [ $stat -ge 75 ]; then
-    text="$debut<span color='#FFA500'>$stat%</span>"
-elif  [ $stat -ge 90 ]; then
-    text="$debut<span color='#FF0000'>$stat%</span>"
-else
-    text="$debut$stat%"
-fi
-echo "{\"text\": \"$text\", \"tooltip\": \"$statfull\"}"
+iolist=`iostat -dhxy 1 1 | grep -oP '\S{,4}% \S*$' | sort -k1,1`
+iotop=`printf %s "$iolist" | tail -n 1`
+iolist=`echo $iolist`
+text="<span font='14' color='#FF4D00'>󱛟 </span><span>$iotop</span>"
+echo {\"text\": \""$text"\", \"tooltip\": \""$iolist"\"}
+#TODO add multiline
+# {"text": "$text", "alt": "$alt", "tooltip": "$tooltip", "class": "$class", "percentage": $percentage }
