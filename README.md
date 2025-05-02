@@ -36,6 +36,5 @@ Install testing tool available on *docker_conf/install_test*
 
 ### 📝 TODO
 - [ ] Docker nginx: fignoler le poro
-- [X] Waybar : redo iostat (see /proc/diskstats field 11)
-- [ ] Waybar : find a solution for multi monitor problem (dual monitor dual processes) -> helper.sh + modules readers or switch bar
-- [ ] Docker test : add last working version for every container
+- [ ] Waybar : find a solution for multi monitor problem (n monitors -> n processes) : helper.sh + modules readers or switch bar
+- [ ] Docker test : save last working version for every container
