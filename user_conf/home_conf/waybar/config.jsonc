@@ -30,7 +30,7 @@
         "custom/vpn-status",
         "network",
         "custom/pacman-status",
-        "custom/iostat",
+        // "custom/iostat",
         "disk#root",
         "memory",
         "cpu",
