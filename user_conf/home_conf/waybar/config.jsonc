@@ -27,7 +27,7 @@
         "network",
         "disk#root",
         "disk#home",
-        "custom/iostat",
+        // "custom/iostat",
         "memory",
         "cpu",
         "temperature#gpu",

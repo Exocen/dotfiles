@@ -2,9 +2,10 @@
 
 # TODO
 
+# scripts : bluetooth-battery iostat keyboard-state  pacman-state  vpn-state
 # every script run in background
 # every script should have an interval var (run every n loop)
-# every script has a lock boolean (no multiple run)
+# every script has a boolean lock (no multiple run)
 # every script to /var/run/user/(id)/waybar/script_name
 # should work with 'tail script_name'
 # true loop + sleep 1 + increment loop_iteration_var
