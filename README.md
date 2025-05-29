@@ -39,3 +39,4 @@ Install testing tool available on *docker_conf/install_test*
 - [ ] Waybar : find a solution for multi monitor problem (n monitors -> n processes) : helper.sh + modules readers or switch bar
 - [ ] Docker test : save last working version for every container
 - [ ] Docker gluetun : country should be config var (usa default ?)
+- [ ] Docker tools : add report script (mail ?)
