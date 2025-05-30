@@ -40,3 +40,4 @@ Install testing tool available on *docker_conf/install_test*
 - [ ] Docker test : save last working version for every container
 - [ ] Docker gluetun : country should be config var (usa default ?)
 - [ ] Docker tools : add report script (mail ?)
+- [ ] Docker jdownloader : add container sleep/pause feature
