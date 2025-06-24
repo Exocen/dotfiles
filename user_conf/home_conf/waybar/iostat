@@ -1,8 +1,7 @@
 #!/bin/bash
 iolist=`iostat -dhxy 1 1 | grep -oP '\S{,4}% \S*$' | sort -k1,1`
 iotop=`printf %s "$iolist" | tail -n 1`
-iolist="${iolist//\n/\\t}"
-#iolist=`echo $iolist`
+iolist=`echo $iolist`
 text="<span font='14' color='#FF4D00'>󱛟 </span><span>$iotop</span>"
 echo {\"text\": \""$text"\", \"tooltip\": \""$iolist"\"}
 #TODO add multiline \t
