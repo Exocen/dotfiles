@@ -17,11 +17,10 @@
         "sway/mode"
     ],
     "modules-center":[
-        "pulseaudio",
-        "mpd",
-        "custom/bluetooth-battery"
+        "mpd"
     ],
     "modules-right": [
+        "pulseaudio",
         "tray",
         "clock#time",
         "custom/capslock-status"
