@@ -18,10 +18,11 @@
     ],
     "modules-center":[
         "pulseaudio",
-        "custom/bluetooth-battery",
-        "mpd"
+        "mpd",
+        "custom/bluetooth-battery"
     ],
     "modules-right": [
+        "tray",
         "clock#time",
         "custom/capslock-status"
     ],
