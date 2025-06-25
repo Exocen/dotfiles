@@ -36,8 +36,9 @@ Install testing tool available on *docker_conf/install_test*
 
 ### 📝 TODO
 - [ ] Docker nginx: fignoler le poro
-- [X] Waybar : find a solution for multi monitor problem (n monitors -> n processes) :~~helper.sh + modules readers or switch bar~~, defined monitor config
+- [X] Waybar : find a solution for multi monitor problem (n monitors -> n processes) : ~~helper.sh + modules readers or switch bar~~ defined monitor config
 - [ ] Docker test : save last working version for every container
-- [ ] Docker gluetun : country should be config var (usa default ?)
+- [X] Docker gluetun : country should be config var (usa default ?)
+- [ ] Sway : keep monitor location (mouse transfers) after rotation
 - [ ] Docker tools : add report script (mail ?)
 - [ ] Docker jdownloader : add container sleep/pause feature
