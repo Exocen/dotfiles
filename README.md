@@ -3,13 +3,13 @@ My configuration files, samples, and helpers
 
 ### 🪄 Automatic installation script
 
-*install.sh* is a POSIX Shell script created to automatically install basic tools and set the user configuration
+To automatically install my default environment run *install.sh* (POSIX Shell)
 
-#### Run the script install.sh to
+#### Run the script to
 1. Install vim git htop iftop iotop tree zsh make wget sudo rsync curl
 2. Set up zsh with ohmyzsh.git and the local configuration files (zsh will be switched as default shell)
 3. Set up vim configuration files with plugins
-4. (Optionnal Arch only) install packages from arch-package-list, and set the windows manager (wayland + sway)
+4. (Optionnal Arch only) install packages from arch-package-list, and the windows manager (wayland + sway)
 
 #### Script usage
 ```
@@ -36,6 +36,9 @@ Install testing tool available on *docker_conf/install_test*
 
 ### 📝 TODO
 - [ ] Docker nginx: fignoler le poro
-- [X] Waybar : redo iostat (see /proc/diskstats field 11)
-- [ ] Waybar : find a solution for multi monitor problem (dual monitor dual processes) -> helper.sh + modules readers or switch bar
-- [ ] Docker test : add last working version for every container
+- [X] Waybar : find a solution for multi monitor problem (n monitors -> n processes) : ~~helper.sh + modules readers or switch bar~~ defined monitor config
+- [ ] Docker test : save last working version for every container
+- [X] Docker gluetun : country should be config var (usa default ?)
+- [X] Sway : keep monitor location (mouse transfers) after rotation (dont set 2nd monitor pos)
+- [ ] Docker tools : add report script (mail ?)
+- [ ] Docker jdownloader : add container sleep/pause feature
