@@ -50,7 +50,7 @@
         "memory",
         "cpu",
         // "temperature#gpu",
-        "temperature#cpu",
+        // "temperature#cpu",
         // "custom/pacman-status",
         "pulseaudio",
         "custom/bluetooth-battery",
