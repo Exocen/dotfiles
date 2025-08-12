@@ -40,7 +40,7 @@ ttf-fira-code ttf-dejavu otf-ipafont
 # Web Browser
 firefox
 # Media tool
-vlc
+vlc-plugins-all
 # Logitech mouse
 piper
 # Bluetooth, sound
