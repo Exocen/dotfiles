@@ -22,6 +22,7 @@
     "modules-right": [
         "pulseaudio",
         "tray",
+        "clock#date",
         "clock#time",
         "custom/capslock-status"
     ],
