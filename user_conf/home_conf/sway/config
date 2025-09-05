@@ -110,7 +110,7 @@ bindsym $mod+d exec "rofi -show combi"
 
 # Power control
 bindsym $mod+p+Escape exec "systemctl poweroff"
-bindsym $mod+s+Escape exec "systemctl suspend"
+bindsym $mod+s+Escape exec "systemctl sleep"
 bindsym $mod+r+Escape exec "systemctl reboot"
 bindsym $mod+Shift+Escape exec "systemctl reboot -f"
 
