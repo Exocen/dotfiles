@@ -21,6 +21,7 @@
     ],
     "modules-right": [
         "pulseaudio",
+        "custom/bluetooth-battery",
         "tray",
         "clock#date",
         "clock#time",
