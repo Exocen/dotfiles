@@ -7,8 +7,8 @@ do
 done
 while :
 do
-    sudo pacman -Syq &>/dev/null
     sleep 30m
+    sudo pacman -Syq &>/dev/null
 done
 
 rm "$LOCKFILE"

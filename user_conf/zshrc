@@ -6,6 +6,7 @@ DISABLE_AUTO_TITLE=false
 COMPLETION_WAITING_DOTS=true
 
 export PATH="/usr/sbin:/sbin:$HOME/.cargo/bin/:$PATH"
+export LC_ALL=C.UTF-8
 
 zstyle ':completion:*' menu select
 compctl -/ cd # type a directory's name to cd to it.
