@@ -109,10 +109,10 @@ bindsym $mod+Shift+A kill
 bindsym $mod+d exec "rofi -show combi"
 
 # Power control
-bindsym --no-repeat --release $mod+Escape+p exec "systemctl poweroff"
-bindsym --no-repeat --release $mod+Escape+s exec "systemctl sleep"
-bindsym --no-repeat --release $mod+Escape+r exec "systemctl soft-reboot"
-bindsym --no-repeat --release $mod+Shift+Escape exec "systemctl reboot -f"
+bindsym --no-repeat --release ctrl+Escape+p exec "systemctl poweroff"
+bindsym --no-repeat --release ctrl+Escape+s exec "systemctl sleep"
+bindsym --no-repeat --release ctrl+Escape+r exec "systemctl soft-reboot"
+bindsym --no-repeat --release ctrl+Shift+Escape exec "systemctl reboot"
 
 # Mpd control
 bindsym $mod+F1 exec mpc toggle -q

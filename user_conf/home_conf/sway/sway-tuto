@@ -35,10 +35,10 @@ Super + r: Resize window
 Super + Shift + a: Kill focused window
 
 Super + Shift + r: Reload sway
-Super + Escape + p: Power off
-Super + Escape + s: Suspend
-Super + Escape + r: Reboot
-Super + Escape + Shift + r: Force reboot
+Ctrl + Escape + p: Power off
+Ctrl + Escape + s: Suspend
+Ctrl + Escape + r: Soft reboot
+Ctrl + Escape + Shift + r: Hard reboot
 END
 )
 
