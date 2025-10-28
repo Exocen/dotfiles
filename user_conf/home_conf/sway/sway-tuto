@@ -38,7 +38,7 @@ Super + Shift + r: Reload sway
 Ctrl + Escape + p: Power off
 Ctrl + Escape + s: Suspend
 Ctrl + Escape + r: Soft reboot
-Ctrl + Escape + Shift + r: Hard reboot
+Ctrl + Escape + Shift: Hard reboot
 END
 )
 

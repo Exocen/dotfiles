@@ -30,6 +30,7 @@ main() {
     fi
 
     notify-send "Bluetooth" "Connecting $DEVICE_NAME ..." -i audio-headset -r 200 -t 60000
+    sudo systemctl restart bluetooth &>/dev/null
     bluetoothctl power on 1>/dev/null
     wpctl settings --save bluetooth.autoswitch-to-headset-profile false
     while [ "$(date +%s)" -lt "$TIMEOUT" ]; do
