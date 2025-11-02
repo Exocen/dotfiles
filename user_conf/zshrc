@@ -191,6 +191,9 @@ alias aurls='pikaur -Qi | awk "/^Name/{name=\$3} /^Installed Size/{print \$4\$5,
 # Clean cache + orphan/unneeded packages
 alias aurc='pikaur -Sccd --noconfirm ; pikaur -Qtdq | pikaur -Rns --noconfirm - 2>/dev/null ;:'
 
+# docker
+alias dps='docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"'
+
 ## Functions
 
 # Quick file search
