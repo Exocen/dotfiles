@@ -21,7 +21,7 @@ acpi
 # Mail client
 thunderbird systray-x-common
 # Archive tools
-7zip zip unrar unzip xarchiver
+zip unrar unzip xarchiver
 # Power management
 #tlp
 # Git Browser
