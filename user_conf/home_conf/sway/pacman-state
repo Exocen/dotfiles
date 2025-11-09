@@ -7,7 +7,7 @@ do
 done
 while :
 do
-    sleep 30m
+    sleep 300m
     sudo pacman -Syq &>/dev/null
 done
 
