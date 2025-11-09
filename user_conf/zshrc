@@ -250,3 +250,6 @@ function maketar() { tar cvzf $1.tgz $*; }
 function makezip() { zip -r "${1%%/}.zip" "$1"; }
 function make7z() { 7z a -t7z -m0=lzma2 "$1.7z" "$@"; }
 function make7zcrypt() { 7z a -t7z -m0=lzma2 -mhe=on -p $1.7z "$@"; }
+# Install functions
+function installcargo(){curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh}
+function installrclone(){curl https://rclone.org/install.sh | bash}
