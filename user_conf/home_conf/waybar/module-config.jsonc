@@ -238,5 +238,46 @@
     "tray": {
         "icon-size": 15,
         "spacing": 10
+    },
+
+    "group/group-power": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 500,
+            "children-class": "not-power",
+            "transition-left-to-right": false
+        },
+        "modules": [
+            "custom/terminal", // First element is the "group leader" and won't ever be hidden
+            "custom/power",
+            "custom/steam",
+            "custom/vlc",
+            "custom/firefox"
+        ]
+    },
+    "custom/terminal": {
+        "format": " ",
+        "tooltip": false,
+        "on-click": "alacritty"
+    },
+    "custom/firefox": {
+        "format": "󰈹 ",
+        "tooltip": false,
+        "on-click": "firefox"
+    },
+    "custom/steam": {
+        "format": "󰓓 ",
+        "tooltip": false,
+        "on-click": "steam"
+    },
+    "custom/vlc": {
+        "format": "󰕼 ",
+        "tooltip": false,
+        "on-click": "vlc"
+    },
+    "custom/power": {
+        "format": " ",
+        "tooltip": false,
+        "on-click": "poweroff"
     }
 }

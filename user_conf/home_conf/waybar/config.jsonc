@@ -60,7 +60,8 @@
         "tray",
         "clock#date",
         "clock#time",
-        "custom/capslock-status"
+        "custom/capslock-status",
+        "group/group-power"
     ],
     "include": [
         "~/.config/waybar/module-config.jsonc"
