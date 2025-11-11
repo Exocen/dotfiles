@@ -251,33 +251,39 @@
             "custom/terminal", // First element is the "group leader" and won't ever be hidden
             "custom/power",
             "custom/steam",
+            "custom/discord",
             "custom/vlc",
             "custom/firefox"
         ]
     },
     "custom/terminal": {
         "format": " ",
-        "tooltip": false,
+        "tooltip-format": "Terminal",
         "on-click": "alacritty"
     },
     "custom/firefox": {
         "format": "󰈹 ",
-        "tooltip": false,
+        "tooltip-format": "Firefox",
         "on-click": "firefox"
     },
     "custom/steam": {
         "format": "󰓓 ",
-        "tooltip": false,
+        "tooltip-format": "Steam",
         "on-click": "steam"
+    },
+    "custom/discord": {
+        "format": " ",
+        "tooltip-format": "Discord",
+        "on-click": "discord"
     },
     "custom/vlc": {
         "format": "󰕼 ",
-        "tooltip": false,
+        "tooltip-format": "VLC",
         "on-click": "vlc"
     },
     "custom/power": {
         "format": " ",
-        "tooltip": false,
+        "tooltip-format": "Power off",
         "on-click": "poweroff"
     }
 }
