@@ -37,3 +37,4 @@ Install testing tool available on *docker_conf/install_test*
 ### 📝 TODO
 - [ ] Docker jdownloader : add container sleep/pause feature
 - [ ] Docker tools fail2ban : use journald correctly + check everything
+- [ ] Docker mail_server : restore port 25
