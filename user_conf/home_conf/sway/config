@@ -37,6 +37,9 @@ exec "$CONFIG/sway-tuto"
 # Notifications
 exec dunst
 
+# Virtual keyboard
+exec squeekboard
+
 # Idle stuff
 exec swayidle
 

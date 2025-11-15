@@ -254,7 +254,8 @@
             "custom/steam",
             "custom/discord",
             "custom/vlc",
-            "custom/firefox"
+            "custom/firefox",
+            "custom/virtual-keyboard"
         ]
     },
     "custom/terminal": {
@@ -271,6 +272,11 @@
         "format": "󰓓 ",
         "tooltip-format": "Steam",
         "on-click": "steam"
+    },
+    "custom/virtual-keyboard": {
+        "format": " ",
+        "tooltip-format": "Virtual Keyboard",
+        "on-click": "gsettings set org.gnome.desktop.a11y.applications screen-keyboard-enabled $(gsettings get org.gnome.desktop.a11y.applications screen-keyboard-enabled | grep -q 'true' && echo 'false' || echo 'true')"
     },
     "custom/discord": {
         "format": " ",
