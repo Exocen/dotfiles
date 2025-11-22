@@ -26,7 +26,7 @@ Super + Ctrl + left/right: Move to left/right workspace
 Super + Arrow: Change focused window
 Super + Shift + Arrow: Move window
 Super + h/v: Split horizontaly/verticaly
-Super + f: Full screen focused swindow
+Super + f: Full screen focused window
 Super + s/z/e: Change container layout to stacked/tabbed/toggle split
 Super + Shift + Space: Toggle floating window
 Super + Space: Toggle focus between tiling and floating
