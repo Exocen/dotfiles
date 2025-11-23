@@ -4,10 +4,10 @@ mesa
 #nvidia
 # Amd CPU
 amd-ucode
+# Fonts
+ttf-fira-code ttf-dejavu otf-ipafont noto-fonts ttf-nerd-fonts-symbols noto-fonts-emoji
 # Network
 ifplugd
-# Fonts
-noto-fonts ttf-nerd-fonts-symbols noto-fonts-emoji
 # WM
 wayland sway xorg-xwayland qt5-wayland
 # Menu, notifications, idle managment, screenshot, clipboard manager, background, brightness, virtual keyboard
@@ -35,8 +35,6 @@ nethogs
 thunar
 # Terminal
 alacritty
-# Fonts
-ttf-fira-code ttf-dejavu otf-ipafont
 # Web Browser
 firefox
 # Media tool
