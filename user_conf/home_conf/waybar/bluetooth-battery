@@ -1,6 +1,9 @@
 #!/bin/bash
 
 device=`pactl list sinks | grep -Pzo "$(pactl get-default-sink)(.|\n)*api.bluez5.address.*\"\K.*(?=\")" | tr '\0' '\n'`
+if [[ -z "$device" ]]; then
+    exit 0
+fi
 percentage=`bluetoothctl info $device | grep -oP "Battery Percentage.*\(\K\d+(?=\))"`
 tooltip=`pactl list sinks | grep -Pzo "$(pactl get-default-sink)(.|\n)*media\.name.*\"\K.*(?=\")" | tr '\0' '\n'`
 if [ -z "${device}" ] || [ -z "${percentage}" ] ; then

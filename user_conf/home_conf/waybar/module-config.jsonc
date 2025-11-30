@@ -80,7 +80,7 @@
     "custom/bluetooth-battery": {
         "exec": "~/.config/waybar/bluetooth-battery",
         "return-type": "json",
-        "restart-interval": 5,
+        "restart-interval": 50,
         "tooltip": true
     },
 
