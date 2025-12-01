@@ -77,10 +77,17 @@
         "tooltip": true
     },
 
-    "custom/bluetooth-battery": {
-        "exec": "~/.config/waybar/bluetooth-battery",
+    "custom/bluetooth-battery-headset": {
+        "exec": "~/.config/waybar/bluetooth-battery headset",
         "return-type": "json",
-        "restart-interval": 50,
+        "restart-interval": 5,
+        "tooltip": true
+    },
+
+    "custom/bluetooth-battery-ps-controller": {
+        "exec": "~/.config/waybar/bluetooth-battery ps_controller",
+        "return-type": "json",
+        "restart-interval": 5,
         "tooltip": true
     },
 
