@@ -96,6 +96,7 @@ alias -s com=$BROWSER
 alias -s net=$BROWSER
 alias -s png=$BROWSER
 alias -s jpg=$BROWSER
+alias -s jpeg=$BROWSER
 alias -s gif=$BROWSER
 alias -s svg=$BROWSER
 alias -s mkv=vlc
