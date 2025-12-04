@@ -6,9 +6,9 @@ My configuration files, samples, and helpers
 To automatically install my default environment run *install.sh* (POSIX Shell)
 
 #### Run the script to
-1. Install vim git htop iftop iotop tree zsh make wget sudo rsync curl
-2. Set up zsh with ohmyzsh.git and the local configuration files (zsh will be switched as default shell)
-3. Set up vim configuration files with plugins
+1. Install vim git htop iftop iotop tree zsh make wget curl sudo rsync p7zip
+2. Set up zsh
+3. Set up vim
 4. (Optionnal Arch only) install packages from arch-package-list, and the windows manager (wayland + sway)
 
 #### Script usage
@@ -36,5 +36,5 @@ Install testing tool available on *docker_conf/install_test*
 
 ### 📝 TODO
 - [ ] Docker jdownloader : add container sleep/pause feature
-- [ ] Docker tools fail2ban : use journald correctly + check everything
+- [X] Docker tools fail2ban : use journald correctly + check everything
 - [x] Docker mail_server : restore port 25

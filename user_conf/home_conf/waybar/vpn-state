@@ -1,9 +1,14 @@
 #!/bin/bash
 
 status=$(ls /sys/class/net/*wg* &>/dev/null || ls /sys/class/net/*tun* &>/dev/null ; echo $?)
+ip=""
+
+if mullvad -V &>/dev/null && mullvad status | grep Connected &>/dev/null; then
+    ip=" <span color='#FFFFFF'>$(mullvad status | grep -oP "IPv\d:\s*\K\S*$")</span>"
+fi
 
 if [ "$status" == 0 ]; then
-    echo '󰌾'
+    echo "󰌾$ip"
 else
     echo ''
 fi
