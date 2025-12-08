@@ -261,6 +261,7 @@
             "custom/steam",
             "custom/discord",
             "custom/vlc",
+            "custom/bluetooth-connect",
             "custom/firefox",
             "custom/virtual-keyboard"
         ]
@@ -269,6 +270,11 @@
         "format": " ",
         "tooltip-format": "Terminal",
         "on-click": "alacritty"
+    },
+    "custom/bluetooth-connect": {
+        "format": "󰂯 ",
+        "tooltip-format": "Bluetooth connect",
+        "on-click": "~/.config/sway/bluetooth-connect"
     },
     "custom/firefox": {
         "format": "󰈹 ",
