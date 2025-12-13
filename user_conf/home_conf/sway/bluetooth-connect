@@ -14,6 +14,7 @@ safe_exit() {
 }
 
 main() {
+    sudo systemctl restart bluetooth &>/dev/null
     TIMEOUT_DELAY="1 minute"
     TIMEOUT="$(date -d "$TIMEOUT_DELAY" +%s)"
     if [ "$#" -eq 1 ]; then
@@ -22,24 +23,22 @@ main() {
     else
         if bluetoothctl devices | grep -i device &>/dev/null; then
             echo "No bluetooth device given, using first registered device on bluetoothctl"
-            DEVICE_MAC=`bluetoothctl devices | head -n 1 | cut -d " " -f 2`
-            DEVICE_NAME=`bluetoothctl devices | head -n 1 | cut -d " " -f 3-10`
+            DEVICE_MAC=`bluetoothctl devices | head -n 1 | grep -oP "..:..:..:..:..:.."`
+            DEVICE_NAME=`bluetoothctl devices | head -n 1 | grep -oP "..:..:..:..:..:..\s*\K.*$"`
         else
             safe_exit "Please register a device with bluetoothctl or give device_name as argument" 1
         fi
     fi
 
-    notify-send "Bluetooth" "Connecting $DEVICE_NAME ..." -i audio-headset -r 200 -t 60000
-    sudo systemctl restart bluetooth &>/dev/null
-    bluetoothctl power on 1>/dev/null
+    notify-send "Bluetooth" "Connecting to $DEVICE_NAME" -i audio-headset -r 200 -t 60000
     wpctl settings --save bluetooth.autoswitch-to-headset-profile false
     while [ "$(date +%s)" -lt "$TIMEOUT" ]; do
         if bluetoothctl connect "$DEVICE_MAC" 1>/dev/null; then
-            if ! pactl set-card-profile $(pactl list short | grep bluez_card | cut -f 1) a2dp-sink; then
+            if ! pactl set-card-profile $(pactl list short | grep -oP "\d*(?=\s*bluez_card)") a2dp-sink; then
                 sleep 4
-                pactl set-card-profile $(pactl list short | grep bluez_card | cut -f 1) a2dp-sink-aac
+                pactl set-card-profile $(pactl list short | grep -oP "\d*(?=\s*bluez_card)") a2dp-sink-aac
             fi
-            if pactl set-card-profile $(pactl list short | grep bluez_card | cut -f 1) a2dp-sink; then
+            if pactl set-card-profile $(pactl list short | grep -oP "\d*(?=\s*bluez_card)") a2dp-sink; then
                 notify-send "Bluetooth" "$DEVICE_NAME connected" -i audio-headset -r 200 -u low
                 safe_exit "\"$DEVICE_NAME\" connected" 0
             fi
