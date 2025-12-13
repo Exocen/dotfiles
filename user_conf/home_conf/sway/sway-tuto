@@ -33,6 +33,7 @@ Super + Space: Toggle focus between tiling and floating
 Super + p/c: Focus parent/child window
 Super + r: Resize window
 Super + Shift + a: Kill focused window
+Super + \`: Swap container to one on the next displayed monitor
 
 Super + Shift + r: Reload sway
 Ctrl + Escape + p: Power off
