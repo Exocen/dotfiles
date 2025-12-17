@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SWAP_TO=`swaymsg -p -t get_workspaces | grep -oP "Workspace \K\d(?! )"`
+SWAP_TO=`swaymsg -p -t get_workspaces | grep -oP "Workspace \K\d*$"`
 FOCUS_TO=$(echo `swaymsg -p -t get_workspaces` | grep -oP "Workspace \d Output:\s\K\S*")
 CON_ID=$(echo `swaymsg -p -t get_tree` | grep -oP "workspace \"$SWAP_TO\" #\K\d*")
 
