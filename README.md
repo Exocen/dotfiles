@@ -37,3 +37,5 @@ Install testing tool available on *docker_conf/install_test*
 ### 📝 TODO
 - [x] Docker mail_server : restore originals ports
 - [ ] Docker : replace manager script solution with systemd
+- [ ] Docker filebrowser : add config file to volume
+- [ ] Docker snappymail : find alternatives
