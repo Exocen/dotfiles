@@ -21,7 +21,7 @@
     ],
     "modules-right": [
         "pulseaudio",
-        "custom/bluetooth-battery",
+        "custom/bluetooth-battery-headset",
         "tray",
         "clock#date",
         "clock#time",
@@ -55,12 +55,14 @@
         // "temperature#cpu",
         // "custom/pacman-status",
         "pulseaudio",
-        "custom/bluetooth-battery",
+        "custom/bluetooth-battery-headset",
+        "custom/bluetooth-battery-ps-controller",
         "mpd",
         "tray",
         "clock#date",
         "clock#time",
-        "custom/capslock-status"
+        "custom/capslock-status",
+        "group/group-power"
     ],
     "include": [
         "~/.config/waybar/module-config.jsonc"

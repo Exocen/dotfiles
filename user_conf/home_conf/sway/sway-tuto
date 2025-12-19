@@ -26,19 +26,20 @@ Super + Ctrl + left/right: Move to left/right workspace
 Super + Arrow: Change focused window
 Super + Shift + Arrow: Move window
 Super + h/v: Split horizontaly/verticaly
-Super + f: Full screen focused swindow
+Super + f: Full screen focused window
 Super + s/z/e: Change container layout to stacked/tabbed/toggle split
 Super + Shift + Space: Toggle floating window
 Super + Space: Toggle focus between tiling and floating
 Super + p/c: Focus parent/child window
 Super + r: Resize window
 Super + Shift + a: Kill focused window
+Super + \`: Swap container to one on the next displayed monitor
 
 Super + Shift + r: Reload sway
-Super + Escape + p: Power off
-Super + Escape + s: Suspend
-Super + Escape + r: Reboot
-Super + Escape + Shift + r: Force reboot
+Ctrl + Escape + p: Power off
+Ctrl + Escape + s: Suspend
+Ctrl + Escape + r: Soft reboot
+Ctrl + Escape + Shift: Hard reboot
 END
 )
 

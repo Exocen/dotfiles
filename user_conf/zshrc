@@ -96,6 +96,7 @@ alias -s com=$BROWSER
 alias -s net=$BROWSER
 alias -s png=$BROWSER
 alias -s jpg=$BROWSER
+alias -s jpeg=$BROWSER
 alias -s gif=$BROWSER
 alias -s svg=$BROWSER
 alias -s mkv=vlc
@@ -191,6 +192,9 @@ alias aurls='pikaur -Qi | awk "/^Name/{name=\$3} /^Installed Size/{print \$4\$5,
 # Clean cache + orphan/unneeded packages
 alias aurc='pikaur -Sccd --noconfirm ; pikaur -Qtdq | pikaur -Rns --noconfirm - 2>/dev/null ;:'
 
+# docker
+alias dps='docker ps --format "table {{.Names}}\t{{.Status}}"'
+
 ## Functions
 
 # Quick file search
@@ -245,3 +249,8 @@ function gitautoconfig() {
 function maketar() { tar cvzf $1.tgz $*; }
 
 function makezip() { zip -r "${1%%/}.zip" "$1"; }
+function make7z() { 7z a -t7z -m0=lzma2 "$1.7z" "$@"; }
+function make7zcrypt() { 7z a -t7z -m0=lzma2 -mhe=on -p $1.7z "$@"; }
+# Install functions
+function installcargo(){curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh}
+function installrclone(){curl https://rclone.org/install.sh | bash}

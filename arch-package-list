@@ -4,14 +4,16 @@ mesa
 #nvidia
 # Amd CPU
 intel-ucode
+#amd-ucode
+# Fonts
+ttf-fira-code ttf-dejavu otf-ipafont noto-fonts ttf-nerd-fonts-symbols noto-fonts-emoji
+>>>>>>> origin/Strix
 # Network
 ifplugd
-# Fonts
-noto-fonts ttf-nerd-fonts-symbols noto-fonts-emoji
 # WM
 wayland sway xorg-xwayland qt5-wayland
-# Menu, notifications, idle managment, screenshot, clipboard manager, background, brightness
-rofi dunst swayidle grim slurp jq wf-recorder cliphist swaybg acpilight
+# Menu, notifications, idle managment, screenshot, clipboard manager, background, brightness, virtual keyboard
+rofi dunst swayidle grim slurp jq wf-recorder cliphist swaybg acpilight squeekboard
 # Waybar
 waybar
 # Brightness tool
@@ -21,7 +23,7 @@ acpi
 # Mail client
 thunderbird systray-x-common
 # Archive tools
-7zip zip unrar unzip xarchiver
+zip unrar unzip xarchiver
 # Power management
 #tlp
 # Git Browser
@@ -35,8 +37,6 @@ nethogs
 thunar
 # Terminal
 alacritty
-# Fonts
-ttf-fira-code ttf-dejavu otf-ipafont
 # Web Browser
 firefox
 # Media tool

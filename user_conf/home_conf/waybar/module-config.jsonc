@@ -77,8 +77,15 @@
         "tooltip": true
     },
 
-    "custom/bluetooth-battery": {
-        "exec": "~/.config/waybar/bluetooth-battery",
+    "custom/bluetooth-battery-headset": {
+        "exec": "~/.config/waybar/bluetooth-battery headset",
+        "return-type": "json",
+        "restart-interval": 5,
+        "tooltip": true
+    },
+
+    "custom/bluetooth-battery-ps-controller": {
+        "exec": "~/.config/waybar/bluetooth-battery ps_controller",
         "return-type": "json",
         "restart-interval": 5,
         "tooltip": true
@@ -88,6 +95,7 @@
         "exec": "~/.config/waybar/pacman-state",
         "return-type": "json",
         "restart-interval": 300,
+        "on-click":"notify-send -t 15000 -r 43 'Pacman Upgrade' 'Running pacman upgrade' && sudo pacman -Suy --noconfirm && notify-send -t 15000 -r 43 'Pacman Upgrade' 'Pacman upgrade successful' -u low || notify-send -t 15000 -r 43 -u critical 'Pacman Upgrade' 'Pacman upgrade failed'",
         "tooltip": true
     },
 
@@ -195,9 +203,9 @@
        "format-muted": "󰝟",
        "format-source-muted":"󰝟",
        "format-icons": {
-           "headphone": "",
-           "hands-free": "",
-           "headset": ["󰕿 ", "  ", "  "],
+           // "headphone": "",
+           // "hands-free": "",
+           // "headset": ["󰕿 ", "  ", "  "],
            "phone": "",
            "portable": "",
            "car": "",
@@ -238,5 +246,64 @@
     "tray": {
         "icon-size": 15,
         "spacing": 10
+    },
+
+    "group/group-power": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 500,
+            "children-class": "not-power",
+            "transition-left-to-right": false
+        },
+        "modules": [
+            "custom/terminal", // First element is the "group leader" and won't ever be hidden
+            "custom/power",
+            "custom/steam",
+            "custom/discord",
+            "custom/vlc",
+            "custom/bluetooth-connect",
+            "custom/firefox",
+            "custom/virtual-keyboard"
+        ]
+    },
+    "custom/terminal": {
+        "format": " ",
+        "tooltip-format": "Terminal",
+        "on-click": "alacritty"
+    },
+    "custom/bluetooth-connect": {
+        "format": "󰂯 ",
+        "tooltip-format": "Bluetooth connect",
+        "on-click": "~/.config/sway/bluetooth-connect"
+    },
+    "custom/firefox": {
+        "format": "󰈹 ",
+        "tooltip-format": "Firefox",
+        "on-click": "firefox"
+    },
+    "custom/steam": {
+        "format": "󰓓 ",
+        "tooltip-format": "Steam",
+        "on-click": "steam"
+    },
+    "custom/virtual-keyboard": {
+        "format": " ",
+        "tooltip-format": "Virtual Keyboard",
+        "on-click": "gsettings set org.gnome.desktop.a11y.applications screen-keyboard-enabled $(gsettings get org.gnome.desktop.a11y.applications screen-keyboard-enabled | grep -q 'true' && echo 'false' || echo 'true')"
+    },
+    "custom/discord": {
+        "format": " ",
+        "tooltip-format": "Discord",
+        "on-click": "discord"
+    },
+    "custom/vlc": {
+        "format": "󰕼 ",
+        "tooltip-format": "VLC",
+        "on-click": "vlc"
+    },
+    "custom/power": {
+        "format": " ",
+        "tooltip-format": "Power off",
+        "on-click": "poweroff"
     }
 }

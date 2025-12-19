@@ -29,15 +29,18 @@ iwctl device list
 iwctl station $device connect SSID
 ```
 
-If no need for lvm or encrypt, run `archinstall` and go to **First Boot** section
+### Auto installation
+Easiest way is to run `archinstall` and go to **First Boot** section
 
-### Partitioning the hard disk
+### Manual installation
+
+#### Partitioning the hard disk
 
 ```bash
 # 2 partitions : 256M boot & 100%FREE filesystem
 cfdisk /dev/sdX
 ```
-#### Crypt
+##### Crypt
 
 ```bash
 modprobe dm-crypt
@@ -45,7 +48,7 @@ cryptsetup luksFormat /dev/lvm_disk
 cryptsetup open --type luks /dev/lvm_disk cryptlvm
 ```
 
-#### LVM
+##### LVM
 
 ```bash
 pvcreate /dev/sdXx
@@ -60,7 +63,7 @@ lvcreate -L 8G lvm -n swap
 lvcreate -l 100%FREE lvm -n home
 ```
 
-### Format the file systems and enable swap
+#### Format the file systems and enable swap
 
 List existing partition using `lsblk`.
 
@@ -92,26 +95,26 @@ mkdir -p /mnt/boot
 mount /dev/sda1 /mnt/boot
 ```
 
-### Install the base packages
+#### Install the base packages
 
 Install the base packages using _pacstrap_:
 
 `pacstrap -K /mnt base linux linux-firmware openssh git vim dhcpcd wpa_supplicant dialog netctl lvm2`
 
-### Configuration
+#### Configuration
 
-#### Generate the fstab file:
+##### Generate the fstab file:
 
 ```
 # -U UUID | -L Labels
 genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
-#### Log to partition:
+##### Log to partition:
 
 `arch-chroot /mnt`
 
-#### Initramfs
+##### Initramfs
 
 First we need to edit `/etc/mkinitcpio.conf` to provide support for lvm2.
 Edit the file and insert lvm2 between block and filesystems like so:
@@ -122,7 +125,7 @@ Generate the initramfs image:
 
 `mkinitcpio -P`
 
-### Install a boot loader
+#### Install a boot loader
 
 Install systemd-boot to the EFI system partition:
 
@@ -147,21 +150,13 @@ options	UUID={UUID}:lvm2 root=/dev/lvm/root rw
 
 ```
 
-#### Windows Dual-Boot
-
-```bash
-cp -r /sdX/EFI/Microsoft /boot/EFI/Microsoft
-bootctl list
-bootctl update
-```
-
-### Root password
+#### Root password
 
 Set the root password with:
 
 `passwd`
 
-### Unmount the partitions and reboot
+#### Unmount the partitions and reboot
 
 ```bash
 exit
@@ -192,4 +187,12 @@ ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 ```bash
 wifi-menu
 netctl list | start | enable
+```
+
+#### Windows Dual-Boot
+
+```bash
+cp -r /sdX/EFI/Microsoft /boot/EFI/Microsoft
+bootctl list
+bootctl update
 ```

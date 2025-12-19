@@ -68,7 +68,9 @@ tooltip label {
 #disk,
 #tray,
 #custom-iostat,
-#custom-bluetooth-battery,
+#custom-bluetooth-battery-headset,
+#custom-bluetooth-battery-ps-controller,
+#group-power,
 #temperature{
     /* Disable if small monitor  */
 	/* border-radius: 50px; */

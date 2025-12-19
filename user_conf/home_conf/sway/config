@@ -37,6 +37,9 @@ exec "$CONFIG/sway-tuto"
 # Notifications
 exec dunst
 
+# Virtual keyboard
+exec squeekboard
+
 # Idle stuff
 exec swayidle
 
@@ -90,6 +93,9 @@ bindsym $mod+t exec thunar
 bindsym $mod+slash exec "$CONFIG/sway-tuto info"
 bindsym $mod+question exec "$CONFIG/sway-tuto info"
 
+# Swap conatiner between 2 monitors
+bindsym $mod+grave exec "$CONFIG/swap-workspace"
+
 # Status notification
 bindsym $mod+period exec notify-send -t 5000 -r 2 "$(stat=`mpc status | head -n -1` ; date=`date +"%F %T"` ; [ ! -z "$stat" ] && echo -e "$stat\\n$date" || echo "$date")" -u low
 
@@ -109,10 +115,10 @@ bindsym $mod+Shift+A kill
 bindsym $mod+d exec "rofi -show combi"
 
 # Power control
-bindsym --no-repeat --release $mod+Escape+p exec "systemctl poweroff"
-bindsym --no-repeat --release $mod+Escape+s exec "systemctl sleep"
-bindsym --no-repeat --release $mod+Escape+r exec "systemctl soft-reboot"
-bindsym --no-repeat --release $mod+Shift+Escape exec "systemctl reboot -f"
+bindsym --no-repeat --release ctrl+Escape+p exec "systemctl poweroff"
+bindsym --no-repeat --release ctrl+Escape+s exec "systemctl sleep"
+bindsym --no-repeat --release ctrl+Escape+r exec "systemctl soft-reboot"
+bindsym --no-repeat --release ctrl+Shift+Escape exec "systemctl reboot"
 
 # Mpd control
 bindsym $mod+F1 exec mpc toggle -q
@@ -210,6 +216,19 @@ titlebar_padding 1
 titlebar_border_thickness 0
 for_window [class=".*"] border pixel 1
 
+#
+# Scratchpad:
+#
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+minus scratchpad show
+
 # windows colors
 client.focused  #1e522c #0d3d1a #ffffff #1e522c #3d6648
 # resize window (you can also use the mouse for that)
@@ -233,3 +252,20 @@ bindsym $mod+r mode "resize"
 bar {
     swaybar_command waybar
 }
+
+# sway does not set DISPLAY/WAYLAND_DISPLAY in the systemd user environment
+# See FS#63021
+# Adapted from xorg's 50-systemd-user.sh, which achieves a similar goal.
+
+# Upstream refuses to set XDG_CURRENT_DESKTOP so we have to.
+exec systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
+exec systemctl --user import-environment DISPLAY \
+                                         SWAYSOCK \
+                                         WAYLAND_DISPLAY \
+                                         XDG_CURRENT_DESKTOP
+
+exec hash dbus-update-activation-environment 2>/dev/null && \
+     dbus-update-activation-environment --systemd DISPLAY \
+                                                  SWAYSOCK \
+                                                  XDG_CURRENT_DESKTOP=sway \
+                                                  WAYLAND_DISPLAY

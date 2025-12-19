@@ -6,9 +6,9 @@ My configuration files, samples, and helpers
 To automatically install my default environment run *install.sh* (POSIX Shell)
 
 #### Run the script to
-1. Install vim git htop iftop iotop tree zsh make wget sudo rsync curl
-2. Set up zsh with ohmyzsh.git and the local configuration files (zsh will be switched as default shell)
-3. Set up vim configuration files with plugins
+1. Install vim git htop iftop iotop tree zsh make wget curl sudo rsync p7zip
+2. Set up zsh
+3. Set up vim
 4. (Optionnal Arch only) install packages from arch-package-list, and the windows manager (wayland + sway)
 
 #### Script usage
@@ -35,10 +35,8 @@ install.sh [OPTIONS]:
 Install testing tool available on *docker_conf/install_test*
 
 ### 📝 TODO
-- [ ] Docker nginx: fignoler le poro
-- [X] Waybar : find a solution for multi monitor problem (n monitors -> n processes) : ~~helper.sh + modules readers or switch bar~~ defined monitor config
-- [ ] Docker test : save last working version for every container
-- [X] Docker gluetun : country should be config var (usa default ?)
-- [X] Sway : keep monitor location (mouse transfers) after rotation (dont set 2nd monitor pos)
-- [ ] Docker tools : add report script (mail ?)
-- [ ] Docker jdownloader : add container sleep/pause feature
+- [x] Docker mail_server : restore originals ports
+- [ ] Docker : replace manager script solution with systemd + autoheal
+- [ ] Docker : check all healthchecks
+- [ ] Docker filebrowser : add config file to volume
+- [x] Docker snappymail : find alternatives
