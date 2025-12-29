@@ -36,8 +36,7 @@ Install testing tool available on *docker_conf/install_test*
 
 ### 📝 TODO
 - [x] Docker mail_server : restore originals ports
-- [ ] Docker : replace manager script solution with systemd + autoheal
+- [ ] Docker : switch manager script solution with systemd + autoheal
 - [ ] Docker : check all healthchecks
-- [ ] Docker filebrowser : add config file to volume
-- [x] Docker snappymail : find alternatives
+- [x] Docker filebrowser : add config file to volume
 - [ ] Docker mail_server : run ipv6 blocker with docker-run
