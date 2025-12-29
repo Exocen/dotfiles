@@ -40,3 +40,4 @@ Install testing tool available on *docker_conf/install_test*
 - [ ] Docker : check all healthchecks
 - [ ] Docker filebrowser : add config file to volume
 - [x] Docker snappymail : find alternatives
+- [ ] Docker mail_server : run ipv6 blocker with docker-run
