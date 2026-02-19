@@ -124,7 +124,7 @@ bindsym --no-repeat --release ctrl+Shift+Escape exec "systemctl reboot"
 bindsym $mod+F1 exec mpc toggle -q
 bindsym $mod+F2 exec mpc prev -q
 bindsym $mod+F3 exec mpc next -q
-bindsym $mod+F4 exec mpc stop -q
+bindsym $mod+F4 exec mpc | grep '\[' &>/dev/null && mpc stop -q || mpc play -q
 
 bindsym XF86AudioPlay exec mpc toggle -q
 bindsym XF86AudioPrev exec mpc prev -q

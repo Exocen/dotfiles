@@ -14,7 +14,6 @@ safe_exit() {
 }
 
 main() {
-    sudo systemctl restart bluetooth &>/dev/null
     TIMEOUT_DELAY="1 minute"
     TIMEOUT="$(date -d "$TIMEOUT_DELAY" +%s)"
     if [ "$#" -eq 1 ]; then
@@ -50,4 +49,5 @@ main() {
     safe_exit "\"$DEVICE_NAME\" connection timeout" 1
 }
 
+systemctl status bluetooth | grep running &>/dev/null || sudo systemctl restart bluetooth &>/dev/null
 main $*
