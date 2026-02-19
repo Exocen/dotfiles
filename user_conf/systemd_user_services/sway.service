@@ -10,6 +10,7 @@ WantedBy=default.target
 
 [Service]
 Type=simple
+Environment="MPD_HOST=/home/%u/.config/mpd/mpd_socket"
 EnvironmentFile=-%h/.config/sway/env
 ExecStart=/usr/bin/sway
 Restart=on-failure
