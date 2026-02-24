@@ -35,7 +35,7 @@ install.sh [OPTIONS]:
 Install testing tool available on *docker_conf/install_test*
 
 ### 📝 TODO
-- [ ] Docker : switch manager script solution with systemd + autoheal/basic script
+- ~~[x] Docker : switch manager script solution with systemd + autoheal/basic script~~
 - [ ] Docker : check all healthchecks
 - [x] Docker mail_server : run ipv6 blocker with docker-run
 - [ ] Docker fail2ban : script/txt -> run fail2ban service AFTER docker service
