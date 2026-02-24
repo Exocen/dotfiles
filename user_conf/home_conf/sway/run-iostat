@@ -1,2 +1,2 @@
 #!/bin/bash
-while true; do iostat -dhxy 1 2 > /run/user/`id -u`/iostat.log; done
+iostat -dhxy 2 > /run/user/`id -u`/iostat.log
