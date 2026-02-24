@@ -39,3 +39,4 @@ Install testing tool available on *docker_conf/install_test*
 - [x] Docker mail_server : run ipv6 blocker with docker-run
 - [ ] Docker fail2ban : script/txt -> run fail2ban service AFTER docker service
 - [ ] waybar : run iostat has a background process/user service , the plugin should only read a file, not run a new iostat every x seconds
+- [ ] sway : find good streaming solution
