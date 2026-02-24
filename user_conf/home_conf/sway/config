@@ -34,6 +34,9 @@ output * bg #202020 solid_color
 # Sway Cheat Sheet
 exec "$CONFIG/sway-tuto"
 
+# Iostat tool (for waybar plugin)
+exec "$CONFIG/run-iostat"
+
 # Notifications
 exec dunst
 
