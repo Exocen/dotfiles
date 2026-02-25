@@ -9,7 +9,7 @@ ttf-fira-code ttf-dejavu otf-ipafont noto-fonts ttf-nerd-fonts-symbols noto-font
 # Network
 ifplugd
 # WM
-wayland sway xorg-xwayland qt5-wayland
+wayland sway xorg-xwayland qt5-wayland xdg-desktop-portal-wlr
 # Menu, notifications, idle managment, screenshot, clipboard manager, background, brightness, virtual keyboard
 rofi dunst swayidle grim slurp jq wf-recorder cliphist swaybg acpilight squeekboard
 # Waybar

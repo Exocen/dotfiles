@@ -35,6 +35,9 @@ Plug 'https://github.com/tpope/vim-surround'
 " :Git cmd
 Plug 'https://github.com/tpope/vim-fugitive'
 
+" Quit with maj Q
+:command Q q
+
 " Markdown
 Plug 'https://github.com/preservim/vim-markdown'
 

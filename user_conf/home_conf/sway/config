@@ -47,7 +47,7 @@ exec squeekboard
 exec swayidle
 
 # Clipboard manager
-exec "$CONFIG/cliphist"
+exec "$CONFIG/cliphist start"
 
 # Pacman db update
 exec "$CONFIG/pacman-state"
@@ -82,8 +82,8 @@ bindsym $mod+Return exec $TERMINAL
 bindsym $mod+b exec "$CONFIG/bluetooth-connect"
 
 # Clipboard manager
-bindsym pause exec killall rofi 2>/dev/null || cliphist list | rofi -dmenu -i -p "Clipboard" | cliphist decode | wl-copy
-bindsym $mod+pause exec cliphist wipe && notify-send "Clipboard" "Board cleaned"
+bindsym pause exec killall rofi 2>/dev/null || $CONFIG/cliphist list | rofi -dmenu -i -p "Clipboard" | $CONFIG/cliphist decode | wl-copy
+bindsym $mod+pause exec $CONFIG/cliphist wipe && notify-send "Clipboard" "Board cleaned"
 
 # Internet browser
 bindsym $mod+g exec firefox
