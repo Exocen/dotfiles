@@ -32,7 +32,7 @@ install.sh [OPTIONS]:
 * Ubuntu 24+
 * Linux Mint 22+
 
-Install testing tool available on *docker_conf/install_test*
+Tested with *docker_conf/install_test*
 
 ### 📝 TODO
 - [x] Docker : check all healthchecks
