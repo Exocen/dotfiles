@@ -1,2 +1,2 @@
 #!/bin/bash
-while true ; do iostat -dhxy 2 1000 > /run/user/`id -u`/iostat.log; sleep; done
+while true ; do iostat -dhxy 2 300 > /run/user/`id -u`/iostat.log; sleep 0.1; done

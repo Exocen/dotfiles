@@ -9,6 +9,7 @@ while :
 do
     sleep 300m
     sudo pacman -Syq &>/dev/null
+    pacman -Quq 2>/dev/null > /run/user/`id -u`/pacman-update-list
 done
 
 rm "$LOCKFILE"

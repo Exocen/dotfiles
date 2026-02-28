@@ -3,7 +3,7 @@ RUN_FILE_PATH="/run/user/`id -u`/waybar"
 COUNT_FILE_PATH="$RUN_FILE_PATH/pacman-update-count"
 mkdir -p $RUN_FILE_PATH
 
-pk_list=$(echo $(pacman -Quq 2>/dev/null))
+pk_list=$(echo $(cat /run/user/`id -u`/pacman-update-list))
 pk_count=$(echo $pk_list | wc -w)
 if [ "$pk_count" -gt 0 ] ; then
     if [ ! -f $COUNT_FILE_PATH ] || [ "$(( `cat $COUNT_FILE_PATH`))" -ne "$pk_count" ] ; then
