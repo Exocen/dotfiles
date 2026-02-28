@@ -3,12 +3,10 @@ My configuration files, samples, and helpers
 
 ### 🪄 Automatic installation script
 
-Run *install.sh* (POSIX Shell)
-
-#### Run the script to
+#### Run *install.sh* to
 1. Install vim git htop iftop iotop tree zsh make wget curl sudo rsync p7zip
-2. Set up zsh
-3. Set up vim
+2. Set zsh config
+3. Set vim config
 4. (Optionnal Arch only) install packages from arch-package-list, and the windows manager (wayland + sway)
 
 #### Script usage
