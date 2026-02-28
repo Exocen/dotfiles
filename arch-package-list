@@ -10,16 +10,16 @@ ttf-fira-code ttf-dejavu otf-ipafont noto-fonts ttf-nerd-fonts-symbols noto-font
 ifplugd
 # WM
 wayland sway xorg-xwayland qt5-wayland xdg-desktop-portal-wlr
-# Menu, notifications, idle managment, screenshot, clipboard manager, background, brightness, virtual keyboard
-rofi dunst swayidle grim slurp jq wf-recorder cliphist swaybg acpilight squeekboard
-# Stat tool
-sysstat
+# Menu, notifications, idle managment, clipboard manager, background, brightness, virtual keyboard
+rofi dunst swayidle cliphist swaybg acpilight squeekboard
+# Screenshot
+grim slurp jq wf-recorder
 # Waybar
 waybar
 # Brightness tool
 #clight
-# Utils
-acpi
+# Stats utils
+acpi sysstat
 # Mail client
 thunderbird systray-x-common
 # Archive tools
@@ -48,7 +48,7 @@ blueman pipewire-pulse pipewire bluez-utils wireplumber
 # Music player, visualizer
 mpd mpc ncmpcpp
 #cava
-# User rights (reboot without sudo)
+# User basic rights (ex: reboot without sudo)
 polkit
 # Sound app control
 pavucontrol
