@@ -1,0 +1,8 @@
+#add user :
+docker run -v /docker-data/openvpn:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full CLIENTNAME nopass
+#get user :
+docker run -v /docker-data/openvpn:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient CLIENTNAME > CLIENTNAME.ovpn
+#get user list :
+docker run --rm -it -v /docker-data/openvpn:/etc/openvpn kylemanna/openvpn ovpn_listclients
+#revoking client :
+docker run --rm -it -v /docker-data/openvpn:/etc/openvpn kylemanna/openvpn ovpn_revokeclient CLIENTNAME

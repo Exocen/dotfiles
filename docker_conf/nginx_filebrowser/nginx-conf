@@ -1,0 +1,27 @@
+
+events {
+    worker_connections 1024; # Max connections per worker process
+}
+
+http {
+    charset utf-8;
+    server {
+        listen       80;
+        listen  [::]:80;
+        server_name  localhost;
+
+        location / {
+            root   /usr/share/nginx/html;
+            index  _;
+            autoindex on;
+            autoindex_exact_size on;
+            autoindex_format html;
+        }
+
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /usr/share/nginx/html;
+        }
+
+    }
+}

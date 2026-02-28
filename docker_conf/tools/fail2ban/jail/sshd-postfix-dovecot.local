@@ -1,0 +1,28 @@
+[sshd]
+enabled = true
+port = all
+filter = sshd
+backend = systemd
+ignoreip = 127.0.0.1
+
+[postfix]
+enabled = true
+mode    = more
+port = all
+backend = systemd
+
+[postfix-rbl]
+enabled = true
+port = all
+backend = systemd
+
+[dovecot]
+enabled = true
+port = all
+backend = systemd
+
+[postfix-sasl]
+enabled = true
+port = all
+backend = systemd
+
