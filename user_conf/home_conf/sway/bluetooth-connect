@@ -5,7 +5,7 @@ if [ "$#" -ge 2 ]; then
 fi
 # Lockfile sample (block multiple instances)
 LOCKFILE="/var/run/user/$UID/$(basename "$0").lock"
-[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running." && notify-send "Bluetooth already trying to connect" -u critical -i audio-headset -t 5000 && exit 1 || echo $$ >"$LOCKFILE"
+[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running." && notify-send "Bluetooth already trying to connect" -u critical -i audio-headset && exit 1 || echo $$ >"$LOCKFILE"
 
 safe_exit() {
     echo "$1"
