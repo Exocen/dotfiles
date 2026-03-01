@@ -95,7 +95,7 @@
         "exec": "~/.config/waybar/pacman-state",
         "return-type": "json",
         "restart-interval": 60,
-        "on-click":"notify-send -t 15000 -r 43 'Pacman Upgrade' 'Running pacman upgrade' && sudo pacman -Suy --noconfirm && notify-send -t 15000 -r 43 'Pacman Upgrade' 'Pacman upgrade successful' -u low || notify-send -t 15000 -r 43 -u critical 'Pacman Upgrade' 'Pacman upgrade failed'",
+        "on-click":"notify-send -t 15000 -r 43 'Pacman Upgrade' 'Running pacman upgrade' && sudo pacman -Suy --noconfirm && notify-send -t 15000 -r 43 'Pacman Upgrade' 'Pacman upgrade successful' -u low && rm -f /run/user/`id -u`/pacman-update-list || notify-send -t 15000 -r 43 -u critical 'Pacman Upgrade' 'Pacman upgrade failed'",
         "tooltip": true
     },
 
