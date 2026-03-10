@@ -5,15 +5,6 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-if [ -z ${VPN_KEY+x} ]; then
-    if [ -z "$1" ]; then
-        echo "No key supplied"
-        exit 1
-    else
-        VPN_KEY=$1
-    fi
-fi
-
 if [ -z ${VPN_COUNTRY+x} ]; then
     VPN_COUNTRY="SWEDEN"
 fi
