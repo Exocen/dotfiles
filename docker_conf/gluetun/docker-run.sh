@@ -20,7 +20,6 @@ fi
 
 docker run -d --rm --cap-add=NET_ADMIN --name gluetun \
     --log-driver=journald --log-opt tag="{{.Name}}" \
-    -e VPN_SERVICE_PROVIDER=mullvad -e VPN_TYPE=openvpn \
     -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro \
     -p 5800:5800 \
     -p 8384:8384 \

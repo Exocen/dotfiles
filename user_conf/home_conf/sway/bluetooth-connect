@@ -50,7 +50,7 @@ main() {
             sleep 1
         fi
     done
-    notify-send "Bluetooth" "$DEVICE_NAME connection timeout" -u critical -i audio-headset -r 200
+    notify-send "Bluetooth" "$DEVICE_NAME connection timeout" -u critical -i audio-headset -r 200 -t 5000
     safe_exit "\"$DEVICE_NAME\" connection timeout" 1
 }
 
