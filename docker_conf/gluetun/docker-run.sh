@@ -22,6 +22,7 @@ docker run -d --rm --cap-add=NET_ADMIN --name gluetun \
     -e VPN_TYPE=wireguard \
     -e WIREGUARD_PRIVATE_KEY="$WIREGUARD_PRIVATE_KEY" \
     -e WIREGUARD_ADDRESSES="$WIREGUARD_ADDRESSE" \
+    -e HTTP_CONTROL_SERVER_AUTH_DEFAULT_ROLE='{"auth":"none"}' \
     -e SERVER_COUNTRIES="$VPN_COUNTRY" qmcgaw/gluetun && echo "gluetun started."
 
 # Ports
