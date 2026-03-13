@@ -1,5 +1,6 @@
 [global]
-follow = keyboard
+#follow = keyboard
+monitor = 1
 
 ### Geometry ###
     height = (0, 1000)

@@ -21,7 +21,7 @@ workspace 10 output $OUTPUT2
 assign [app_id="thunderbird"] 7
 assign [app_id="discord"] 8
 assign [instance="steamwebhelper"] 9
-assign [class="steam"] 10
+assign [class="steam"] 5
 
 # Monitor assignment
 output $OUTPUT1 pos 0 0
