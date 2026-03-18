@@ -213,7 +213,7 @@ class Main:
             infos = json.loads(Main.run_process(cmd, False))
             if "entries" not in infos:
                 raise Exception("Playlist check : No valid entries downloaded")
-            return json.loads(Main.run_process(cmd, False))
+            return infos
         except Exception as extraction_error:
             self.connection_error(extraction_error)
             return
@@ -240,6 +240,9 @@ class Main:
     def downloader(self):
         # dl playlist info
         infos = self.extract_info()
+
+        if infos is None:
+            return
 
         # check existing
         audio_data_list = []
