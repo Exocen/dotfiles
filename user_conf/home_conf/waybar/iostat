@@ -6,7 +6,7 @@ if [ -f $IOFILE ]; then
     iolist=$(echo $iolist)
 end=""
 b=0
-#TODO add warning and alarm colors
+
 for (( i=0; i<${#iolist}; i++ )); do
     char="${iolist:$i:1}"
     if [ "$char" == " " ]; then
@@ -21,7 +21,18 @@ for (( i=0; i<${#iolist}; i++ )); do
     end=$end$char
     fi
 done
-text="<span font='14' color='#FF4D00'>󱛟 </span><span>$iotop</span>"
+
+percentage=`echo $iotop | grep -oP '^\d*'`
+if [ $percentage -ge 90 ]; then
+    text="<span font='14' color='#FF4D00'>󱛟 </span><span color='#FF0000'>$iotop</span>"
+elif  [ $percentage -ge 70 ]; then
+    text="<span font='14' color='#FF4D00'>󱛟 </span><span color='#FF5D00'>$iotop</span>"
+elif  [ $percentage -ge 50 ]; then
+    text="<span font='14' color='#FF4D00'>󱛟 </span><span color='#FFA500'>$iotop</span>"
+else
+    text="<span font='14' color='#FF4D00'>󱛟 </span><span>$iotop</span>"
+fi
+
 fi
 echo {\"text\": \""$text"\", \"tooltip\": \""$end"\"}
 # {"text": "$text", "alt": "$alt", "tooltip": "$tooltip", "class": "$class", "percentage": $percentage }
