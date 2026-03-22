@@ -97,8 +97,7 @@ bindsym $mod+t exec thunar
 bindsym $mod+F9 exec steam
 bindsym $mod+F8 exec discord
 
-#TODO
-#App launcher with Notifications ?
+#TODO App launcher with Notifications ?
 
 # Sway Cheat Sheet
 bindsym $mod+slash exec "$CONFIG/sway-tuto info"

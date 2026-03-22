@@ -6,6 +6,7 @@ if [ -f $IOFILE ]; then
     iolist=$(echo $iolist)
 end=""
 b=0
+#TODO add warning and alarm colors
 for (( i=0; i<${#iolist}; i++ )); do
     char="${iolist:$i:1}"
     if [ "$char" == " " ]; then
