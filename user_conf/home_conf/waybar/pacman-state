@@ -3,18 +3,21 @@ RUN_FILE_PATH="/run/user/`id -u`/waybar"
 COUNT_FILE_PATH="$RUN_FILE_PATH/pacman-update-count"
 mkdir -p $RUN_FILE_PATH
 
-pk_list=$(echo $(cat /run/user/`id -u`/pacman-update-list))
-pk_count=$(echo $pk_list | wc -w)
-if [ "$pk_count" -gt 0 ] ; then
-    if [ ! -f $COUNT_FILE_PATH ] || [ "$(( `cat $COUNT_FILE_PATH`))" -ne "$pk_count" ] ; then
-        notify-send -t 15000 -r 40 "$pk_count packages to update" "$(cat /run/user/`id -u`/pacman-update-list | head -n 30)"
-        echo $pk_count > $COUNT_FILE_PATH
+if [[ -f "$RUN_FILE_PATH" ]]; then
+
+    pk_list=$(echo $(cat /run/user/`id -u`/pacman-update-list))
+    pk_count=$(echo $pk_list | wc -w)
+    if [ "$pk_count" -gt 0 ] ; then
+        if [ ! -f $COUNT_FILE_PATH ] || [ "$(( `cat $COUNT_FILE_PATH`))" -ne "$pk_count" ] ; then
+            notify-send -t 15000 -r 40 "$pk_count packages to update" "$(cat /run/user/`id -u`/pacman-update-list | head -n 30)"
+            echo $pk_count > $COUNT_FILE_PATH
+        fi
+        text="<span font='14' color='#994F00'>󰏔 </span>$pk_count"
+        tooltip="Updates available:\r$pk_list"
+        echo "{\"text\": \"$text\", \"tooltip\": \"$tooltip\"}"
+    else
+        echo 0 > $COUNT_FILE_PATH
+        echo "{\"text\": \"\", \"tooltip\": \"\"}"
     fi
-    text="<span font='14' color='#994F00'>󰏔 </span>$pk_count"
-    tooltip="Updates available:\r$pk_list"
-    echo "{\"text\": \"$text\", \"tooltip\": \"$tooltip\"}"
-else
-    echo 0 > $COUNT_FILE_PATH
-    echo "{\"text\": \"\", \"tooltip\": \"\"}"
 fi
 # {"text": "$text", "alt": "$alt", "tooltip": "$tooltip", "class": "$class", "percentage": $percentage }
