@@ -5,7 +5,7 @@ cp -fr /root/nginx-confs/fifo-nginx.conf /etc/nginx/nginx.conf
 
 if ! /usr/bin/certbot certificates 2>&1 | grep '[DOMAIN]\|*.[DOMAIN]' &>/dev/null; then
     echo "No valids certificates detected, creating..."
-    /usr/bin/certbot --nginx --keep-until-expiring --expand --register-unsafely-without-email --agree-tos -q -d [DOMAIN] -d git.[DOMAIN] -d mail.[DOMAIN] -d status.[DOMAIN] -d www.[DOMAIN] -d vw.[DOMAIN] -d fmd.[DOMAIN]
+    /usr/bin/certbot --nginx --keep-until-expiring --expand --register-unsafely-without-email --agree-tos -q -d [DOMAIN] -d git.[DOMAIN] -d mail.[DOMAIN] -d status.[DOMAIN] -d www.[DOMAIN] -d vw.[DOMAIN] -d fmd.[DOMAIN] -d stream.[DOMAIN]
     if ! /usr/bin/certbot certificates 2>&1 | grep '[DOMAIN]\|*.[DOMAIN]' &>/dev/null; then
         echo "certbot failed exiting..."
         exit 1
