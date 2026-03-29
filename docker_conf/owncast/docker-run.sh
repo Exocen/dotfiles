@@ -7,6 +7,10 @@ fi
 
 DOCKER_PATH="/docker-data/owncast"
 
+#ADMIN_URL https://base_url/admin
+#FIRSTLOG admin abc123
+#More on owncast doc
+
 cd "$(dirname "$(readlink -f "$0")")" || exit 1
 mkdir -p $DOCKER_PATH
 
