@@ -77,7 +77,7 @@ floating_modifier $mod
 
 # Start a terminal
 set $TERMINAL "/sbin/alacritty"
-bindsym $mod+Return exec $TERMINAL
+bindsym $mod+Return exec "$CONFIG/app-launcher $TERMINAL"
 
 # Bluetooth devices
 bindsym $mod+b exec "$CONFIG/bluetooth-connect"
@@ -91,13 +91,11 @@ bindsym $mod+g exec firefox
 bindsym $mod+Shift+g exec firefox -private-window
 
 # File Browser
-bindsym $mod+t exec thunar
+bindsym $mod+t exec "$CONFIG/app-launcher thunar"
 
 # Apps
-bindsym $mod+F9 exec steam
-bindsym $mod+F8 exec discord
-
-#TODO App launcher with Notifications ?
+bindsym $mod+F9 exec "$CONFIG/app-launcher steam"
+bindsym $mod+F8 exec "$CONFIG/app-launcher discord"
 
 # Sway Cheat Sheet
 bindsym $mod+slash exec "$CONFIG/sway-tuto info"

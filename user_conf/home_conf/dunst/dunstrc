@@ -355,6 +355,11 @@ monitor = 1
 #    override_pause_level
 #
 # Shell-like globbing will get expanded.
+
+[play_sound]
+    summary = "*"
+    script = .config/dunst/alert.sh
+
 #
 # Instead of the appname filter, it's recommended to use the desktop_entry filter.
 # GLib based applications export their desktop-entry name. In comparison to the appname,
