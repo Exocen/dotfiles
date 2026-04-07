@@ -1,5 +1,6 @@
 [global]
-follow = keyboard
+#follow = keyboard
+monitor = 1
 
 ### Geometry ###
     height = (0, 1000)
@@ -354,6 +355,11 @@ follow = keyboard
 #    override_pause_level
 #
 # Shell-like globbing will get expanded.
+
+[play_sound]
+    summary = "*"
+    script = .config/dunst/alert.sh
+
 #
 # Instead of the appname filter, it's recommended to use the desktop_entry filter.
 # GLib based applications export their desktop-entry name. In comparison to the appname,
@@ -391,8 +397,8 @@ follow = keyboard
 #        If the notification is already drawn, it won't get undrawn.
 # pushback: same as delay, but when switching into fullscreen, the notification will get
 #           withdrawn from screen again and will get delayed like a new notification
-#[fullscreen_delay_everything]
-#    fullscreen = delay
+[fullscreen_delay_everything]
+    fullscreen = delay
 #[fullscreen_show_critical]
 #    msg_urgency = critical
 #    fullscreen = show

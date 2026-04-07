@@ -5,7 +5,7 @@ if [ "$#" -ge 2 ]; then
 fi
 # Lockfile sample (block multiple instances)
 LOCKFILE="/var/run/user/$UID/$(basename "$0").lock"
-[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running." && notify-send "Bluetooth already trying to connect" -u critical -i audio-headset -t 5000 && exit 1 || echo $$ >"$LOCKFILE"
+[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running." && notify-send "Bluetooth already trying to connect" -u critical -i audio-headset && exit 1 || echo $$ >"$LOCKFILE"
 
 safe_exit() {
     echo "$1"
@@ -14,7 +14,6 @@ safe_exit() {
 }
 
 main() {
-    sudo systemctl restart bluetooth &>/dev/null
     TIMEOUT_DELAY="1 minute"
     TIMEOUT="$(date -d "$TIMEOUT_DELAY" +%s)"
     if [ "$#" -eq 1 ]; then
@@ -46,8 +45,9 @@ main() {
             sleep 1
         fi
     done
-    notify-send "Bluetooth" "$DEVICE_NAME connection timeout" -u critical -i audio-headset -r 200
+    notify-send "Bluetooth" "$DEVICE_NAME connection timeout" -u critical -i audio-headset -r 200 -t 5000
     safe_exit "\"$DEVICE_NAME\" connection timeout" 1
 }
 
+systemctl status bluetooth | grep running &>/dev/null || sudo systemctl restart bluetooth &>/dev/null
 main $*

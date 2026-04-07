@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+#systemd unit on boot + fail to notif + need online
+
+cleanup() {
+	echo "Received SIGTERM. Performing cleanup..."
+	killall -I sftp-server
+	echo "Cleanup complete. Exiting."
+	exit 0
+}
+
+trap cleanup SIGTERM
+
+e=0
+while [ $e -lt 3 ]
+do
+    if curl -s -o /dev/null -L "https://$address_to_check" && ! curl -s --user "$user:$pass" -L "https://$address_to_check_with_folder_path" --head | grep "HTTP/2 200" > /dev/null; then
+		killall -I sftp-server 2>/dev/null
+
+		echo "Connection missing, starting sshfs"
+		public_IP=$(curl -s ipinfo.io/ip)
+
+		ssh $dist_domain "sshfs -p $port -o IdentityFile=$key_path -o follow_symlinks,allow_other,default_permissions $user@$public_IP:$dist_path $local_path && systemctl restart docker-manager"
+		if [ $? -ne 0 ]; then
+			e=$(( $e+1 ))
+		fi
+
+	else
+		e=0
+	fi
+	sleep 10m
+done
+echo "Too many errors, exiting"
+exit 1

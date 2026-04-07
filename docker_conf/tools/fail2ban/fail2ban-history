@@ -1,0 +1,20 @@
+#!/bin/bash
+cd $(dirname "$(readlink -f "$0")")
+count=$(echo $(sqlite3 -header -column 'file:/var/lib/fail2ban/fail2ban.sqlite3?mode=ro' "select count(*) from bans" | tail -n1))
+change=0
+path=/docker-data/fail2ban-logs/
+mkdir -p $path
+filepath="$path""fail2ban-count.log"
+last=$(echo $(tail -n 1 $filepath 2>/dev/null | cut -d ' ' -f 2))
+if [[ $? -eq 0 ]] ; then
+    change=$(($count - $last))
+    [[ $change -ge 0 ]] && change="+$change"
+
+fi
+max=$(echo $(tail -n 1 $filepath 2>/dev/null | cut -d ' ' -f 1))
+if [[ $? -ne 0 ]] || [[ $max -lt $count ]]; then
+    max=$count
+fi
+
+echo "$max $count $change $(date +'%F')" >> $filepath
+

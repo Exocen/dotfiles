@@ -1,0 +1,15 @@
+[Unit]
+Description=Docker manager
+Wants=docker.service
+Before=fail2ban.service
+After=network.target
+#OnFailure=notify-feed@%i.service notify-email@%i.service
+
+[Service]
+Type=simple
+
+ExecStart=docker-manager start vps-conf
+ExecStop=docker-manager stop vps-conf
+
+[Install]
+WantedBy=default.target

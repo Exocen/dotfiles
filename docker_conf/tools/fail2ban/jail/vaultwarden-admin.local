@@ -1,0 +1,5 @@
+[vaultwarden-admin]
+enabled = true
+filter = vaultwarden-admin
+journalmatch = CONTAINER_NAME=vaultwarden
+backend = systemd

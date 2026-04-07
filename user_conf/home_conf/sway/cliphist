@@ -1,4 +1,11 @@
 #!/bin/bash
-mkdir -p /run/user/$(id -u)/cliphist
-ln -sf /run/user/$(id -u)/cliphist $HOME/.cache/
-wl-paste --watch cliphist store
+ALL=$@
+if [[ $1 == "start" ]]; then
+    mkdir -p /run/user/$(id -u)/cliphist
+    ln -sf /run/user/$(id -u)/cliphist $HOME/.cache/
+    wl-paste --watch cliphist store
+elif [[ $1 == "decode" ]]; then
+    cliphist $@
+else
+    cliphist $@ -db-path="/run/user/`id -u`/cliphist/db"
+fi

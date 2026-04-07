@@ -1,0 +1,5 @@
+[nginx-http-auth2]
+enabled = true
+port = all
+backend = systemd
+journalmatch = CONTAINER_NAME=nginx_certbot

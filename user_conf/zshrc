@@ -204,7 +204,7 @@ function finame(){
 
 # Move args to tmp (with copy conservation)
 function del() {
-    for file in "$@"; do mv --backup=t "$file" /var/tmp/; done
+    mkdir -p /var/tmp/trash-`id -u` && chmod u=rwX,g=,o= /var/tmp/trash-`id -u` && for file in "$@"; do mv --backup=t "$file" /var/tmp/trash-`id -u`/; done
 }
 
 # Builtin cd "$*"

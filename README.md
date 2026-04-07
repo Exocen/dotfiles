@@ -3,12 +3,10 @@ My configuration files, samples, and helpers
 
 ### 🪄 Automatic installation script
 
-To automatically install my default environment run *install.sh* (POSIX Shell)
-
-#### Run the script to
+#### Run *install.sh* to
 1. Install vim git htop iftop iotop tree zsh make wget curl sudo rsync p7zip
-2. Set up zsh
-3. Set up vim
+2. Set zsh config
+3. Set vim config
 4. (Optionnal Arch only) install packages from arch-package-list, and the windows manager (wayland + sway)
 
 #### Script usage
@@ -32,11 +30,9 @@ install.sh [OPTIONS]:
 * Ubuntu 24+
 * Linux Mint 22+
 
-Install testing tool available on *docker_conf/install_test*
+Tested with *docker_conf/install_test*
 
 ### 📝 TODO
-- [x] Docker mail_server : restore originals ports
-- [ ] Docker : replace manager script solution with systemd + autoheal
-- [ ] Docker : check all healthchecks
-- [ ] Docker filebrowser : add config file to volume
-- [x] Docker snappymail : find alternatives
+- [x] Docker mail_server : run ipv6 blocker with docker-run
+- [x] Docker fail2ban : script/txt -> run fail2ban service AFTER docker service
+- [x] waybar : run iostat has a background process/user service , the plugin should only read a file, not run a new iostat every x seconds

@@ -20,7 +20,8 @@ set $CONFIG "$HOME/.config/sway"
 # App assignment (use swaymsg -t get_tree)
 assign [app_id="thunderbird"] 7
 assign [app_id="discord"] 8
-assign [class="steam"] 9
+assign [instance="steamwebhelper"] 9
+assign [class="steam"] 5
 
 # Monitor assignment
 # output $OUTPUT1 pos 0 0
@@ -34,6 +35,9 @@ output * bg #202020 solid_color
 # Sway Cheat Sheet
 exec "$CONFIG/sway-tuto"
 
+# Iostat tool (for waybar plugin)
+exec "$CONFIG/run-iostat"
+
 # Notifications
 exec dunst
 
@@ -44,7 +48,7 @@ exec squeekboard
 exec swayidle
 
 # Clipboard manager
-exec "$CONFIG/cliphist"
+exec "$CONFIG/cliphist start"
 
 # Pacman db update
 # exec "$CONFIG/pacman-state"
@@ -73,27 +77,31 @@ floating_modifier $mod
 
 # Start a terminal
 set $TERMINAL "/sbin/alacritty"
-bindsym $mod+Return exec $TERMINAL
+bindsym $mod+Return exec "$CONFIG/app-launcher $TERMINAL"
 
 # Bluetooth devices
 bindsym $mod+b exec "$CONFIG/bluetooth-connect"
 
 # Clipboard manager
-bindsym pause exec killall rofi 2>/dev/null || cliphist list | rofi -dmenu -i -p "Clipboard" | cliphist decode | wl-copy
-bindsym $mod+pause exec cliphist wipe && notify-send "Clipboard" "Board cleaned"
+bindsym pause exec killall rofi 2>/dev/null || $CONFIG/cliphist list | rofi -dmenu -i -p "Clipboard" | $CONFIG/cliphist decode | wl-copy
+bindsym $mod+pause exec $CONFIG/cliphist wipe && notify-send "Clipboard" "Board cleaned"
 
 # Internet browser
 bindsym $mod+g exec firefox
 bindsym $mod+Shift+g exec firefox -private-window
 
 # File Browser
-bindsym $mod+t exec thunar
+bindsym $mod+t exec "$CONFIG/app-launcher thunar"
+
+# Apps
+bindsym $mod+F9 exec "$CONFIG/app-launcher steam"
+bindsym $mod+F8 exec "$CONFIG/app-launcher discord"
 
 # Sway Cheat Sheet
 bindsym $mod+slash exec "$CONFIG/sway-tuto info"
 bindsym $mod+question exec "$CONFIG/sway-tuto info"
 
-# Swap conatiner between 2 monitors
+# Swap container between 2 monitors
 bindsym $mod+grave exec "$CONFIG/swap-workspace"
 
 # Status notification
@@ -124,7 +132,7 @@ bindsym --no-repeat --release ctrl+Shift+Escape exec "systemctl reboot"
 bindsym $mod+F1 exec mpc toggle -q
 bindsym $mod+F2 exec mpc prev -q
 bindsym $mod+F3 exec mpc next -q
-bindsym $mod+F4 exec mpc stop -q
+bindsym $mod+F4 exec mpc | grep '\[' &>/dev/null && mpc stop -q || mpc play -q
 
 bindsym XF86AudioPlay exec mpc toggle -q
 bindsym XF86AudioPrev exec mpc prev -q
@@ -215,19 +223,6 @@ default_floating_border none
 titlebar_padding 1
 titlebar_border_thickness 0
 for_window [class=".*"] border pixel 1
-
-#
-# Scratchpad:
-#
-    # Sway has a "scratchpad", which is a bag of holding for windows.
-    # You can send windows there and get them back later.
-
-    # Move the currently focused window to the scratchpad
-    bindsym $mod+Shift+minus move scratchpad
-
-    # Show the next scratchpad window or hide the focused scratchpad window.
-    # If there are multiple scratchpad windows, this command cycles through them.
-    bindsym $mod+minus scratchpad show
 
 # windows colors
 client.focused  #1e522c #0d3d1a #ffffff #1e522c #3d6648

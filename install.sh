@@ -148,6 +148,10 @@ dev_env_install() {
                     # Specific arch .config
                     ln -sfn "$LOCAL/user_conf/zprofile" ~/.zprofile
                     conf_folder user_conf/home_conf
+                    mkdir -p ~/.config/systemd/user/
+                    cp -fr $LOCAL/user_conf/systemd_user_services/* ~/.config/systemd/user/
+                    systemctl --user daemon-reload
+                    systemctl --user enable sway.service
                     list=""
                     while IFS= read -r line; do
                         char=$(echo "$line" | head -c1)
@@ -158,6 +162,7 @@ dev_env_install() {
                     if pacman -Si $list 1>/dev/null ; then
                         ins $list
                     else
+                        warning "Missing packages from pacman, retrying with aur"
                         aur_ins $list
                     fi
                 else
@@ -241,18 +246,18 @@ usage() {
 # Options
 while getopts 'hndl:' opt; do
     case $opt in
-    h)
-        usage >&2
-        safeExit true
-        ;;
-    d) debug=true ;;
-    l) logFile="${OPTARG}" ;;
-    n) implied_no=true ;;
-    ?)
-        echo "invalid option: '$1'."
-        usage >&2
-        safeExit true
-        ;;
+        h)
+            usage >&2
+            safeExit true
+            ;;
+        d) debug=true ;;
+        l) logFile="${OPTARG}" ;;
+        n) implied_no=true ;;
+        ?)
+            echo "invalid option: '$1'."
+            usage >&2
+            safeExit true
+            ;;
     esac
 done
 

@@ -1,0 +1,18 @@
+[Unit]
+Description=sway - SirCmpwn's Wayland window manager
+Documentation=man:sway(5)
+BindsTo=default.target
+Wants=default.target
+After=default.target
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Type=simple
+Environment="MPD_HOST=/home/%u/.config/mpd/mpd_socket"
+EnvironmentFile=-%h/.config/sway/env
+ExecStart=/usr/bin/sway
+Restart=on-failure
+RestartSec=1
+TimeoutStopSec=10

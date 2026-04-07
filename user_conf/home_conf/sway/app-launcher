@@ -1,0 +1,9 @@
+#!/bin/bash
+if [ "$#" -ne 1 ]; then
+    echo "One parameter needed"
+    exit 1
+fi
+
+
+notify-send "App Launcher" "$1 started" -u low
+$1 || notify-send "App Laucher" "$1 failed" -u critical -t 1000

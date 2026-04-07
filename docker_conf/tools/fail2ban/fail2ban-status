@@ -1,0 +1,5 @@
+#!/bin/bash
+sqlite3 -header -column 'file:/var/lib/fail2ban/fail2ban.sqlite3?mode=ro' "select jail,ip,timeofban,bantime,bancount from bans order by timeofban"
+sqlite3 -header -column 'file:/var/lib/fail2ban/fail2ban.sqlite3?mode=ro' "select count(*) from bans"
+sqlite3 -header -column 'file:/var/lib/fail2ban/fail2ban.sqlite3?mode=ro' "SELECT COUNT(DISTINCT jail) FROM bans;"
+
