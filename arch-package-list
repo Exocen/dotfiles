@@ -3,31 +3,21 @@ mesa
 # Video Driver (nvidia)
 #nvidia
 # Amd CPU
-intel-ucode
-#amd-ucode
-# Fonts
-ttf-fira-code ttf-dejavu otf-ipafont noto-fonts ttf-nerd-fonts-symbols noto-fonts-emoji
->>>>>>> origin/Strix
+amd-ucode
 # Network
 ifplugd
 # WM
-wayland sway xorg-xwayland qt5-wayland xdg-desktop-portal-wlr
-# Menu, notifications, idle managment, clipboard manager, background, brightness, virtual keyboard
-rofi dunst swayidle cliphist swaybg acpilight squeekboard
-# Screenshot
-grim slurp jq wf-recorder
+wayland sway xorg-xwayland qt5-wayland
+# Menu, notifications, idle managment, screenshot
+tofi swaync-git swayidle sway-interactive-screenshot wf-recorder
 # Waybar
-waybar
+waybar noto-fonts ttf-nerd-fonts-symbols
 # Brightness tool
 #clight
-# Stats utils
-acpi sysstat
-# Disk Usage tool
-ncdu
-# Mail client
-thunderbird systray-x-common
+# Utils
+acpi
 # Archive tools
-zip unrar unzip xarchiver
+7-zip zip unrar unzip xarchiver
 # Power management
 #tlp
 # Git Browser
@@ -41,19 +31,20 @@ nethogs
 thunar
 # Terminal
 alacritty
+# Fonts
+ttf-fira-code ttf-dejavu otf-ipafont
 # Web Browser
 firefox
 # Media tool
-vlc-plugins-all
+vlc
 # Logitech mouse
 piper
 # Bluetooth, sound
 blueman pipewire-pulse pipewire bluez-utils wireplumber
 # Music player, visualizer
-mpd mpc ncmpcpp
-#cava
-# User basic rights (ex: reboot without sudo)
-polkit
+mpd mpc ncmpcpp cava
+# Vim addons
+vim-youcompleteme-git flake8
 # Sound app control
 pavucontrol
 # Windows usb installer
