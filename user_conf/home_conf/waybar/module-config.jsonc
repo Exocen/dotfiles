@@ -91,6 +91,11 @@
         "tooltip": true
     },
 
+    "custom/cava": {
+        "format": "{}",
+        "exec": "~/.config/waybar/cava"
+    },
+
     "custom/pacman-status": {
         "exec": "~/.config/waybar/pacman-state",
         "return-type": "json",

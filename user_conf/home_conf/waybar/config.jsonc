@@ -17,7 +17,7 @@
         "sway/mode"
     ],
     "modules-center":[
-        "mpd"
+        "custom/cava"
     ],
     "modules-right": [
         "pulseaudio",
