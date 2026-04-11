@@ -358,7 +358,7 @@ monitor = 1
 
 [play_sound]
     summary = "*"
-    script = .config/dunst/alert.sh
+    script = .config/dunst/alert
 
 #
 # Instead of the appname filter, it's recommended to use the desktop_entry filter.

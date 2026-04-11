@@ -22,6 +22,7 @@ assign [app_id="thunderbird"] 7
 assign [app_id="discord"] 8
 assign [instance="steamwebhelper"] 9
 assign [class="steam"] 5
+assign [title="Steam"] 5
 
 # Monitor assignment
 output $OUTPUT1 pos 0 0
@@ -76,7 +77,7 @@ set $mod Mod4
 floating_modifier $mod
 
 # Start a terminal
-set $TERMINAL "/sbin/alacritty"
+set $TERMINAL "alacritty"
 bindsym $mod+Return exec "$CONFIG/app-launcher $TERMINAL"
 
 # Bluetooth devices
@@ -87,7 +88,7 @@ bindsym pause exec killall rofi 2>/dev/null || $CONFIG/cliphist list | rofi -dme
 bindsym $mod+pause exec $CONFIG/cliphist wipe && notify-send "Clipboard" "Board cleaned"
 
 # Internet browser
-bindsym $mod+g exec firefox
+bindsym $mod+g exec "$CONFIG/app-launcher firefox"
 bindsym $mod+Shift+g exec firefox -private-window
 
 # File Browser
