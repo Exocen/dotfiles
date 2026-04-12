@@ -12,7 +12,7 @@ do
 done
 
 # write cava config
-config_file="/tmp/polybar_cava_config"
+config_file="/run/user/`id -u`/waybar/polybar_cava_config"
 echo "
 [general]
 bars = 60
@@ -30,7 +30,7 @@ if [ "`mpc | wc -l`" -eq 1 ]; then
     echo ""
 else
     line=`sed $dict <<< "$line"`
-    song=`mpc current`
+    song=`mpc current | sed -e 's/\&/&amp;/'`
     if mpc | grep "paused" &>/dev/null ; then
         status="<span font='14' color=\"#28b463\">󰏤</span>"
         line="$status $song"
