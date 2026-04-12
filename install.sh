@@ -159,7 +159,7 @@ dev_env_install() {
                             list="$list $line"
                         fi
                     done <"$file"
-                    sudoless pacman -Syu --noconfirm
+                    sudoless pacman -Syu --noconfirm 1>>"$logFile" 2>&1
                     if pacman -Si $list 1>/dev/null ; then
                         ins $list
                     else
