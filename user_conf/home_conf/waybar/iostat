@@ -1,7 +1,7 @@
 #!/bin/bash
 IOFILE=/run/user/`id -u`/iostat.log
 if [ -f $IOFILE ]; then
-    iolist=$(tail -n 10 $IOFILE | grep -oP '\S{,4}% \S*$' | sort -k1,1)
+    iolist=$(tail -n 10 $IOFILE | grep -oP '\S*% \S*$' | sort -k1,1)
     iotop=`printf %s "$iolist" | tail -n 1`
     iolist=$(echo $iolist)
 end=""
@@ -23,7 +23,9 @@ for (( i=0; i<${#iolist}; i++ )); do
 done
 
 percentage=`echo $iotop | grep -oP '^\d*'`
-if [ $percentage -ge 90 ]; then
+if ! [[ "$percentage" =~ ^[0-9]+$ ]]; then
+    text=""
+elif [ $percentage -ge 90 ]; then
     text="<span font='14' color='#FF4D00'>󱛟 </span><span color='#FF0000'>$iotop</span>"
 elif  [ $percentage -ge 70 ]; then
     text="<span font='14' color='#FF4D00'>󱛟 </span><span color='#FF5D00'>$iotop</span>"

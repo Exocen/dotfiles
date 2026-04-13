@@ -1,0 +1,50 @@
+#!/bin/bash
+
+bar="▁▂▃▄▅▆▇█"
+dict="s/;//g;"
+
+# creating "dictionary" to replace char with bar
+i=0
+while [ $i -lt ${#bar} ]
+do
+    dict="${dict}s/$i/${bar:$i:1}/g;"
+    i=$((i=i+1))
+done
+
+# write cava config
+config_file="/run/user/`id -u`/waybar/waybar_cava_config"
+echo "
+[general]
+bars = 60
+
+[output]
+method = raw
+raw_target = /dev/stdout
+data_format = ascii
+ascii_max_range = 7
+" > $config_file
+
+while true ; do
+    if mpc | grep "paused" &>/dev/null ; then
+        song=`mpc current | sed -e 's/\&/&amp;/g'`
+        status="<span font='14' color=\"#28b463\">󰏤</span>"
+        echo "$status $song"
+    # cava should onl run if a song is playing
+    elif mpc | grep "playing" &>/dev/null ; then
+        # read stdout from cava
+        cava -p $config_file | while read -r line; do
+        if mpc | grep "playing" &>/dev/null ; then
+            line=`sed $dict <<< "$line"`
+            song=`mpc current | sed -e 's/\&/&amp;/g'`
+            status="<span font='14' color=\"#28b463\">󰐊</span>"
+            line="${line:0:30} $status $song ${line:30}"
+            echo $line
+        else
+            kill $(pgrep -f "cava -p $config_file")
+        fi
+    done
+else
+    echo ""
+    fi
+    sleep 0.2
+done

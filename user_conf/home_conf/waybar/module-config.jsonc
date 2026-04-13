@@ -91,6 +91,14 @@
         "tooltip": true
     },
 
+    "custom/mpd-cava": {
+        "format": "{}",
+        "on-click": "mpc toggle",
+        "on-click-middle": "mpc prev",
+        "on-click-right": "mpc next",
+        "exec": "~/.config/waybar/mpd-cava"
+    },
+
     "custom/pacman-status": {
         "exec": "~/.config/waybar/pacman-state",
         "return-type": "json",
