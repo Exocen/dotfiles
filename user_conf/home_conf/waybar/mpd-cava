@@ -15,7 +15,7 @@ do
 done
 
 # write cava config
-config_file="/run/user/`id -u`/waybar/waybar_cava_config"
+config_file="/run/user/`id -u`/waybar/waybar-cava-config"
 echo "
 [general]
 bars = 60
@@ -32,7 +32,7 @@ while true ; do
         song=`mpc current | sed -e 's/\&/&amp;/g'`
         status="<span font='14' color='#28b463'>󰏤</span>"
         echo $status $song
-    # cava should onl run if a song is playing
+    # cava should only run if a song is playing
     elif mpc | grep "playing" &>/dev/null ; then
         # read stdout from cava
         cava -p $config_file | while read -r line; do
@@ -46,11 +46,10 @@ while true ; do
             kill $(pgrep -f "cava -p $config_file")
             exit 0
         fi
-        sleep 0.01
-    done
-else
-    echo ""
-    exit 0
+        done
+    else
+        echo ""
+        exit 0
     fi
     sleep 0.5
 done
