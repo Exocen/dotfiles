@@ -1,8 +1,5 @@
 #!/bin/bash
 
-cd "$(dirname "$0")"
-./mpd-running || exit 0
-
 bar="▁▂▃▄▅▆▇█"
 dict="s/;//g;"
 
