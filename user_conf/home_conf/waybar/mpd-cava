@@ -41,7 +41,6 @@ while true ; do
             echo "$text"
         else
             kill $(pgrep -f "cava -p $config_file")
-            exit 0
         fi
         done
     else
