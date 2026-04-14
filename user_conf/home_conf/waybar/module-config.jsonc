@@ -92,10 +92,12 @@
     },
 
     "custom/mpd-cava": {
-        "format": "{}",
+        "tooltip":"false",
         "on-click": "mpc toggle",
         "on-click-middle": "mpc prev",
         "on-click-right": "mpc next",
+        "exec-if": "~/.config/waybar/mpd-running",
+        "restart-interval":1,
         "exec": "~/.config/waybar/mpd-cava"
     },
 

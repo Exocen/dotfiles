@@ -1,5 +1,8 @@
 #!/bin/bash
 
+cd "$(dirname "$0")"
+./mpd-running || exit 0
+
 bar="▁▂▃▄▅▆▇█"
 dict="s/;//g;"
 
@@ -27,8 +30,8 @@ ascii_max_range = 7
 while true ; do
     if mpc | grep "paused" &>/dev/null ; then
         song=`mpc current | sed -e 's/\&/&amp;/g'`
-        status="<span font='14' color=\"#28b463\">󰏤</span>"
-        echo "$status $song"
+        status="<span font='14' color='#28b463'>󰏤</span>"
+        echo $status $song
     # cava should onl run if a song is playing
     elif mpc | grep "playing" &>/dev/null ; then
         # read stdout from cava
@@ -36,15 +39,18 @@ while true ; do
         if mpc | grep "playing" &>/dev/null ; then
             line=`sed $dict <<< "$line"`
             song=`mpc current | sed -e 's/\&/&amp;/g'`
-            status="<span font='14' color=\"#28b463\">󰐊</span>"
-            line="${line:0:30} $status $song ${line:30}"
-            echo $line
+            status="<span font='14' color='#28b463'>󰐊</span>"
+            text="${line:0:30} $status $song ${line:30}"
+            echo "$text"
         else
             kill $(pgrep -f "cava -p $config_file")
+            exit 0
         fi
+        sleep 0.01
     done
 else
     echo ""
+    exit 0
     fi
-    sleep 0.2
+    sleep 0.5
 done
