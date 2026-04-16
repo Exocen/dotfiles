@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dir="/run/user/$(id -u)/sway-screenshot"
+dir="$XDG_RUNTIME_DIR/sway-screenshot"
 title="Sway Screenshot"
 
 if [ "$1" == "picture" ] ; then

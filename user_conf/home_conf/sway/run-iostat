@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Lockfile sample (block multiple instances)
-LOCKFILE="/var/run/user/$UID/$(basename "$0").lock"
-LOGFILE="/var/run/user/$UID/iostat.log"
+LOCKFILE="$XDG_RUNTIME_DIR/$(basename "$0").lock"
+LOGFILE="$XDG_RUNTIME_DIR/iostat.log"
 [ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running." && exit 1 || echo $$ >"$LOCKFILE"
 trap "rm -f $LOGFILE $LOCKFILE && exit 0" EXIT INT TERM
 

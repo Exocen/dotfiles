@@ -1,17 +1,16 @@
 #!/bin/bash
 
-mkdir -p /var/run/user/$UID/sway
-LOCKFILE="/var/run/user/$UID/sway/$(basename "$0").lock"
-[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running." && exit 1 || echo $$ >"$LOCKFILE"
-trap "rm -f $LOCKFILE && exit 0" EXIT INT TERM
-
 ALL=$@
 if [[ $1 == "start" ]]; then
-    mkdir -p /run/user/$(id -u)/cliphist
-    ln -sf /run/user/$(id -u)/cliphist $HOME/.cache/
+    dir="$XDG_RUNTIME_DIR/cliphist"
+    mkdir -p $dir
+    LOCKFILE="$dir/$(basename "$0").lock"
+    [ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running." && exit 1 || echo $$ >"$LOCKFILE"
+    trap "rm -f $LOCKFILE && exit 0" EXIT INT TERM
+    ln -sf $XDG_RUNTIME_DIR/cliphist $HOME/.cache/
     wl-paste --watch cliphist store
 elif [[ $1 == "decode" ]]; then
     cliphist $@
 else
-    cliphist $@ -db-path="/run/user/`id -u`/cliphist/db"
+    cliphist $@ -db-path="$XDG_RUNTIME_DIR/cliphist/db"
 fi

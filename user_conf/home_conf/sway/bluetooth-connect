@@ -4,7 +4,7 @@ if [ "$#" -ge 2 ]; then
     exit 1
 fi
 # Lockfile sample (block multiple instances)
-LOCKFILE="/var/run/user/$UID/$(basename "$0").lock"
+LOCKFILE="$XDG_RUNTIME_DIR/$(basename "$0").lock"
 [ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running." && notify-send "Bluetooth already trying to connect" -u critical -i audio-headset && exit 1 || echo $$ >"$LOCKFILE"
 
 safe_exit() {

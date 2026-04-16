@@ -159,7 +159,7 @@ alias ip='ip -c'
 alias yolo='git commit -m "$(curl -s https://whatthecommit.com/index.txt)"'
 alias gitsubinit='git submodule update --init --remote --recursive'
 alias gitsubcheck='git submodule update --recursive'
-alias swayexport='export SWAYSOCK=/run/user/$(id -u)/sway-ipc.$(id -u).$(pgrep -x sway).sock'
+alias swayexport='export SWAYSOCK=$XDG_RUNTIME_DIR/sway-ipc.$(id -u).$(pgrep -x sway).sock'
 
 ## Packages managers
 

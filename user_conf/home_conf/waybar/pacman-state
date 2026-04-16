@@ -1,7 +1,7 @@
 #!/bin/bash
-RUN_FILE_PATH="/run/user/`id -u`/waybar"
+RUN_FILE_PATH="$XDG_RUNTIME_DIR/waybar"
 COUNT_FILE_PATH="$RUN_FILE_PATH/pacman-update-count"
-FILE_LIST_PATH="/run/user/`id -u`/pacman-update-list"
+FILE_LIST_PATH="$XDG_RUNTIME_DIR/pacman-update-list"
 mkdir -p $RUN_FILE_PATH
 
 if [[ -f "$FILE_LIST_PATH" ]]; then
