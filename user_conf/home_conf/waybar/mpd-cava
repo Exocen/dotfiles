@@ -1,5 +1,10 @@
 #!/bin/bash
 
+mkdir -p /var/run/user/$UID/waybar
+LOCKFILE="/var/run/user/$UID/waybar/$(basename "$0").lock"
+[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running." && exit 1 || echo $$ >"$LOCKFILE"
+trap "rm -f $LOCKFILE && exit 0" EXIT INT TERM
+
 bar="▁▂▃▄▅▆▇█"
 dict="s/;//g;"
 
@@ -12,7 +17,7 @@ do
 done
 
 # write cava config
-config_file="/run/user/`id -u`/waybar/waybar-cava-config"
+config_file="/run/user/$UID/waybar/waybar-cava-config"
 echo "
 [general]
 bars = 60

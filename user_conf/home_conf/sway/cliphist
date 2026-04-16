@@ -1,4 +1,10 @@
 #!/bin/bash
+
+mkdir -p /var/run/user/$UID/sway
+LOCKFILE="/var/run/user/$UID/sway/$(basename "$0").lock"
+[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running." && exit 1 || echo $$ >"$LOCKFILE"
+trap "rm -f $LOCKFILE && exit 0" EXIT INT TERM
+
 ALL=$@
 if [[ $1 == "start" ]]; then
     mkdir -p /run/user/$(id -u)/cliphist
