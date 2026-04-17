@@ -1,2 +1,10 @@
 #!/bin/bash
-while true ; do iostat -dhxy 2 300 > /run/user/`id -u`/iostat.log; sleep 0.1; done
+
+# Lockfile sample (block multiple instances)
+LOCKFILE="$XDG_RUNTIME_DIR/$(basename "$0").lock"
+LOGFILE="$XDG_RUNTIME_DIR/iostat.log"
+[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running." && exit 1 || echo $$ >"$LOCKFILE"
+trap "rm -f $LOGFILE $LOCKFILE && exit 0" EXIT INT TERM
+
+while swaymsg; do iostat -dhxy 2 300 > $LOGFILE; sleep 0.1; done
+

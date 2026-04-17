@@ -1,5 +1,5 @@
 #!/bin/bash
-IOFILE=/run/user/`id -u`/iostat.log
+IOFILE=$XDG_RUNTIME_DIR/iostat.log
 if [ -f $IOFILE ]; then
     iolist=$(tail -n 10 $IOFILE | grep -oP '\S*% \S*$' | sort -k1,1)
     iotop=`printf %s "$iolist" | tail -n 1`

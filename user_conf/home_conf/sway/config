@@ -106,7 +106,7 @@ bindsym $mod+question exec "$CONFIG/sway-tuto info"
 bindsym $mod+grave exec "$CONFIG/swap-workspace"
 
 # Status notification
-bindsym $mod+period exec notify-send -t 5000 -r 2 "$(stat=`mpc status | head -n -1` ; date=`date +"%F %T"` ; [ ! -z "$stat" ] && echo -e "$stat\\n$date" || echo "$date")" -u low
+bindsym $mod+period exec notify-send -t 5000 -r 2 "$(stat=`mpc status | head -n -1` ; date=`date +"%F %T"` ; [ ! -z "$stat" ] && echo -e "$stat\\n$date\\n`pacman -Qu`" || echo "$date\\n`pacman -Qu`")" -u low
 
 # Capture a screenshot
 bindsym Print exec "$CONFIG/sway-screenshot picture"

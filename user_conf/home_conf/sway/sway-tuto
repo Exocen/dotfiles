@@ -45,7 +45,7 @@ END
 
 echo "Starting $DESC"
 if [ "$1" == "info" ]; then
-    LOCKFILE="/var/run/user/$(id -u)/sway-tuto.lock"
+    LOCKFILE="$XDG_RUNTIME_DIR/sway-tuto.lock"
     if [ -f "$LOCKFILE" ]; then
         gdbus call --session --dest org.freedesktop.Notifications --object-path /org/freedesktop/Notifications --method org.freedesktop.Notifications.CloseNotification $ID 1>/dev/null
         rm "$LOCKFILE"
