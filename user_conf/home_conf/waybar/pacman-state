@@ -1,26 +1,20 @@
 #!/bin/bash
-RUN_FILE_PATH="$XDG_RUNTIME_DIR/waybar"
-COUNT_FILE_PATH="$RUN_FILE_PATH/pacman-update-count"
-FILE_LIST_PATH="$XDG_RUNTIME_DIR/pacman-update-list"
-mkdir -p $RUN_FILE_PATH
-
-if [[ -f "$FILE_LIST_PATH" ]]; then
-    pk_list=$(echo $(cat $FILE_LIST_PATH))
-    pk_count=$(echo $pk_list | wc -w)
-    if [ "$pk_count" -gt 0 ] ; then
-        if [ ! -f $COUNT_FILE_PATH ] || [ "$(( `cat $COUNT_FILE_PATH`))" -ne "$pk_count" ] ; then
-            notify-send -t 15000 -r 40 "$pk_count packages to update" "$(cat $FILE_LIST_PATH | head -n 30)"
-            echo $pk_count > $COUNT_FILE_PATH
+UPDATE_LIST=`pacman -Qu`
+if [[ -n "$UPDATE_LIST" ]]; then
+    COUNT=`echo "$UPDATE_LIST" | wc -l`
+    if [ "$COUNT" -gt 0 ] ; then
+        mkdir -p $XDG_RUNTIME_DIR/waybar
+        COUNT_FILE_PATH=$XDG_RUNTIME_DIR/waybar/pacman-update-count
+        if [ ! -f $COUNT_FILE_PATH ] || [ "$(( `cat $COUNT_FILE_PATH`))" -ne "$COUNT" ] ; then
+            notify-send -t 15000 -r 40 "$COUNT packages to update" "$(head -n 30 <<< $UPDATE_LIST)"
+            echo "$COUNT" > "$COUNT_FILE_PATH"
         fi
-        text="<span font='14' color='#994F00'>󰏔 </span>$pk_count"
-        tooltip="Updates available:\r$pk_list"
+        text="<span font='14' color='#994F00'>󰏔 </span>$COUNT"
+        tooltip="Updates available:\r${UPDATE_LIST//$'\n'/'\r'}"
         echo "{\"text\": \"$text\", \"tooltip\": \"$tooltip\"}"
-    else
-        echo 0 > $COUNT_FILE_PATH
-        echo "{\"text\": \"\", \"tooltip\": \"\"}"
+        exit 0
     fi
-else
-    echo "{\"text\": \"\", \"tooltip\": \"\"}"
 fi
+echo "{\"text\": \"\", \"tooltip\": \"\"}"
 
 # {"text": "$text", "alt": "$alt", "tooltip": "$tooltip", "class": "$class", "percentage": $percentage }

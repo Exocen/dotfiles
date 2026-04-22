@@ -11,6 +11,5 @@ sleep 5m
 while :
 do
     sudo pacman -Syq &>/dev/null
-    pacman -Quq 2>/dev/null > $XDG_RUNTIME_DIR/pacman-update-list
     sleep 1h
 done
