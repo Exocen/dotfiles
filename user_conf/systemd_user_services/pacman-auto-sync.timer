@@ -1,0 +1,8 @@
+[Unit]
+Description=Pacman auto sync
+
+[Timer]
+OnCalendar=hourly
+
+[Install]
+WantedBy=timers.target
