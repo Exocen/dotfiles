@@ -51,9 +51,6 @@ exec swayidle
 # Clipboard manager
 exec "$CONFIG/cliphist start"
 
-# Pacman db update
-exec "$CONFIG/pacman-state"
-
 # Hide cursor
 seat seat0 hide_cursor 15000
 
