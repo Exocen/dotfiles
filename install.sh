@@ -151,7 +151,8 @@ dev_env_install() {
                     mkdir -p ~/.config/systemd/user/
                     cp -fr $LOCAL/user_conf/systemd_user_services/* ~/.config/systemd/user/
                     systemctl --user daemon-reload
-                    systemctl --user enable sway.service
+                    systemctl --user --now enable sway.service
+                    systemctl --user --now enable pacman-auto-sync.timer
                     list=""
                     while IFS= read -r line; do
                         char=$(echo "$line" | head -c1)
