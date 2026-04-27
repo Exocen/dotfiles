@@ -9,7 +9,7 @@ if [[ -n "$UPDATE_LIST" ]]; then
             notify-send -t 15000 -r 40 "$COUNT packages to update" "$(head -n 30 <<< $UPDATE_LIST)"
             echo "$COUNT" > "$COUNT_FILE_PATH"
         fi
-        text="<span font='14' color='#994F00'> </span>$COUNT"
+        text="<span font='14' color='#994F00'>󱍸 </span>$COUNT"
         tooltip="Updates available:\r${UPDATE_LIST//$'\n'/'\r'}"
         echo "{\"text\": \"$text\", \"tooltip\": \"$tooltip\"}"
         exit 0
