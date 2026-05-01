@@ -1,5 +1,6 @@
 [Unit]
 Description=Pacman auto sync
+Requisite=sway.service
 After=network.target
 
 [Service]
