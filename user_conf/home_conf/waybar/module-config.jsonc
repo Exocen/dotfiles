@@ -242,7 +242,7 @@
     "temperature#cpu": {
         "critical-threshold": 100,
         "interval": 5,
-        "hwmon-path": "/sys/class/hwmon/hwmon4/temp1_input",
+        "hwmon-path": "/sys/class/hwmon/hwmon3/temp1_input",
         "format": "<span font='14' color=\"#cd6155\">{icon}</span>{temperatureC:>3}°C",
         "format-icons": [
             "", // Icon: temperature-empty
