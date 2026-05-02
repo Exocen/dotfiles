@@ -150,9 +150,8 @@ dev_env_install() {
                     conf_folder user_conf/home_conf
                     mkdir -p ~/.config/systemd/user/
                     cp -fr $LOCAL/user_conf/systemd_user_services/* ~/.config/systemd/user/
-                    systemctl --user daemon-reload
-                    systemctl --user --now enable sway.service
-                    systemctl --user --now enable pacman-auto-sync.timer
+                    systemctl --user daemon-reload 1>>"$logFile" 2>&1
+                    systemctl --user --now enable sway.service pacman-auto-sync.timer 1>>"$logFile" 2>&1
                     list=""
                     while IFS= read -r line; do
                         char=$(echo "$line" | head -c1)
@@ -225,13 +224,14 @@ yellow=$(tput setaf 3 2>/dev/null)
 blue=$(tput setaf 38 2>/dev/null)
 
 # Set Temp Directory
-tmpDir="/tmp/${scriptName}.$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$$"
+tmpDir="/run/user/$(id -u)/tmp-install-script.$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$$"
 (umask 077 && mkdir "${tmpDir}") || {
-    die "Could not create temporary directory! Exiting."
+    error "Could not create temporary directory! Exiting."
+    exit 1
 }
 
 # Logging (overwrited by --logpath)
-logFile="/tmp/${scriptName}-$(date "+%s").log"
+logFile="/run/user/$(id -u)/install-script-$(date "+%s").log"
 
 # Usage/Help
 usage() {
@@ -261,6 +261,10 @@ while getopts 'hndl:' opt; do
             safeExit true
             ;;
     esac
+(umask 077 && touch "${logFile}") || {
+    echo "Could not create log file! Exiting."
+    exit 1
+}
 done
 
 # Logging & Feedback
@@ -275,6 +279,7 @@ _alert() {
     if [ "${1}" != "debug" ]; then
         printf "%s%s [%7s] %s %s\n" "$(date +'%T')" "$color" "${1}" "$_message" "$reset"
     fi
+
 
     # Print to Logfile
     if ${printLog}; then
