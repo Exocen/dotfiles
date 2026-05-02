@@ -224,7 +224,7 @@ yellow=$(tput setaf 3 2>/dev/null)
 blue=$(tput setaf 38 2>/dev/null)
 
 # Set Temp Directory
-tmpDir="/run/user/$(id -u)/tmp-install-script.$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$$"
+tmpDir="${LOCAL}/tmp-install-script.$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$$"
 (umask 077 && mkdir "${tmpDir}") || {
     error "Could not create temporary directory! Exiting."
     exit 1
