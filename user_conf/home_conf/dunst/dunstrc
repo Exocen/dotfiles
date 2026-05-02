@@ -358,9 +358,15 @@ monitor = 1
 
 [play_sound]
     summary = "*"
+    msg_urgency = "normal"
     script = .config/dunst/alert
 
-#
+
+[play_sound_critical]
+    summary = "*"
+    msg_urgency = "critical"
+    script = .config/dunst/alert
+
 # Instead of the appname filter, it's recommended to use the desktop_entry filter.
 # GLib based applications export their desktop-entry name. In comparison to the appname,
 # the desktop-entry won't get localized.
