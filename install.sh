@@ -240,7 +240,7 @@ usage() {
     %sOptions:%s
     -d     Use debug mode
     -l     Set log path (default /run/user/$(id -u))
-    -n     Skip all user interaction.  Implied 'No' to all actions.
+    -n     Skip all user interactions.  Implied 'No' to all actions.
     -h     Display this help and exit
     \n" "${scriptName}" "${bold}" "${reset}"
 }
