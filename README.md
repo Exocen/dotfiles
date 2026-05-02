@@ -11,11 +11,13 @@ My configuration files, samples, and helpers
 
 #### Usage
 ```
-install.sh [OPTIONS]:
--d     Use debug mode
--l     Set log path (default /tmp)
--n     Skip user interaction.  Implied 'No' to every actions
--h     Display this output
+install.sh [OPTION]
+
+    Options:
+    -d     Use debug mode
+    -l     Set log path (default $XDG_RUNTIME_DIR)
+    -n     Skip all user interaction.  Implied 'No' to all actions.
+    -h     Display this help and exit
 ```
 
 #### Sample
