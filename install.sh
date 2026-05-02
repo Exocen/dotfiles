@@ -223,15 +223,17 @@ green=$(tput setaf 76 2>/dev/null)
 yellow=$(tput setaf 3 2>/dev/null)
 blue=$(tput setaf 38 2>/dev/null)
 
-# Set Temp Directory
-tmpDir="${LOCAL}/tmp-install-script.$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$$"
-(umask 077 && mkdir "${tmpDir}") || {
+#Set work dir
+workDir="/tmp/install-dir"
+mkdir -p "${workDir}" && chmod -R u=rwX,g=rX,o= "${workDir}" || {
     error "Could not create temporary directory! Exiting."
     exit 1
 }
+# Set Temp Directory
+tmpDir="${workDir}/tmp-install-script.$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$$"
 
 # Logging (overwrited by --logpath)
-logFile="/run/user/$(id -u)/install-script-$(date "+%s").log"
+logFile="${workDir}/install-script-$(date "+%s").log"
 
 # Usage/Help
 usage() {
@@ -239,7 +241,7 @@ usage() {
 
     %sOptions:%s
     -d     Use debug mode
-    -l     Set log path (default /run/user/$(id -u))
+    -l     Set log path (default /tmp/install-dir))
     -n     Skip all user interactions.  Implied 'No' to all actions.
     -h     Display this help and exit
     \n" "${scriptName}" "${bold}" "${reset}"
