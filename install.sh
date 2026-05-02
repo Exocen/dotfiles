@@ -241,7 +241,7 @@ usage() {
 
     %sOptions:%s
     -d     Use debug mode
-    -l     Set log path (default /tmp/install-dir))
+    -l     Set log path (default /tmp/install-dir)
     -n     Skip all user interactions.  Implied 'No' to all actions.
     -h     Display this help and exit
     \n" "${scriptName}" "${bold}" "${reset}"

@@ -15,7 +15,7 @@ install.sh [OPTION]
 
     Options:
     -d     Use debug mode
-    -l     Set log path (default $XDG_RUNTIME_DIR)
+    -l     Set log path (default /tmp/install-dir)
     -n     Skip all user interaction.  Implied 'No' to all actions.
     -h     Display this help and exit
 ```
