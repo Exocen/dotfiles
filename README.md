@@ -7,7 +7,7 @@ My configuration files, samples, and helpers
 1. Install vim git htop iftop iotop tree zsh make wget curl sudo rsync p7zip
 2. Set zsh config
 3. Set vim config
-4. (Optionnal Arch only) install my dev environment (WM included)
+4. (Optionnal Arch only) install my full dev environment
 
 #### Usage
 ```
