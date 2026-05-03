@@ -1,0 +1,12 @@
+[Unit]
+Description=Wayland on-screen keyboard
+Documentation=https://github.com/droidian/squeekboard/tree/upstream/doc
+PartOf=graphical-session.target
+StopWhenUnneeded=yes
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/squeekboard
+
+[Install]
+WantedBy=sway-session.target

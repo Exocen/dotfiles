@@ -1,0 +1,11 @@
+[Unit]
+Description=Dunst notification manager
+PartOf=graphical-session.target
+StopWhenUnneeded=yes
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/dunst
+
+[Install]
+WantedBy=sway-session.target

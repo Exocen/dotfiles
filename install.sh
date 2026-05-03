@@ -151,7 +151,7 @@ dev_env_install() {
                     mkdir -p ~/.config/systemd/user/
                     cp -fr $LOCAL/user_conf/systemd_user_services/* ~/.config/systemd/user/
                     systemctl --user daemon-reload 1>>"$logFile" 2>&1
-                    systemctl --user --now enable sway.service pacman-auto-sync.timer 1>>"$logFile" 2>&1
+                    systemctl --user --now enable sway pacman-auto-sync.timer swayidle waybar iostat-info dunst squeekboard cliphist 1>>"$logFile" 2>&1
                     list=""
                     while IFS= read -r line; do
                         char=$(echo "$line" | head -c1)
