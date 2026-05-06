@@ -4,7 +4,7 @@ HOST=$1
 OUTPUT=$HOST-$(date +"%Y-%m-%dT%H:%M:%S").tgz
 BACKUP_DIR=$2/docker-backup/$HOST
 MIN_BACKUP=2
-MAX_SIZE=200000
+MAX_SIZE=2000000
 MAX_FILE_COUNT=50
 LOCAL=$(dirname "$(readlink -f "$0")")
 
