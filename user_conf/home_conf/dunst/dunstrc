@@ -7,7 +7,7 @@ monitor = 1
     width = (0, 1000)
 
 # Position the notification in the top right corner
-    origin = top-right
+    origin = top-left
 
 # Scale factor. It is auto-detected if value is 0.
     scale = 0
@@ -404,7 +404,7 @@ monitor = 1
 # pushback: same as delay, but when switching into fullscreen, the notification will get
 #           withdrawn from screen again and will get delayed like a new notification
 [fullscreen_delay_everything]
-    fullscreen = delay
+    fullscreen = show
 #[fullscreen_show_critical]
 #    msg_urgency = critical
 #    fullscreen = show
