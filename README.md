@@ -11,13 +11,13 @@ My configuration files, samples, and helpers
 
 #### Usage
 ```
-install.sh [OPTION]
+install.sh [OPTIONS]
 
     Options:
     -d     Use debug mode
     -l     Set log path (default /tmp/install-dir)
     -n     Skip all user interaction.  Implied 'No' to all actions.
-    -h     Display this help and exit
+    -h     Print this help screen
 ```
 
 #### Sample
