@@ -1,0 +1,12 @@
+[Unit]
+Description=Clipboard history “manager” for Wayland
+Documentation=https://github.com/sentriz/cliphist
+PartOf=graphical-session.target
+StopWhenUnneeded=yes
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/wl-paste --watch cliphist -db-path="/var/run/user/%U/cliphist/db" store
+
+[Install]
+WantedBy=sway-session.target

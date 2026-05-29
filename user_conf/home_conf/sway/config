@@ -36,24 +36,6 @@ output * bg #202020 solid_color
 # Sway Cheat Sheet
 exec "$CONFIG/sway-tuto"
 
-# Iostat tool (for waybar plugin)
-exec "$CONFIG/run-iostat"
-
-# Notifications
-exec dunst
-
-# Virtual keyboard
-exec squeekboard
-
-# Idle stuff
-exec swayidle
-
-# Clipboard manager
-exec "$CONFIG/cliphist start"
-
-# Pacman db update
-# exec "$CONFIG/pacman-state"
-
 # Hide cursor
 seat seat0 hide_cursor 15000
 
@@ -84,8 +66,8 @@ bindsym $mod+Return exec "$CONFIG/app-launcher $TERMINAL"
 bindsym $mod+b exec "$CONFIG/bluetooth-connect"
 
 # Clipboard manager
-bindsym pause exec killall rofi 2>/dev/null || $CONFIG/cliphist list | rofi -dmenu -i -p "Clipboard" | $CONFIG/cliphist decode | wl-copy
-bindsym $mod+pause exec $CONFIG/cliphist wipe && notify-send "Clipboard" "Board cleaned"
+bindsym pause exec killall rofi 2>/dev/null || cliphist -db-path="$XDG_RUNTIME_DIR/cliphist/db" list | rofi -dmenu -i -p "Clipboard" | cliphist -db-path="$XDG_RUNTIME_DIR/cliphist/db" decode | wl-copy
+bindsym $mod+pause exec cliphist -db-path="$XDG_RUNTIME_DIR/cliphist/db" wipe && notify-send "Clipboard" "Board cleaned"
 
 # Internet browser
 bindsym $mod+g exec "$CONFIG/app-launcher firefox"
@@ -106,7 +88,7 @@ bindsym $mod+question exec "$CONFIG/sway-tuto info"
 bindsym $mod+grave exec "$CONFIG/swap-workspace"
 
 # Status notification
-bindsym $mod+period exec notify-send -t 5000 -r 2 "$(stat=`mpc status | head -n -1` ; date=`date +"%F %T"` ; [ ! -z "$stat" ] && echo -e "$stat\\n$date\\n`pacman -Qu`" || echo "$date\\n`pacman -Qu`")" -u low
+bindsym $mod+period exec notify-send -t 5000 -r 2 "$(stat=`mpc status | head -n -1` ; date=`date +"%F %T"` ; [ ! -z "$stat" ] && echo -e "$stat\\n$date\\n`pacman -Qu`" || echo -e "$date\\n`pacman -Qu`")"
 
 # Capture a screenshot
 bindsym Print exec "$CONFIG/sway-screenshot picture"
@@ -245,16 +227,13 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-bar {
-    swaybar_command waybar
-}
-
 # sway does not set DISPLAY/WAYLAND_DISPLAY in the systemd user environment
 # See FS#63021
 # Adapted from xorg's 50-systemd-user.sh, which achieves a similar goal.
 
 # Upstream refuses to set XDG_CURRENT_DESKTOP so we have to.
 exec systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
+exec systemctl --user set-environment MPD_HOST="$HOME/.config/mpd/mpd_socket"
 exec systemctl --user import-environment DISPLAY \
                                          SWAYSOCK \
                                          WAYLAND_DISPLAY \
@@ -265,3 +244,5 @@ exec hash dbus-update-activation-environment 2>/dev/null && \
                                                   SWAYSOCK \
                                                   XDG_CURRENT_DESKTOP=sway \
                                                   WAYLAND_DISPLAY
+
+exec "systemctl --user import-environment {,WAYLAND_}DISPLAY SWAYSOCK; systemctl --user start sway-session.target"

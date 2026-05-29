@@ -1,0 +1,12 @@
+[Unit]
+Description=Pacman auto sync
+Requisite=sway.service
+After=network.target
+
+[Service]
+Type=simple
+
+ExecStart=sudo pacman -Syq
+
+[Install]
+WantedBy=default.target

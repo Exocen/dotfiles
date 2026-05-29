@@ -150,8 +150,8 @@ dev_env_install() {
                     conf_folder user_conf/home_conf
                     mkdir -p ~/.config/systemd/user/
                     cp -fr $LOCAL/user_conf/systemd_user_services/* ~/.config/systemd/user/
-                    systemctl --user daemon-reload
-                    systemctl --user enable sway.service
+                    systemctl --user daemon-reload 1>>"$logFile" 2>&1
+                    systemctl --user --now enable sway pacman-auto-sync.timer swayidle waybar iostat-info dunst squeekboard cliphist 1>>"$logFile" 2>&1
                     list=""
                     while IFS= read -r line; do
                         char=$(echo "$line" | head -c1)
@@ -223,14 +223,17 @@ green=$(tput setaf 76 2>/dev/null)
 yellow=$(tput setaf 3 2>/dev/null)
 blue=$(tput setaf 38 2>/dev/null)
 
-# Set Temp Directory
-tmpDir="/tmp/${scriptName}.$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$$"
-(umask 077 && mkdir "${tmpDir}") || {
-    die "Could not create temporary directory! Exiting."
+#Set work dir
+workDir="/tmp/install-dir"
+mkdir -p "${workDir}" && chmod -R u=rwX,g=rX,o= "${workDir}" || {
+    error "Could not create temporary directory! Exiting."
+    exit 1
 }
+# Set Temp Directory
+tmpDir="${workDir}/tmp-install-script.$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$(awk 'BEGIN { srand(); print int(rand()*32768) }' /dev/null).$$"
 
 # Logging (overwrited by --logpath)
-logFile="/tmp/${scriptName}-$(date "+%s").log"
+logFile="${workDir}/install-script-$(date "+%s").log"
 
 # Usage/Help
 usage() {
@@ -238,8 +241,8 @@ usage() {
 
     %sOptions:%s
     -d     Use debug mode
-    -l     Set log path (default /tmp)
-    -n     Skip all user interaction.  Implied 'No' to all actions.
+    -l     Set log path (default /tmp/install-dir)
+    -n     Skip all user interactions.  Implied 'No' to all actions.
     -h     Display this help and exit
     \n" "${scriptName}" "${bold}" "${reset}"
 }
@@ -260,6 +263,10 @@ while getopts 'hndl:' opt; do
             safeExit true
             ;;
     esac
+(umask 077 && touch "${logFile}") || {
+    echo "Could not create log file! Exiting."
+    exit 1
+}
 done
 
 # Logging & Feedback
@@ -274,6 +281,7 @@ _alert() {
     if [ "${1}" != "debug" ]; then
         printf "%s%s [%7s] %s %s\n" "$(date +'%T')" "$color" "${1}" "$_message" "$reset"
     fi
+
 
     # Print to Logfile
     if ${printLog}; then

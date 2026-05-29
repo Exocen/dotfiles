@@ -7,18 +7,20 @@ My configuration files, samples, and helpers
 1. Install vim git htop iftop iotop tree zsh make wget curl sudo rsync p7zip
 2. Set zsh config
 3. Set vim config
-4. (Optionnal Arch only) install packages from arch-package-list, and the windows manager (wayland + sway)
+4. (Optionnal Arch only) install my full dev environment
 
-#### Script usage
+#### Usage
 ```
-install.sh [OPTIONS]:
--d     Use debug mode
--l     Set log path (default /tmp)
--n     Skip user interaction.  Implied 'No' to every actions
--h     Display this output
+install.sh [OPTIONS]
+
+    Options:
+    -d     Use debug mode
+    -l     Set log path (default /tmp/install-dir)
+    -n     Skip all user interaction.  Implied 'No' to all actions.
+    -h     Print this help screen
 ```
 
-#### Example
+#### Sample
 ![script_execution_sample](sample.png)
 
 #### Tested on
@@ -31,8 +33,3 @@ install.sh [OPTIONS]:
 * Linux Mint 22+
 
 Tested with *docker_conf/install_test*
-
-### 📝 TODO
-- [x] Docker mail_server : run ipv6 blocker with docker-run
-- [x] Docker fail2ban : script/txt -> run fail2ban service AFTER docker service
-- [x] waybar : run iostat has a background process/user service , the plugin should only read a file, not run a new iostat every x seconds

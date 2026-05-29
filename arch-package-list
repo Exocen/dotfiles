@@ -10,12 +10,14 @@ ttf-fira-code ttf-dejavu otf-ipafont noto-fonts ttf-nerd-fonts-symbols noto-font
 ifplugd
 # WM
 wayland sway xorg-xwayland qt5-wayland xdg-desktop-portal-wlr
-# Menu, notifications, idle managment, clipboard manager, background, brightness, virtual keyboard
-rofi dunst swayidle cliphist swaybg acpilight squeekboard
-# Screenshot
-grim slurp jq wf-recorder
-# Waybar
+# Status Bar
 waybar
+# Menu, notifications, idle managment, clipboard manager, background, virtual keyboard
+rofi dunst swayidle cliphist swaybg squeekboard
+# Brightness
+#acpilight
+# Screen picture/video capture
+grim slurp jq wf-recorder
 # Brightness tool
 #clight
 # Stats utils
@@ -43,16 +45,16 @@ alacritty
 firefox
 # Media tool
 vlc-plugins-all
-# Logitech mouse
+# Mouse manager
 piper
-# Bluetooth, sound
-blueman pipewire-pulse pipewire bluez-utils wireplumber
+# Audio
+pipewire-pulse pipewire wireplumber pavucontrol
+# Bluetooth
+blueman bluez-utils
 # Music player, visualizer
 mpd mpc ncmpcpp cava
 # User basic rights (ex: reboot without sudo)
 polkit
-# Sound app control
-pavucontrol
 # Windows usb installer
 #woeusb
 # Arch wiki offline doc

@@ -2,4 +2,4 @@
 
 cd $(dirname "$(readlink -f "$0")")
 
-pw-play notif.wav
+pw-play notif.wav --volume 0.5

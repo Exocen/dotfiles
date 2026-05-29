@@ -5,7 +5,7 @@ if [ "$#" -ge 2 ]; then
 fi
 # Lockfile sample (block multiple instances)
 LOCKFILE="$XDG_RUNTIME_DIR/$(basename "$0").lock"
-[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running." && notify-send "Bluetooth already trying to connect" -u critical -i audio-headset && exit 1 || echo $$ >"$LOCKFILE"
+[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running." && notify-send "Bluetooth already trying to connect" -u critical -i audio-headset -t 5000 && exit 1 || echo $$ >"$LOCKFILE"
 
 safe_exit() {
     echo "$1"
@@ -34,7 +34,7 @@ main() {
     while [ "$(date +%s)" -lt "$TIMEOUT" ]; do
         if bluetoothctl connect "$DEVICE_MAC" 1>/dev/null; then
             if ! pactl set-card-profile $(pactl list short | grep -oP "\d*(?=\s*bluez_card)") a2dp-sink; then
-                sleep 4
+                sleep 10
                 pactl set-card-profile $(pactl list short | grep -oP "\d*(?=\s*bluez_card)") a2dp-sink-aac
             fi
             if pactl set-card-profile $(pactl list short | grep -oP "\d*(?=\s*bluez_card)") a2dp-sink; then
