@@ -53,7 +53,7 @@
         "cpu",
         // "temperature#gpu",
         // "temperature#cpu",
-        // "custom/pacman-status",
+        "custom/pacman-status",
         "pulseaudio",
         "custom/bluetooth-battery-headset",
         "custom/bluetooth-battery-ps-controller",

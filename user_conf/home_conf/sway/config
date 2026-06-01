@@ -31,7 +31,7 @@ assign [title="Steam"] 5
 
 # Background
 output * bg #202020 solid_color
-#output * bg "$HOME/bg.jpg" fill
+# output * bg "$HOME/bg.jpg" fill
 
 # Sway Cheat Sheet
 exec "$CONFIG/sway-tuto"
