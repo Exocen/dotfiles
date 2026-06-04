@@ -1,0 +1,6 @@
+#!/bin/bash
+while true
+do
+iostat -dhxy 2 300 > $XDG_RUNTIME_DIR/iostat.log
+cp -f $XDG_RUNTIME_DIR/iostat.log $XDG_RUNTIME_DIR/iostat-old.log
+done

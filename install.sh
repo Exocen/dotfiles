@@ -152,6 +152,7 @@ dev_env_install() {
                     cp -fr $LOCAL/user_conf/systemd_user_services/* ~/.config/systemd/user/
                     systemctl --user daemon-reload 1>>"$logFile" 2>&1
                     systemctl --user --now enable sway pacman-auto-sync.timer swayidle waybar iostat-info dunst squeekboard cliphist 1>>"$logFile" 2>&1
+                    is_working "User units installed and enabled"
                     list=""
                     while IFS= read -r line; do
                         char=$(echo "$line" | head -c1)
@@ -263,10 +264,10 @@ while getopts 'hndl:' opt; do
             safeExit true
             ;;
     esac
-(umask 077 && touch "${logFile}") || {
-    echo "Could not create log file! Exiting."
-    exit 1
-}
+    (umask 077 && touch "${logFile}") || {
+        echo "Could not create log file! Exiting."
+            exit 1
+    }
 done
 
 # Logging & Feedback

@@ -1,9 +1,18 @@
 #!/bin/bash
 IOFILE=$XDG_RUNTIME_DIR/iostat.log
-if [ -f $IOFILE ]; then
-    iolist=$(tail -n 10 $IOFILE | grep -oP '\S*% \S*$' | sort -k1,1)
-    iotop=`printf %s "$iolist" | tail -n 1`
-    iolist=$(echo $iolist)
+IOFILE2=$XDG_RUNTIME_DIR/iostat-old.log
+
+if [ ! -f $IOFILE ]; then
+    if [ -f $IOFILE2 ]; then
+        IOFILE=$IOFILE2
+    else
+        exit 0
+    fi
+fi
+
+iolist=$(tail -n 10 $IOFILE | grep -oP '\S*% \S*$' | sort -k1,1)
+iotop=`printf %s "$iolist" | tail -n 1`
+iolist=$(echo $iolist)
 end=""
 b=0
 
@@ -35,6 +44,5 @@ else
     text="<span font='14' color='#FF4D00'>󱛟 </span><span>$iotop</span>"
 fi
 
-fi
 echo {\"text\": \""$text"\", \"tooltip\": \""$end"\"}
 # {"text": "$text", "alt": "$alt", "tooltip": "$tooltip", "class": "$class", "percentage": $percentage }
