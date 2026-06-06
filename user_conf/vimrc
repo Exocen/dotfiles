@@ -35,8 +35,6 @@ Plug 'https://github.com/tpope/vim-surround'
 " :Git cmd
 Plug 'https://github.com/tpope/vim-fugitive'
 
-" Quit with maj Q
-:command Q q
 
 " Markdown
 Plug 'https://github.com/preservim/vim-markdown'
@@ -51,6 +49,7 @@ Plug 'https://github.com/preservim/vim-markdown'
 "  press Q to remove current cursor/selection
 "  start insert mode with i,a,I,A
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+
 let g:VM_leader = ','
 
 " Use Tab to trigger the completion suggestions and select matched items
@@ -99,9 +98,9 @@ Plug 'https://github.com/corntrace/bufexplorer'
 
 call plug#end()
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General inspired by https://github.com/amix/vimrc Amir Salihefendic
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Quit with maj Q
+:command Q q
+
 " Sets how many lines of history VIM has to remember
 set history=500
 
@@ -121,9 +120,6 @@ nmap <leader>w :w!<cr>
 
 " Vim info location
 set viminfo+=n~/.vim/viminfo
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VIM user interface
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set 7 lines to the cursor - when moving vertically using j/k
 set so=6
 
@@ -250,7 +246,6 @@ set wrap "Wrap lines
 " => Visual mode related
 """"""""""""""""""""""""""""""
 " Visual mode pressing * or # searches for the current selection
-" Super useful! From an idea by Michael Naumann
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
@@ -260,10 +255,10 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
 map <space> /
-    map <c-space> ?
+map <c-space> ?
 
-    " Disable highlight when <leader><cr> is pressed
-    map <silent> <leader><cr> :noh<cr>
+" Disable highlight when <leader><cr> is pressed
+map <silent> <leader><cr> :noh<cr>
 
 " Smart way to move between windows
 map <C-j> <C-W>j
