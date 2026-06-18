@@ -130,7 +130,7 @@
     },
 
     "mpd": {
-        "format": "{stateIcon} {artist} - {title}",
+        "format": "{stateIcon} {title}",
         "format-disconnected": "Disconnected",
         "format-stopped": "",
         //"format-stopped": "<span font='14' color=\"#28b463\">󰓛</span>",
@@ -138,8 +138,8 @@
         "on-click-middle": "mpc prev",
         "on-click-right": "mpc next",
         "interval": 10,
-        // "max-length": 150,
-        // "min-length": 50,
+        // "max-length": 30,
+        // "min-length": 30,
         "consume-icons": {
             "on": " "
         },
