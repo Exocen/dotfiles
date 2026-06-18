@@ -6,7 +6,7 @@ StopWhenUnneeded=yes
 [Service]
 Type=simple
 Restart=always
-ExecStart=/bin/bash -c 'iostat -dhxy 2 300 > /var/run/user/%U/iostat.log'
+ExecStart=%h/.config/sway/iostat-info
 
 [Install]
 WantedBy=sway-session.target
