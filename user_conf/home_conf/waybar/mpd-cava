@@ -45,7 +45,7 @@ elif echo $mpc_text | grep "playing" &>/dev/null ; then
     if echo $mpc_text | grep "playing" &>/dev/null ; then
         line=`sed $dict <<< "$line"`
         song=`echo $mpc_text | grep -oP "^.*(?=\[)" | sed -e 's/\&/&amp;/g'`
-        progress="$((6000*($(echo $mpc_text | grep -oP "\(\K\d*"))/10000))"
+        progress="$((60*($(echo $mpc_text | grep -oP "\(\K\d*"))/100))"
         status="<span font='14' color='#28b463'>󰐊</span>"
         if [[ "$progress" -lt 30 ]]; then
             echo "<span color='#28b463'>${line:0:$progress}</span>${line:$progress:30-$progress} $status $song ${line:30}"
