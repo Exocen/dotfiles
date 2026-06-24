@@ -31,23 +31,31 @@ if ! [ -f "$CONFIG_FILE" ]; then
     " > $CONFIG_FILE
 fi
 
-if mpc | grep "paused" &>/dev/null ; then
-    song=`mpc current | sed -e 's/\&/&amp;/g'`
+mpc_text=`mpc`
+
+if echo $mpc_text | grep "paused" &>/dev/null ; then
+    song=`echo $mpc_text | grep -oP "^.*(?=\[)" | sed -e 's/\&/&amp;/g'`
     status="<span font='14' color='#28b463'>󰏤</span>"
     echo $status $song
     # cava should only run if a song is playing
-elif mpc | grep "playing" &>/dev/null ; then
+elif echo $mpc_text | grep "playing" &>/dev/null ; then
     # read stdout from cava
     cava -p $CONFIG_FILE | while read -r line; do
-        if mpc | grep "playing" &>/dev/null ; then
-            line=`sed $dict <<< "$line"`
-            song=`mpc current | sed -e 's/\&/&amp;/g'`
-            status="<span font='14' color='#28b463'>󰐊</span>"
-            echo "${line:0:30} $status $song ${line:30}"
+    mpc_text=`mpc`
+    if echo $mpc_text | grep "playing" &>/dev/null ; then
+        line=`sed $dict <<< "$line"`
+        song=`echo $mpc_text | grep -oP "^.*(?=\[)" | sed -e 's/\&/&amp;/g'`
+        progress="$((6000*($(echo $mpc_text | grep -oP "\(\K\d*"))/10000))"
+        status="<span font='14' color='#28b463'>󰐊</span>"
+        if [[ "$progress" -lt 30 ]]; then
+            echo "<span color='#28b463'>${line:0:$progress}</span>${line:$progress:30-$progress} $status $song ${line:30}"
         else
-            kill $(pgrep -f "cava -p $CONFIG_FILE") 2>/dev/null
+            echo "<span color='#28b463'>${line:0:30}</span> $status $song <span color='#28b463'>${line:30:$progress-30}</span>${line:$progress}"
         fi
-    done
+    else
+        kill $(pgrep -f "cava -p $CONFIG_FILE") 2>/dev/null
+    fi
+done
 else
     echo ""
 fi
