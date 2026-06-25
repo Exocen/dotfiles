@@ -8,6 +8,8 @@ trap "rm -f $LOCKFILE && exit 0" EXIT INT TERM
 
 bar="▁▂▃▄▅▆▇█"
 dict="s/;//g;"
+barsize=80
+halfbar=$(($barsize/2))
 
 # creating "dictionary" to replace char with bar
 i=0
@@ -21,13 +23,13 @@ if ! [ -f "$CONFIG_FILE" ]; then
     # write cava config
     echo "
     [general]
-    bars = 60
+    bars = $barsize
 
     [output]
     method = raw
     raw_target = /dev/stdout
     data_format = ascii
-    ascii_max_range = 7
+    ascii_max_range = $((${#bar}-1))
     " > $CONFIG_FILE
 fi
 
@@ -45,12 +47,12 @@ elif echo $mpc_text | grep "playing" &>/dev/null ; then
     if echo $mpc_text | grep "playing" &>/dev/null ; then
         line=`sed $dict <<< "$line"`
         song=`echo $mpc_text | grep -oP "^.*(?=\[)" | sed -e 's/\&/&amp;/g'`
-        progress="$((60*($(echo $mpc_text | grep -oP "\(\K\d*"))/100))"
+        progress="$(($barsize*($(echo $mpc_text | grep -oP "\(\K\d*"))/100))"
         status="<span font='14' color='#28b463'>󰐊</span>"
-        if [[ "$progress" -lt 30 ]]; then
-            echo "<span color='#28b463'>${line:0:$progress}</span>${line:$progress:30-$progress} $status $song ${line:30}"
+        if [[ "$progress" -lt "$halfbar" ]]; then
+            echo "<span color='#28b463'>${line:0:$progress}</span>${line:$progress:$halfbar-$progress} $status $song ${line:$halfbar}"
         else
-            echo "<span color='#28b463'>${line:0:30}</span> $status $song <span color='#28b463'>${line:30:$progress-30}</span>${line:$progress}"
+            echo "<span color='#28b463'>${line:0:$halfbar}</span> $status $song <span color='#28b463'>${line:$halfbar:$progress-$halfbar}</span>${line:$progress}"
         fi
     else
         kill $(pgrep -f "cava -p $CONFIG_FILE") 2>/dev/null
