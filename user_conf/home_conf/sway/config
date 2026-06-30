@@ -101,6 +101,9 @@ bindsym $mod+Shift+m exec swaymsg output $(swaymsg -t get_outputs -p | grep "(fo
 # Kill focused window
 bindsym $mod+Shift+A kill
 
+# Kill focused window
+bindsym $mod+Shift+U exec notify-send -t 5000 -r 3 "Running Pacman upgrade" && sudo pacman -Syu --noconfirm && notify-send -t 5000 -r 2 -u low "Pacman upgrade succeded"
+
 # App launcher
 # combi mode: select a specific mode with !r (run), !d (drun), !w (windows)
 bindsym $mod+d exec "rofi -show combi"
