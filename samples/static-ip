@@ -1,11 +1,18 @@
+Use nmtui
+
+OR ---------------------------
+
 # from /etc/network/interfaces
 
 auto eth0
 iface eth0 inet static
         address 192.168.1.100/24
+        netmask 255.255.255.0
         gateway 192.168.1.255
 
 # gateway = router => 'ip r'
+OR ------------
+
 # or add to /etc/dhcpcd.conf
 
 #interface eth0
