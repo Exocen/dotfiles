@@ -167,6 +167,7 @@ dev_env_install() {
                         warning "Missing packages from pacman, retrying with aur"
                         aur_ins $list
                     fi
+                    sudoless usermod -aG video $USER
                 else
                     error "Missing $file"
                 fi

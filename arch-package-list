@@ -15,7 +15,7 @@ waybar
 # Menu, notifications, idle managment, clipboard manager, background, virtual keyboard
 rofi dunst swayidle cliphist swaybg squeekboard
 # Brightness
-#acpilight
+brightnessctl
 # Screen picture/video capture
 grim slurp jq wf-recorder
 # Brightness tool
