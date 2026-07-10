@@ -41,6 +41,7 @@ seat seat0 hide_cursor 15000
 
 # Right_Ctrl + Right_Shift to switch keyboards
 input "type:keyboard" {
+    xkb_numlock enabled
     xkb_layout us,us
         xkb_variant ,intl
         xkb_options grp:rctrl_rshift_toggle
