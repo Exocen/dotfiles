@@ -3,40 +3,40 @@ ID=100
 DESC="Sway Cheat Sheet"
 TIMEOUT_DELAY="15 minutes"
 CHEATSHEET=$(cat <<-END
-Super: 󰨡 or 󰘵 or Option
-Super + ?: Display this Cheat Sheet
-Super + Enter: Terminal
-Super + d: Application launcher
+Option: 󰨡 or 󰘵
+Option + ?: Display this Cheat Sheet
+Option + Enter: Terminal
+Option + d: Application launcher
 
-Super + g: Internet browser
-Super + t: File browser
-Super + Shift + m: Monitor 90° rotation
-Super + b: Connect Bluetooth
+Option + g: Internet browser
+Option + t: File browser
+Option + Shift + m: Monitor 90° rotation
+Option + b: Connect Bluetooth
 
 Print Screen: Image screenshot
-Super + Print Screen: Video screenshot
+Option + Print Screen: Video screenshot
 Pause: Copy history list
-Super + Pause: Reset copy history
+Option + Pause: Reset copy history
 
-Super + F1/F2/F3/F4/F5: Mpd Toggle/Prev/Next/Stop/Mute
+Option + F1/F2/F3/F4/F5: Mpd Toggle/Prev/Next/Stop/Mute
 
-Super + 1-10: Focus to workspace 1-10
-Super + Shift + 1-10: Move window to workspace 1-10
-Super + Ctrl + left/right: Move to left/right workspace
+Option + 1-10: Focus to workspace 1-10
+Option + Shift + 1-10: Move window to workspace 1-10
+Option + Ctrl + left/right: Move to left/right workspace
 
-Super + Arrow: Change focused window
-Super + Shift + Arrow: Move window
-Super + h/v: Split horizontaly/verticaly
-Super + f: Full screen focused window
-Super + s/z/e: Change container layout to stacked/tabbed/toggle split
-Super + Shift + Space: Toggle floating window
-Super + Space: Toggle focus between tiling and floating
-Super + p/c: Focus parent/child window
-Super + r: Resize window
-Super + Shift + a: Kill focused window
-Super + \`: Swap container to one on the next displayed monitor
+Option + Arrow: Change focused window
+Option + Shift + Arrow: Move window
+Option + h/v: Split horizontaly/verticaly
+Option + f: Full screen focused window
+Option + s/z/e: Change container layout to stacked/tabbed/toggle split
+Option + Shift + Space: Toggle floating window
+Option + Space: Toggle focus between tiling and floating
+Option + p/c: Focus parent/child window
+Option + r: Resize window
+Option + Shift + a: Kill focused window
+Option + \`: Swap container to one on the next displayed monitor
 
-Super + Shift + r: Reload sway
+Option + Shift + r: Reload sway
 Ctrl + Escape + p: Power off
 Ctrl + Escape + s: Suspend
 Ctrl + Escape + r: Soft reboot
