@@ -1,6 +1,12 @@
 #!/bin/bash
 
+# Lockfile sample (block multiple instances)
 dir="$XDG_RUNTIME_DIR/sway-screenshot"
+mkdir -p $dir
+LOCKFILE="$dir/$(basename "$0").lock"
+[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running." && exit 1 || echo $$ >"$LOCKFILE"
+trap "rm -f $LOCKFILE && exit 0" EXIT INT TERM
+
 title="Sway Screenshot"
 
 if [ "$1" == "picture" ] ; then
