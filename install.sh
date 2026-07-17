@@ -146,7 +146,6 @@ dev_env_install() {
                 if [ -f "$file" ]; then
                     info "Arch dev inv installation"
                     # Specific arch .config
-                    ln -sfn "$LOCAL/user_conf/zprofile" ~/.zprofile
                     conf_folder user_conf/home_conf
                     mkdir -p ~/.config/systemd/user/
                     cp -fr $LOCAL/user_conf/systemd_user_services/* ~/.config/systemd/user/
