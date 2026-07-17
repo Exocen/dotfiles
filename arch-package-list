@@ -16,6 +16,8 @@ waybar
 rofi dunst swayidle cliphist swaybg squeekboard
 # Brightness
 brightnessctl
+# SSH
+openssh
 # Screen picture/video capture
 grim slurp jq wf-recorder
 # Brightness tool
