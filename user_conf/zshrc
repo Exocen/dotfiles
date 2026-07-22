@@ -37,7 +37,7 @@ setopt SHARE_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
 HISTSIZE=1000
 SAVEHIST=1000
-HISTFILE=~/.zsh_history
+HISTFILE=$XDG_RUNTIME_DIR/zsh_history
 
 # vars used later on by zsh
 export EDITOR="vim"
@@ -157,6 +157,7 @@ alias myip='echo `curl -s ipinfo.io/ip`'
 alias opened_ports='sudo lsof -i -n -P | grep LISTEN'
 alias ip='ip -c'
 alias yolo='git commit -m "$(curl -s https://whatthecommit.com/index.txt)"'
+alias lazypush='git add --all && yolo && git push'
 alias gitsubinit='git submodule update --init --remote --recursive'
 alias gitsubcheck='git submodule update --recursive'
 alias swayexport='export SWAYSOCK=$XDG_RUNTIME_DIR/sway-ipc.$(id -u).$(pgrep -x sway).sock'

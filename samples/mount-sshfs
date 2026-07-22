@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Lockfile sample (block multiple instances)
+dir="$XDG_RUNTIME_DIR"
+LOCKFILE="$dir/$(basename "$0").lock"
+[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running." && exit 1 || echo $$ >"$LOCKFILE"
+
+MNT_PATH="/sample/path"
+DIST_PATH="HOST:/othersample/path"
+
+_term() {
+    rmdir $MNT_PATH
+    rm $LOCKFILE
+    exit
+}
+
+trap _term SIGTERM SIGINT
+while true
+do
+    mkdir -p $MNT_PATH
+    sshfs -f $DIST_PATH $MNT_PATH
+    sleep 15
+done

@@ -5,5 +5,5 @@ if [ "$#" -ne 1 ]; then
 fi
 
 
-notify-send "App Launcher" "${1^} started" -u normal
+notify-send "App Launcher" "${1^} started" -u normal &
 $1 &

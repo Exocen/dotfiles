@@ -4,10 +4,13 @@ status=$(ls /sys/class/net/*wg* &>/dev/null || ls /sys/class/net/*tun* &>/dev/nu
 ip=""
 
 if [ "$status" == 0 ]; then
-    if mullvad -V &>/dev/null && mullvad status 2>/dev/null | grep Connected &>/dev/null; then
-        pre_ip=$(mullvad status | grep -oP "IPv\d:\s*\K\S*$")
-        if [[ ! -z "$pre_ip" ]]; then
-            ip=" <span color='#FFFFFF'>$pre_ip</span>"
+    if mullvad -V &>/dev/null; then
+        mullvad_status=`mullvad status`
+        if echo $mullvad_status | grep Connected &>/dev/null; then
+            pre_ip=$(echo $mullvad_status | grep -oP "IPv\d:\s*\K\S*$")
+            if [[ ! -z "$pre_ip" ]]; then
+                ip=" <span color='#FFFFFF'>$pre_ip</span>"
+            fi
         fi
     fi
     echo "󰌾$ip"
