@@ -55,8 +55,6 @@ pipewire-pulse pipewire wireplumber pavucontrol
 blueman bluez-utils
 # Music player, visualizer
 mpd mpc ncmpcpp cava
-# User basic rights (ex: reboot without sudo)
-polkit
 # Windows usb installer
 #woeusb
 # Arch wiki offline doc
