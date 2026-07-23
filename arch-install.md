@@ -30,7 +30,7 @@ iwctl station $device connect SSID
 ```
 
 ### Auto installation
-Easiest way is to run `archinstall` and go to **First Boot** section
+Run `archinstall`
 
 ### Manual installation
 

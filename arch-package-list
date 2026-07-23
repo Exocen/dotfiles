@@ -46,7 +46,7 @@ alacritty
 # Web Browser
 firefox
 # Media tool
-vlc-plugins-all
+vlc vlc-plugins-all
 # Mouse manager
 piper
 # Audio
