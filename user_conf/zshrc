@@ -5,7 +5,7 @@ DISABLE_LS_COLORS=false
 DISABLE_AUTO_TITLE=false
 COMPLETION_WAITING_DOTS=true
 
-export PATH="/usr/sbin:/sbin:$PATH"
+export PATH="/usr/sbin:/sbin:$HOME/.cargo/bin/:$PATH"
 export LC_ALL=C.UTF-8
 
 zstyle ':completion:*' menu select
@@ -37,7 +37,7 @@ setopt SHARE_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
 HISTSIZE=1000
 SAVEHIST=1000
-HISTFILE=$XDG_RUNTIME_DIR/zsh_history
+HISTFILE=$HOME/.zsh_history
 
 # vars used later on by zsh
 export EDITOR="vim"
