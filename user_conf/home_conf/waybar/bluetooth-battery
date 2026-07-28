@@ -5,9 +5,14 @@
 device=$(upower -e | grep "$1")
 percentage=`upower -i "$device" | grep -oP "percentage:\D*\K\d+(?=%)(?!.*,)"`
 
-if echo $1 | grep "ps_controller" &>/dev/null; then
+if [[ "$2" == "disconnect" ]]; then
+    bluetoothctl disconnect `upower -i $device | grep -oP "serial:\s*\K.*$"`
+    exit 0
+fi
+
+if [[ "$1" == "ps_controller" ]];  then
     model="<span font='14' color='#2e6db4'>󰐔</span>"
-elif echo $1 | grep "headset" &>/dev/null; then
+elif [[ "$1" == "headset" ]];  then
     model=
 else
     model=""

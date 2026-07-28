@@ -88,6 +88,7 @@
     "custom/bluetooth-battery-headset": {
         "exec": "~/.config/waybar/bluetooth-battery headset",
         "return-type": "json",
+        "on-click": "~/.config/waybar/bluetooth-battery headset disconnect",
         "restart-interval": 5,
         "tooltip": true
     },
@@ -96,6 +97,7 @@
         "exec": "~/.config/waybar/bluetooth-battery ps_controller",
         "return-type": "json",
         "restart-interval": 5,
+        "on-click": "~/.config/waybar/bluetooth-battery ps_controller disconnect",
         "tooltip": true
     },
 
