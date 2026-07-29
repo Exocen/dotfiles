@@ -31,14 +31,6 @@
         "timezones": ["America/Edmonton", "America/New_York", "Europe/Paris"]
     },
 
-    "custom/time": {
-        //TODO clock#time fix (std::chrono bug)
-        "exec": "date '+%T'",
-        "format": "<span font='14' color=\"#909497\">󱑑</span> {text}",
-        "tooltip": false,
-        "interval": 1
-    },
-
     "clock#date": {
         "interval": 60,
         "format": "<span font='14' color=\"#909497\"></span> {:%F}",

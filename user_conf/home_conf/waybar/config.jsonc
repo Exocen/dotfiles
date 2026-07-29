@@ -24,8 +24,7 @@
         "custom/bluetooth-battery-headset",
         "tray",
         "clock#date",
-        "custom/time",
-        // "clock#time",
+        "clock#time",
         "custom/capslock-status"
     ],
     "include": [
@@ -61,8 +60,7 @@
         "mpd",
         "tray",
         "clock#date",
-        // "clock#time",
-        "custom/time",
+        "clock#time",
         "custom/capslock-status",
         "group/group-power"
     ],
