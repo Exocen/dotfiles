@@ -32,6 +32,8 @@ thunderbird systray-x-common
 zip unrar unzip xarchiver
 # Power management
 #tlp
+# Aur manager
+pikaur
 # Git Browser
 tig
 # diff + git diff addon
