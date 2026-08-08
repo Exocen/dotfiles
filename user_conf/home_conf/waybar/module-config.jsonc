@@ -59,26 +59,26 @@
     },
 
     "custom/capslock-status": {
-        "exec": "~/.config/waybar/keyboard-state",
+        "exec": "sh -c '~/.config/waybar/keyboard-state' &",
         "restart-interval": 1,
         "tooltip": false
     },
 
     "custom/vpn-status": {
-        "exec": "~/.config/waybar/vpn-state",
+        "exec": "sh -c '~/.config/waybar/vpn-state' &",
         "restart-interval": 5,
         "tooltip": false
     },
 
     "custom/iostat": {
-        "exec": "~/.config/waybar/iostat",
+        "exec": "sh -c '~/.config/waybar/iostat' &",
         "return-type": "json",
         "restart-interval": 2,
         "tooltip": true
     },
 
     "custom/bluetooth-battery-headset": {
-        "exec": "~/.config/waybar/bluetooth-battery headset",
+        "exec": "sh -c '~/.config/waybar/bluetooth-battery headset' &",
         "return-type": "json",
         "on-click": "~/.config/waybar/bluetooth-battery headset disconnect",
         "restart-interval": 5,
@@ -86,7 +86,7 @@
     },
 
     "custom/bluetooth-battery-ps-controller": {
-        "exec": "~/.config/waybar/bluetooth-battery ps_controller",
+        "exec": "sh -c '~/.config/waybar/bluetooth-battery ps_controller' &",
         "return-type": "json",
         "restart-interval": 5,
         "on-click": "~/.config/waybar/bluetooth-battery ps_controller disconnect",
@@ -100,11 +100,11 @@
         "on-click-right": "mpc next",
         "exec-if": "[ `mpc | wc -l` -ne 1 ]",
         "restart-interval":1,
-        "exec": "~/.config/waybar/mpd-cava"
+        "exec": "sh -c '~/.config/waybar/mpd-cava' &"
     },
 
     "custom/pacman-status": {
-        "exec": "~/.config/waybar/pacman-state",
+        "exec": "sh -c '~/.config/waybar/pacman-state' &",
         "return-type": "json",
         "restart-interval": 60,
         "on-click":"notify-send -t 15000 -r 43 'Pacman Upgrade' 'Running pacman upgrade' && sudo pacman -Suy --noconfirm && notify-send -t 15000 -r 43 'Pacman Upgrade' 'Pacman upgrade successful' -u low || notify-send -t 15000 -r 43 -u critical 'Pacman Upgrade' 'Pacman upgrade failed'",

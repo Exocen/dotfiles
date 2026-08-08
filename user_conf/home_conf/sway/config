@@ -30,7 +30,7 @@ output $OUTPUT1 pos 0 0
 exec swaymsg "focus output $OUTPUT1"
 
 # Background
-output * bg #202020 solid_color
+# output * bg #202020 solid_color
 # output * bg "$HOME/bg.jpg" fill
 
 # Sway Cheat Sheet
