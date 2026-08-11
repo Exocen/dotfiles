@@ -167,6 +167,10 @@ dev_env_install() {
                         aur_ins $list
                     fi
                     sudoless usermod -aG video $USER
+                    #Dark theme for gtk apps
+                    gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+                    gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
+
                 else
                     error "Missing $file"
                 fi

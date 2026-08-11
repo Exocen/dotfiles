@@ -189,7 +189,8 @@
     },
 
     "backlight": {
-        "format": "<span font='14' color=\"#FFFFFF\">󰃟</span> {percent}%"
+        "format": "<span font='14' color=\"#FFFFFF\">󰃟</span> {percent}%",
+        "tooltip": false
     },
 
     "sway/workspaces": {
