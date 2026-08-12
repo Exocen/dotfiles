@@ -1,0 +1,22 @@
+#!/bin/bash
+
+tooltip=$(lsblk -o mountpoint,fsuse% -x fsuse% | grep -P '\d%' | awk '{$1=$1};1') || exit 0
+text=$(echo "$tooltip" | tail -n 1)
+#replace \n by \r (waybar multilines) except last one
+tooltip="${tooltip//$'\n'/$'\r'}"
+
+percentage=`echo $text | grep -oP '\d+(?=%)'`
+if ! [[ "$percentage" =~ ^[0-9]+$ ]]; then
+    text=""
+elif [ $percentage -ge 95 ]; then
+    text="<span font='14' color='#05e4fc'>󰋊 </span><span color='#FF0000'>$text</span>"
+elif  [ $percentage -ge 90 ]; then
+    text="<span font='14' color='#05e4fc'>󰋊 </span><span color='#FF5D00'>$text</span>"
+elif  [ $percentage -ge 80 ]; then
+    text="<span font='14' color='#05e4fc'>󰋊 </span><span color='#FFA500'>$text</span>"
+else
+    text="<span font='14' color='#05e4fc'>󰋊 </span><span>$text</span>"
+fi
+
+echo "{\"text\": \"$text\", \"tooltip\": \"$tooltip\"}"
+# {"text": "$text", "alt": "$alt", "tooltip": "$tooltip", "class": "$class", "percentage": $percentage }

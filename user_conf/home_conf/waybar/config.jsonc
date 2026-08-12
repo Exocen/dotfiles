@@ -47,7 +47,7 @@
         "custom/vpn-status",
         "network",
         "disk#root",
-        "disk#home",
+        "custom/disk-use",
         "custom/iostat",
         "memory",
         "cpu",

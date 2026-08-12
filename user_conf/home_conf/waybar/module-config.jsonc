@@ -121,14 +121,11 @@
         "path": "/"
     },
 
-    "disk#home": {
-        "interval": 30,
-        "format": "<span font='14' color=\"#05e4fc\">󰋊</span> ~ {percentage_used}%",
-        "states": {
-            "warning": 80,
-            "critical":90
-        },
-        "path": "/home"
+    "custom/disk-use": {
+        "exec": "sh -c '~/.config/waybar/disk-use' &",
+        "return-type": "json",
+        "tooltip": true,
+        "interval": 30
     },
 
     "mpd": {
