@@ -33,6 +33,9 @@ exec swaymsg "focus output $OUTPUT1"
 # output * bg #202020 solid_color
 # output * bg "$HOME/bg.jpg" fill
 
+# NO Background
+swaybg_command -
+
 # Sway Cheat Sheet
 exec "$CONFIG/sway-tuto"
 

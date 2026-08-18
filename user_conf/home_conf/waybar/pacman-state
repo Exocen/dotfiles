@@ -15,7 +15,7 @@ if [[ -n "$UPDATE_LIST" ]]; then
         exit 0
     fi
 else
-    rm $COUNT_FILE_PATH
+    rm -f $COUNT_FILE_PATH
 fi
 echo "{\"text\": \"\", \"tooltip\": \"\"}"
 
