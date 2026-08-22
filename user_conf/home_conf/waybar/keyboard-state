@@ -3,10 +3,15 @@
 
 LOCKED=''
 status=$(cat /sys/class/leds/*capslock/brightness 2>/dev/null)
+variant_enabled=$(swaymsg -t get_inputs | jq -r '.[] | select(.type == "keyboard")| .xkb_active_layout_name' | grep "intl" 2>/dev/null)
+text=""
 
-if [ "$status" == 1 ]; then
-    echo $LOCKED
-else
-    echo ''
+if [ "$status" == 1 ] && [[ -n "$variant_enabled" ]]; then
+    text="$LOCKED "
+elif [ "$status" == 0 ] && [[ -n "$variant_enabled" ]]; then
+    text=""
+elif [ "$status" == 1 ]; then
+    text="$LOCKED"
 fi
 
+echo "{\"text\": \"$text\"}"

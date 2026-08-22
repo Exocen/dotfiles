@@ -61,6 +61,7 @@
     "custom/capslock-status": {
         "exec": "sh -c '~/.config/waybar/keyboard-state' &",
         "restart-interval": 1,
+        "return-type": "json",
         "tooltip": false
     },
 
