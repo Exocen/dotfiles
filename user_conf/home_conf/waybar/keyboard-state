@@ -6,12 +6,22 @@ status=$(cat /sys/class/leds/*capslock/brightness 2>/dev/null)
 variant_enabled=$(swaymsg -t get_inputs | jq -r '.[] | select(.type == "keyboard")| .xkb_active_layout_name' | grep "intl" 2>/dev/null)
 text=""
 
-if [ "$status" == 1 ] && [[ -n "$variant_enabled" ]]; then
-    text="$LOCKED "
-elif [ "$status" == 0 ] && [[ -n "$variant_enabled" ]]; then
-    text=""
-elif [ "$status" == 1 ]; then
+# Caps lock enabled
+if [ "$status" == 1 ] ; then
     text="$LOCKED"
 fi
+
+# keyboard INTL enabled
+if [[ -n "$variant_enabled" ]]; then
+    text="$text"
+fi
+
+# Squeekboard enabled
+if [[ "$(gsettings get org.gnome.desktop.a11y.applications screen-keyboard-enabled)" == "true" ]]; then
+    text="$text"
+fi
+
+# add a space bettween char + trim spaces
+text=`echo $text | sed 's/./& /g; s/^ //; s/ $//'`
 
 echo "{\"text\": \"$text\"}"
