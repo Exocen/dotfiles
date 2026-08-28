@@ -19,7 +19,7 @@ do
 		echo "Connection missing, starting sshfs"
 		public_IP=$(curl -s ipinfo.io/ip)
 
-		ssh $dist_domain "sshfs -p $port -o IdentityFile=$key_path -o follow_symlinks,allow_other,default_permissions $user@$public_IP:$dist_path $local_path && systemctl restart docker-manager"
+		ssh -o "StrictHostKeyChecking no" $dist_domain "sshfs -p $port -o IdentityFile=$key_path -o follow_symlinks,allow_other,default_permissions,StrictHostKeyChecking=no,UserKnownHostsFile=/dev/null $user@$public_IP:$dist_path $local_path && systemctl restart docker-manager"
 		if [ $? -ne 0 ]; then
 			e=$(( $e+1 ))
 		fi
