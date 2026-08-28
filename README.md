@@ -21,7 +21,7 @@ install.sh [OPTIONS]
 ```
 
 #### Sample
-![script_execution_sample](sample.png)
+![script_execution_sample](samples/sample.png)
 
 #### Tested on
 * Alpine
