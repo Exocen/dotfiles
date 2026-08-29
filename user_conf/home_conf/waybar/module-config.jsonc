@@ -272,6 +272,7 @@
             "custom/terminal", // First element is the "group leader" and won't ever be hidden
             "custom/power",
             "custom/steam",
+            "custom/thunar",
             "custom/discord",
             "custom/vlc",
             "custom/bluetooth-connect",
@@ -293,6 +294,11 @@
         "format": "󰈹 ",
         "tooltip-format": "Firefox",
         "on-click": "firefox"
+    },
+    "custom/thunar": {
+        "format": " ",
+        "tooltip-format": "File Explorer",
+        "on-click": "thunar"
     },
     "custom/steam": {
         "format": "󰓓 ",
