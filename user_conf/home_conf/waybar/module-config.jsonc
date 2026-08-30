@@ -96,9 +96,9 @@
 
     "custom/mpd-cava": {
         "tooltip": false,
-        "on-click": "mpc toggle",
-        "on-click-middle": "mpc prev",
-        "on-click-right": "mpc next",
+        "on-click": "mpc toggle -q",
+        "on-click-middle": "mpc prev -q",
+        "on-click-right": "mpc next -q",
         "exec-if": "[ `mpc | wc -l` -ne 1 ]",
         "restart-interval":1,
         "exec": "sh -c '~/.config/waybar/mpd-cava' &"
