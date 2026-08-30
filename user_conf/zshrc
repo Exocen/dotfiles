@@ -182,6 +182,12 @@ alias aps='apt search'
 alias apse='apt-cache search -t experimental'
 alias apshow='apt-cache showpkg'
 
+# pacman
+# missing aliases from archlinux plugin
+alias pacsea='pacman -Ss'
+alias pacinfo='pacman -Qi'
+alias pacremoteinfo='pacman -Si'
+
 # pikaur / aur
 alias auri='pikaur -S --noedit'
 alias aurr='pikaur -Rsu'

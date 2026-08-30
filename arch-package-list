@@ -58,7 +58,7 @@ pipewire-pulse pipewire wireplumber pavucontrol
 # Bluetooth
 blueman bluez-utils
 # Music player, visualizer
-mpd mpc ncmpcpp cava
+mpd mpc rmpc cava
 # Windows usb installer
 #woeusb
 # Arch wiki offline doc
