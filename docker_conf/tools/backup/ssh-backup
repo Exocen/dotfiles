@@ -23,7 +23,7 @@ if ssh "$HOST" '[ -d /docker-data ]'; then
         ssh "$HOST" 'bash -s' <"$LOCAL/vaultwarden-db-backup"
     fi
 
-    if ssh "$HOST" "cd / && tar cz docker-data" >"$BACKUP_DIR/$OUTPUT"; then
+    if ssh "$HOST" "cd / && tar --warning='no-file-ignored' -cz docker-data" >"$BACKUP_DIR/$OUTPUT"; then
         echo "Backup $OUTPUT created"
         exit 0
     else
