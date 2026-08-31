@@ -115,6 +115,13 @@ set autoread
 " like <leader>w saves the current file
 let mapleader = ","
 
+" Make System Clipboard Default
+set clipboard=unnamedplus
+
+" Yank to Wayland clipboard
+xnoremap "+y :call system("wl-copy", @")<CR>
+nnoremap "+p :let @"=substitute(system("wl-paste --no-newline"), '\r', '', 'g')<CR>p
+
 " Fast saving
 nmap <leader>w :w!<cr>
 

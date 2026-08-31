@@ -63,7 +63,7 @@ set $mod Mod4
 floating_modifier $mod
 
 # Start a terminal
-set $TERMINAL "alacritty"
+set $TERMINAL "kitty"
 bindsym $mod+Return exec "$CONFIG/app-launcher $TERMINAL"
 
 # Bluetooth devices

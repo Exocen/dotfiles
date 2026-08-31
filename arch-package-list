@@ -46,7 +46,7 @@ nethogs
 # File Browser
 thunar
 # Terminal
-alacritty
+kitty
 # Web Browser
 firefox
 # Media tool

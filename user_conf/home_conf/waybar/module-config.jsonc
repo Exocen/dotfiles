@@ -283,7 +283,7 @@
     "custom/terminal": {
         "format": " ",
         "tooltip-format": "Terminal",
-        "on-click": "alacritty"
+        "on-click": "kitty"
     },
     "custom/bluetooth-connect": {
         "format": "󰂯 ",

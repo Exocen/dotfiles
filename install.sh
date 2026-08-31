@@ -117,7 +117,7 @@ git_clone() {
 basic_install() {
     info "Basic installation"
     # Basic packages
-    ins vim git htop iftop iotop tree zsh make wget curl sudo rsync p7zip
+    ins gvim git htop iftop iotop tree zsh make wget curl sudo rsync p7zip
 
     # zsh
     ln -sfn "$LOCAL"/user_conf/zshrc ~/.zshrc
