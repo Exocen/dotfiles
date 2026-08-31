@@ -68,7 +68,7 @@ ins() {
         sudoless apk add "$@" 1>>"$logFile" 2>&1
         is_working "$* installed"
     elif [ "$WOS" = "arch" ] || [ "$WOS" = "manjaro" ]; then
-        sudoless pacman -Sy "$@" --needed --noconfirm --ask 4 1>>"$logFile" 2>&1
+        sudoless pacman -Sy "$@" --needed --noconfirm 1>>"$logFile" 2>&1
         is_working "$* installed"
     else
         error "Unknow OS: $WOS"
