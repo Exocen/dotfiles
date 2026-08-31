@@ -68,7 +68,7 @@ ins() {
         sudoless apk add "$@" 1>>"$logFile" 2>&1
         is_working "$* installed"
     elif [ "$WOS" = "arch" ] || [ "$WOS" = "manjaro" ]; then
-        sudoless pacman -Sy "$@" --needed --noconfirm 1>>"$logFile" 2>&1
+        sudoless pacman -Sy "$@" --needed --noconfirm --ask 4 1>>"$logFile" 2>&1
         is_working "$* installed"
     else
         error "Unknow OS: $WOS"
@@ -117,7 +117,7 @@ git_clone() {
 basic_install() {
     info "Basic installation"
     # Basic packages
-    ins gvim git htop iftop iotop tree zsh make wget curl sudo rsync p7zip
+    ins vim git htop iftop iotop tree zsh make wget curl sudo rsync p7zip
 
     # zsh
     ln -sfn "$LOCAL"/user_conf/zshrc ~/.zshrc
@@ -147,6 +147,10 @@ dev_env_install() {
                     info "Arch dev inv installation"
                     # Specific arch .config
                     conf_folder user_conf/home_conf
+                    # Replace vim by gvim
+                    sudoless pacman -Sy gvim --needed --noconfirm --ask 4 1>>"$logFile" 2>&1
+                    is_working "vim replaced by gvim"
+                    # Systemd user units
                     mkdir -p ~/.config/systemd/user/
                     cp -fr $LOCAL/user_conf/systemd_user_services/* ~/.config/systemd/user/
                     systemctl --user daemon-reload 1>>"$logFile" 2>&1
