@@ -11,6 +11,7 @@ declare -A CONTAINERS_FAIL
 
 safe_exit() {
 	echo "$1"
+    docker_stop
 	rm -f "$LOCKFILE"
 	exit "$2"
 }
