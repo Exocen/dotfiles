@@ -11,7 +11,7 @@ declare -A CONTAINERS_FAIL
 
 safe_exit() {
 	echo "SIGTERM caught, stopping containers..."
-    docker_stop
+	docker_stop
 	rm -f "$LOCKFILE"
 	exit 0
 }
@@ -45,8 +45,16 @@ refresh_score() {
 
 terminator() {
 	kill -15 "$1" 1>/dev/null
-	sleep 5
-	[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "Can't kill $1, exiting." && exit 1
+	i=5
+	while [ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null; do
+		if [ $i -gt 0]; then
+			sleep 10
+			i=$i + 1
+		else
+			echo "Can't kill $1, exiting." && exit 1
+		fi
+	done
+	echo "$1 killed" && exit 1
 }
 
 error_handler() {
