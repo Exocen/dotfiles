@@ -43,10 +43,6 @@ refresh_score() {
 	fi
 }
 
-terminator() {
-	kill -15 "$1" 1>/dev/null
-}
-
 error_handler() {
 	# $1 cont name / $2 score
 	echo "$1 failed ($2)."
@@ -111,15 +107,15 @@ boot_check() {
 	fi
 	[ "$#" -ne 2 ] && echo "$USAGE" && exit 1
 	if [[ "$1" == "stop" ]]; then
-		[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running, stopping it." && terminator "$(cat "$LOCKFILE")"
+		[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running, stopping it." && kill -15 "$(cat "$LOCKFILE")" 1>/dev/null
 		exit 0
 	else
-		[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running, restarting it." && terminator "$(cat "$LOCKFILE")"
-		i=5
+		[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running, restarting it." && kill -15 "$(cat "$LOCKFILE")" 1>/dev/null
+		i=10
 		while [ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null; do
 			if [ "$i" -gt "0" ]; then
 				sleep 10
-				((i = i + 1))
+				((i = i - 1))
 			else
 				echo "Can't kill $1, exiting." && exit 1
 			fi
