@@ -13,7 +13,7 @@ safe_exit() {
 	echo "SIGTERM caught, stopping containers..."
     docker_stop
 	rm -f "$LOCKFILE"
-	exit "$2"
+	exit 0
 }
 
 send_mail() {
