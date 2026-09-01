@@ -28,7 +28,8 @@ install.sh [OPTIONS]
 * Arch (wm conf 🐮 available)
 * Debian 12+
 * Fedora 40+
-* Manjaro
+* Opensuse tumbleweed
+* Almalinux 10+
 * Ubuntu 24+
 * Linux Mint 22+
 

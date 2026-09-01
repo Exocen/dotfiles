@@ -6,7 +6,7 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 # default value if no arguments/img are passed
-imgs=("debian" "ubuntu" "fedora" "alpine" "archlinux" "manjarolinux/base" "vcatechnology/linux-mint")
+imgs=("debian" "ubuntu" "fedora" "alpine" "archlinux" "opensuse/tumbleweed" "almalinux")
 dirpath=/docker-data-nobackup/install-test-logs
 LOCAL=$(dirname "$(readlink -f "$0")")
 
