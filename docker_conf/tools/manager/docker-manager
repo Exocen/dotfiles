@@ -45,16 +45,6 @@ refresh_score() {
 
 terminator() {
 	kill -15 "$1" 1>/dev/null
-	i=5
-	while [ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null; do
-		if [ "$i" -gt "0" ]; then
-			sleep 10
-			((i = i + 1))
-		else
-			echo "Can't kill $1, exiting." && exit 1
-		fi
-	done
-	echo "$1 killed" && exit 1
 }
 
 error_handler() {
@@ -125,6 +115,15 @@ boot_check() {
 		exit 0
 	else
 		[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "$(basename "$0") is already running, restarting it." && terminator "$(cat "$LOCKFILE")"
+		i=5
+		while [ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null; do
+			if [ "$i" -gt "0" ]; then
+				sleep 10
+				((i = i + 1))
+			else
+				echo "Can't kill $1, exiting." && exit 1
+			fi
+		done
 	fi
 	echo $$ >"$LOCKFILE"
 }
