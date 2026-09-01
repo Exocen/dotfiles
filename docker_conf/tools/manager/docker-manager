@@ -47,7 +47,7 @@ terminator() {
 	kill -15 "$1" 1>/dev/null
 	i=5
 	while [ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null; do
-		if [ $i -gt 0]; then
+		if [ "$i" -gt "0" ]; then
 			sleep 10
 			i=$i + 1
 		else
