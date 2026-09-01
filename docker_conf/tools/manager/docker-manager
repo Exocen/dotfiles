@@ -10,7 +10,7 @@ USAGE="USAGE: $(basename "$0") start|stop|restart conf_file."
 declare -A CONTAINERS_FAIL
 
 safe_exit() {
-	echo "$1"
+	echo "SIGTERM caught, stopping containers..."
     docker_stop
 	rm -f "$LOCKFILE"
 	exit "$2"
@@ -44,7 +44,7 @@ refresh_score() {
 }
 
 terminator() {
-	kill -9 "$1" 1>/dev/null
+	kill -15 "$1" 1>/dev/null
 	sleep 5
 	[ -f "$LOCKFILE" ] && ps -p "$(cat "$LOCKFILE")" >/dev/null && echo "Can't kill $1, exiting." && exit 1
 }
@@ -122,7 +122,7 @@ boot_check() {
 }
 
 main() {
-	cd "$LOCAL_DIR" || safe_exit "cd failed" 0
+	cd $LOCAL_DIR
 	source "$2"
 	build_container_fails
 	case $1 in
@@ -133,7 +133,6 @@ main() {
 	esac
 }
 
-trap 'safe_exit "KILL catched, exiting." 0' SIGINT
+trap safe_exit SIGTERM
 boot_check "$@"
 main "$@"
-safe_exit "$(basename "$0") exiting." 0
