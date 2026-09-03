@@ -184,7 +184,7 @@ alias apshow='apt-cache showpkg'
 
 # pacman
 # missing aliases from archlinux plugin
-alias pacsea='pacman -Ss'
+alias pacsearch='pacman -Ss'
 alias pacinfo='pacman -Qi'
 alias pacremoteinfo='pacman -Si'
 
