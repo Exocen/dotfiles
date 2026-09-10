@@ -72,6 +72,7 @@ for img3 in "${imgs[@]}"; do
         echo "$img_name successful"
     else
         echo "$img_name failed"
+        tail -n 20 "$dirpath"/"$img_name"/logs
         exit 1
     fi
 done
