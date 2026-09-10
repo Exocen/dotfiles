@@ -6,8 +6,7 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 # default value if no arguments/img are passed
-# imgs=("debian" "ubuntu" "fedora" "alpine" "archlinux" "opensuse/tumbleweed" "almalinux")
-imgs=("debian")
+imgs=("debian" "ubuntu" "fedora" "alpine" "archlinux" "opensuse/tumbleweed" "almalinux")
 LOCAL=$(dirname "$(readlink -f "$0")")
 declare -A logs
 
