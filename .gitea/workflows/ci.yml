@@ -11,9 +11,9 @@ jobs:
       image: ubuntu:latest
 
     steps:
-      - name: Étape Préparatoire - Installation de Git
+      - name: Étape Préparatoire - Installation de Git et Docker
         run: |
-          apt-get update && apt-get install -y git docker
+          apt-get update && apt-get install -y git docker.io
 
       - name: Étape 1 - Public Git Clone
         run: |
