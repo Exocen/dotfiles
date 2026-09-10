@@ -10,7 +10,7 @@ jobs:
     container:
       image: ubuntu:latest
       volumes:
-        - /docker-data-nobackup/install-test-logs:/docker-data-nobackup/install-test-logs
+        - /docker-data-nobackup:/docker-data-nobackup
 
     steps:
       - name: Étape Préparatoire - Installation des outils de test
