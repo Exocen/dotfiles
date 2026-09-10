@@ -9,6 +9,8 @@ jobs:
     name: Run docker tester for install.sh
     container:
       image: ubuntu:latest
+      volumes:
+        - /docker-data-nobackup/install-test-logs:/docker-data-nobackup/install-test-logs
 
     steps:
       - name: Étape Préparatoire - Installation des outils de test

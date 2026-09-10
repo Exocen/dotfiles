@@ -47,6 +47,7 @@ function create() {
     docker run \
         --rm -d --name=cont_"$img_name" -v "$logpath":/root/"$img_name" "$img_name"_img 1>/dev/null &&
         echo "$img" started
+    rm -r "$tmpD"
 }
 
 mkdir -p "$dirpath"
