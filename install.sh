@@ -126,7 +126,7 @@ git_clone() {
 basic_install() {
 	info "Basic installation"
 	# Basic packages
-	if $(gvim --version &>/dev/null); then
+	if $(gvim --version ) &>/dev/null; then
 		ins gvim git htop iftop iotop tree zsh make wget curl sudo rsync p7zip
 	else
 		ins vim git htop iftop iotop tree zsh make wget curl sudo rsync p7zip
