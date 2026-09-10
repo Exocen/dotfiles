@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  check:
+    name: Format, Clippy & Test
+    container:
+      image: ubuntu:latest
+
+    steps:
+      - name: Étape Préparatoire - Installation de Git
+        run: |
+          apt-get update && apt-get install -y git docker
+
+      - name: Étape 1 - Public Git Clone
+        run: |
+          git clone ${{ gitea.server_url }}/${{ gitea.repository }}.git .
+          git checkout ${{ gitea.sha }}
+
+      - name: Étape 2 - Run tester
+        run: docker_conf/install_test/docker-run.sh
