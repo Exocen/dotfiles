@@ -16,6 +16,7 @@ docker run \
 if [ -z ${GITEA_RUNNER_TOKEN+x} ] || [ -z ${DOMAIN+x} ]; then
 	exit 0
 else
+#TODO separate or  add needed_by
 	docker run -d --rm --name gitea_runner_1 --log-driver=journald --log-opt tag="{{.Name}}" -e GITEA_INSTANCE_URL="https://git.$DOMAIN" -e GITEA_RUNNER_REGISTRATION_TOKEN="$GITEA_RUNNER_TOKEN" -e GITEA_RUNNER_NAME=runner1 -v /var/run/docker.sock:/var/run/docker.sock docker.io/gitea/runner:3 && echo "gitea runner1 started"
 fi
 
