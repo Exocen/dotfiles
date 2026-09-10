@@ -13,6 +13,10 @@ docker run  \
     -p 22:22 \
     --net user_network --ip 10.0.0.81 gitea/gitea && echo "gitea started"
 
+
+if [ -z ${GITEA_RUNNER_TOKEN+x} ] || [ -z ${DOMAIN+x} ]; then
+	exit 0
+fi
 docker run -d --rm --name runner1 --log-driver=journald --log-opt tag="{{.Name}}" -e GITEA_INSTANCE_URL="https://git.$DOMAIN" -e GITEA_RUNNER_REGISTRATION_TOKEN="$GITEA_RUNNER_TOKEN" -e GITEA_RUNNER_NAME=runner1 -v /var/run/docker.sock:/var/run/docker.sock docker.io/gitea/runner:3 && echo "gitea runner1 started"
 
 docker run -d --rm --name runner2 --log-driver=journald --log-opt tag="{{.Name}}" -e GITEA_INSTANCE_URL="https://git.$DOMAIN" -e GITEA_RUNNER_REGISTRATION_TOKEN="$GITEA_RUNNER_TOKEN" -e GITEA_RUNNER_NAME=runner2 -v /var/run/docker.sock:/var/run/docker.sock docker.io/gitea/runner:3 && echo "gitea runner2 started"
