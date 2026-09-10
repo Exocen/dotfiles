@@ -1,0 +1,41 @@
+#!/bin/bash
+
+full_list=$(lsblk -o mountpoint,fsuse% -x fsuse% | grep -P '\d%' | awk '{$1=$1};1') || exit 0
+#replace \n by \r (waybar multilines)
+tooltip="${full_list//$'\n'/$'\\r'}"
+
+declare -i last_line
+last_line_dir=$XDG_RUNTIME_DIR/waybar
+mkdir -p $last_line_dir
+
+last_line_file=$last_line_dir/disk-use.log
+if [ -f "$last_line_file" ]; then
+    last_line=$(< $last_line_file)
+else
+    last_line=1
+fi
+
+text=$(echo "$full_list" | tail -n +$last_line | head -n 1 )
+
+((last_line++))
+if (( $(printf "%s" "$full_list" | grep -c "^") < "$last_line" )); then
+    last_line=1
+fi
+echo $last_line > $last_line_file
+
+percentage=`echo $text | grep -oP '\d+(?=%)'`
+if ! [[ "$percentage" =~ ^[0-9]+$ ]]; then
+    text=""
+    tooltip=""
+elif [ $percentage -ge 95 ]; then
+    text="<span font='14' color='#05e4fc'>󰋊 </span><span color='#FF0000'>$text</span>"
+elif  [ $percentage -ge 90 ]; then
+    text="<span font='14' color='#05e4fc'>󰋊 </span><span color='#FF5D00'>$text</span>"
+elif  [ $percentage -ge 80 ]; then
+    text="<span font='14' color='#05e4fc'>󰋊 </span><span color='#FFA500'>$text</span>"
+else
+    text="<span font='14' color='#05e4fc'>󰋊 </span><span>$text</span>"
+fi
+
+echo "{\"text\": \"$text\", \"tooltip\": \"$tooltip\"}"
+# {"text": "$text", "alt": "$alt", "tooltip": "$tooltip", "class": "$class", "percentage": $percentage }
