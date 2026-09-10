@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Étape Préparatoire - Installation des outils de test
         run: |
-          apt-get update && apt-get install -y git docker.io docker-buildx systemd
+          apt-get update && apt-get install -y git docker.io docker-buildx
 
       - name: Étape 1 - Public Git Clone
         run: |
