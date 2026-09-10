@@ -71,7 +71,7 @@ ins() {
 		sudoless pacman -Sy "$@" --needed --noconfirm 1>>"$logFile" 2>&1
 		is_working "$* installed"
 	elif [ "$WOS" = "almalinux" ]; then
-		if ! dnf repolist | grep epel-release 1>>/dev/null 2>&1 ; then
+		if ! dnf repolist | grep epel-release 1>>/dev/null 2>&1; then
 			sudoless dnf install epel-release -y 1>>"$logFile" 2>&1
 		fi
 		sudoless dnf install "$@" -y 1>>"$logFile" 2>&1
@@ -126,7 +126,11 @@ git_clone() {
 basic_install() {
 	info "Basic installation"
 	# Basic packages
-	ins vim git htop iftop iotop tree zsh make wget curl sudo rsync p7zip
+	if $(gvim --version 1>/dev/null); then
+		ins gvim git htop iftop iotop tree zsh make wget curl sudo rsync p7zip
+	else
+		ins vim git htop iftop iotop tree zsh make wget curl sudo rsync p7zip
+	fi
 
 	# zsh
 	ln -sfn "$LOCAL"/user_conf/zshrc ~/.zshrc
@@ -156,6 +160,10 @@ dev_env_install() {
 					info "Arch dev inv installation"
 					# Specific arch .config
 					conf_folder user_conf/home_conf
+					# Install pikaur
+					if ! pikaur -V 1>/dev/null 2>&1; then
+						arch_package_install https://aur.archlinux.org/pikaur.git
+					fi
 					# Replace vim by gvim
 					sudoless pacman -Sy gvim --needed --noconfirm --ask 4 1>>"$logFile" 2>&1
 					is_working "vim replaced by gvim"
