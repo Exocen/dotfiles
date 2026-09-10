@@ -6,14 +6,14 @@ on:
 
 jobs:
   check:
-    name: Format, Clippy & Test
+    name: Run docker tester for install.sh
     container:
       image: ubuntu:latest
 
     steps:
       - name: Étape Préparatoire - Installation de Git et Docker
         run: |
-          apt-get update && apt-get install -y git docker.io docker-buildx-plugin
+          apt-get update && apt-get install -y git docker.io docker-buildx
 
       - name: Étape 1 - Public Git Clone
         run: |
