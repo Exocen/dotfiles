@@ -72,5 +72,6 @@ for img3 in "${imgs[@]}"; do
         echo "$img_name successful"
     else
         echo "$img_name failed"
+        exit 1
     fi
 done
