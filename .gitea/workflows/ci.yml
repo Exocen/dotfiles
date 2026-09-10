@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Étape Préparatoire - Installation de Git et Docker
         run: |
-          apt-get update && apt-get install -y git docker.io
+          apt-get update && apt-get install -y git docker.io docker-buildx-plugin
 
       - name: Étape 1 - Public Git Clone
         run: |

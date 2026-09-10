@@ -45,7 +45,6 @@ function create() {
     docker build --build-arg IMG="$img" --build-arg IMGN="$img_name" -t "$img_name"_img . 1>/dev/null
 
     docker run \
-        -e "TZ=$(timedatectl status | grep "zone" | sed -e 's/^[ ]*Time zone: \(.*\) (.*)$/\1/g')" \
         --rm -d --name=cont_"$img_name" -v "$logpath":/root/"$img_name" "$img_name"_img 1>/dev/null &&
         echo "$img" started
     rm -r "$tmpD"
