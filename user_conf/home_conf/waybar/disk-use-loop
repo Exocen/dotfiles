@@ -4,10 +4,10 @@ full_list=$(lsblk -o mountpoint,fsuse% -x fsuse% | grep -P '\d%' | awk '{$1=$1};
 #replace \n by \r (waybar multilines)
 tooltip="${full_list//$'\n'/$'\\r'}"
 
+#loop every execution to get the next lsblk line
 declare -i last_line
 last_line_dir=$XDG_RUNTIME_DIR/waybar
 mkdir -p $last_line_dir
-
 last_line_file=$last_line_dir/disk-use.log
 if [ -f "$last_line_file" ]; then
     last_line=$(< $last_line_file)
