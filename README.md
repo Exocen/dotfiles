@@ -1,5 +1,5 @@
 ## ⚙️ Dotfiles
-[![CI](https://git.meticae.com/Exocen/dotfiles/actions/workflows/ci.yml/badge.svg?branch=Strix)](https://git.meticae.com/Exocen/dotfiles/actions?workflow=ci.yml)
+[![CI](https://git.meticae.com/Exocen/dotfiles/actions/workflows/ci.yml/badge.svg?branch=Strix)](https://git.meticae.com/Exocen/dotfiles/actions?workflow=ci.yml)\
 My configuration files, samples, and helpers
 
 ### 🪄 Automatic installation script
