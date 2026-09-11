@@ -12,3 +12,8 @@ docker exec -t mail_server doveadm fetch -A "user mailbox uid hdr.subject" mailb
 #Remove => switch fetch by expunge
 
 # docker exec -t mail_server doveadm expunge -u "user@mail" -A mailbox TRASH savedbefore 20d
+#
+# samples
+# docker exec -t mail_server doveadm fetch -A "user mailbox uid hdr.subject" \( mailbox bobox\* OR mailbox Trash \) savedbefore 7d
+# docker exec -t mail_server doveadm expunge -u user@mail \( mailbox box\* OR mailbox Trash \) savedbefore 7d
+# docker exec -t mail_server doveadm expunge -u user@mail \( mailbox box \) savedbefore 30d
