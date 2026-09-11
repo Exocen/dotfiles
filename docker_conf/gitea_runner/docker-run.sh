@@ -15,5 +15,5 @@ else
 	-e GITEA_RUNNER_REGISTRATION_TOKEN="$GITEA_RUNNER_TOKEN" \
 	-e GITEA_RUNNER_NAME=runner1 \
 	-v /var/run/docker.sock:/var/run/docker.sock \
-	docker.io/gitea/runner:ubuntu-latest-slim && echo "gitea runner started"
+	docker.io/gitea/runner-images:ubuntu-latest-slim && echo "gitea runner started"
 fi
