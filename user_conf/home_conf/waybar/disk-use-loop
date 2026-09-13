@@ -23,7 +23,24 @@ if (( $(printf "%s" "$full_list" | grep -c "^") < "$last_line" )); then
 fi
 echo $last_line > $last_line_file
 
+# get longuest word char count (every output should have the same char count)
+max_len=0
+for word in $full_list; do
+    if (( ${#word} > max_len )); then
+        max_len=${#word}
+    fi
+done
+
+disk=$(echo $text | grep -oP '^\S*')
+disk_char_diff=$((max_len - "${#disk}"))
+space_to_add=" "
+for ((i=0; i<disk_char_diff; i++)); do
+    space_to_add+=" "
+done
+
 percentage=`echo $text | grep -oP '\d+(?=%)'`
+text="$disk$space_to_add$percentage%"
+
 if ! [[ "$percentage" =~ ^[0-9]+$ ]]; then
     text=""
     tooltip=""

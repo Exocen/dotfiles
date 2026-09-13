@@ -126,7 +126,7 @@
         "exec": "sh -c '~/.config/waybar/disk-use-loop' &",
         "return-type": "json",
         "tooltip": true,
-        "interval": 30
+        "interval": 5
     },
 
     "custom/disk-use": {

@@ -47,7 +47,7 @@ for ((i=0; i<disk_char_diff; i++)); do
     space_to_add+=" "
 done
 percentage=`echo $iotop | grep -oP '^\d*'`
-result="$percentage%$space_to_add$disk"
+result="$disk$space_to_add$percentage%"
 
 if ! [[ "$percentage" =~ ^[0-9]+$ ]]; then
     text=""
