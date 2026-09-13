@@ -31,17 +31,34 @@ for (( i=0; i<${#iolist}; i++ )); do
     fi
 done
 
+
+# get longuest word char count (every output should have the same char count)
+max_len=0
+for word in $iolist; do
+    if (( ${#word} > max_len )); then
+        max_len=${#word}
+    fi
+done
+
+disk=$(echo $iotop | grep -oP '\S*$')
+disk_char_diff=$((max_len - "${#disk}"))
+space_to_add=" "
+for ((i=0; i<disk_char_diff; i++)); do
+    space_to_add+=" "
+done
 percentage=`echo $iotop | grep -oP '^\d*'`
+result="$percentage%$space_to_add$disk"
+
 if ! [[ "$percentage" =~ ^[0-9]+$ ]]; then
     text=""
 elif [ $percentage -ge 90 ]; then
-    text="<span font='14' color='#FF4D00'>󱛟 </span><span color='#FF0000'>$iotop</span>"
+    text="<span font='14' color='#FF4D00'>󱛟 </span><span color='#FF0000'>$result</span>"
 elif  [ $percentage -ge 70 ]; then
-    text="<span font='14' color='#FF4D00'>󱛟 </span><span color='#FF5D00'>$iotop</span>"
+    text="<span font='14' color='#FF4D00'>󱛟 </span><span color='#FF5D00'>$result</span>"
 elif  [ $percentage -ge 50 ]; then
-    text="<span font='14' color='#FF4D00'>󱛟 </span><span color='#FFA500'>$iotop</span>"
+    text="<span font='14' color='#FF4D00'>󱛟 </span><span color='#FFA500'>$result</span>"
 else
-    text="<span font='14' color='#FF4D00'>󱛟 </span><span>$iotop</span>"
+    text="<span font='14' color='#FF4D00'>󱛟 </span><span>$result</span>"
 fi
 
 echo {\"text\": \""$text"\", \"tooltip\": \""$end"\"}
