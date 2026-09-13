@@ -46,7 +46,7 @@
     "modules-right": [
         "custom/vpn-status",
         "network",
-        "custom/disk-use-loop",
+        "custom/disk-use",
         "custom/iostat",
         "memory",
         "cpu",
