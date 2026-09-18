@@ -32,4 +32,5 @@ if ssh "$HOST" '[ -d /docker-data ]'; then
     fi
 else
     echo "/docker-data not found on $HOST"
+    exit 1
 fi
