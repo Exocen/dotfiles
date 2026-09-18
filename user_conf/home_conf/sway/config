@@ -241,7 +241,7 @@ bindsym $mod+r mode "resize"
 
 # Upstream refuses to set XDG_CURRENT_DESKTOP so we have to.
 exec systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
-exec systemctl --user set-environment MPD_HOST="$HOME/.config/mpd/mpd_socket"
+exec systemctl --user set-environment MPD_HOST="$XDG_RUNTIME_DIR/mpd_socket"
 exec systemctl --user import-environment DISPLAY \
                                          SWAYSOCK \
                                          WAYLAND_DISPLAY \

@@ -10,7 +10,7 @@ WantedBy=default.target
 
 [Service]
 Type=simple
-Environment="MPD_HOST=/home/%u/.config/mpd/mpd_socket"
+Environment="MPD_HOST=%t/mpd_socket"
 EnvironmentFile=-%h/.config/sway/env
 ExecStart=/usr/bin/sway
 ExecStopPost=/usr/sbin/systemctl --user stop sway-session.target

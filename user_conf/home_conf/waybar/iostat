@@ -39,7 +39,7 @@ for word in $iolist; do
         max_len=${#word}
     fi
 done
-if [ $percentage -lt 10 ]; then
+if [[ "$percentage" =~ ^[0-9]+$ ]] && [ $percentage -lt 10 ]; then
     space_to_add="  "
 else
     space_to_add=" "
