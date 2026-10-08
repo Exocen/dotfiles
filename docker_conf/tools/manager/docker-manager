@@ -87,6 +87,7 @@ docker_stop() {
 
 start() {
 	docker_start
+    docker update --cpus="0.9" $(docker ps -a -q)
 	check_loop
 }
 
