@@ -13,13 +13,13 @@ for d in /sys/class/hwmon/hwmon*; do
   fi
 done
 if [ -z "$temp" ]; then
-    echo "The temperature variable is empty."
+    echo "Can't find the temperature variable for $1."
     exit 1
 fi
 
 echo $1 | grep -i "gpu" &>/dev/null && color="#138d75" || color="#cd6155"
+tooltip="$1: $temp m°C"
 temp=$(( temp / 1000 ))
-tooltip="$1: $temp °C"
 
 if [ $temp -ge 90 ]; then
     text="<span font='14' color='$color'> </span><span color='#FF0000'>$temp°C</span>"
