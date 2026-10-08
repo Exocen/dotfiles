@@ -122,6 +122,20 @@
         "path": "/"
     },
 
+    "custom/temp-by-name-cpu": {
+        "exec": "~/.config/waybar/temp-by-name k10temp",
+        "return-type": "json",
+        "tooltip": true,
+        "interval": 15
+    },
+
+    "custom/temp-by-name-gpu": {
+        "exec": "~/.config/waybar/temp-by-name amdgpu",
+        "return-type": "json",
+        "tooltip": true,
+        "interval": 15
+    },
+
     "custom/disk-use-loop": {
         "exec": "sh -c '~/.config/waybar/disk-use-loop' &",
         "return-type": "json",
@@ -231,36 +245,6 @@
        },
        "scroll-step": 1,
        "on-click": "pavucontrol"
-    },
-
-    "temperature#gpu": {
-        "critical-threshold": 90,
-        "warning-threshold": 80,
-        "interval": 5,
-        "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-        "format": "<span font='14' color=\"#138d75\">{icon}</span>{temperatureC:>3}°C",
-        "format-icons": [
-            "", // Icon: temperature-empty
-            "", // Icon: temperature-half
-            ""  // Icon: temperature-full
-        ],
-        "tooltip-format": "GPU {temperatureC}°C",
-        "tooltip": true
-    },
-
-    "temperature#cpu": {
-        "critical-threshold": 90,
-        "warning-threshold": 80,
-        "interval": 5,
-        "hwmon-path": "/sys/class/hwmon/hwmon3/temp1_input",
-        "format": "<span font='14' color=\"#cd6155\">{icon}</span>{temperatureC:>3}°C",
-        "format-icons": [
-            "", // Icon: temperature-empty
-            "", // Icon: temperature-half
-            ""  // Icon: temperature-full
-        ],
-        "tooltip-format": "CPU {temperatureC}°C",
-        "tooltip": true
     },
 
     "tray": {

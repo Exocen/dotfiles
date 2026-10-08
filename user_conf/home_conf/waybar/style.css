@@ -55,13 +55,11 @@ tooltip label {
 
 /* Each module */
 #clock,
-#custom-time,
 #cpu,
 #mpd,
 #cava,
 #custom-vpn-status,
 #custom-capslock-status,
-#custom-gpu-temp,
 #custom-pacman-status,
 #custom-mpd-cava,
 #memory,
@@ -72,10 +70,11 @@ tooltip label {
 #custom-iostat,
 #custom-disk-use,
 #custom-disk-use-loop,
+#custom-temp-by-name-cpu,
+#custom-temp-by-name-gpu,
 #custom-bluetooth-battery-headset,
 #custom-bluetooth-battery-ps-controller,
-#group-power,
-#temperature{
+#group-power{
     /* Disable if small monitor  */
 	border-radius: 50px;
     padding-left: 10px;

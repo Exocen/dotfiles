@@ -1,0 +1,33 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    echo "Error: need the name. eg amdgpu"
+    exit 1
+fi
+
+temp=""
+for d in /sys/class/hwmon/hwmon*; do
+  if [ "$(cat "$d/name" 2>/dev/null)" = "$1" ]; then
+      temp=$(cat "$d/temp1_input")
+      break
+  fi
+done
+if [ -z "$temp" ]; then
+    echo "The temperature variable is empty."
+    exit 1
+fi
+
+echo $1 | grep -i "gpu" &>/dev/null && color="#138d75" || color="#cd6155"
+temp=$(( temp / 1000 ))
+tooltip="$1: $temp °C"
+
+if [ $temp -ge 90 ]; then
+    text="<span font='14' color='$color'> </span><span color='#FF0000'>$temp°C</span>"
+elif  [ $temp -ge 70 ]; then
+    text="<span font='14' color='$color'> </span><span color='#FFA500'>$temp°C</span>"
+else
+    text="<span font='14' color='$color'> </span><span>$temp°C</span>"
+fi
+
+echo "{\"text\": \"$text\", \"tooltip\": \"$tooltip\"}"
+# {"text": "$text", "alt": "$alt", "tooltip": "$tooltip", "class": "$class", "percentage": $percentage }
