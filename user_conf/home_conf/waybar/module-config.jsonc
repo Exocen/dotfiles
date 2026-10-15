@@ -123,14 +123,14 @@
     },
 
     "custom/temp-by-name-cpu": {
-        "exec": "~/.config/waybar/temp-by-name k10temp",
+        "exec": "sh -c '~/.config/waybar/temp-by-name k10temp' &",
         "return-type": "json",
         "tooltip": true,
         "interval": 15
     },
 
     "custom/temp-by-name-gpu": {
-        "exec": "~/.config/waybar/temp-by-name amdgpu",
+        "exec": "sh -c '~/.config/waybar/temp-by-name amdgpu' &",
         "return-type": "json",
         "tooltip": true,
         "interval": 15
