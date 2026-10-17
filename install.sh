@@ -167,12 +167,6 @@ dev_env_install() {
 					# Replace vim by gvim
 					sudoless pacman -Sy gvim --needed --noconfirm --ask 4 1>>"$logFile" 2>&1
 					is_working "vim replaced by gvim"
-					# Systemd user units
-					mkdir -p ~/.config/systemd/user/
-					cp -fr $LOCAL/user_conf/systemd_user_services/* ~/.config/systemd/user/
-					systemctl --user daemon-reload 1>>"$logFile" 2>&1
-					systemctl --user --now enable sway pacman-auto-sync.timer swayidle waybar iostat-info dunst squeekboard cliphist 1>>"$logFile" 2>&1
-					is_working "User units installed and enabled"
 					list=""
 					while IFS= read -r line; do
 						char=$(echo "$line" | head -c1)
@@ -188,6 +182,12 @@ dev_env_install() {
 						aur_ins $list
 					fi
 					sudoless usermod -aG video $USER
+					# Systemd user units
+					mkdir -p ~/.config/systemd/user/
+					cp -fr $LOCAL/user_conf/systemd_user_services/* ~/.config/systemd/user/
+					systemctl --user daemon-reload 1>>"$logFile" 2>&1
+					systemctl --user --now enable sway pacman-auto-sync.timer swayidle waybar iostat-info dunst squeekboard cliphist 1>>"$logFile" 2>&1
+					is_working "User units installed and enabled"
 					#Dark theme for gtk apps
 					gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 					gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
