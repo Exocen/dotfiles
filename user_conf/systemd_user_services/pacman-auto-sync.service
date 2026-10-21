@@ -5,7 +5,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStopPost=/usr/bin/rm -f /var/lib/pacman/db.lck
+ExecStopPost=sudo rm -f /var/lib/pacman/db.lck
 
 ExecStart=sudo pacman -Syuwq --noconfirm
 
