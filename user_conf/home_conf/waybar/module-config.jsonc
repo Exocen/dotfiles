@@ -126,7 +126,7 @@
         "exec": "sh -c '~/.config/waybar/gpu-busy-percent' &",
         "return-type": "json",
         "tooltip": false,
-        "interval": 15
+        "interval": 5
     },
 
     "custom/temp-by-name-cpu": {
