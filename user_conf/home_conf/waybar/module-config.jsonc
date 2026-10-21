@@ -122,6 +122,13 @@
         "path": "/"
     },
 
+    "custom/gpu-busy-percent": {
+        "exec": "sh -c '~/.config/waybar/gpu-busy-percent' &",
+        "return-type": "json",
+        "tooltip": false,
+        "interval": 15
+    },
+
     "custom/temp-by-name-cpu": {
         "exec": "sh -c '~/.config/waybar/temp-by-name k10temp' &",
         "return-type": "json",

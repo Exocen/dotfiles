@@ -1,0 +1,21 @@
+#!/bin/bash
+FILE="/sys/class/drm/card1/device/gpu_busy_percent"
+
+if [ -z "$FILE" ]; then
+    echo "Error: cant find $FILE"
+    exit 1
+fi
+
+busy_percent=$(cat $FILE)
+color="#138d75"
+
+if [ $busy_percent -ge 90 ]; then
+    text="<span font='14' color='$color'> </span><span color='#FF0000'>$busy_percent%</span>"
+elif  [ $busy_percent -ge 70 ]; then
+    text="<span font='14' color='$color'> </span><span color='#FFA500'>$busy_percent%</span>"
+else
+    text="<span font='14' color='$color'> </span><span>$busy_percent%</span>"
+fi
+
+echo "{\"text\": \"$text\"}"
+# {"text": "$text", "alt": "$alt", "tooltip": "$tooltip", "class": "$class", "percentage": $percentage }

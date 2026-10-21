@@ -50,6 +50,7 @@
         "custom/iostat",
         "memory",
         "cpu",
+        "custom/gpu-busy-percent",
         "custom/temp-by-name-gpu",
         "custom/temp-by-name-cpu",
         "custom/pacman-status",
