@@ -7,18 +7,31 @@ fi
 
 temp=""
 for d in /sys/class/hwmon/hwmon*; do
-  if [ "$(cat "$d/name" 2>/dev/null)" = "$1" ]; then
-      temp=$(cat "$d/temp1_input")
-      break
-  fi
+    if [ "$(cat "$d/name" 2>/dev/null)" = "$1" ]; then
+        temp=$(cat "$d/temp1_input")
+        break
+    fi
 done
 if [ -z "$temp" ]; then
     echo "Can't find the temperature variable for $1."
     exit 1
 fi
 
-echo $1 | grep -i "gpu" &>/dev/null && color="#138d75" || color="#cd6155"
-tooltip="$1: $temp m°C"
+if echo $1 | grep -i "gpu" &>/dev/null ;then
+    GPU_FILE="/sys/class/drm/card1/device/gpu_busy_percent"
+    if [ -z "$GPU_FILE" ]; then
+        echo "Error: cant find $GPU_FILE"
+        exit 1
+    fi
+    busy_full=$(cat $GPU_FILE)
+    busy_percent=$busy_full
+    color="#138d75"
+else
+    busy_full=$(awk '{u=$2+$4; t=$2+$4+$5; if (NR==1){u1=u; t1=t;} else print ($2+$4-u1) * 100 / (t-t1) ;}' <(grep 'cpu ' /proc/stat) <(sleep 0.5; grep 'cpu ' /proc/stat))
+    busy_percent=$(printf "%.0f\n" "$busy_full")
+    color="#A81D00"
+fi
+tooltip="$1: $temp m°C, $busy_full%"
 temp=$(( temp / 1000 ))
 
 if [ $temp -ge 90 ]; then
@@ -28,6 +41,18 @@ elif  [ $temp -ge 70 ]; then
 else
     text="<span font='14' color='$color'> </span><span>$temp°C</span>"
 fi
+
+if (( $busy_percent <= 9 )); then
+    busy_percent=" $busy_percent"
+fi
+if [ $busy_percent -ge 90 ]; then
+    text="$text <span font='14' color='$color'></span><span color='#FF0000'>$busy_percent%</span>"
+elif  [ $busy_percent -ge 70 ]; then
+    text="$text <span font='14' color='$color'></span><span color='#FFA500'>$busy_percent%</span>"
+else
+    text="$text <span font='14' color='$color'></span><span>$busy_percent%</span>"
+fi
+
 
 echo "{\"text\": \"$text\", \"tooltip\": \"$tooltip\"}"
 # {"text": "$text", "alt": "$alt", "tooltip": "$tooltip", "class": "$class", "percentage": $percentage }

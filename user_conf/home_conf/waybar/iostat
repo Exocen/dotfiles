@@ -56,13 +56,13 @@ disk_char_diff=$((max_len - "${#disk}" ))
     if ! [[ "$percentage" =~ ^[0-9]+$ ]]; then
         text=""
     elif [ $percentage -ge 90 ]; then
-        text="<span font='14' color='#FF4D00'>󱛟 </span><span color='#FF0000'>$result</span>"
+        text="<span font='14' color='#FFBF00'>󱛟 </span><span color='#FF0000'>$result</span>"
     elif  [ $percentage -ge 70 ]; then
-        text="<span font='14' color='#FF4D00'>󱛟 </span><span color='#FF5D00'>$result</span>"
+        text="<span font='14' color='#FFBF00'>󱛟 </span><span color='#FF5D00'>$result</span>"
     elif  [ $percentage -ge 50 ]; then
-        text="<span font='14' color='#FF4D00'>󱛟 </span><span color='#FFA500'>$result</span>"
+        text="<span font='14' color='#FFBF00'>󱛟 </span><span color='#FFA500'>$result</span>"
     else
-        text="<span font='14' color='#FF4D00'>󱛟 </span><span>$result</span>"
+        text="<span font='14' color='#FFBF00'>󱛟 </span><span>$result</span>"
     fi
 
     echo {\"text\": \""$text"\", \"tooltip\": \""$end"\"}
