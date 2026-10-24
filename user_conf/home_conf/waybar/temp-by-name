@@ -31,7 +31,7 @@ else
     busy_percent=$(printf "%.0f\n" "$busy_full")
     color="#A81D00"
 fi
-tooltip="$1: $temp m°C, $busy_full%"
+tooltip="$1: $temp m°C\\rLoad: $busy_full%"
 temp=$(( temp / 1000 ))
 
 if [ $temp -ge 90 ]; then

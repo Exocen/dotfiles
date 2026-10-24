@@ -7,7 +7,7 @@ After=network.target
 Type=simple
 ExecStopPost=sudo rm -f /var/lib/pacman/db.lck
 
-ExecStart=sudo pacman -Syuwq --noconfirm
+ExecStart=sudo pacman -Syq
 
 [Install]
 WantedBy=default.target
