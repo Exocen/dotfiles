@@ -1,0 +1,11 @@
+FROM alpine:latest
+
+# Install dependencies needed by the runner and common CI steps
+RUN apk add --no-cache bash curl git nodejs docker-cli
+
+# Download the official gitea-runner binary
+RUN curl -Lo /usr/local/bin/gitea-runner https://gitea.com && \
+    chmod +x /usr/local/bin/gitea-runner
+
+ENTRYPOINT ["gitea-runner", "daemon"]
+
