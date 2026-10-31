@@ -1,6 +1,6 @@
 #!/bin/bash
 
-full_list=$(lsblk -o mountpoint,fsuse% -x fsuse% | grep -P '\d%' | awk '{$1=$1};1') || exit 0
+full_list=$(lsblk -o mountpoint,fsuse% | sort -k2,2n | grep -P '\d%' | awk '{$1=$1};1') || exit 0
 text=$(echo "$full_list" | tail -n 1)
 #replace \n by \r (waybar multilines)
 tooltip="${full_list//$'\n'/$'\\r'}"
