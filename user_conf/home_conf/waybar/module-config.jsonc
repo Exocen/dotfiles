@@ -274,7 +274,7 @@
     "custom/terminal": {
         "format": " ",
         "tooltip-format": "Terminal",
-        "on-click": "kitty"
+        "on-click": "ghostty"
     },
     "custom/bluetooth-connect": {
         "format": "󰂯 ",
