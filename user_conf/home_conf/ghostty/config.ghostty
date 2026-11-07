@@ -1,0 +1,3 @@
+keybind = ctrl+space=text:vim\x20-R\x20
+keybind = chain=write_screen_file:paste
+keybind = chain=text:\r

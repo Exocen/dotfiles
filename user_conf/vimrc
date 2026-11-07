@@ -81,9 +81,6 @@ Plug 'dense-analysis/ale'
 " Ctrl+J|k to go
 Plug 'https://github.com/airblade/vim-gitgutter'
 
-" c-p previous yank, c-n next yank
-Plug 'https://github.com/maxbrunsfeld/vim-yankstack'
-
 " <leader>+j file search
 Plug 'https://github.com/ctrlpvim/ctrlp.vim'
 
@@ -115,12 +112,14 @@ set autoread
 " like <leader>w saves the current file
 let mapleader = ","
 
-" Make System Clipboard Default
-set clipboard=unnamedplus
+" 1. Keep clipboard registers distinct so deletions (dd) stay local
+set clipboard=
 
-" Yank to Wayland clipboard
-xnoremap "+y :call system("wl-copy", @")<CR>
-nnoremap "+p :let @"=substitute(system("wl-paste --no-newline"), '\r', '', 'g')<CR>p
+" 2. Copy visual selection to Wayland clipboard silently using y
+vnoremap y y:call system('wl-copy', @")<CR>
+
+" 3. Copy current line to Wayland clipboard silently using yy
+nnoremap yy yy:call system('wl-copy', @")<CR>
 
 " Fast saving
 nmap <leader>w :w!<cr>
@@ -519,9 +518,6 @@ let g:lightline = {
 nmap <silent> <leader>a <Plug>(ale_next_wrap)
 
 nnoremap <silent> <leader>d :GitGutterToggle<cr>
-
-nmap <c-p> <Plug>yankstack_substitute_older_paste
-nmap <c-n> <Plug>yankstack_substitute_newer_paste
 
 map <leader>j :CtrlP<cr>
 
