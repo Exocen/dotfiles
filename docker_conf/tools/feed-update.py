@@ -14,7 +14,7 @@ LOG = logging.getLogger("Feed-Update")
 logging.basicConfig(level=logging.INFO)
 
 TMP_DIR = "/run/feed/"
-ATOM_PATH = "/docker-data/nginx/static/status/atom.xml"
+ATOM_PATH = "/docker-data/nginx/static/atom.xml"
 FEED_UPDATE_LOCATION = "/var/tmp/feed/updates/"
 NOTIFICATION_UPDATE_LOCATION = "/var/tmp/feed/notifications/"
 
