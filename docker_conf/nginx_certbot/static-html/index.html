@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>[DOMAIN] – Home</title>
+  <style>
+    /* ===== Colors: edit only these variables ===== */
+    :root {
+      --bg: #EEF2F1;
+      --surface: #FFFFFF;
+      --ink: #12282A;
+      --muted: #4F6466;
+      --accent: #0F7B6C;
+      --accent-ink: #FFFFFF;
+      --line: #C9D5D3;
+      --hover: #E1EAE8;
+      --heading: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+      --body: "Newsreader", Georgia, "Times New Roman", serif;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      color-scheme: light;
+    }
+
+    @media (prefers-color-scheme:dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0F1D1F;
+        --surface: #162A2D;
+        --ink: #E6EFED;
+        --muted: #9DB3B0;
+        --accent: #4FC3AE;
+        --accent-ink: #0F1D1F;
+        --line: #2C4548;
+        --hover: #1B3236;
+        color-scheme: dark;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #0F1D1F;
+      --surface: #162A2D;
+      --ink: #E6EFED;
+      --muted: #9DB3B0;
+      --accent: #4FC3AE;
+      --accent-ink: #0F1D1F;
+      --line: #2C4548;
+      --hover: #1B3236;
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-padding-top: env(safe-area-inset-top, 0px)
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 400 1.125rem/1.6 var(--body)
+    }
+
+    a {
+      color: inherit
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px
+    }
+
+    .wrap {
+      max-width: 60rem;
+      margin: 0 auto;
+      padding: 0 1.25rem
+    }
+
+    /* ===== Header and navigation ===== */
+    header {
+      border-bottom: 1px solid var(--line)
+    }
+
+    .bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem 1.5rem;
+      padding: 1rem 0
+    }
+
+    .logo {
+      font: 800 1.25rem var(--heading);
+      text-decoration: none;
+      letter-spacing: -.01em
+    }
+
+    nav ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .25rem;
+      list-style: none;
+      margin: 0;
+      padding: 0
+    }
+
+    nav a {
+      display: block;
+      padding: .4rem .8rem;
+      border-radius: .5rem;
+      text-decoration: none;
+      font: 500 .95rem var(--heading)
+    }
+
+    nav a:hover {
+      background: var(--hover)
+    }
+
+    nav a[aria-current="page"] {
+      background: var(--accent);
+      color: var(--accent-ink)
+    }
+
+    /* ===== Views (one per sub-section) ===== */
+    .view {
+      display: none;
+      padding: 3.5rem 0 4rem
+    }
+
+    .view.active {
+      display: block
+    }
+
+    h1 {
+      font: 800 clamp(2.4rem, 7vw, 4.5rem)/1.02 var(--heading);
+      letter-spacing: -.03em;
+      margin: 0 0 1.25rem;
+      max-width: 14ch
+    }
+
+    h2 {
+      font: 700 1.6rem/1.2 var(--heading);
+      margin: 2.5rem 0 .75rem
+    }
+
+    .intro {
+      max-width: 36rem;
+      color: var(--muted);
+      font-size: 1.25rem;
+      margin: 0 0 2.5rem
+    }
+
+    p {
+      max-width: 40rem
+    }
+
+    /* ===== Clickable section list (home page) ===== */
+    .sections {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid var(--line)
+    }
+
+    .sections a {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: .25rem;
+      padding: 1.4rem .5rem;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none
+    }
+
+    .sections a:hover {
+      background: var(--hover)
+    }
+
+    .sections strong {
+      font: 700 1.5rem/1.2 var(--heading)
+    }
+
+    .sections span {
+      color: var(--muted)
+    }
+
+    @media (min-width:640px) {
+      .sections a {
+        grid-template-columns: 16rem 1fr;
+        gap: 2rem;
+        align-items: baseline
+      }
+    }
+
+    /* ===== Buttons ===== */
+    .btn {
+      display: inline-block;
+      padding: .75rem 1.4rem;
+      border-radius: .6rem;
+      background: var(--accent);
+      color: var(--accent-ink);
+      font: 700 1rem var(--heading);
+      text-decoration: none
+    }
+
+    .btn:hover {
+      filter: brightness(1.1)
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 2rem;
+      font: 500 .95rem var(--heading);
+      color: var(--muted)
+    }
+
+    /* ===== Sub-section content ===== */
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+      margin-top: 1.5rem
+    }
+
+    .block {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: .75rem;
+      padding: 1.25rem
+    }
+
+    .block h3 {
+      font: 700 1.2rem var(--heading);
+      margin: 0 0 .4rem
+    }
+
+    .block p {
+      margin: 0;
+      color: var(--muted)
+    }
+
+    label {
+      display: block;
+      font: 500 .95rem var(--heading);
+      margin: 1rem 0 .3rem
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      max-width: 32rem;
+      padding: .7rem .8rem;
+      border: 1px solid var(--line);
+      border-radius: .5rem;
+      background: var(--surface);
+      color: var(--ink);
+      font: inherit
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 1.5rem 0 2rem;
+      color: var(--muted);
+      font-size: .95rem
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="wrap bar">
+      <a class="logo" href="#home">[DOMAIN]</a>
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="#home" data-link="home">Home</a></li>
+          <li><a href="#status" data-link="status">Status</a></li>
+          <!-- <li><a href="#services" data-link="services">Services</a></li> -->
+          <!-- <li><a href="#work" data-link="work">Work</a></li>
+          <li><a href="#about" data-link="about">About</a></li> -->
+          <li><a href="#contact" data-link="contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- ===== Home ===== -->
+    <section class="view" id="home">
+      <h1>[DOMAIN] Hub.</h1>
+      <p class="intro">Easy access to all my services.</p>
+      <div class="grid">
+        <a href="https://git.[DOMAIN]/" style="text-decoration: none; color: inherit;">
+          <div class="block">
+            <h3>Git</h3>
+            <p>My public and private repositories.</p>
+          </div>
+        </a>
+        <a href="https://[DOMAIN]/filebrowser/" style="text-decoration: none; color: inherit;">
+          <div class="block">
+            <h3>Filebrowser</h3>
+            <p>Private FS access.</p>
+          </div>
+        </a>
+        <a href="https://mail.[DOMAIN]/" style="text-decoration: none; color: inherit;">
+          <div class="block">
+            <h3>Mail</h3>
+            <p>SnappyMail client.</p>
+          </div>
+        </a>
+        <a href="https://fmd.[DOMAIN]/" style="text-decoration: none; color: inherit;">
+          <div class="block">
+            <h3>Fmd</h3>
+            <p>Find my Device.</p>
+          </div>
+        </a>
+        <a href="https://vw.[DOMAIN]/" style="text-decoration: none; color: inherit;">
+          <div class="block">
+            <h3>Vaultwarden</h3>
+            <p>Bitwarden client.</p>
+          </div>
+        </a>
+    </section>
+
+    <!-- ===== Status ===== -->
+    <section class="view" id="status">
+      <a class="back" href="#home">Back to home</a>
+      <h1>Status</h1>
+      <p class="intro">Services online status.</p>
+      <div class="grid">
+      </div>
+    </section>
+
+    <!-- ===== Services ===== -->
+    <section class="view" id="services">
+      <a class="back" href="#home">Back to home</a>
+      <h1>Services</h1>
+      <p class="intro">Available services list.</p>
+      <div class="grid">
+        <a href="https://git.[DOMAIN]/" style="text-decoration: none; color: inherit;">
+          <div class="block">
+            <h3>Git</h3>
+            <p>My public and private repositories.</p>
+          </div>
+        </a>
+        <a href="https://[DOMAIN]/filebrowser/" style="text-decoration: none; color: inherit;">
+          <div class="block">
+            <h3>Filebrowser</h3>
+            <p>Private FS access.</p>
+          </div>
+        </a>
+        <a href="https://mail.[DOMAIN]/" style="text-decoration: none; color: inherit;">
+          <div class="block">
+            <h3>Mail</h3>
+            <p>SnappyMail client.</p>
+          </div>
+        </a>
+        <a href="https://fmd.[DOMAIN]/" style="text-decoration: none; color: inherit;">
+          <div class="block">
+            <h3>Fmd</h3>
+            <p>Find my Device.</p>
+          </div>
+        </a>
+        <a href="https://vw.[DOMAIN]/" style="text-decoration: none; color: inherit;">
+          <div class="block">
+            <h3>Vaultwarden</h3>
+            <p>Bitwarden client.</p>
+          </div>
+        </a>
+    </section>
+
+    <!-- ===== Work =====
+    <section class="view" id="work">
+      <a class="back" href="#home">Back to home</a>
+      <h1>Work</h1>
+      <p class="intro">Three to six projects are enough. For each one: the context, what was done, the result.</p>
+      <div class="grid">
+        <div class="block">
+          <h3>Project A</h3>
+          <p>Context and result in two sentences.</p>
+        </div>
+        <div class="block">
+          <h3>Project B</h3>
+          <p>Context and result in two sentences.</p>
+        </div>
+        <div class="block">
+          <h3>Project C</h3>
+          <p>Context and result in two sentences.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== About ===== -->
+    <!-- <section class="view" id="about">
+      <a class="back" href="#home">Back to home</a>
+      <h1>About</h1>
+      <p class="intro">Your story in a few lines: where you come from and what guides you.</p>
+      <h2>How we work</h2>
+      <p>A paragraph about your method, values or team. Keep it simple and specific.</p>
+    </section> -->
+
+    <!-- ===== Contact ===== -->
+    <section class="view" id="contact">
+      <a class="back" href="#home">Back to home</a>
+      <h1>Contact</h1>
+      <p class="intro">Describe what you need and I will get back to you quickly.</p>
+      <!-- Replace the mailto link with your form service if needed -->
+      <div>
+        <label for="name">Name</label>
+        <input id="name" type="text" autocomplete="name">
+        <label for="email">Email address</label>
+        <input id="email" type="email" autocomplete="email">
+        <label for="message">Message</label>
+        <textarea id="message" rows="5"></textarea>
+        <p><a class="btn" href="mailto:contact@[DOMAIN]">Send message</a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap">© 2026 [DOMAIN]. All rights reserved.</div>
+  </footer>
+
+  <script>
+
+    /* Navigation: show the view matching the URL #hash */
+    (function () {
+      var views = document.querySelectorAll('.view');
+      var links = document.querySelectorAll('nav a[data-link]');
+      function show() {
+        var id = (location.hash || '#home').slice(1);
+        var target = document.getElementById(id);
+        if (!target || !target.classList.contains('view')) { id = 'home'; }
+        views.forEach(function (v) { v.classList.toggle('active', v.id === id); });
+        links.forEach(function (a) {
+          if (a.dataset.link === id) { a.setAttribute('aria-current', 'page'); }
+          else { a.removeAttribute('aria-current'); }
+        });
+        var label = id.charAt(0).toUpperCase() + id.slice(1);
+        document.title = label + ' – [DOMAIN]';
+        window.scrollTo(0, 0);
+      }
+      window.addEventListener('hashchange', show);
+      show();
+    })();
+
+    (async function start() {
+      console.log("banana");
+
+      const response = await fetch("atom.xml");
+      const categories = [].slice.call((new DOMParser()).parseFromString(await response.text(), "text/xml").getElementsByTagName("category"));
+      const entries = categories.filter((category) => typeof category === 'object' && 'attributes' in category && category.attributes.term.value == 'update').map((category) => category.parentNode);
+      const gridContainer = document.querySelector('#status .grid');
+      if (gridContainer) {
+        entries.forEach(entry => {
+          const title = entry.getElementsByTagName("title")[0].textContent;
+          const summary = entry.getElementsByTagName("summary")[0].textContent;
+          const updated = entry.getElementsByTagName("updated")[0].textContent;
+          const status = summary === "online" ? "🟢" : "🔴";
+          //TODO check en fonction de la date ou juste online ?
+
+          gridContainer.insertAdjacentHTML(
+            'beforeend',
+            `
+                <div class="block">
+                  <h3>${title} ${status}</h3>
+                  <p>${updated}</p>
+                </div>
+                `
+          );
+        })
+      }
+    })();
+  </script>
+</body>
+
+</html>
