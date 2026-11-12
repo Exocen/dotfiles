@@ -59,27 +59,27 @@
     },
 
     "custom/capslock-status": {
-        "exec": "sh -c '~/.config/waybar/keyboard-state' &",
+        "exec": "~/.config/waybar/keyboard-state",
         "restart-interval": 1,
         "return-type": "json",
         "tooltip": false
     },
 
     "custom/vpn-status": {
-        "exec": "sh -c '~/.config/waybar/vpn-state' &",
+        "exec": "~/.config/waybar/vpn-state",
         "restart-interval": 5,
         "tooltip": false
     },
 
     "custom/iostat": {
-        "exec": "sh -c '~/.config/waybar/iostat' &",
+        "exec": "~/.config/waybar/iostat",
         "return-type": "json",
         "restart-interval": 2,
         "tooltip": true
     },
 
     "custom/bluetooth-battery-headset": {
-        "exec": "sh -c '~/.config/waybar/bluetooth-battery headset' &",
+        "exec": "~/.config/waybar/bluetooth-battery headset",
         "return-type": "json",
         "on-click": "~/.config/waybar/bluetooth-battery headset disconnect",
         "restart-interval": 5,
@@ -87,7 +87,7 @@
     },
 
     "custom/bluetooth-battery-ps-controller": {
-        "exec": "sh -c '~/.config/waybar/bluetooth-battery ps_controller' &",
+        "exec": "~/.config/waybar/bluetooth-battery ps_controller",
         "return-type": "json",
         "restart-interval": 5,
         "on-click": "~/.config/waybar/bluetooth-battery ps_controller disconnect",
@@ -101,11 +101,11 @@
         "on-click-right": "mpc next -q",
         "exec-if": "[ `mpc | wc -l` -ne 1 ]",
         "restart-interval":1,
-        "exec": "sh -c '~/.config/waybar/mpd-cava' &"
+        "exec": "~/.config/waybar/mpd-cava"
     },
 
     "custom/pacman-status": {
-        "exec": "sh -c '~/.config/waybar/pacman-state' &",
+        "exec": "~/.config/waybar/pacman-state",
         "return-type": "json",
         "restart-interval": 60,
         "on-click":"notify-send -t 15000 -r 43 'Pacman Upgrade' 'Running pacman upgrade' && sudo pacman -Suy --noconfirm && notify-send -t 15000 -r 43 'Pacman Upgrade' 'Pacman upgrade successful' -u low || notify-send -t 15000 -r 43 -u critical 'Pacman Upgrade' 'Pacman upgrade failed'",
@@ -123,28 +123,28 @@
     },
 
     "custom/temp-by-name-cpu": {
-        "exec": "sh -c '~/.config/waybar/temp-by-name k10temp' &",
+        "exec": "~/.config/waybar/temp-by-name k10temp",
         "return-type": "json",
         "tooltip": true,
         "interval": 5
     },
 
     "custom/temp-by-name-gpu": {
-        "exec": "sh -c '~/.config/waybar/temp-by-name amdgpu' &",
+        "exec": "~/.config/waybar/temp-by-name amdgpu",
         "return-type": "json",
         "tooltip": true,
         "interval": 5
     },
 
     "custom/disk-use-loop": {
-        "exec": "sh -c '~/.config/waybar/disk-use-loop' &",
+        "exec": "~/.config/waybar/disk-use-loop",
         "return-type": "json",
         "tooltip": true,
         "interval": 15
     },
 
     "custom/disk-use": {
-        "exec": "sh -c '~/.config/waybar/disk-use' &",
+        "exec": "~/.config/waybar/disk-use",
         "return-type": "json",
         "tooltip": true,
         "interval": 30
@@ -155,9 +155,9 @@
         "format-disconnected": "Disconnected",
         "format-stopped": "",
         //"format-stopped": "<span font='14' color=\"#28b463\">󰓛</span>",
-        "on-click": "mpc toggle",
-        "on-click-middle": "mpc prev",
-        "on-click-right": "mpc next",
+        "on-click": "mpc toggle -q",
+        "on-click-middle": "mpc prev -q",
+        "on-click-right": "mpc next -q",
         "interval": 10,
         // "max-length": 150,
         // "min-length": 50,
