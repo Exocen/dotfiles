@@ -137,7 +137,7 @@ basic_install() {
     git_clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
     ln -sfn "$LOCAL"/user_conf/custom.zsh-theme ~/.oh-my-zsh/custom/themes
     sudoless usermod --shell $(which zsh) $(whoami) 1>>"$logFile" 2>&1
-    [ "$(cat /etc/passwd | grep $(whoami): | cut -d ':' -f7)" = $(which zsh) ]
+    [ "$(cat /etc/passwd | grep $(whoami): | cut -d ':' -f7)" = "$(which zsh)" ]
     is_working "Shell changed to zsh"
 
     # vimrc
