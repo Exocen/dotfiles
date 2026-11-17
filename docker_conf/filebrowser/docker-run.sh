@@ -16,7 +16,7 @@ fi
 
 cd "$(dirname "$(readlink -f "$0")")" || exit 1
 
-if echo $CONTAINERS | grep "nginx_certbot"; then
+if echo $CONTAINERS | grep -q "nginx_certbot"; then
 
     mkdir -p /docker-data/filebrowser
     cp -f config.yaml /docker-data/filebrowser/
