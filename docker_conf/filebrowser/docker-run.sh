@@ -16,17 +16,27 @@ fi
 
 cd "$(dirname "$(readlink -f "$0")")" || exit 1
 
-mkdir -p /docker-data/filebrowser/config
-mkdir -p /docker-data/filebrowser/database
-chown -R 1000:1000 /docker-data/filebrowser
+if [[ ! -f "/docker-data/filebrowser/config.yaml" ]]; then
+    mkdir -p /docker-data/filebrowser
+    cp -n config.yaml /docker-data/filebrowser
+    chown -R 1000:1000 /docker-data/filebrowser
+fi
 
 #UserId:GroudId -> 1000:1000 must have folder permission
+#Get the admin pass with:
+#docker inspect -f '{{range .Config.Env}}{{println .}}{{end}}' filebrowser | grep FILEBROWSER_ADMIN_PASSWORD
+
 docker run \
     --name filebrowser --log-driver=journald --log-opt tag="{{.Name}}" --rm -d \
-    -e FB_NOAUTH=true \
-    -v "/docker-data/filebrowser/config/":/config \
-    -v "/docker-data/filebrowser/database/":/database \
-    -v "$FILEBROWSER_PATH":/srv \
+    --health-cmd="curl -f http://localhost:8080/health || exit 1" \
+    --health-interval=30s \
+    --health-timeout=3s \
+    --health-start-period=10s \
+    --health-retries=3 \
+    -e "FILEBROWSER_CONFIG=/home/filebrowser/data/config.yaml" \
+    -e "FILEBROWSER_ADMIN_PASSWORD=$(openssl rand -base64 48)" \
+    -v "/docker-data/filebrowser":"/home/filebrowser/data" \
+    -v "$FILEBROWSER_PATH":/folder \
     -u 1000:1000 \
     -p 80:80 \
-    filebrowser/filebrowser
+    ghcr.io/gtsteffaniak/filebrowser:stable
