@@ -31,7 +31,6 @@ docker run \
     --health-timeout=3s \
     --health-start-period=10s \
     --health-retries=3 \
-    -e "FILEBROWSER_CONFIG=/home/filebrowser/data/config.yaml" \
     -e "FILEBROWSER_ADMIN_PASSWORD=$(openssl rand -base64 48)" \
     -v "/docker-data/filebrowser":"/home/filebrowser/data" \
     -v "$FILEBROWSER_PATH":/folder \
