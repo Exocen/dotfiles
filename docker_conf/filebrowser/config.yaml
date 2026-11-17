@@ -1,5 +1,0 @@
-server:
-  sources:
-    - path: "/folder"
-      config:
-        defaultEnabled: true

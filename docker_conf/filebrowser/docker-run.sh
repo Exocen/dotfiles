@@ -16,13 +16,11 @@ fi
 
 cd "$(dirname "$(readlink -f "$0")")" || exit 1
 
-if [[ ! -f "/docker-data/filebrowser/config.yaml" ]]; then
-    mkdir -p /docker-data/filebrowser
-    cp -n config.yaml /docker-data/filebrowser
-    chown -R 1000:1000 /docker-data/filebrowser
-fi
+mkdir -p /docker-data/filebrowser
+chown -R 1000:1000 /docker-data/filebrowser
 
 #UserId:GroudId -> 1000:1000 must have folder permission
+#If no auth : copy no-auth-config.yaml to /docker-data/filebrowser
 #Get the admin pass with:
 #docker inspect -f '{{range .Config.Env}}{{println .}}{{end}}' filebrowser | grep FILEBROWSER_ADMIN_PASSWORD
 
