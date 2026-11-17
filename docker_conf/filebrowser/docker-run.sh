@@ -38,7 +38,8 @@ docker run \
     -v "$FILEBROWSER_PATH":/folder \
     -u 1000:1000 \
     --net user_network --ip 10.0.0.85 \
-    ghcr.io/gtsteffaniak/filebrowser:stable
+    ghcr.io/gtsteffaniak/filebrowser:stable && echo "filebrowser started"
+
 
 else
 
@@ -60,5 +61,5 @@ docker run \
     -v "$FILEBROWSER_PATH":/folder \
     -u 1000:1000 \
     -p 80:80 \
-    ghcr.io/gtsteffaniak/filebrowser:stable
+    ghcr.io/gtsteffaniak/filebrowser:stable && echo "filebrowser started"
 fi
