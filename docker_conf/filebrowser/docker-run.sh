@@ -17,6 +17,7 @@ fi
 cd "$(dirname "$(readlink -f "$0")")" || exit 1
 
 mkdir -p /docker-data/filebrowser
+cp -n config.yaml /docker-data/filebrowser/
 chown -R 1000:1000 /docker-data/filebrowser
 
 #UserId:GroudId -> 1000:1000 must have folder permission
