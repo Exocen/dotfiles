@@ -274,8 +274,9 @@ usage() {
 }
 
 # Options
-while getopts 'hndl:' opt; do
+while getopts 'hndl:y' opt; do
 	case $opt in
+	y) implied_no=true ;;
 	h)
 		usage >&2
 		safeExit true
